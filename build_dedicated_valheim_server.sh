@@ -57,9 +57,6 @@ EOF
 chmod +x /home/steam/valheimserver/start_valheim.sh
 chmod +x /home/steam/check_log.sh
 
-#leave steam user bash envoriment and enter back into root
-exit
-
 #build systemctl configurations for execution of processes for Valheim Server
 
 cat >> /etc/systemd/system/valheimserver.service <<EOF
