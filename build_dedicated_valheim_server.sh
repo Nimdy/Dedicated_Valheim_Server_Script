@@ -6,11 +6,11 @@
 #switch to root if not already
 sudo -s
 
-#update system
-apt update && apt upgrade
+#check for updates and upgrade the system auto yes
+apt update && apt upgrade -y
 
 #add multiverse repo
-add-apt-repository multiverse
+add-apt-repository -y multiverse
 
 #add i386 architecture
 dpkg --add-architecture i386
@@ -19,7 +19,7 @@ dpkg --add-architecture i386
 apt update
 
 #install steamcmd
-apt install steamcmd
+apt install steamcmd -y
 
 #build account to run Valheim CHANGE PASSWORD PLEASE
 useradd --create-home --shell /bin/bash --password CHANGEME steam
