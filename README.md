@@ -24,6 +24,9 @@ Install GIT to pull down script
 ```sh
 sudo apt-get install -y git net-tools
 ```
+Change to OPT Dir
+=
+cd /opt
 
 Clone GIT from Nimdy (Zero Bandwidth)
 =
