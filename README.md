@@ -26,12 +26,19 @@ sudo apt-get install -y git net-tools
 ```
 Change to OPT Dir
 =
+```sh
 cd /opt
+```
 
 Clone GIT from Nimdy (Zero Bandwidth)
 =
 ```sh
 sudo git clone https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
+```
+Change dir to Dedicated_Valheim_Server_Script
+=
+```sh
+cd cd Dedicated_Valheim_Server_Script/
 ```
 
 Allow script to execute
