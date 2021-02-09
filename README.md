@@ -58,3 +58,8 @@ Execute installation file
 ```sh
 sudo ./build_dedicated_valheim_server.sh
 ```
+A new version of /boot/grub/menu.lst is available  -  Do this twice
+=
+```sh
+Select  keep the local version currently installed
+```
