@@ -56,13 +56,16 @@ Change PASSWORDS and CHANGE ME AREAS before launching
 ```sh
 (I live in vi... use whatever you wish)
 sudo vi build_dedicated_valheim_server.sh
+#Display number lines in vi
 :set number
+#Change the following lines
 Line Number: 45 (Change password for your steam user)
 Line Number: 84
 -name "DISPLAYNAMECHANGEME"
 -world "CHANGEMEWORLDNAME"
 -password "CHANGEMEPASSWORD"
 
+#Save the file
 (press ESC and save/exit by entering)
 :wq!
 ```
