@@ -3,17 +3,21 @@ Build Valheim server with one script
 
 DONT USE ON PRODUCTION SERVER UNLESS YOU KNOW WHAT YOU ARE DOING
 
-Tested on Ubuntu 18 64 LTS
+Tested on Ubuntu 18 64 LTS DigitalOcean, AWS and Azure
 
-All in one Script to install Valheim Dedicated Server
-Change PASSWORDS and CHANGE ME AREAS before launching
+CPU: x4
+RAM: 8GB
+HD: 250GB+
 
-download script 
+
+Use my referral link if you do not already have a DigitalOcean Account
+https://m.do.co/c/9d2217a2725c
+
+
 Run as root(if brave enough) or sudo current user 
-sudo chmod +x build_dedicated_valheim_server.sh
-sudo ./build_dedicated_valheim_server.sh
 
-Install GIT 
+
+Install GIT to pull down script
 =
 ```sh
 sudo apt-get install -y git net-tools
@@ -22,7 +26,18 @@ sudo apt-get install -y git net-tools
 Clone GIT from Nimdy (Zero Bandwidth)
 =
 ```sh
-sudo git clone https://github.com/Nimdy/SELKS-Install-from-source.git
+sudo git clone https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
 ```
 
+Allow script to execute
+=
+sudo chmod +x build_dedicated_valheim_server.sh
 
+Change PASSWORDS and CHANGE ME AREAS before launching
+= 
+sudo vi build_dedicated_valheim_server.sh
+
+
+Execute installation file
+=
+sudo ./build_dedicated_valheim_server.sh
