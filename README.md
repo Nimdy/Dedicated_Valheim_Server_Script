@@ -4,10 +4,13 @@
 # Credit and modivation from GeekHead https://www.youtube.com/channel/UCG4EFg9NAskd3X7RoyiomuA
 Build Valheim server with one script
 
+How to set up a Linux Valheim dedicated server
+
 DONT USE ON PRODUCTION SERVER UNLESS YOU KNOW WHAT YOU ARE DOING
 
-Tested on Ubuntu 18 64 LTS DigitalOcean, AWS and Azure
+Tested with Ubuntu 18 64 LTS DigitalOcean, AWS and Azure
 
+VM'd with the follow requirements:
 CPU: x4
 RAM: 8GB
 HD: 250GB+
