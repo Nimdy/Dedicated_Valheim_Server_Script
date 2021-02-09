@@ -1,4 +1,5 @@
 # Dedicated_Valheim_Server_Script
+# Twitch Channel: zerobandwidth
 Build Valheim server with one script
 
 DONT USE ON PRODUCTION SERVER UNLESS YOU KNOW WHAT YOU ARE DOING
