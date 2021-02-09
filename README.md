@@ -63,3 +63,10 @@ A new version of /boot/grub/menu.lst is available  -  Do this twice
 ```sh
 Select  keep the local version currently installed
 ```
+
+Agree to STEAM LICENSE AGREEMENT
+```sh
+Select Ok
+Select Agree
+Press Enter
+```
