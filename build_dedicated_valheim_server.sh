@@ -95,6 +95,3 @@ systemctl daemon-reload
 systemctl start valheimserver
 # Enable server on restarts
 systemctl enable valheimserver
-
-
-echo "System needs to reboot to make changes, please reboot and execute selks-first-time-install?"
