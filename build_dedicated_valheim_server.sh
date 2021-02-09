@@ -3,9 +3,6 @@
 # All in one Script to install Valheim Dedicated Server
 # Change PASSWORDS and CHANGE ME AREAS for launching
 
-#switch to root if not already
-sudo -s
-
 #check for updates and upgrade the system auto yes
 apt update && apt upgrade -y
 
