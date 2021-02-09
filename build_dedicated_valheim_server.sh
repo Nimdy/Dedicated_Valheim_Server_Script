@@ -63,6 +63,7 @@ sleep 1
 
 #Download Valheim from steam
 tput setaf 1; echo "Downloading and installing Valheim from Steam"
+tput setaf 9;
 steamcmd +login anonymous +force_install_dir /home/steam/valheimserver +app_update 896660 validate +exit
 tput setaf 2; echo "Done"
 tput setaf 9;
