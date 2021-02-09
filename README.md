@@ -43,13 +43,18 @@ cd cd Dedicated_Valheim_Server_Script/
 
 Allow script to execute
 =
+```sh
 sudo chmod +x build_dedicated_valheim_server.sh
+```
 
 Change PASSWORDS and CHANGE ME AREAS before launching
-= 
+=
+```sh
 sudo vi build_dedicated_valheim_server.sh
-
+```
 
 Execute installation file
 =
+```sh
 sudo ./build_dedicated_valheim_server.sh
+```
