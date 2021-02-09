@@ -1,4 +1,5 @@
 # Dedicated_Valheim_Server_Script
+# Setup script for linux installations
 # Twitch Channel: zerobandwidth
 Build Valheim server with one script
 
