@@ -51,7 +51,11 @@ Change PASSWORDS and CHANGE ME AREAS before launching
 =
 ```sh
 sudo vi build_dedicated_valheim_server.sh
+make edits in 4 locations
+(press ESC and save/exit by entering)
+:wq!
 ```
+
 
 Execute installation file
 =
@@ -65,6 +69,7 @@ Select  keep the local version currently installed
 ```
 
 Agree to STEAM LICENSE AGREEMENT
+=
 ```sh
 Select Ok
 Select Agree
