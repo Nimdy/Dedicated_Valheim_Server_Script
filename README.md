@@ -1,6 +1,7 @@
 # Dedicated_Valheim_Server_Script
 # Setup script for linux installations
 # Twitch Channel: zerobandwidth
+# Credit and modivation from GeekHead https://www.youtube.com/channel/UCG4EFg9NAskd3X7RoyiomuA
 Build Valheim server with one script
 
 DONT USE ON PRODUCTION SERVER UNLESS YOU KNOW WHAT YOU ARE DOING
