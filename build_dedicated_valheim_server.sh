@@ -4,35 +4,51 @@
 # Change PASSWORDS and CHANGE ME AREAS for launching
 
 #check for updates and upgrade the system auto yes
+tput setaf 1; echo "Checking for upgrades"
 apt update && apt upgrade -y
+tput setaf 2; echo "Done"
 
 #add multiverse repo
+tput setaf 1; echo "Adding multiverse REPO"
 add-apt-repository -y multiverse
+tput setaf 2; echo "Done"
 
 #add i386 architecture
+tput setaf 1; echo "Adding i386 architecture"
 dpkg --add-architecture i386
+tput setaf 2; echo "Done"
 
 #update system again
+tput setaf 1; echo "Checking and updating system again"
 apt update
+tput setaf 2; echo "Done"
 
 #install steamcmd
+tput setaf 1; echo "Installing steamcmd"
 apt install steamcmd -y
+tput setaf 2; echo "Done"
 
 #build account to run Valheim CHANGE PASSWORD PLEASE
+tput setaf 1; echo "Building steam account NON-ROOT"
 useradd --create-home --shell /bin/bash --password CHANGEME steam
-
+tput setaf 2; echo "Done"
 
 #build symbolic link for steamcmd
+tput setaf 1; echo "Building symbolic link for steamcmd"
 ln -s /usr/games/steamcmd /home/steam/steamcmd
+tput setaf 2; echo "Done"
 
 #chown steam user to steam
+tput setaf 1; echo "Setting steam permissions"
 chown steam:steam /home/steam/steamcmd
 
 #Download Valheim from steam
+tput setaf 1; echo "Downloading and installing Valheim from Steam"
 steamcmd +login anonymous +force_install_dir /home/steam/valheimserver +app_update 896660 validate +exit
+tput setaf 2; echo "Done"
 
 #build config for start_valheim.sh
-
+tput setaf 1; echo "Building Valheim start_valheim server configuration"
 cat >> /home/steam/valheimserver/start_valheim.sh <<EOF
 #!/bin/bash
 export templdpath=$LD_LIBRARY_PATH
@@ -46,19 +62,25 @@ export SteamAppId=892970
 
 export LD_LIBRARY_PATH=$templdpath
 EOF
+tput setaf 2; echo "Done"
 
 #build check log script
-
+tput setaf 1; echo "Building check log script"
 cat >> /home/steam/check_log.sh <<EOF
 journalctl --unit=valheimserver --reverse
 EOF
+tput setaf 2; echo "Done"
 
 #set execute permissions
+tput setaf 1; echo "Setting execute permissions on start_valheim.sh"
 chmod +x /home/steam/valheimserver/start_valheim.sh
+tput setaf 2; echo "Done"
+tput setaf 1; echo "Setting execute permissions on check_log.sh"
 chmod +x /home/steam/check_log.sh
+tput setaf 2; echo "Done"
 
 #build systemctl configurations for execution of processes for Valheim Server
-
+tput setaf 1; echo "Building systemctl instructions for Valheim"
 cat >> /etc/systemd/system/valheimserver.service <<EOF
 [Unit]
 Description=Valheim Server
@@ -83,13 +105,29 @@ LimitNOFILE=100000
 [Install]
 WantedBy=multi-user.target
 EOF
+tput setaf 2; echo "Done"
 
 #chown steam user permissions to all of user steam dir location
+tput setaf 1; echo "Setting steam account permissions to /home/steam/*"
 chown steam:steam -Rf /home/steam/*
+tput setaf 2; echo "Done"
 
 # Reload daemons
+tput setaf 1; echo "Reloading daemons"
 systemctl daemon-reload
+tput setaf 2; echo "Done"
 # Start server
+tput setaf 1; echo "Starting Valheim Server"
 systemctl start valheimserver
+tput setaf 2; echo "Done"
 # Enable server on restarts
+tput setaf 1; echo "Enabling Valheim Server on start or after reboots"
 systemctl enable valheimserver
+tput setaf 2; echo "Done"
+tput setaf 2; echo "Thank you for using the script. If you are having issues remember to firewall rules and security rules for allowed ports in and out of your server"
+tput setaf 2; echo "Twitch: ZeroBandwidth"
+sleep 10
+clear
+tput setaf 2; echo "Check server status by typing systemctl status valheimserver.service"
+tput setaf 2; echo "GLHF"
+reset=`tput sgr0`
