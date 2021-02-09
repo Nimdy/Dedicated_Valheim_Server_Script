@@ -127,10 +127,10 @@ tput setaf 2; echo "Done"
 tput setaf 1; echo "Enabling Valheim Server on start or after reboots"
 systemctl enable valheimserver
 tput setaf 2; echo "Done"
-tput setaf 2; echo "Thank you for using the script. If you are having issues remember to firewall rules and security rules for allowed ports in and out of your server"
-tput setaf 2; echo "Twitch: ZeroBandwidth"
-sleep 10
+sleep 2
 clear
 tput setaf 2; echo "Check server status by typing systemctl status valheimserver.service"
+tput setaf 2; echo "Thank you for using the script. If you are having issues remember to firewall rules and security rules for allowed ports in and out of your server"
+tput setaf 2; echo "Twitch: ZeroBandwidth"
 tput setaf 2; echo "GLHF"
-reset=`tput sgr0`
+tput setaf 9
