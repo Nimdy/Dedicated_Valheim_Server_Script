@@ -9,7 +9,7 @@ How to set up a Linux Valheim dedicated server
 DONT USE ON PRODUCTION SERVER UNLESS YOU KNOW WHAT YOU ARE DOING
 
 Tested with Ubuntu 18 64 LTS DigitalOcean, AWS and Azure
-
+```sh
 DigitalOcean:
 edit 50-cloud-init.yaml
 vi /etc/netplan/50-cloud-init.yaml
@@ -19,6 +19,7 @@ remove private IP address on eth0 (might be 10.10.something - do not remove your
 netplan apply
 systemctl status valheimserver.service
 reboot
+```
 
 ENJOY!!!
 
