@@ -21,13 +21,14 @@ apt install steamcmd -y
 #build account to run Valheim CHANGE PASSWORD PLEASE
 useradd --create-home --shell /bin/bash --password CHANGEME steam
 
-# switch to newly created steam user
-su - steam
 
 #build symbolic link for steamcmd
-ln -s /usr/games/steamcmd steamcmd
+ln -s /usr/games/steamcmd /home/steam/steamcmd
 
-#set steamcmd execution 
+#chown steam user to steam
+chown steam:steam /home/steam/steamcmd
+
+#Download Valheim from steam
 steamcmd +login anonymous +force_install_dir /home/steam/valheimserver +app_update 896660 validate +exit
 
 #build config for start_valheim.sh
@@ -85,6 +86,9 @@ LimitNOFILE=100000
 [Install]
 WantedBy=multi-user.target
 EOF
+
+#chown steam user permissions to all of user steam dir location
+chown steam:steam -Rf /home/steam/*
 
 # Reload daemons
 systemctl daemon-reload
