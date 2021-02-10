@@ -1,10 +1,10 @@
 # Single installation script for setting up Valheim on a dedicated Linux server.
-# Tested on: AWS, Azure and DigitalOcean
-# OS - Ubuntu 18.06 LTS 64bit
-# Recommended server settings:  CPU: 4 (2 will work but meh)  RAM: 8GB+  Harddrive: 250GB+
-# Twitch Channel: zerobandwidth
-# Credit and modivation from GeekHead https://www.youtube.com/channel/UCG4EFg9NAskd3X7RoyiomuA
-# Credit to nicolas-martin for variable assignment within script
+## Tested on: AWS, Azure and DigitalOcean
+## OS - Ubuntu 18.06 LTS 64bit
+## Recommended server settings:  CPU: 4 (2 will work but meh)  RAM: 8GB+  Harddrive: 250GB+
+## Twitch Channel: zerobandwidth
+## Credit and modivation from GeekHead https://www.youtube.com/channel/UCG4EFg9NAskd3X7RoyiomuA
+## Credit to nicolas-martin for variable assignment within script
 
 How to set up a Linux Valheim dedicated server:
 
