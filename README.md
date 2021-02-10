@@ -1,17 +1,24 @@
-# Dedicated_Valheim_Server_Script
-# Setup script for linux installations
+# Single installation script for setting up Valheim on a dedicated Linux server.
+# Tested on: AWS, Azure and DigitalOcean
+# OS - Ubuntu 18.06 LTS 64bit
+# Recommended server settings:  CPU: 4 (2 will work but meh)  RAM: 8GB+  Harddrive: 250GB+
 # Twitch Channel: zerobandwidth
 # Credit and modivation from GeekHead https://www.youtube.com/channel/UCG4EFg9NAskd3X7RoyiomuA
-Build Valheim server with one script
+# Credit to nicolas-martin for variable assignment within script
 
-How to set up a Linux Valheim dedicated server
+How to set up a Linux Valheim dedicated server:
 
-DONT USE ON PRODUCTION SERVER UNLESS YOU KNOW WHAT YOU ARE DOING
+Use my referral link if you do not already have a DigitalOcean Account, gives me free credit on my account, if not no biggie!
+https://m.do.co/c/9d2217a2725c
 
-Tested with Ubuntu 18 64 LTS DigitalOcean, AWS and Azure
+Never run any script on a production server, unless you know what you are doing.
+
+
 ```sh
-DigitalOcean:
+DigitalOcean private IP and routing fix for Valheim:
+
 edit 50-cloud-init.yaml
+
 vi /etc/netplan/50-cloud-init.yaml
 
 remove private IP address on eth0 (might be 10.10.something - do not remove your public IP the same one you use to SSH into the server or access it)
@@ -22,15 +29,6 @@ reboot
 ```
 
 ENJOY!!!
-
-VM'd with the follow requirements:
-CPU: x4
-RAM: 8GB
-HD: 250GB+
-
-
-Use my referral link if you do not already have a DigitalOcean Account
-https://m.do.co/c/9d2217a2725c
 
 
 Run as root(if brave enough) or sudo current user 
@@ -69,14 +67,13 @@ Change PASSWORDS and CHANGE ME AREAS before launching
 ```sh
 (I live in vi... use whatever you wish)
 sudo vi build_dedicated_valheim_server.sh
-#Display number lines in vi
-:set number
-#Change the following lines
-Line Number: 45 (Change password for your steam user)
-Line Number: 84
--name "DISPLAYNAMECHANGEME"
--world "CHANGEMEWORLDNAME"
--password "CHANGEMEPASSWORD"
+
+# There are 4 things you need to change!
+# NOTE: Minimum password length is 5 characters & Password cant be in the server name.
+userpassword="user_password"        <---password for the new Linux User it creates
+password="passw0rd"                 <---password for the Valheim Server Access
+displayname="server display name"   <---Public display name for server
+worldname="111111111"               <---local inside world name
 
 #Save the file
 (press ESC and save/exit by entering)
