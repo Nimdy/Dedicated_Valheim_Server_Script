@@ -1,8 +1,13 @@
 #!/bin/bash
 
 # All in one Script to install Valheim Dedicated Server
-# Change PASSWORDS and CHANGE ME AREAS for launching
+
 # There are 4 things you need to change!
+# NOTE: Minimum password length is 5 characters & Password cant be in the server name.
+userpassword="user_password"
+password="passw0rd"
+displayname="server display name"
+worldname="111111111"
 
 #check for updates and upgrade the system auto yes
 tput setaf 2; echo "Checking for upgrades"
@@ -40,9 +45,9 @@ tput setaf 9;
 sleep 1
 
 #EDIT HERE #1
-#build account to run Valheim CHANGE PASSWORD PLEASE
+#build account to run Valheim
 tput setaf 1; echo "Building steam account NON-ROOT"
-useradd --create-home --shell /bin/bash --password CHANGEME steam
+useradd --create-home --shell /bin/bash --password $userpassword steam
 tput setaf 2; echo "Done"
 tput setaf 9;
 sleep 1
@@ -70,7 +75,6 @@ tput setaf 2; echo "Done"
 tput setaf 9;
 sleep 1
 
-#EDIT HERE #2 and #3 and #4
 #build config for start_valheim.sh
 tput setaf 1; echo "Building Valheim start_valheim server configuration"
 cat >> /home/steam/valheimserver/start_valheim.sh <<EOF
@@ -80,9 +84,8 @@ export LD_LIBRARY_PATH=./linux64:$LD_LIBRARY_PATH
 export SteamAppId=892970
 
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
-# NOTE: Minimum password length is 5 characters & Password cant be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "DISPLAYNAMECHANGEME" -port 2456 -nographics -batchmode -world "CHANGEMEWORLDNAME" -password "CHANGEMEPASSWORD" -public 1
+./valheim_server.x86_64 -name $displayname -port 2456 -nographics -batchmode -world $worldname -password $password -public 1
 
 export LD_LIBRARY_PATH=$templdpath
 EOF
