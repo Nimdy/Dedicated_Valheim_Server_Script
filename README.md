@@ -34,38 +34,37 @@ ENJOY!!!
 Run as root(if brave enough) or sudo current user 
 
 
-Install GIT to pull down script
+1.Install GIT to pull down script
 =
 ```sh
 sudo apt-get install -y git net-tools
 ```
-Change to OPT Dir
+2.Change to OPT Dir
 =
 ```sh
 cd /opt
 ```
-
-Clone GIT from Nimdy (Zero Bandwidth)
+3.Clone GIT from Nimdy (Zero Bandwidth)
 =
 ```sh
 sudo git clone https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
 ```
-Change dir to Dedicated_Valheim_Server_Script
+4.Change dir to Dedicated_Valheim_Server_Script
 =
 ```sh
 cd Dedicated_Valheim_Server_Script/
 ```
-
-Allow script to execute
+5.Allow script to execute
 =
 ```sh
 sudo chmod +x build_dedicated_valheim_server.sh
 ```
 
-Change PASSWORDS and CHANGE ME AREAS before launching
+6.Change PASSWORDS and CHANGE ME AREAS before launching
 =
 ```sh
 (I live in vi... use whatever you wish)
+
 sudo vi build_dedicated_valheim_server.sh
 
 # There are 4 things you need to change!
@@ -80,22 +79,20 @@ worldname="111111111"               <---local inside world name
 :wq!
 ```
 
-
-Execute installation file
+7.Execute installation file
 =
 ```sh
 sudo ./build_dedicated_valheim_server.sh
 ```
-A new version of /boot/grub/menu.lst is available  -  Do this twice
+8.A new version of /boot/grub/menu.lst promotx2 - Keep local version
 =
 ```sh
 Select  keep the local version currently installed
 ```
-
-Agree to STEAM LICENSE AGREEMENT
+9.Agree to STEAM LICENSE AGREEMENT
 =
 ```sh
 Select Ok
-Select Agree
+Select I Agree
 Press Enter
 ```
