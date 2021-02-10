@@ -102,10 +102,11 @@ Select Ok
 Select I Agree
 Press Enter
 ```
-10.Allow ports 2456,2457,2458 on your server
+10.Allow ports 2456,2457,2458 on your server UDP (TCP shouldnt matter but whatever)
 =
 ```sh
 sudo ufw allow 2456:2458/tcp
+sudo ufw allow 2456:2458/udp
 ```
 11.Stop Valheim service
 =
