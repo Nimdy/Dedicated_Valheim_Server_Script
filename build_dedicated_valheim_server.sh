@@ -88,7 +88,7 @@ export SteamAppId=892970
 
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name $displayname -port 2456 -nographics -batchmode -world $worldname -password $password -public 1
+./valheim_server.x86_64 -name $displayname -port 2456 -nographics -batchmode -world $worldname -password $password
 
 export LD_LIBRARY_PATH=$templdpath
 EOF
