@@ -6,6 +6,8 @@
 ### Credit and modivation from GeekHead https://www.youtube.com/channel/UCG4EFg9NAskd3X7RoyiomuA
 ### Credit to nicolas-martin for variable assignment within script
 
+### Game is in Early Access meaning tons of updates and broken servers. Please post issues so we can make our edits and keep you up and running!
+
 How to set up a Linux Valheim dedicated server:
 
 Use my referral link if you do not already have a DigitalOcean Account, gives me free credit on my account, if not no biggie!
