@@ -13,6 +13,8 @@ How to set up a Linux Valheim dedicated server:
 Use my referral link if you do not already have a DigitalOcean Account, gives me free credit on my account, if not no biggie!
 https://m.do.co/c/9d2217a2725c
 
+Use my code and you get $100 in credit over 60 days. (good way to test your dedicated server)
+
 Never run any script on a production server, unless you know what you are doing.
 
 
