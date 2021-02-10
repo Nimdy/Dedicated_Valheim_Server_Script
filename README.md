@@ -96,3 +96,23 @@ Select Ok
 Select I Agree
 Press Enter
 ```
+10.Allow ports 2456,2457,2458 on your server
+=
+```sh
+sudo ufw allow 2456:2458/tcp
+```
+11.Stop Valheim service
+```sh
+sudo systemctl stop valheim.service
+```
+12.Reboot Server for the lawls!
+```sh
+sudo reboot
+```
+
+Once your server comes back online wait 2-5 mins and check Valheim service
+```sh
+sudo systemctl status valheim.service
+```
+
+###Congratz! You did it, now get out there and start exploring with your friends!!!
