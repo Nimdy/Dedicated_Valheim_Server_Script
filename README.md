@@ -1,6 +1,6 @@
 # Single installation script for setting up Valheim on a dedicated Linux server with steamcmd.
 ### Tested on: AWS, Azure and DigitalOcean
-### OS - Ubuntu 18.06 LTS 64bit
+### OS - Ubuntu 18.06 LTS 64bit and Ubuntu 20.04 LTS
 ### Recommended server settings:  CPU: 4 (2 will work but meh)  RAM: 8GB+  Harddrive: 250GB+
 ### Twitch Channel: zerobandwidth
 ### Credit and modivation from GeekHead https://www.youtube.com/channel/UCG4EFg9NAskd3X7RoyiomuA
