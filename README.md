@@ -110,7 +110,7 @@ sudo ufw allow 2456:2458/tcp
 11.Stop Valheim service
 =
 ```sh
-sudo systemctl stop valheim.service
+sudo systemctl stop valheimserver.service
 ```
 12.Reboot Server for the lawls!
 =
@@ -121,7 +121,7 @@ sudo reboot
 13.Once your server comes back online wait 2-5 mins and check Valheim service
 =
 ```sh
-sudo systemctl status valheim.service
+sudo systemctl status valheimserver.service
 ```
 
 ###Congratz! You did it, now get out there and start exploring with your friends!!!
