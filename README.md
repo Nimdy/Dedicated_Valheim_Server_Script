@@ -9,6 +9,8 @@
 
 ### Game is in Early Access meaning tons of updates and broken servers. Please post issues so we can make our edits and keep you up and running!
 
+Full video tut: https://www.youtube.com/watch?v=0YPLf7Bw5W4
+
 Worlds are saved: /home/steam/.config/unity3d/IronGate/Valheim/worlds/(here.fwl)
 
 How to set up a Linux Valheim dedicated server:
