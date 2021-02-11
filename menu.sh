@@ -4,7 +4,7 @@
 clear
 title="~*~*~*~*Valheim Toolbox Menu*~*~*~*~"
 echo "$title"
-PS3='Select SELKS option: '
+PS3='Select Menu option: '
 options=("Valheim Full Server Install" "Check Valheim Server Status" "Stop Valheim Server" "Backup world files" "Restore world files" "Check for Valheim Server updates" "Quit")
 select opt in "${options[@]}"
 do
