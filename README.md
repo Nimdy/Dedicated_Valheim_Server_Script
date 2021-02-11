@@ -8,6 +8,7 @@
 ###### Credit to nicolas-martin for variable assignment within script
 
 ### Game is in Early Access meaning tons of updates and broken servers. Please post issues so we can make our edits and keep you up and running!
+[![Thumbnail](https://img.youtube.com/vi/0YPLf7Bw5W4/0.jpg)](https://www.youtube.com/watch?v=0YPLf7Bw5W4)
 
 Full video tut: https://www.youtube.com/watch?v=0YPLf7Bw5W4
 
