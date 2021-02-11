@@ -25,9 +25,8 @@ Never run any script on a production server, unless you know what you are doing.
 Create VM with minimum 2 CPUs and 4GB of ram. Otherwise server won't start.
 ```
 
-
-```sh
 DigitalOcean private IP and routing fix for Valheim:
+```sh
 
 edit 50-cloud-init.yaml
 
@@ -36,7 +35,7 @@ vi /etc/netplan/50-cloud-init.yaml
 remove private IP address on eth0 (might be 10.10.something - do not remove your public IP the same one you use to SSH into the server or access it)
 
 netplan apply
-systemctl status valheimserver.service
+
 reboot
 ```
 
