@@ -20,6 +20,10 @@ Use my code and you get $100 in credit over 60 days. (good way to test your dedi
 
 Never run any script on a production server, unless you know what you are doing.
 
+```
+Create VM with minimum 2 CPUs and 4GB of ram. Otherwise server won't start.
+```
+
 
 ```sh
 DigitalOcean private IP and routing fix for Valheim:
