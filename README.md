@@ -1,3 +1,5 @@
+[![Thumbnail](https://img.youtube.com/vi/0YPLf7Bw5W4/0.jpg)](https://www.youtube.com/watch?v=0YPLf7Bw5W4)
+
 # Single installation script for setting up Valheim on a dedicated Linux server with steamcmd.
 ###### Tested on: AWS, Azure and DigitalOcean
 ###### OS - Ubuntu 18.06 LTS 64bit and Ubuntu 20.04 LTS (tested 10 FEB 2021)
@@ -8,10 +10,6 @@
 ###### Credit to nicolas-martin for variable assignment within script
 
 ### Game is in Early Access meaning tons of updates and broken servers. Please post issues so we can make our edits and keep you up and running!
-[![Thumbnail](https://img.youtube.com/vi/0YPLf7Bw5W4/0.jpg)](https://www.youtube.com/watch?v=0YPLf7Bw5W4)
-
-Full video tut: https://www.youtube.com/watch?v=0YPLf7Bw5W4
-
 Worlds are saved: /home/steam/.config/unity3d/IronGate/Valheim/worlds/(here.fwl)
 
 How to set up a Linux Valheim dedicated server:
