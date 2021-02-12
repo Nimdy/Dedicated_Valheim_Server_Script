@@ -214,7 +214,7 @@ $(ColorBlue 'Choose an option:') "
 		2) restore_world_data ; admin_tools_menu ;;
 		3) check_server_updates ; admin_tools_menu ;;
 		4) apply_server_updates ; admin_tools_menu ;;
-		5) valheim_server_install ; server_menu ;;
+		5) valheim_server_install ; admin_tools_menu ;;
 		   0) menu ; menu ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
