@@ -82,6 +82,9 @@ sleep 1
 
 #build config for start_valheim.sh
 tput setaf 1; echo "Building Valheim start_valheim server configuration"
+tput setaf 1; echo "Deleting old configuration if file exist"
+rm /home/steam/valheimserver/start_valheim.sh
+sleep 1
 cat >> /home/steam/valheimserver/start_valheim.sh <<EOF
 #!/bin/bash
 export templdpath=$LD_LIBRARY_PATH
@@ -100,6 +103,9 @@ sleep 1
 
 #build check log script
 tput setaf 1; echo "Building check log script"
+tput setaf 1; echo "Deleting old configuration if file exist"
+rm /home/steam/check_log.sh
+sleep 1
 cat >> /home/steam/check_log.sh <<EOF
 journalctl --unit=valheimserver --reverse
 EOF
@@ -119,6 +125,9 @@ sleep 1
 
 #build systemctl configurations for execution of processes for Valheim Server
 tput setaf 1; echo "Building systemctl instructions for Valheim"
+tput setaf 1; echo "Deleting old configuration if file exist"
+rm /etc/systemd/system/valheimserver.service
+sleep 1
 cat >> /etc/systemd/system/valheimserver.service <<EOF
 [Unit]
 Description=Valheim Server
