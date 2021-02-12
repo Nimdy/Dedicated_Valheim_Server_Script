@@ -64,13 +64,24 @@ function kernel_check() {
     echo ""
 }
 
-function valheim_server_install() {
-    echo ""
+function confirmed_valheim_install() {
 	echo "Installing Valheim"
 	echo "Oh for Loki, its starting"
 	echo "This will work add code later"
 	echo ""
 }
+
+function valheim_server_install() {
+    echo ""
+    read -p "Are you sure? " -n 1 -r
+    echo ""
+    if [[ ! $REPLY =~ ^[Yy]$ ]]
+  then
+    [[ "$0" = "$confirmed_valheim_install" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
+  fi
+
+}
+
 
 function valheim_update_check() {
     echo ""
@@ -140,7 +151,19 @@ ColorWhite(){
 	echo -ne $WHITE$1$CLEAR
 }
 
-
+server_menu(){
+echo -ne "
+$(ColorOrange '-----Server System Information-----')
+$(ColorGreen '1)') Sub Menu Test Install Valheim Server
+$(ColorGreen '0)') Go to Main Menu
+$(ColorBlue 'Choose an option:') "
+        read a
+        case $a in
+	        1) valheim_server_install ; server_menu ;;
+           	    0) menu ; menu ;;
+		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
+        esac
+}
 
 menu(){
 echo -ne "
@@ -155,9 +178,7 @@ $(ColorGreen '6)') Check All
 $(ColorOrange '-----Valheim Server Commands-----')
 $(ColorGreen '7)') Install Valheim Server
 $(ColorGreen '8)') Valheim Server Update Check
-
-
-
+$(ColorGreen '9)') Server Sub Menu Test
 $(ColorGreen '0)') Exit
 $(ColorBlue 'Choose an option:') "
         read a
@@ -170,10 +191,19 @@ $(ColorBlue 'Choose an option:') "
 	        6) all_checks ; menu ;;
 		    7) valheim_server_install ; menu ;;
 	    	8) valheim_update_check ; menu ;;
+		9) server_menu ; menu ;;
 		    0) exit 0 ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
+
+
+
+
+
+
 }
+
+
 
 # Call the menu function
 menu
