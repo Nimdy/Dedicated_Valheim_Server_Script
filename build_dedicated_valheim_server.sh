@@ -51,6 +51,8 @@ sleep 1
 #build account to run Valheim
 tput setaf 1; echo "Building steam account NON-ROOT"
 useradd --create-home --shell /bin/bash --password $userpassword steam
+cp /etc/skel/.bashrc /home/steam/.bashrc
+cp /etc/skel/.profile /home/steam/.profile
 tput setaf 2; echo "Done"
 tput setaf 9;
 sleep 1
@@ -134,7 +136,7 @@ Group=steam
 ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir /home/steam/valheimserver +app_update 896660 validate +exit
 ExecStart=/home/steam/valheimserver/start_valheim.sh
 ExecReload=/bin/kill -s HUP $MAINPID
-ExecStop=/bin/kill -s INT $MAINPID
+ExecStop=/bin/kill -s SIGINT $MAINPID
 WorkingDirectory=/home/steam/valheimserver
 LimitNOFILE=100000
 
@@ -171,7 +173,7 @@ tput setaf 2; echo "Done"
 sleep 2
 clear
 tput setaf 2; echo "Check server status by typing systemctl status valheimserver.service"
-tput setaf 2; echo "Thank you for using the script. If you are having issues remember to firewall rules and security rules for allowed ports in and out of your server"
+tput setaf 2; echo "Thank you for using the script.
 tput setaf 2; echo "Twitch: ZeroBandwidth"
 tput setaf 2; echo "GLHF"
 tput setaf 9;
