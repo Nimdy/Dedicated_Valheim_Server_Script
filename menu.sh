@@ -192,7 +192,7 @@ $(ColorGreen '0)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
-	        1) valheim_server_install ; server_menu ;;
+	        1) valheim_server_install ; server_install_menu ;;
            	    0) menu ; menu ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
