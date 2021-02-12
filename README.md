@@ -48,7 +48,7 @@ ENJOY!!!
 Check for Offical Valheim Server updates and install them:
 =
 ```sh
-ExecStartPre=/usr/games/steamcmd +login foo +force_install_dir /home/steam/valheimserver +app_update 896660  +quit
+steamcmd +login foo +force_install_dir /home/steam/valheimserver +app_update 896660  +quit
 ```
 
 Run as root(if brave enough) or sudo current user 
