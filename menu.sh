@@ -245,7 +245,7 @@ $(ColorBlue 'Choose an option:') "
 	        4) udp_check ; menu ;;
 	        5) kernel_check ; menu ;;
 	        6) all_checks ; menu ;;
-		7) admin_tools_menu ;; menu
+		7) admin_tools_menu ; menu ;;
 		8) server_install_menu ; menu ;;
 		    0) exit 0 ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
