@@ -12,13 +12,13 @@
 Visit the WIKI for helpful troubleshooting tips and tricks.
 https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki
 
-**********************************************************************************************************************************
-***DISCLAIMER:  Use this at your own risk.  There is nothing malicious within the script and its all 100% open source readable ***
-***This game is in early access, plan on losing your worlds, issues happening a lot and random bugs with the Official Game     ***
-***                                                                                                                            ***
-***This script is to just get your started.  I will try my best to keep everything updated as I learn issues. Check back often ***
-***                  Check back often for updated vers of the script and server configuration files                            ***
-**********************************************************************************************************************************
+
+__*DISCLAIMER:  Use this at your own risk.  There is nothing malicious within the script and its all 100% open source readable 
+This game is in early access, plan on losing your worlds, issues happening a lot and random bugs with the Official Game    *__    
+                                                                                                                    
+__*This script is to just get your started.  I will try my best to keep everything updated as I learn issues. Check back often 
+                 Check back often for updated vers of the script and server configuration files *__                          
+
 
 
 
