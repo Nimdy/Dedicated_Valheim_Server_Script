@@ -17,6 +17,9 @@ do
             cd Dedicated_Valheim_Server_Script/
             sudo chmod +x build_dedicated_valheim_server.sh
             sudo ufw allow 2456:2458/udp
+            sleep 2
+            sudo ufw allow 2456:2458/tcp
+            sleep 2
             sudo ./build_dedicated_valheim_server.sh
             ;;
         "Check Valheim Server Status")
