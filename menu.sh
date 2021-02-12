@@ -88,31 +88,65 @@ function all_checks() {
 ##
 # Color  Variables
 ##
-green='\e[32m'
-blue='\e[34m'
-clear='\e[0m'
+
+NOCOLOR='\033[0m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+ORANGE='\033[0;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+LIGHTRED='\033[1;31m'
+LIGHTGREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+WHITE='\033[1;37m'
 
 ##
 # Color Functions
 ##
-
+ColorRed(){
+	echo -ne $RED$1$clear
+}
 ColorGreen(){
-	echo -ne $green$1$clear
+	echo -ne $GREEN$1$clear
+}
+ColorOrange(){
+	echo -ne $ORANGE$1$clear
 }
 ColorBlue(){
-	echo -ne $blue$1$clear
+	echo -ne $BLUE$1$clear
 }
+ColorPurple(){
+	echo -ne $PURPLE$1$clear
+}
+ColorCyan(){
+	echo -ne $CYAN$1$clear
+}
+ColorLightRed(){
+	echo -ne $LIGHTRED$1$clear
+}
+ColorLightGreen(){
+	echo -ne $LIGHTGREEN$1$clear
+}
+ColorYellow(){
+	echo -ne $LIGHTYELLOW$1$clear
+}
+ColorWhite(){
+	echo -ne $WHITE$1$clear
+}
+
+
 
 menu(){
 echo -ne "
-Server System Information
+$(ColorOrange 'Server System Information)')
 $(ColorGreen '1)') Memory usage
 $(ColorGreen '2)') CPU load
 $(ColorGreen '3)') Number of TCP connections 
 $(ColorGreen '4)') Number of UDP connections 
 $(ColorGreen '5)') Kernel version
 $(ColorGreen '6)') Check All
-Valheim Server Commands
+$(ColorOrange 'Valheim Server Commands)')
 $(ColorGreen '7)') Install Valheim Server
 $(ColorGreen '8)') Valheim Server Update Check
 
