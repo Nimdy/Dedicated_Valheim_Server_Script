@@ -2,14 +2,17 @@
 # Easy Valheim Server Menu
 # Open to other commands that should be used... 
 clear
-title="~*~*~*~*Valheim Toolbox Menu*~*~*~*~"
-
 ##
 # System script that checks:
 #   - Memory usage
 #   - CPU load
 #   - Number of TCP/UDP connections 
 #   - Kernel version
+##
+
+##
+# Server Install:
+#   - Install Server
 ##
 
 ##
@@ -100,53 +103,56 @@ LIGHTRED='\033[1;31m'
 LIGHTGREEN='\033[1;32m'
 YELLOW='\033[1;33m'
 WHITE='\033[1;37m'
+CLEAR='\e[0m'
+
 
 ##
 # Color Functions
 ##
 ColorRed(){
-	echo -ne $RED$1$clear
+	echo -ne $RED$1$CLEAR
 }
 ColorGreen(){
-	echo -ne $GREEN$1$clear
+	echo -ne $GREEN$1$CLEAR
 }
 ColorOrange(){
-	echo -ne $ORANGE$1$clear
+	echo -ne $ORANGE$1$CLEAR
 }
 ColorBlue(){
-	echo -ne $BLUE$1$clear
+	echo -ne $BLUE$1$CLEAR
 }
 ColorPurple(){
-	echo -ne $PURPLE$1$clear
+	echo -ne $PURPLE$1$CLEAR
 }
 ColorCyan(){
-	echo -ne $CYAN$1$clear
+	echo -ne $CYAN$1$CLEAR
 }
 ColorLightRed(){
-	echo -ne $LIGHTRED$1$clear
+	echo -ne $LIGHTRED$1$CLEAR
 }
 ColorLightGreen(){
-	echo -ne $LIGHTGREEN$1$clear
+	echo -ne $LIGHTGREEN$1$CLEAR
 }
 ColorYellow(){
-	echo -ne $LIGHTYELLOW$1$clear
+	echo -ne $LIGHTYELLOW$1$CLEAR
 }
 ColorWhite(){
-	echo -ne $WHITE$1$clear
+	echo -ne $WHITE$1$CLEAR
 }
 
 
 
 menu(){
 echo -ne "
-$(ColorOrange 'Server System Information)')
+$(ColorOrange '~*~*~*~*Valheim Toolbox Menu*~*~*~*~')
+$(ColorOrange '     Server System Information')
 $(ColorGreen '1)') Memory usage
 $(ColorGreen '2)') CPU load
 $(ColorGreen '3)') Number of TCP connections 
 $(ColorGreen '4)') Number of UDP connections 
 $(ColorGreen '5)') Kernel version
 $(ColorGreen '6)') Check All
-$(ColorOrange 'Valheim Server Commands)')
+$(ColorOrange '     Valheim Server Commands')
 $(ColorGreen '7)') Install Valheim Server
 $(ColorGreen '8)') Valheim Server Update Check
 
@@ -165,7 +171,7 @@ $(ColorBlue 'Choose an option:') "
 		    7) valheim_server_install ; menu ;;
 	    	8) valheim_update_check ; menu ;;
 		    0) exit 0 ;;
-		    *) echo -e $red"Wrong option."$clear; WrongCommand;;
+		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
 }
 
