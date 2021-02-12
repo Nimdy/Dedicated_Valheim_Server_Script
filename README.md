@@ -16,13 +16,15 @@ https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki
 How to set up a Linux Valheim dedicated server:
 
 Start your own dedicated Valheim server built on Ubuntu with DigitalOcean services:
-https://m.do.co/c/9d2217a2725c
+__* https://m.do.co/c/9d2217a2725c *__
+```sh
 If you use my referral link, you will get 100USD credit for 60 days. (good way to test your dedicated server)
 I pay 40 bucks a month for my server.
-
+```
+```sh
 menu_beta_test.sh is under testing and is still missing a lot of functions for execution. Use at own RISK.
-
-Never run any script on a production server, unless you know what you are doing.
+```
+__*Never run any script on a production server, unless you know what you are doing.*__
 
 ```
 Create VM with minimum 2 CPUs and 4GB of ram. Otherwise server won't start.
