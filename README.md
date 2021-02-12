@@ -20,6 +20,8 @@ https://m.do.co/c/9d2217a2725c
 If you use my referral link, you will get 100USD credit for 60 days. (good way to test your dedicated server)
 I pay 40 bucks a month for my server.
 
+menu_beta_test.sh is under testing and is still missing a lot of functions for execution. Use at own RISK.
+
 Never run any script on a production server, unless you know what you are doing.
 
 ```
