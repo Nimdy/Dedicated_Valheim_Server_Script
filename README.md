@@ -10,14 +10,15 @@
 ###### Credit to nicolas-martin for variable assignment within script
 
 ### Game is in Early Access meaning tons of updates and broken servers. Please post issues so we can make our edits and keep you up and running!
-Worlds are saved: /home/steam/.config/unity3d/IronGate/Valheim/worlds/(here.fwl)
+Visit the WIKI for helpful troubleshooting tips and tricks.
+https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki
 
 How to set up a Linux Valheim dedicated server:
 
-Use my referral link if you do not already have a DigitalOcean Account, gives me free credit on my account, if not no biggie!
+Start your own dedicated Valheim server built on Ubuntu with DigitalOcean services:
 https://m.do.co/c/9d2217a2725c
-
-Use my code and you get $100 in credit over 60 days. (good way to test your dedicated server)
+If you use my referral link, you will get 100USD credit for 60 days. (good way to test your dedicated server)
+I pay 40 bucks a month for my server.
 
 Never run any script on a production server, unless you know what you are doing.
 
