@@ -72,13 +72,15 @@ function confirmed_valheim_install() {
 }
 
 function valheim_server_install() {
-    echo ""
-    read -p "Are you sure? " -n 1 -r
-    echo ""
-    if [[ ! $REPLY =~ ^[Yy]$ ]]
-  then
-    [[ "$0" = "$confirmed_valheim_install" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
-  fi
+
+while true; do
+    read -p "Do you wish to install this program?" yn
+    case $yn in
+        [Yy]* ) $confirmed_valheim_install; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
 
 }
 
