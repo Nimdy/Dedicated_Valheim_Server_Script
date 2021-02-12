@@ -1,4 +1,4 @@
-<p align="center"> [![Thumbnail](https://img.youtube.com/vi/0YPLf7Bw5W4/0.jpg)](https://www.youtube.com/watch?v=0YPLf7Bw5W4) </p>
+[![Thumbnail](https://img.youtube.com/vi/0YPLf7Bw5W4/0.jpg)](https://www.youtube.com/watch?v=0YPLf7Bw5W4)
 
 # Single installation script for setting up Valheim on a dedicated Linux server with steamcmd.
 ###### Tested on: AWS, Azure and DigitalOcean
