@@ -6,7 +6,7 @@
 ###### Recommended server settings:  CPU: 4 (2 will work but meh)  RAM: 8GB+  Harddrive: 250GB+
 ###### My Twitch Channel: https://www.twitch.tv/zerobandwidth
 ###### My Discord for Tech Support https://discord.gg/ejgQUfc
-###### Credit and modivation from YT GeekHead, nicolas-martin for variable assignment, madmozg typo fixes and bherbruck steam profile creation corrections.
+###### Credit and modivation from YT GeekHead, nicolas-martin for variable assignment, madmozg typo fixes and bherbruck profile creation corrections and beko for KillSignal=SIGINT corrections
 
 ### Game is in Early Access meaning tons of updates and broken servers. Please post issues so we can make our edits and keep you up and running!
 Visit the WIKI for helpful troubleshooting tips and tricks.
