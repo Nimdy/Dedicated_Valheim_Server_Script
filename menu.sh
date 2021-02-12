@@ -86,7 +86,7 @@ function valheim_server_install() {
 while true; do
     read -p "Do you wish to install this program?" yn
     case $yn in
-        [Yy]* ) $confirmed_valheim_install; break;;
+        [Yy]* ) confirmed_valheim_install; break;;
         [Nn]* ) exit;;
         * ) echo "Please answer yes or no.";;
     esac
