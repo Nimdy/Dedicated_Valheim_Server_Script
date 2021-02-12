@@ -1,4 +1,6 @@
 #!/bin/bash
+# BETA TESTING USE AT YOUR OWN RISK!!!
+# Please fill free to add/change
 # Easy Valheim Server Menu
 # Open to other commands that should be used... 
 clear
