@@ -173,7 +173,7 @@ tput setaf 2; echo "Done"
 sleep 2
 clear
 tput setaf 2; echo "Check server status by typing systemctl status valheimserver.service"
-tput setaf 2; echo "Thank you for using the script.
+tput setaf 2; echo "Thank you for using the script."
 tput setaf 2; echo "Twitch: ZeroBandwidth"
 tput setaf 2; echo "GLHF"
 tput setaf 9;
