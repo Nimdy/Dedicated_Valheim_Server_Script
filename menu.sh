@@ -145,14 +145,14 @@ ColorWhite(){
 menu(){
 echo -ne "
 $(ColorOrange '~*~*~*~*Valheim Toolbox Menu*~*~*~*~')
-$(ColorOrange '     Server System Information')
+$(ColorOrange '-----Server System Information-----')
 $(ColorGreen '1)') Memory usage
 $(ColorGreen '2)') CPU load
 $(ColorGreen '3)') Number of TCP connections 
 $(ColorGreen '4)') Number of UDP connections 
 $(ColorGreen '5)') Kernel version
 $(ColorGreen '6)') Check All
-$(ColorOrange '     Valheim Server Commands')
+$(ColorOrange '-----Valheim Server Commands-----')
 $(ColorGreen '7)') Install Valheim Server
 $(ColorGreen '8)') Valheim Server Update Check
 
