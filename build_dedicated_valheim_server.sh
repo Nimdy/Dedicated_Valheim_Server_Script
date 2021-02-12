@@ -140,8 +140,6 @@ KillSignal=SIGINT
 WorkingDirectory=/home/steam/valheimserver
 LimitNOFILE=100000
 
-KillSignal=SIGINT
-
 [Install]
 WantedBy=multi-user.target
 EOF
