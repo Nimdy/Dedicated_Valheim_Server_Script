@@ -71,6 +71,16 @@ function confirmed_valheim_install() {
 	echo ""
 }
 
+function valheim_update_check() {
+    echo ""
+	echo "Checking for Valheim Server Updates "
+	echo "This will work add code later"
+	echo ""
+    echo ""
+}
+
+
+
 function valheim_server_install() {
 
 while true; do
@@ -85,14 +95,6 @@ done
 }
 
 
-function valheim_update_check() {
-    echo ""
-	echo "Checking for Valheim Server Updates "
-	echo "This will work add code later"
-	echo ""
-    echo ""
-}
-
 function all_checks() {
 	memory_check
 	cpu_check
@@ -100,6 +102,35 @@ function all_checks() {
 	udp_check
 	kernel_check
 }
+
+function backup_world_data() {
+    echo ""
+    echo "Not Working Yet Add Code"
+    echo ""
+
+}
+
+function restore_world_data() {
+    echo ""
+    echo "Not Working Yet Add Code"
+    echo ""
+
+}
+
+function check_server_updates() {
+    echo ""
+    echo "Not Working Yet Add Code"
+    echo ""
+
+}
+
+function apply_server_updates() {
+    echo ""
+    echo "Not Working Yet Add Code"
+    echo ""
+
+}
+
 
 ##
 # Color  Variables
@@ -153,10 +184,10 @@ ColorWhite(){
 	echo -ne $WHITE$1$CLEAR
 }
 
-server_menu(){
+server_install_menu(){
 echo -ne "
 $(ColorOrange '-----Server System Information-----')
-$(ColorGreen '1)') Sub Menu Test Install Valheim Server
+$(ColorGreen '1)') Fresh Valheim Server
 $(ColorGreen '0)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
         read a
@@ -166,6 +197,30 @@ $(ColorBlue 'Choose an option:') "
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
 }
+
+admin_tools_menu(){
+echo -ne "
+$(ColorOrange '-----Valheim Admin Tools-----')
+$(ColorGreen '1)') Backup World
+$(ColorGreen '2)') Restore World
+$(ColorGreen '3)') Check for Server Updates
+$(ColorGreen '4)') Apply Server Updates
+$(ColorGreen '5)') Fresh Valheim Server
+$(ColorGreen '0)') Go to Main Menu
+$(ColorBlue 'Choose an option:') "
+        read a
+        case $a in
+	        1) backup_world_data ; admin_tools_menu ;;
+		2) restore_world_data ; admin_tools_menu ;;
+		3) check_server_updates ; admin_tools_menu ;;
+		4) apply_server_updates ; admin_tools_menu ;;
+		5) valheim_server_install ; server_menu ;;
+		   0) menu ; menu ;;
+		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
+        esac
+}
+
+
 
 menu(){
 echo -ne "
@@ -178,9 +233,8 @@ $(ColorGreen '4)') Number of UDP connections
 $(ColorGreen '5)') Kernel version
 $(ColorGreen '6)') Check All
 $(ColorOrange '-----Valheim Server Commands-----')
-$(ColorGreen '7)') Install Valheim Server
-$(ColorGreen '8)') Valheim Server Update Check
-$(ColorGreen '9)') Server Sub Menu Test
+$(ColorGreen '7)') Server Admin Tools 
+$(ColorGreen '8)') Install Valheim Server
 $(ColorGreen '0)') Exit
 $(ColorBlue 'Choose an option:') "
         read a
@@ -191,18 +245,11 @@ $(ColorBlue 'Choose an option:') "
 	        4) udp_check ; menu ;;
 	        5) kernel_check ; menu ;;
 	        6) all_checks ; menu ;;
-		    7) valheim_server_install ; menu ;;
-	    	8) valheim_update_check ; menu ;;
-		9) server_menu ; menu ;;
+		7) admin_tools_menu ;; menu
+		8) server_install_menu ; menu ;;
 		    0) exit 0 ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
-
-
-
-
-
-
 }
 
 
