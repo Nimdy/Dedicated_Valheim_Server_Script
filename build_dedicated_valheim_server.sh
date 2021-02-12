@@ -136,7 +136,7 @@ Group=steam
 ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir /home/steam/valheimserver +app_update 896660 validate +exit
 ExecStart=/home/steam/valheimserver/start_valheim.sh
 ExecReload=/bin/kill -s HUP $MAINPID
-KillSignal=SIGINT -s SIGINT $MAINPID
+KillSignal=SIGINT
 WorkingDirectory=/home/steam/valheimserver
 LimitNOFILE=100000
 
