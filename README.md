@@ -12,15 +12,15 @@
 Visit the WIKI for helpful troubleshooting tips and tricks.
 https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki
 
-
 __*DISCLAIMER:  Use this at your own risk.  There is nothing malicious within the script and its all 100% open source readable 
 This game is in early access, plan on losing your worlds, issues happening a lot and random bugs with the Official Game    *__    
                                                                                                                     
 __*This script is to just get your started.  I will try my best to keep everything updated as I learn issues. Check back often 
                  Check back often for updated vers of the script and server configuration files *__                          
 
+__*Come back and check for updates*__
 
-
+__*Visit the WIKI for common questions and answers*__
 
 
 How to set up a Linux Valheim dedicated server:
@@ -54,20 +54,15 @@ netplan apply
 reboot
 ```
 
-ENJOY!!!
-
-Check for Offical Valheim Server updates and install them:
-=
-```sh
-steamcmd +login foo +force_install_dir /home/steam/valheimserver +app_update 896660  +quit
-```
-
-Run as root(if brave enough) or sudo current user 
-
-
-__*Please do not use the Hosting Companies Command Line Interface when executing this script. 
+__*Please do not use the Hosting Company Command Line Interface when executing this script. 
 Download putty and connect to your server via SSH. Download Putty here:https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
 If you know how to use SSH already, then you already know.*__  Thanks mscard02
+
+
+---Start TUT---
+
+
+Run as root(if brave enough) or sudo current user 
 
 
 1.Install GIT to pull down script
