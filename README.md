@@ -9,7 +9,7 @@
 ###### Credit and modivation from YT GeekHead, nicolas-martin for variable assignment, madmozg typo fixes and bherbruck profile creation corrections and beko for KillSignal=SIGINT corrections
 
 ### Game is in Early Access meaning tons of updates and broken servers. Please post issues so we can make our edits and keep you up and running!
-Visit the WIKI for helpful troubleshooting tips and tricks.
+__*Visit the WIKI for common questions and answers*__
 https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki
 
 __*DISCLAIMER:  Use this at your own risk.  There is nothing malicious within the script and its all 100% open source readable 
@@ -20,7 +20,7 @@ __*This script is to just get your started.  I will try my best to keep everythi
 
 __*Come back and check for updates*__
 
-__*Visit the WIKI for common questions and answers*__
+
 
 
 How to set up a Linux Valheim dedicated server:
@@ -31,9 +31,7 @@ __* https://m.do.co/c/9d2217a2725c *__
 If you use my referral link, you will get 100USD credit for 60 days. (good way to test your dedicated server)
 I pay 40 bucks a month for my server.
 ```
-```sh
-menu_beta_test.sh is under testing and is still missing a lot of functions for execution. Use at own RISK.
-```
+
 __*Never run any script on a production server, unless you know what you are doing.*__
 
 ```
@@ -56,6 +54,7 @@ reboot
 
 __*Please do not use the Hosting Company Command Line Interface when executing this script. 
 Download putty and connect to your server via SSH. Download Putty here:https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+If you can connect to your Server via SSH through PUTTY, your networking/security groups are most likely setup correctly.
 If you know how to use SSH already, then you already know.*__  Thanks mscard02
 
 
@@ -100,6 +99,7 @@ sudo vi build_dedicated_valheim_server.sh
 
 # There are 4 things you need to change!
 # NOTE: Minimum password length is 5 characters & Password cant be in the server name.
+# NOTE: NO $ ' " in the passwords - you will break the script 
 userpassword="user_password"        <---password for the new Linux User it creates
 password="passw0rd"                 <---password for the Valheim Server Access
 displayname="server display name"   <---Public display name for server
