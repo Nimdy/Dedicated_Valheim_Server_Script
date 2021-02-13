@@ -65,6 +65,11 @@ steamcmd +login foo +force_install_dir /home/steam/valheimserver +app_update 896
 Run as root(if brave enough) or sudo current user 
 
 
+__*Please do not use the Hosting Companies Command Line Interface when executing this script. 
+Download putty and connect to your server via SSH. Download Putty here:https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+If you know how to use SSH already, then you already know.*__
+
+
 1.Install GIT to pull down script
 =
 ```sh
