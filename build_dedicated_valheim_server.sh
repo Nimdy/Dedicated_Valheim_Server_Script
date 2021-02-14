@@ -49,7 +49,7 @@ sleep 1
 
 #EDIT HERE #1
 #build account to run Valheim
-tput setaf 1; echo "Building steam account NON-ROOT"
+tput setaf 1; echo "Building steam account NONROOT"
 sleep 1
 useradd --create-home --shell /bin/bash --password $userpassword steam
 cp /etc/skel/.bashrc /home/steam/.bashrc
