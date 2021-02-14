@@ -130,10 +130,10 @@ worldname="111111111"               <---local inside world name
 ```sh
 sudo ./build_dedicated_valheim_server.sh
 ```
-8.A new version of /boot/grub/menu.lst promotx2 - Keep local version
+8.A new version of /boot/grub/menu.lst promotx2 or DHCP  - Keep local versions
 =
 ```sh
-Select  keep the local version currently installed
+Select  keep the local version currently installed or No (default)
 ```
 9.Agree to STEAM LICENSE AGREEMENT
 =
