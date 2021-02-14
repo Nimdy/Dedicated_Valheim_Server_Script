@@ -5,6 +5,7 @@
 ###### OS - Ubuntu 18.06 LTS 64bit and Ubuntu 20.04 LTS (tested 10 FEB 2021)
 ###### Recommended server settings:  CPU: 4 (2 will work but meh)  RAM: 8GB+  Harddrive: 250GB+
 ###### My Twitch Channel: https://www.twitch.tv/zerobandwidth
+###### https://www.patreon.com/zerobandwidth (for tips if you wish)
 ###### My Discord for Tech Support https://discord.gg/ejgQUfc
 ###### Credit and modivation from YT GeekHead, nicolas-martin for variable assignment, madmozg typo fixes and bherbruck profile creation corrections and beko for KillSignal=SIGINT corrections
 
@@ -38,7 +39,7 @@ __*Never run any script on a production server, unless you know what you are doi
 Create VM with minimum 2 CPUs and 4GB of ram. Otherwise server won't start.
 ```
 
-DigitalOcean private IP and routing fix for Valheim:
+__*DigitalOcean private IP and routing fix for Valheim: *__
 ```sh
 
 edit 50-cloud-init.yaml
@@ -56,6 +57,21 @@ __*Please do not use the Hosting Company Command Line Interface when executing t
 Download putty and connect to your server via SSH. Download Putty here:https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
 If you can connect to your Server via SSH through PUTTY, your networking/security groups are most likely setup correctly.
 If you know how to use SSH already, then you already know.*__  Thanks mscard02
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ---Start TUT---
