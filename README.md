@@ -53,10 +53,9 @@ netplan apply
 reboot
 ```
 
-__*Please do not use the Hosting Company Command Line Interface when executing this script. 
+__*Please do not use the Hosting Company Command Line Interface if you can help it. 
 Download putty and connect to your server via SSH. Download Putty here:https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
-If you can connect to your Server via SSH through PUTTY, your networking/security groups are most likely setup correctly.
-If you know how to use SSH already, then you already know.*__  Thanks mscard02
+If you can connect to your Server's Ubuntu install via SSH through PUTTY, your networking/security groups are most likely setup correctly (for port 22).*__  Thanks mscard02
 
 
 
