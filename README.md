@@ -96,7 +96,7 @@ sudo git clone https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
 4.Change dir to Dedicated_Valheim_Server_Script
 =
 ```sh
-sudo cd Dedicated_Valheim_Server_Script/
+cd Dedicated_Valheim_Server_Script/
 ```
 5.Allow script to execute
 =
