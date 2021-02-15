@@ -38,7 +38,7 @@ __*Never run any script on a production server, unless you know what you are doi
 Create VM with minimum 2 CPUs and 4GB of ram. Otherwise server won't start.
 ```
 
-__*DigitalOcean private IP and routing fix for Valheim: *__
+__*FOR DigitalOcean ONLY - private IP and routing fix for Valheim: *__
 ```sh
 
 edit 50-cloud-init.yaml
