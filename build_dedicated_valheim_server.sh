@@ -7,10 +7,10 @@
 
 # There are 4 things you need to change!
 # NOTE: Minimum password length is 5 characters & Password cant be in the server name.
-userpassword="user_password"
-password="passw0rd"
-displayname="server display name"
-worldname="111111111"
+userpassword='"user_password"'
+password='"passw0rd"'
+displayname='"server display name"'
+worldname='"111111111"'
 
 #check for updates and upgrade the system auto yes
 tput setaf 2; echo "Checking for upgrades"
