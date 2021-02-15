@@ -1,6 +1,12 @@
 [![Thumbnail](https://img.youtube.com/vi/0YPLf7Bw5W4/0.jpg)](https://www.youtube.com/watch?v=0YPLf7Bw5W4)
 
 # Easiest installation script for setting up Valheim on a dedicated Linux server with steamcmd running Ubuntu.
+Start your own dedicated Valheim server built on Ubuntu with DigitalOcean services:
+__* https://m.do.co/c/9d2217a2725c *__
+```sh
+If you use my referral link, you will get 100USD credit for 60 days. (good way to test your dedicated server)
+I pay 40 bucks a month for my server.
+```
 # 100% Success Rate: When instructions are followed
 # Top 10 reasons your Valheim server is not working: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/Top-10-Reason-your-Server-is-not-working-and-how-to-fix. 
 ###### Tested on: AWS, Azure, Google Cloud and DigitalOcean
@@ -26,18 +32,9 @@ __*Come back and check for updates*__
 
 
 
-How to set up a Linux Valheim dedicated server:
-
-Start your own dedicated Valheim server built on Ubuntu with DigitalOcean services:
-__* https://m.do.co/c/9d2217a2725c *__
-```sh
-If you use my referral link, you will get 100USD credit for 60 days. (good way to test your dedicated server)
-I pay 40 bucks a month for my server.
-```
-
 __*Never run any script on a production server, unless you know what you are doing.*__
 
-```
+```sh
 Create VM with minimum 2 CPUs and 4GB of ram. Otherwise server won't start.
 ```
 
