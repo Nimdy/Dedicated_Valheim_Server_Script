@@ -1,8 +1,9 @@
+<!--add later
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-
+-->
 
 
 
@@ -262,12 +263,12 @@ Project Link: [https://github.com/Nimdy/Dedicated_Valheim_Server_Script](https:/
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/badge/contributors-contributors-blue
+[contributors-shield]: #
 [contributors-url]: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-shield]: #
 [forks-url]: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-shield]: #
 [stars-url]: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-shield]: #
 [issues-url]: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/issues
 [product-screenshot]: images/screenshot.png
