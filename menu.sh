@@ -25,7 +25,17 @@ clear
 
 ##
 
-server_name=$(hostname)
+
+
+
+function script_check_update() {
+    echo ""
+	echo "Add script update check "
+	echo "check if Master Repo is updated"
+	echo " if true download and replace"
+	echo " if not print already up todate nothing to do"
+    echo ""
+}
 
 function memory_check() {
     echo ""
@@ -228,27 +238,29 @@ menu(){
 echo -ne "
 $(ColorOrange '~*~*~*~*Valheim Toolbox Menu*~*~*~*~')
 $(ColorOrange '-----Server System Information-----')
-$(ColorGreen '1)') Memory usage
-$(ColorGreen '2)') CPU load
-$(ColorGreen '3)') Number of TCP connections 
-$(ColorGreen '4)') Number of UDP connections 
-$(ColorGreen '5)') Kernel version
-$(ColorGreen '6)') Check All
+$(ColorGreen '1)') Check for Nimdy Script Updates
+$(ColorGreen '2)') Memory usage
+$(ColorGreen '3)') CPU load
+$(ColorGreen '4)') Number of TCP connections 
+$(ColorGreen '5)') Number of UDP connections 
+$(ColorGreen '6)') Kernel version
+$(ColorGreen '7)') Check All
 $(ColorOrange '-----Valheim Server Commands-----')
-$(ColorGreen '7)') Server Admin Tools 
-$(ColorGreen '8)') Install Valheim Server
+$(ColorGreen '8)') Server Admin Tools 
+$(ColorGreen '9)') Install Valheim Server
 $(ColorGreen '0)') Exit
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
-	        1) memory_check ; menu ;;
-	        2) cpu_check ; menu ;;
-	        3) tcp_check ; menu ;;
-	        4) udp_check ; menu ;;
-	        5) kernel_check ; menu ;;
-	        6) all_checks ; menu ;;
-		7) admin_tools_menu ; menu ;;
-		8) server_install_menu ; menu ;;
+	        1) script_check_update ; menu ;;
+		2) memory_check ; menu ;;
+	        3) cpu_check ; menu ;;
+	        4) tcp_check ; menu ;;
+	        5) udp_check ; menu ;;
+	        6) kernel_check ; menu ;;
+	        7) all_checks ; menu ;;
+		8) admin_tools_menu ; menu ;;
+		9) server_install_menu ; menu ;;
 		    0) exit 0 ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
