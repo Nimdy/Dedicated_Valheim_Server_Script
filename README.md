@@ -189,9 +189,9 @@ Press Enter
 10. Allow ports 2456,2457,2458 (TCP/UDP) on your server
 This might take you a while, if you never done it before. Don't worry, members in my discord and myself can help troubleshoot later
 =
-```sh
-[Port Configuration WIKI](https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/AWS-Azure-GCP-and-DigitalOcean-Valheim-Port-Configuration)
-```
+
+* [Port Configuration WIKI](https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/AWS-Azure-GCP-and-DigitalOcean-Valheim-Port-Configuration)
+
 11. Stop Valheim service
 =
 ```sh
