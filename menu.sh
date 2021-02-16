@@ -66,17 +66,6 @@ echo ""
     echo -e "-------------------------------Disk Usage >80%-------------------------------"
     df -Ph | sed s/%//g | awk '{ if($5 > 80) print $0;}'
 echo ""
-
-if (( $(cat /etc/*-release | grep -w "Ubuntu" | wc -l) > 0 ))
-then
-echo -e "-------------------------------Package Updates-------------------------------"
-yum updateinfo summary | grep 'Security|Bugfix|Enhancement'
-echo -e "-----------------------------------------------------------------------------"
-else
-echo -e "-------------------------------Package Updates-------------------------------"
-cat /var/lib/update-notifier/updates-available
-echo -e "-----------------------------------------------------------------------------"
-fi
 }
 
 function network_info() {
