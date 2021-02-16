@@ -6,10 +6,10 @@
 clear
 ##
 # System script that checks:
-#   - Memory usage
-#   - CPU load
-#   - Number of TCP/UDP connections 
-#   - Kernel version
+#   - Display System Info
+#   - Display Network Info
+#   - other stuff? 
+#  
 ##
 
 ##
@@ -247,8 +247,8 @@ echo -ne "
 $(ColorOrange '-----Valheim Admin Tools-----')
 $(ColorGreen '1)') Backup World
 $(ColorGreen '2)') Restore World
-$(ColorGreen '3)') Check for Server Updates
-$(ColorGreen '4)') Apply Server Updates
+$(ColorGreen '3)') Check for Valheim Updates
+$(ColorGreen '4)') Apply Valheim Updates
 $(ColorGreen '5)') Fresh Valheim Server
 $(ColorGreen '0)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
