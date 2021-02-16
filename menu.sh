@@ -117,7 +117,21 @@ function all_checks() {
 
 function backup_world_data() {
     echo ""
-    echo "Not Working Yet Add Code"
+         ## Get the current date as variable.
+         TODAY="$(date +%Y-%m-%d)"
+	 
+	 dldir="/home/steam/backup"
+	 [ ! -d "$dldir" ] && mkdir -p "$dldir"
+
+         ## Clean up files older than 2 weeks. Create a new backup.
+         find /home/steam/backups/ -mtime +14 -type f -delete
+
+         ## Tar Section. Create a backup file, with the current date in its name.
+         ## Add -h to convert the symbolic links into a regular files.
+         ## Backup some system files, also the entire `/home` directory, etc.
+         ## --exclude some directories, for example the the browser's cache, `.bash_history`, etc.
+         tar zcvf "/home/steam/backups/valheim-backup-$TODAY.tgz" /home/steam/.config/unity3d/IronGate/Valheim/worlds/* 
+         chown steam:steam /home/steam/backups/valheim-backup-$TODAY.tgz
     echo ""
 
 }
