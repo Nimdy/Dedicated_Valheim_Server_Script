@@ -186,11 +186,11 @@ Select Ok
 Select I Agree
 Press Enter
 ```
-10. Allow ports 2456,2457,2458 (TCP/UDP) on your server 
+10. Allow ports 2456,2457,2458 (TCP/UDP) on your server
+This might take you a while, if you never done it before. Don't worry, members in my discord and myself can help troubleshoot later
 =
 ```sh
-sudo ufw allow 2456:2458/tcp
-sudo ufw allow 2456:2458/udp
+https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/AWS,-Azure,-GCP-and-DigitalOcean-Valheim-Port-Configuration
 ```
 11. Stop Valheim service
 =
