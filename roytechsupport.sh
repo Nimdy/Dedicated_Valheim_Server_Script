@@ -32,9 +32,11 @@ echo ""
     df -Ph | sed s/%//g | awk '{ if($5 > 80) print $0;}'
 echo ""
 echo ""
-    echo -e "-------------------------------Valheim Config--------------------------------"
+    echo -e "-------------------------Nimdy Valheim Config--------------------------------"
     #if using Nimdys script
     sudo cat /home/steam/valheimserver/start_valheim.sh
+echo ""
+    echo -e "-------------------------------Default Valheim Config------------------------"
     #if using default script
     sudo cat /home/steam/valheimserver/start_server.sh
 echo ""
