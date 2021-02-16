@@ -21,7 +21,7 @@
     <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/">View Demo</a>
+    <a href="https://www.youtube.com/watch?v=0YPLf7Bw5W4">View Demo</a>
     ·
     <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/issues">Report Bug</a>
     ·
