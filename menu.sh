@@ -117,28 +117,39 @@ function all_checks() {
 
 function backup_world_data() {
     echo ""
+    echo " Uncomment for testing"
          ## Get the current date as variable.
-         TODAY="$(date +%Y-%m-%d)"
-	 
-	 dldir="/home/steam/backup"
-	 [ ! -d "$dldir" ] && mkdir -p "$dldir"
-
+         #TODAY="$(date +%Y-%m-%d)"
+	 #
+	 #dldir="/home/steam/backup"
+	 #[ ! -d "$dldir" ] && mkdir -p "$dldir"
+         #
          ## Clean up files older than 2 weeks. Create a new backup.
-         find /home/steam/backups/ -mtime +14 -type f -delete
+         #find /home/steam/backups/ -mtime +14 -type f -delete
 
          ## Tar Section. Create a backup file, with the current date in its name.
          ## Add -h to convert the symbolic links into a regular files.
          ## Backup some system files, also the entire `/home` directory, etc.
          ## --exclude some directories, for example the the browser's cache, `.bash_history`, etc.
-         tar zcvf "/home/steam/backups/valheim-backup-$TODAY.tgz" /home/steam/.config/unity3d/IronGate/Valheim/worlds/* 
-         chown steam:steam /home/steam/backups/valheim-backup-$TODAY.tgz
+         #tar zcvf "/home/steam/backups/valheim-backup-$TODAY.tgz" /home/steam/.config/unity3d/IronGate/Valheim/worlds/* 
+         #chown steam:steam /home/steam/backups/valheim-backup-$TODAY.tgz
     echo ""
 
 }
 
 function restore_world_data() {
     echo ""
-    echo "Not Working Yet Add Code"
+    echo "look into /home/steam/backups"
+    echo "print list"
+    echo "allow list for selection"
+    echo "take user input for select file"
+    echo "confirm file to be restored"
+    echo "stop valheim service"
+    echo "copy backup file into /home/steam/.config/unity3d/IronGate/Valheim/worlds/"
+    echo "untar files whateverfile.db and whateverfile.fwl"
+    echo "chown steam:steam to files"
+    echo "start valheim service"
+    echo "print restore completed"
     echo ""
 
 }
