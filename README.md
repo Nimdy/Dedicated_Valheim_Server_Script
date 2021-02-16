@@ -120,7 +120,7 @@ To get a local copy up and running follow these simple example steps.
 
 * SSH into your newly Created VM
   ```sh
-  Home your home computer connect to your Ubuntu VM via SSH
+  From your home computer, connect to your Ubuntu VM via SSH
   Using putty or another terminal is recommended
   If you can connect via Putty/Terminal, then you have setup firewall rules correctly
   ```
