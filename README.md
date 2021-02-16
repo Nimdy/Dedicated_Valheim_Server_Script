@@ -96,6 +96,7 @@ Using my DigitalOcean Referral Linke:
 This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 * [BASH](https://www.gnu.org/software/bash/)
 * [UBUNTU](https://ubuntu.com/)
+* [SteamCMD](https://developer.valvesoftware.com/wiki/SteamCMD)
 
 
 
