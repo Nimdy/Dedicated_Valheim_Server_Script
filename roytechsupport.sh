@@ -42,10 +42,7 @@ echo ""
     echo -e "-------------------------------Port Information------------------------------"
     sudo ss -tulpn
 echo ""
-echo ""
-    echo -e "-------------------------------SYSLOG INFO-----------------------------------"
-    sudo cat /var/log/syslog
-echo "" 
+
 }
 
 tech_support
