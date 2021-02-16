@@ -32,15 +32,15 @@ echo ""
 echo ""
 echo ""
     echo -e "-------------------------------Valheim Config--------------------------------"
-    cat /home/steam/valheimserver/start_valheim.sh
+    sudo cat /home/steam/valheimserver/start_valheim.sh
 echo ""
 echo ""
     echo -e "-------------------------------Port Information------------------------------"
-sudo ss -tulpn
+    sudo ss -tulpn
 echo ""
 echo ""
     echo -e "-------------------------------SYSLOG INFO-----------------------------------"
-     cat /var/log/syslog
+    sudo cat /var/log/syslog
 echo "" 
 }
 tech_support
