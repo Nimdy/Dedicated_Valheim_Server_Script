@@ -81,7 +81,6 @@ Using my DigitalOcean Referral Link:
 
 ### Built With
 
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 * [BASH](https://www.gnu.org/software/bash/)
 * [UBUNTU](https://ubuntu.com/)
 * [SteamCMD](https://developer.valvesoftware.com/wiki/SteamCMD)
@@ -95,8 +94,6 @@ This is an example of how you may give instructions on setting up your project l
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
 
 * Cloud Hosting or Virtualization Service
   ```sh
