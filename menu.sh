@@ -41,43 +41,54 @@ BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git"
         fi
 }
 
-function memory_check() {
-    echo ""
-	echo "Memory usage on ${server_name} is: "
-	free -h
-	echo ""
+function system_info() {
+echo ""
+    echo -e "-------------------------------System Information----------------------------"
+    echo -e "Hostname:\t\t"`hostname`
+    echo -e "uptime:\t\t\t"`uptime | awk '{print $3,$4}' | sed 's/,//'`
+    echo -e "Manufacturer:\t\t"`cat /sys/class/dmi/id/chassis_vendor`
+    echo -e "Product Name:\t\t"`cat /sys/class/dmi/id/product_name`
+    echo -e "Version:\t\t"`cat /sys/class/dmi/id/product_version`
+    echo -e "Serial Number:\t\t"`cat /sys/class/dmi/id/product_serial`
+    echo -e "Machine Type:\t\t"`vserver=$(lscpu | grep Hypervisor | wc -l); if [ $vserver -gt 0 ]; then echo "VM"; else echo "Physical"; fi`
+    echo -e "Operating System:\t"`hostnamectl | grep "Operating System" | cut -d ' ' -f5-`
+    echo -e "Kernel:\t\t\t"`uname -r`
+    echo -e "Architecture:\t\t"`arch`
+    echo -e "Processor Name:\t\t"`awk -F':' '/^model name/ {print $2}' /proc/cpuinfo | uniq | sed -e 's/^[ \t]*//'`
+    echo -e "Active User:\t\t"`w | cut -d ' ' -f1 | grep -v USER | xargs -n1`
+    echo -e "System Main IP:\t\t"`hostname -I`
+echo ""
+    echo -e "-------------------------------CPU/Memory Usage------------------------------"
+    echo -e "Memory Usage:\t"`free | awk '/Mem/{printf("%.2f%"), $3/$2*100}'`
+    echo -e "Swap Usage:\t"`free | awk '/Swap/{printf("%.2f%"), $3/$2*100}'`
+    echo -e "CPU Usage:\t"`cat /proc/stat | awk '/cpu/{printf("%.2f%\n"), ($2+$4)*100/($2+$4+$5)}' |  awk '{print $0}' | head -1`
+echo ""
+    echo -e "-------------------------------Disk Usage >80%-------------------------------"
+    df -Ph | sed s/%//g | awk '{ if($5 > 80) print $0;}'
+echo ""
+
+if (( $(cat /etc/*-release | grep -w "Ubuntu" | wc -l) > 0 ))
+then
+echo -e "-------------------------------Package Updates-------------------------------"
+yum updateinfo summary | grep 'Security|Bugfix|Enhancement'
+echo -e "-----------------------------------------------------------------------------"
+else
+echo -e "-------------------------------Package Updates-------------------------------"
+cat /var/lib/update-notifier/updates-available
+echo -e "-----------------------------------------------------------------------------"
+fi
 }
 
-function cpu_check() {
-    echo ""
-	echo "CPU load on ${server_name} is: "
-    echo ""
-	uptime
-    echo ""
+function network_info() {
+echo ""
+echo "add stuff"
+echo ""
+
 }
 
-function tcp_check() {
-    echo ""
-	echo "TCP connections on ${server_name}: "
-    echo ""
-	cat  /proc/net/tcp | wc -l
-    echo ""
-}
-
-function udp_check() {
-    echo ""
-	echo "UDP connections on ${server_name}: "
-    echo ""
-	cat  /proc/net/udp | wc -l
-    echo ""
-}
-
-function kernel_check() {
-    echo ""
-	echo "Kernel version on ${server_name} is: "
-	echo ""
-	uname -r
-    echo ""
+function all_checks() {
+	system_info
+	network_info
 }
 
 function confirmed_valheim_install() {
@@ -110,14 +121,6 @@ done
 
 }
 
-
-function all_checks() {
-	memory_check
-	cpu_check
-	tcp_check
-	udp_check
-	kernel_check
-}
 
 function backup_world_data() {
     echo ""
@@ -268,28 +271,22 @@ echo -ne "
 $(ColorOrange '~*~*~*~*Valheim Toolbox Menu*~*~*~*~')
 $(ColorOrange '-----Server System Information-----')
 $(ColorGreen '1)') Check for Nimdy Script Updates
-$(ColorGreen '2)') Memory usage
-$(ColorGreen '3)') CPU load
-$(ColorGreen '4)') Number of TCP connections 
-$(ColorGreen '5)') Number of UDP connections 
-$(ColorGreen '6)') Kernel version
-$(ColorGreen '7)') Check All
+$(ColorGreen '2)') System Info
+$(ColorGreen '3)') Network Info 
+$(ColorGreen '4)') Check All
 $(ColorOrange '-----Valheim Server Commands-----')
-$(ColorGreen '8)') Server Admin Tools 
-$(ColorGreen '9)') Install Valheim Server
+$(ColorGreen '5)') Server Admin Tools 
+$(ColorGreen '6)') Install Valheim Server
 $(ColorGreen '0)') Exit
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
 	        1) script_check_update ; menu ;;
-		2) memory_check ; menu ;;
-	        3) cpu_check ; menu ;;
-	        4) tcp_check ; menu ;;
-	        5) udp_check ; menu ;;
-	        6) kernel_check ; menu ;;
-	        7) all_checks ; menu ;;
-		8) admin_tools_menu ; menu ;;
-		9) server_install_menu ; menu ;;
+		2) system_info ; menu ;;
+	        3) network_info ; menu ;;
+	        4) all_checks ; menu ;;
+		5) admin_tools_menu ; menu ;;
+		6) server_install_menu ; menu ;;
 		    0) exit 0 ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
