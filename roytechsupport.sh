@@ -2,6 +2,8 @@
 
 #Do not post this information publicly, only PM this information to MODS or Tech Support
 #Hello, IT. Have you tried turning it off and on again? -Roy IT Crowd
+#This is to verify your Machine stats, Password settings and if ports are listening/open or not
+#seems like 80% of the issues are in relation to misconfigured firewalls, configuration files and limited resources
 
 
 tech_support() {
