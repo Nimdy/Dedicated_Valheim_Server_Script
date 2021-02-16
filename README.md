@@ -67,8 +67,9 @@
 I started this to help out the community and I did not think for a moment it would have taken off so quickly.
 If this script did help you get your Valheim server running, please star and share this with others!
 Should you need any help troubleshooting your Valheim Server visit me on Twitch or Discord.
-Twitch Channel: https://www.twitch.tv/zerobandwidth
-Discord for Tech Support https://discord.gg/ejgQUfc
+
+* Twitch Channel: https://www.twitch.tv/zerobandwidth
+* Discord for Tech Support https://discord.gg/ejgQUfc
 
 Using my DigitalOcean Referral Link:
 * If you are unsure if you want a dedicated server, you can use my code
