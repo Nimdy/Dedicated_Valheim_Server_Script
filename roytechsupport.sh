@@ -32,7 +32,10 @@ echo ""
 echo ""
 echo ""
     echo -e "-------------------------------Valheim Config--------------------------------"
+    #if using Nimdys script
     sudo cat /home/steam/valheimserver/start_valheim.sh
+    #if using default script
+    sudo cat /home/steam/valheimserver/start_server.sh
 echo ""
 echo ""
     echo -e "-------------------------------Port Information------------------------------"
