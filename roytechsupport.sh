@@ -1,4 +1,5 @@
 #!/bin/bash/
+
 #Do not post this information publicly, only PM this information to MODS or Tech Support
 #Hello, IT. Have you tried turning it off and on again? -Roy IT Crowd
 
@@ -46,4 +47,5 @@ echo ""
     sudo cat /var/log/syslog
 echo "" 
 }
+
 tech_support
