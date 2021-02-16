@@ -72,7 +72,7 @@ Should you need any help troubleshooting your Valheim Server visit me on Twitch 
 * Discord for Tech Support https://discord.gg/ejgQUfc
 
 Using my DigitalOcean Referral Link:
-* Unsure if you want a dedicated server?
+* Unsure you want a dedicated server?
 * Using my code gives you 100USD credit for 60 days on DigitalOcean :smile:
 * This is a great way to test your Valheim server without a commitment!
 * I pay for the 40USD a month 4CPU and 8GB RAM Droplet Server
