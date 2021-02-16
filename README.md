@@ -26,7 +26,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
