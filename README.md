@@ -1,129 +1,213 @@
-# Single installation script for setting up Valheim on a dedicated Linux server with steamcmd.
-### Tested on: AWS, Azure and DigitalOcean
-### OS - Ubuntu 18.06 LTS 64bit and Ubuntu 20.04 LTS (tested 10 FEB 2021)
-### Recommended server settings:  CPU: 4 (2 will work but meh)  RAM: 8GB+  Harddrive: 250GB+
-### My Twitch Channel: https://www.twitch.tv/zerobandwidth
-### My Discord for Tech Support https://discord.gg/ejgQUfc
-### Credit and modivation from YT GeekHead
-### Credit to nicolas-martin for variable assignment within script
-
-### Game is in Early Access meaning tons of updates and broken servers. Please post issues so we can make our edits and keep you up and running!
-
-Worlds are saved: /home/steam/.config/unity3d/IronGate/Valheim/worlds/(here.fwl)
-
-How to set up a Linux Valheim dedicated server:
-
-Use my referral link if you do not already have a DigitalOcean Account, gives me free credit on my account, if not no biggie!
-https://m.do.co/c/9d2217a2725c
-
-Use my code and you get $100 in credit over 60 days. (good way to test your dedicated server)
-
-Never run any script on a production server, unless you know what you are doing.
+<!--
+*** Thanks for checking out the Best-README-Template. If you have a suggestion
+*** that would make this better, please fork the repo and create a pull request
+*** or simply open an issue with the tag "enhancement".
+*** Thanks again! Now go create something AMAZING! :D
+-->
 
 
-```sh
-DigitalOcean private IP and routing fix for Valheim:
 
-edit 50-cloud-init.yaml
-
-vi /etc/netplan/50-cloud-init.yaml
-
-remove private IP address on eth0 (might be 10.10.something - do not remove your public IP the same one you use to SSH into the server or access it)
-
-netplan apply
-systemctl status valheimserver.service
-reboot
-```
-
-ENJOY!!!
+<!-- PROJECT SHIELDS -->
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
+[![Contributors][contributors-shield]][https://github.com/Nimdy/Dedicated_Valheim_Server_Script/graphs/contributors]
+[![Forks][forks-shield]][https://github.com/Nimdy/Dedicated_Valheim_Server_Script/network/members]
+[![Stargazers][stars-shield]][https://github.com/Nimdy/Dedicated_Valheim_Server_Script/stargazers]
+[![Issues][issues-shield]][https://github.com/Nimdy/Dedicated_Valheim_Server_Script/issues]
 
 
-Run as root(if brave enough) or sudo current user 
 
 
-1.Install GIT to pull down script
-=
-```sh
-sudo apt-get install -y git net-tools
-```
-2.Change to OPT Dir
-=
-```sh
-cd /opt
-```
-3.Clone GIT from Nimdy (Zero Bandwidth)
-=
-```sh
-sudo git clone https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
-```
-4.Change dir to Dedicated_Valheim_Server_Script
-=
-```sh
-cd Dedicated_Valheim_Server_Script/
-```
-5.Allow script to execute
-=
-```sh
-sudo chmod +x build_dedicated_valheim_server.sh
-```
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/othneildrew/Best-README-Template">
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  </a>
 
-6.Change PASSWORDS and CHANGE ME AREAS before launching
-=
-```sh
-(I live in vi... use whatever you wish)
+  <h3 align="center">Best-README-Template</h3>
 
-sudo vi build_dedicated_valheim_server.sh
+  <p align="center">
+    An awesome README template to jumpstart your projects!
+    <br />
+    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    ·
+    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+  </p>
+</p>
 
-# There are 4 things you need to change!
-# NOTE: Minimum password length is 5 characters & Password cant be in the server name.
-userpassword="user_password"        <---password for the new Linux User it creates
-password="passw0rd"                 <---password for the Valheim Server Access
-displayname="server display name"   <---Public display name for server
-worldname="111111111"               <---local inside world name
 
-#Save the file
-(press ESC and save/exit by entering)
-:wq!
-```
 
-7.Execute installation file
-=
-```sh
-sudo ./build_dedicated_valheim_server.sh
-```
-8.A new version of /boot/grub/menu.lst promotx2 - Keep local version
-=
-```sh
-Select  keep the local version currently installed
-```
-9.Agree to STEAM LICENSE AGREEMENT
-=
-```sh
-Select Ok
-Select I Agree
-Press Enter
-```
-10.Allow ports 2456,2457,2458 on your server UDP (TCP shouldnt matter but whatever)
-=
-```sh
-sudo ufw allow 2456:2458/tcp
-sudo ufw allow 2456:2458/udp
-```
-11.Stop Valheim service
-=
-```sh
-sudo systemctl stop valheimserver.service
-```
-12.Reboot Server for the lawls!
-=
-```sh
-sudo reboot
-```
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
+  </ol>
+</details>
 
-13.Once your server comes back online wait 2-5 mins and check Valheim service
-=
-```sh
-sudo systemctl status valheimserver.service
-```
 
-###Congratz! You did it, now get out there and start exploring with your friends!!!
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
+
+There are many great README templates available on GitHub, however, I didn't find one that really suit my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+
+Here's why:
+* Your time should be focused on creating something amazing. A project that solves a problem and helps others
+* You shouldn't be doing the same tasks over and over like creating a README from scratch
+* You should element DRY principles to the rest of your life :smile:
+
+Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have have contributed to expanding this template!
+
+A list of commonly used resources that I find helpful are listed in the acknowledgements.
+
+### Built With
+
+This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+* [Bootstrap](https://getbootstrap.com)
+* [JQuery](https://jquery.com)
+* [Laravel](https://laravel.com)
+
+
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these simple example steps.
+
+### Prerequisites
+
+This is an example of how to list things you need to use the software and how to install them.
+* npm
+  ```sh
+  npm install npm@latest -g
+  ```
+
+### Installation
+
+1. Get a free API Key at [https://example.com](https://example.com)
+2. Clone the repo
+   ```sh
+   git clone https://github.com/your_username_/Project-Name.git
+   ```
+3. Install NPM packages
+   ```sh
+   npm install
+   ```
+4. Enter your API in `config.js`
+   ```JS
+   const API_KEY = 'ENTER YOUR API';
+   ```
+
+
+
+<!-- USAGE EXAMPLES -->
+## Usage
+
+Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+
+_For more examples, please refer to the [Documentation](https://example.com)_
+
+
+
+<!-- ROADMAP -->
+## Roadmap
+
+See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues).
+
+
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+
+
+<!-- CONTACT -->
+## Contact
+
+Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+
+Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+
+
+
+<!-- ACKNOWLEDGEMENTS -->
+## Acknowledgements
+* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
+* [Img Shields](https://shields.io)
+* [Choose an Open Source License](https://choosealicense.com)
+* [GitHub Pages](https://pages.github.com)
+* [Animate.css](https://daneden.github.io/animate.css)
+* [Loaders.css](https://connoratherton.com/loaders)
+* [Slick Carousel](https://kenwheeler.github.io/slick)
+* [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
+* [Sticky Kit](http://leafo.net/sticky-kit)
+* [JVectorMap](http://jvectormap.com)
+* [Font Awesome](https://fontawesome.com)
+
+
+
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
+[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
+[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
+[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/othneildrew
+[product-screenshot]: images/screenshot.png
