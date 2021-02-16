@@ -27,7 +27,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="https://user-images.githubusercontent.com/16698453/108028539-4f863700-702c-11eb-82b8-c40c9644da18.jpg" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Zero's Easy Valheim Installer</h3>
