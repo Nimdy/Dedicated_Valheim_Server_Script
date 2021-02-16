@@ -83,7 +83,7 @@ function kernel_check() {
 function confirmed_valheim_install() {
 	echo "Installing Valheim"
 	echo "Oh for Loki, its starting"
-	echo "This will work add code later"
+	echo "This will work add code from build_dedicated_valheim_server.sh"
 	echo ""
 }
 
@@ -100,7 +100,7 @@ function valheim_update_check() {
 function valheim_server_install() {
 
 while true; do
-    read -p "Do you wish to install this program?" yn
+    read -p "Do you wish to install Valheim Server?" yn
     case $yn in
         [Yy]* ) confirmed_valheim_install; break;;
         [Nn]* ) exit;;
