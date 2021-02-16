@@ -133,68 +133,75 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-1. Install GIT to pull down script
+* SSH into your newly Created VM
+  ```sh
+  Home your home computer connect to your Ubuntu VM via SSH
+  Using putty or another terminal is recommended
+  If you can connect via Putty/Terminal, then you have setup firewall rules correctly
+  ```
+
+1. Verify GIT and Net Tools is installed
 =
 ```sh
 sudo apt-get install -y git net-tools
 ```
-2. Change to OPT Dir
+2. Change directory to OPT for installation script
 =
 ```sh
 cd /opt
 ```
-3. Clone GIT from Nimdy (Zero Bandwidth)
+3. Download Easy Installer from Github - Nimdy (Zero Bandwidth)
 =
 ```sh
 sudo git clone https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
 ```
-4. Change dir to Dedicated_Valheim_Server_Script
+4. Change directory to Dedicated_Valheim_Server_Script
 =
 ```sh
 cd Dedicated_Valheim_Server_Script/
 ```
-5. Allow script to execute
+5. Give the script to execution permissions
 =
 ```sh
 sudo chmod +x build_dedicated_valheim_server.sh
 ```
-6. Change PASSWORDS and CHANGE ME AREAS before launching
+6. Edit the build_dedicated_valheim_server.sh file and fill with your choice of information
 =
 ```sh
-
 sudo vi build_dedicated_valheim_server.sh
 
 # There are 4 things you need to change!
-# NOTE: Minimum password length is 5 characters & Password cant be in the server name.
+# NOTE: Minimum password length is 5 characters
+# NOTE: Unique password and server name is REQUIRED
 # NOTE: NO $ ' " in the passwords - you will break the script 
 
-userpassword="user_password"        <---password for the new Linux User it creates
-password="passw0rd"                 <---password for the Valheim Server Access
-displayname="server display name"   <---Public display name for server
-worldname="111111111"               <---local inside world name
+userpassword='"user_password"'        <---password for the new Linux User it creates
+password='"passw0rd"'                 <---password for the Valheim Server Access
+displayname='"server display name"'   <---Public display name for server
+worldname='"111111111"'               <---local inside world name
 
 #Save the file
 (press ESC and save/exit by entering)
 :wq!
 ```
-7. Execute installation file
+7. Execute build_dedicated_valheim_server.sh for installation
 =
 ```sh
 sudo ./build_dedicated_valheim_server.sh
 ```
-8. A new version of /boot/grub/menu.lst promotx2 or DHCP  - Keep local versions
+8. User prompt for select new version of /boot/grub/menu.lst promotx2 or DHCP  - Keep local versions
 =
 ```sh
 Select  keep the local version currently installed or No (default)
 ```
-9. Agree to STEAM LICENSE AGREEMENT
+9. User prompt for agreement of STEAM LICENSE AGREEMENT
 =
 ```sh
 Select Ok
 Select I Agree
 Press Enter
 ```
-10. Allow ports 2456,2457,2458 on your server UDP (TCP shouldnt matter but whatever)
+10. Allow ports 2456,2457,2458 (TCP/UDP) on your server 
 =
 ```sh
 sudo ufw allow 2456:2458/tcp
