@@ -188,7 +188,7 @@ Select Ok
 Select I Agree
 Press Enter
 ```
-10. Allow ports 2456,2457,2458 (TCP/UDP) on your server (Only if running a home server)
+10. Allow ports 2456,2457,2458 (TCP/UDP) on your server (DO NOT OVER LOOK THIS STEP)
 This might take you a while, if you never done it before. Don't worry, members in my discord and myself can help troubleshoot later
 =
 If running in a Cloud Server, please check the WIKI for configuration steps.
