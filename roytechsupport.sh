@@ -1,3 +1,6 @@
+#!/bin/bash/
+#Do not post this information publicly, only PM this information to MODS or Tech Support
+
 tech_support() {
 echo ""
     echo -e "-------------------------------System Information----------------------------"
