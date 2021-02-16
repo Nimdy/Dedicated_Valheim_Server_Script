@@ -265,7 +265,7 @@ Project Link: [https://github.com/Nimdy/Dedicated_Valheim_Server_Script](https:/
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links 
 [contributors-shield]: #
 [contributors-url]: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/graphs/contributors
 [forks-shield]: #
@@ -274,4 +274,4 @@ Project Link: [https://github.com/Nimdy/Dedicated_Valheim_Server_Script](https:/
 [stars-url]: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/stargazers
 [issues-shield]: #
 [issues-url]: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/issues
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: images/screenshot.png-->
