@@ -425,7 +425,8 @@ function backup_world_data() {
 
 function restore_world_data() {
     echo ""
-    echo "Not ready yet, come back soon"
+    echo "Not ready yet because Loki sucks, come back soon"
+    echo "Do it manually from the Nimdy GITHUB"
 #    echo "look into /home/steam/backups"
 #    echo "print list"
 #    echo "allow list for selection"
@@ -441,19 +442,39 @@ function restore_world_data() {
 
 }
 
-function check_server_updates() {
+
+function check_apply_server_updates() {
     echo ""
-    echo "Not ready yet, come back soon"
+    echo "Oh for Loki! This is not ready yet."
+    echo "Coming soon"
+    #echo "Shutting Down Valheim Server"
+    #sudo systemctl stop valheimserver.services
+    #echo "Valheim Server Stopped"
+    #echo "Sending Loki to find updates"
+    #echo "If updates are found auto install"
+    #sudo steamcmd +login anonymous +force_install_dir /home/steam/valheimserver +app_update 896660 validate +exit
+    #Add Functions here if then...
+    #sudo systemctl start valheimserver.services
+    #echo ""
     echo ""
 
 }
 
-function apply_server_updates() {
-    echo ""
-    echo "Not ready yet, come back soon"
-    echo ""
+function confirm_check_apply_server_updates() {
+
+while true; do
+    echo "WARNING DOING THIS WILL SHUTDOWN THE SERVER"
+    echo "MAKE SURE EVERYBODY IS LOGGED OUT OF THE SERVER"
+    read -p "Do you wish to continue?" yn
+    case $yn in
+        [Yy]* ) check_apply_server_updates; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
 
 }
+
 
 function display_start_valheim() {
     clear
@@ -523,18 +544,16 @@ echo -ne "
 $(ColorOrange '-----Valheim Admin Tools-----')
 $(ColorGreen '1)') Backup World
 $(ColorGreen '2)') Restore World
-$(ColorGreen '3)') Check for Valheim Updates
-$(ColorGreen '4)') Apply Valheim Updates
-$(ColorGreen '5)') Fresh Valheim Server
+$(ColorGreen '3)') Check and Apply Valheim Server Update
+$(ColorGreen '4)') Fresh Valheim Server
 $(ColorGreen '0)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
-		1) backup_world_data ; menu ;;
-		2) restore_world_data ; menu ;;
-		3) check_server_updates ; menu ;;
-		4) apply_server_updates ; menu ;;
-		5) valheim_server_install ; menu ;;
+		1) backup_world_data ; admin_tools_menu ;;
+		2) restore_world_data ; admin_tools_menu ;;
+		3) check_apply_server_updates ; admin_tools_menu ;;
+		4) valheim_server_install ; admin_tools_menu ;;
 		   0) menu ; menu ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
