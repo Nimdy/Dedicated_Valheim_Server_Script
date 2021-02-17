@@ -1,5 +1,6 @@
 #!/bin/bash
 # BETA TESTING USE AT YOUR OWN RISK!!!
+# If Frankenstein was a bash script
 # Please fill free to add/change
 # Easy Valheim Server Menu
 # Open to other commands that should be used... 
@@ -14,14 +15,14 @@ clear
 
 ##
 # Server Install:
-#   - Install Server
+#   - Install Valheim Server
 ##
 
 ##
 # Server Tools:
-#   - List Admins
-#   - Add Admin
-#   - Remove Admin
+#   - Do Manual Backup
+#   - Restore from Backup
+#   - Check and apply Valheim Official Server Updates
 
 ##
 
@@ -230,59 +231,53 @@ done
 echo ""
 clear
 echo "Here is the information you entered"
-echo "---------------------------------------"
-echo "nonroot steam password:  $userpassword "
-echo "Public Server Name:      $displayname "
-echo "Local World Name:        $worldname "
-echo "Valheim Server Password: $password "
-echo "---------------------------------------"
+tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+tput setaf 2; echo "nonroot steam password:  $userpassword " ; tput setaf 9;
+tput setaf 2; echo "Public Server Name:      $displayname " ; tput setaf 9;
+tput setaf 2; echo "Local World Name:        $worldname " ; tput setaf 9;
+tput setaf 2; echo "Valheim Server Password: $password " ; tput setaf 9;
+tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
 echo ""
 sleep 5
 
 #install steamcmd
-tput setaf 1; echo "Installing steamcmd"
+tput setaf 1; echo "Installing steamcmd" ; tput setaf 9;
 apt install steamcmd -y
-tput setaf 2; echo "Done"
-tput setaf 9;
+tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
 #EDIT HERE #1
 #build account to run Valheim
-tput setaf 1; echo "Building steam account NONROOT"
+tput setaf 1; echo "Building steam account NONROOT" ; tput setaf 9;
 sleep 1
 useradd --create-home --shell /bin/bash --password $userpassword steam
 cp /etc/skel/.bashrc /home/steam/.bashrc
 cp /etc/skel/.profile /home/steam/.profile
-tput setaf 2; echo "Done"
-tput setaf 9;
+tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
 #build symbolic link for steamcmd
-tput setaf 1; echo "Building symbolic link for steamcmd"
+tput setaf 1; echo "Building symbolic link for steamcmd" ; tput setaf 9;
 ln -s /usr/games/steamcmd /home/steam/steamcmd
-tput setaf 2; echo "Done"
-tput setaf 9;
+tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
 #chown steam user to steam
-tput setaf 1; echo "Setting steam permissions"
+tput setaf 1; echo "Setting steam permissions" ; tput setaf 9;
 chown steam:steam /home/steam/steamcmd
-tput setaf 2; echo "Done"
-tput setaf 9;
+tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
 #Download Valheim from steam
-tput setaf 1; echo "Downloading and installing Valheim from Steam"
+tput setaf 1; echo "Downloading and installing Valheim from Steam" ; tput setaf 9;
 sleep 1
-tput setaf 9;
 /home/steam/steamcmd +login anonymous +force_install_dir /home/steam/valheimserver +app_update 896660 validate +exit
-tput setaf 2; echo "Done"
-tput setaf 9;
+tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
 #build config for start_valheim.sh
 tput setaf 1; echo "Deleting old configuration if file exist"
-tput setaf 1; echo "Building Valheim start_valheim server configuration"
+tput setaf 1; echo "Building Valheim start_valheim server configuration" ; tput setaf 9;
 rm /home/steam/valheimserver/start_valheim.sh
 sleep 1
 cat >> /home/steam/valheimserver/start_valheim.sh <<EOF
@@ -295,26 +290,24 @@ export SteamAppId=892970
 ./valheim_server.x86_64 -name $displayname -port 2456 -nographics -batchmode -world $worldname -password $password
 export LD_LIBRARY_PATH=$templdpath
 EOF
-tput setaf 2; echo "Done"
-tput setaf 9;
+tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
 #build check log script
 tput setaf 1; echo "Deleting old configuration if file exist"
-tput setaf 1; echo "Building check log script"
+tput setaf 1; echo "Building check log script" ; tput setaf 9;
 rm /home/steam/check_log.sh
 sleep 1
 cat >> /home/steam/check_log.sh <<EOF
 journalctl --unit=valheimserver --reverse
 EOF
-tput setaf 2; echo "Done"
-tput setaf 9;
+tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
 #set execute permissions
-tput setaf 1; echo "Setting execute permissions on start_valheim.sh"
+tput setaf 1; echo "Setting execute permissions on start_valheim.sh" ; tput setaf 9;
 chmod +x /home/steam/valheimserver/start_valheim.sh
-tput setaf 2; echo "Done"
+tput setaf 2; echo "Done" ; tput setaf 9;
 tput setaf 1; echo "Setting execute permissions on check_log.sh"
 chmod +x /home/steam/check_log.sh
 tput setaf 2; echo "Done"
