@@ -121,7 +121,7 @@ echo ""
 
 function network_info() {
 echo ""
-echo "add stuff"
+sudo netstat -atunp | grep valheim
 echo ""
 
 }
