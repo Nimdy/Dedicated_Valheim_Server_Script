@@ -251,8 +251,8 @@ Contributions are what make the open source community such an amazing place to b
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@zerobandwidth](https://twitter.com/zerobandwidth) - mrzerobandwidth@gmail.com
-
+ZeroBandwidth- [@zerobandwidth](https://twitter.com/zerobandwidth) - mrzerobandwidth@gmail.com
+Patreon link: [Zero's Patreon](https://www.patreon.com/zerobandwidth)
 Project Link: [https://github.com/Nimdy/Dedicated_Valheim_Server_Script](https://github.com/Nimdy/Dedicated_Valheim_Server_Script)
 
 
