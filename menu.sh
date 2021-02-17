@@ -510,9 +510,9 @@ $(ColorGreen '0)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
-	        1) display_start_valheim ; admin_tools_menu ;; 
-		2) display_valheim_server_status ; admin_tools_menu ;;
-	        3) display_world_data_folder ; admin_tools_menu ;;
+	        1) display_start_valheim ; tech_support ;; 
+		2) display_valheim_server_status ; tech_support ;;
+	        3) display_world_data_folder ; tech_support ;;
 		  0) menu ; menu ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
