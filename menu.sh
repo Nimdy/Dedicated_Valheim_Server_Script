@@ -139,6 +139,12 @@ function confirmed_valheim_install() {
     tput setaf 9;
     sleep 1
 
+tput setaf 2; echo "Install Git and Net-Tools"
+apt install git net-tools -y
+tput setaf 2; echo "Done"
+tput setaf 9;
+sleep 1
+
 #add multiverse repo
     tput setaf 2; echo "Adding multiverse REPO"
     add-apt-repository -y multiverse
