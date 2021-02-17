@@ -168,6 +168,7 @@ sleep 1
 
 # Linux Steam Local Account Password input
     echo ""
+    clear
     echo "Thanks for downloading the script, let's get started"
     echo "The following information is required for configuration files"
     echo "Read each step carefully"
@@ -178,8 +179,9 @@ sleep 1
     while true; do
       echo "Password must be 5 Characters or more"
       echo "At least one number, one uppercase letter and one lowercase letter"
-      echo "Good Example: Viking12"
-      echo "Bad Example: Vik!"
+      tput setaf 2;  echo "Good Example: Viking12" ; tput setaf 9;
+      tput setaf 1;  echo "Bad Example: Vik!" ; tput setaf 9;
+      echo ""
         read -p "Please give steam a password: " userpassword
             [[ ${#userpassword} -ge 5 && "$userpassword" == *[[:lower:]]* && "$userpassword" == *[[:upper:]]* && "$userpassword" =~ ^[[:alnum:]]+$ ]] && break
         echo "Password not accepted - Too Short or has Special Characters"
@@ -200,7 +202,9 @@ sleep 1
     while true; do
         echo "Name must be 8 Characters or more"
         echo "No Special Characters not even a space"
-        read -p "Please give steam a password: " worldname
+	tput setaf 2;  echo "Good Example: ThorsHammer" ; tput setaf 9;
+        tput setaf 1;  echo "Bad Example: Loki is a Trickster" ; tput setaf 9;
+        read -p "Please make a world name: " worldname
             [[ ${#worldname} -ge 8 && "$worldname" =~ ^[[:alnum:]]+$ ]] && break
         echo "World Name not set: Too Short or has Special Characters"
     done
@@ -215,17 +219,15 @@ sleep 1
     echo "Your public display name: $displayname "
     echo "Your world name: $worldname "
     while true; do
-      echo "This password must be 5 Characters or more"
-  echo "At least one number, one uppercase letter and one lowercase letter"
-  echo "Good Example: Viking12"
-  echo "Bad Example: Vik!"
+    echo "This password must be 5 Characters or more"
+    echo "At least one number, one uppercase letter and one lowercase letter"
+    tput setaf 2;  echo "Good Example: Viking12" ; tput setaf 9;
+    tput setaf 1;  echo "Bad Example: Vik!" ; tput setaf 9;
     read -p "Enter Password to Enter your Valheim Server: " password
         [[ ${#password} -ge 5 && "$password" == *[[:lower:]]* && "$password" == *[[:upper:]]* && "$password" =~ ^[[:alnum:]]+$ ]] && break
     echo "Password not accepted - Too Short, Special Characters"
     echo "I swear to LOKI, you better NOT use Special Characters" 
 done
-clear
-#read -p "Enter Password to Enter your Valheim Server: " password
 echo ""
 clear
 echo "Here is the information you entered"
@@ -236,7 +238,7 @@ echo "Local World Name:        $worldname "
 echo "Valheim Server Password: $password "
 echo "---------------------------------------"
 echo ""
-
+sleep 5
 
 #install steamcmd
 tput setaf 1; echo "Installing steamcmd"
