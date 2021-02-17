@@ -462,7 +462,13 @@ function display_start_valheim() {
     echo ""
 
 }
+function display_valheim_server_status() {
+    clear
+    echo ""
+    sudo systemctl status valheimserver.service
+    echo ""
 
+}
 function display_world_data_folder() {
     clear
     echo ""
@@ -494,27 +500,41 @@ $(ColorBlue 'Choose an option:') "
         esac
 }
 
-admin_tools_menu(){
+tech_support(){
 echo -ne "
-$(ColorOrange '-----Valheim Admin Tools-----')
-$(ColorGreen '1)') Display Valheim Server Service  
-$(ColorGreen '2)') Display World Data Folder
-$(ColorGreen '3)') Backup World
-$(ColorGreen '4)') Restore World
-$(ColorGreen '5)') Check for Valheim Updates
-$(ColorGreen '6)') Apply Valheim Updates
-$(ColorGreen '7)') Fresh Valheim Server
+$(ColorOrange '-----Valheim Tech Support-----')
+$(ColorGreen '1)') Display Valheim Config File
+$(ColorGreen '2)') Display Valheim Server Service
+$(ColorGreen '3)') Display World Data Folder
 $(ColorGreen '0)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
-	        1) display_start_valheim ; admin_tools_menu ;;
-	        2) display_world_data_folder ; admin_tools_menu ;;
-		3) backup_world_data ; admin_tools_menu ;;
-		4) restore_world_data ; admin_tools_menu ;;
-		5) check_server_updates ; admin_tools_menu ;;
-		6) apply_server_updates ; admin_tools_menu ;;
-		7) valheim_server_install ; admin_tools_menu ;;
+	        1) display_start_valheim ; admin_tools_menu ;; 
+		2) display_valheim_server_status ; admin_tools_menu ;;
+	        3) display_world_data_folder ; admin_tools_menu ;;
+		  0) menu ; menu ;;
+		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
+        esac
+}
+
+admin_tools_menu(){
+echo -ne "
+$(ColorOrange '-----Valheim Admin Tools-----')
+$(ColorGreen '1)') Backup World
+$(ColorGreen '2)') Restore World
+$(ColorGreen '3)') Check for Valheim Updates
+$(ColorGreen '4)') Apply Valheim Updates
+$(ColorGreen '5)') Fresh Valheim Server
+$(ColorGreen '0)') Go to Main Menu
+$(ColorBlue 'Choose an option:') "
+        read a
+        case $a in
+		1) backup_world_data ; menu ;;
+		2) restore_world_data ; menu ;;
+		3) check_server_updates ; menu ;;
+		4) apply_server_updates ; menu ;;
+		5) valheim_server_install ; menu ;;
 		   0) menu ; menu ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
@@ -532,7 +552,8 @@ $(ColorGreen '3)') Network Info
 $(ColorGreen '4)') Check All
 $(ColorOrange '-----Valheim Server Commands-----')
 $(ColorGreen '5)') Server Admin Tools 
-$(ColorGreen '6)') Install Valheim Server
+$(ColorGreen '6)') Tech Support Tools
+$(ColorGreen '7)') Install Valheim Server
 $(ColorGreen '0)') Exit
 $(ColorBlue 'Choose an option:') "
         read a
@@ -542,6 +563,7 @@ $(ColorBlue 'Choose an option:') "
 	        3) network_info ; menu ;;
 	        4) all_checks ; menu ;;
 		5) admin_tools_menu ; menu ;;
+		6) tech_support ; menu ;;
 		6) server_install_menu ; menu ;;
 		    0) exit 0 ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
