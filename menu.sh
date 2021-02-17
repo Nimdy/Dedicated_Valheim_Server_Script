@@ -380,9 +380,8 @@ echo ""
 
 function valheim_update_check() {
     echo ""
-	echo "Checking for Valheim Server Updates "
-	echo "This will work add code later"
-	echo ""
+    echo "Not ready yet, come back soon"
+    echo ""
     echo ""
 }
 
@@ -426,31 +425,32 @@ function backup_world_data() {
 
 function restore_world_data() {
     echo ""
-    echo "look into /home/steam/backups"
-    echo "print list"
-    echo "allow list for selection"
-    echo "take user input for select file"
-    echo "confirm file to be restored"
-    echo "stop valheim service"
-    echo "copy backup file into /home/steam/.config/unity3d/IronGate/Valheim/worlds/"
-    echo "untar files whateverfile.db and whateverfile.fwl"
-    echo "chown steam:steam to files"
-    echo "start valheim service"
-    echo "print restore completed"
+    echo "Not ready yet, come back soon"
+#    echo "look into /home/steam/backups"
+#    echo "print list"
+#    echo "allow list for selection"
+#    echo "take user input for select file"
+#    echo "confirm file to be restored"
+#    echo "stop valheim service"
+#    echo "copy backup file into /home/steam/.config/unity3d/IronGate/Valheim/worlds/"
+#    echo "untar files whateverfile.db and whateverfile.fwl"
+#    echo "chown steam:steam to files"
+#    echo "start valheim service"
+#    echo "print restore completed"
     echo ""
 
 }
 
 function check_server_updates() {
     echo ""
-    echo "Not Working Yet Add Code"
+    echo "Not ready yet, come back soon"
     echo ""
 
 }
 
 function apply_server_updates() {
     echo ""
-    echo "Not Working Yet Add Code"
+    echo "Not ready yet, come back soon"
     echo ""
 
 }
