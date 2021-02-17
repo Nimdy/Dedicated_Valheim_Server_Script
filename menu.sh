@@ -466,7 +466,7 @@ function display_start_valheim() {
 function display_world_data_folder() {
     clear
     echo ""
-    sudo ls -lisa /home/steam/.config/unity3d/IronGate/Valheim/worlds/#
+    sudo ls -lisa /home/steam/.config/unity3d/IronGate/Valheim/worlds/
     echo ""
 
 }
