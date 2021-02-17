@@ -405,20 +405,20 @@ function backup_world_data() {
     echo ""
     echo " Uncomment for testing"
          ## Get the current date as variable.
-         #TODAY="$(date +%Y-%m-%d)"
-	 #
-	 #dldir="/home/steam/backup"
-	 #[ ! -d "$dldir" ] && mkdir -p "$dldir"
-         #
+         TODAY="$(date +%Y-%m-%d)"
+	 
+	 dldir="/home/steam/backup"
+	 [ ! -d "$dldir" ] && mkdir -p "$dldir"
+         
          ## Clean up files older than 2 weeks. Create a new backup.
-         #find /home/steam/backups/ -mtime +14 -type f -delete
+         find /home/steam/backups/ -mtime +14 -type f -delete
 
          ## Tar Section. Create a backup file, with the current date in its name.
          ## Add -h to convert the symbolic links into a regular files.
          ## Backup some system files, also the entire `/home` directory, etc.
-         ## --exclude some directories, for example the the browser's cache, `.bash_history`, etc.
-         #tar zcvf "/home/steam/backups/valheim-backup-$TODAY.tgz" /home/steam/.config/unity3d/IronGate/Valheim/worlds/* 
-         #chown steam:steam /home/steam/backups/valheim-backup-$TODAY.tgz
+         ##--exclude some directories, for example the the browser's cache, `.bash_history`, etc.
+         tar zcvf "/home/steam/backups/valheim-backup-$TODAY.tgz" /home/steam/.config/unity3d/IronGate/Valheim/worlds/* 
+         chown steam:steam /home/steam/backups/valheim-backup-$TODAY.tgz
     echo ""
 
 }
@@ -455,6 +455,30 @@ function apply_server_updates() {
 
 }
 
+function display_start_valheim() {
+    clear
+    echo ""
+    sudo cat /home/steam/valheimserver/start_valheim.sh
+    echo ""
+
+}
+
+function display_world_data_folder() {
+    clear
+    echo ""
+    sudo ls -lisa /home/steam/.config/unity3d/IronGate/Valheim/worlds#
+    echo ""
+
+}
+
+function display_start_valheim() {
+    echo ""
+    sudo cat /home/steam/valheimserver/start_valheim.sh
+    echo ""
+
+}
+
+
 
 server_install_menu(){
 echo -ne "
@@ -473,20 +497,24 @@ $(ColorBlue 'Choose an option:') "
 admin_tools_menu(){
 echo -ne "
 $(ColorOrange '-----Valheim Admin Tools-----')
-$(ColorGreen '1)') Backup World
-$(ColorGreen '2)') Restore World
-$(ColorGreen '3)') Check for Valheim Updates
-$(ColorGreen '4)') Apply Valheim Updates
-$(ColorGreen '5)') Fresh Valheim Server
+$(ColorGreen '1)') Display Valheim Server Service  
+$(ColorGreen '2)') Display World Data Folder
+$(ColorGreen '3)') Backup World
+$(ColorGreen '4)') Restore World
+$(ColorGreen '5)') Check for Valheim Updates
+$(ColorGreen '6)') Apply Valheim Updates
+$(ColorGreen '7)') Fresh Valheim Server
 $(ColorGreen '0)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
-	        1) backup_world_data ; admin_tools_menu ;;
-		2) restore_world_data ; admin_tools_menu ;;
-		3) check_server_updates ; admin_tools_menu ;;
-		4) apply_server_updates ; admin_tools_menu ;;
-		5) valheim_server_install ; admin_tools_menu ;;
+	        1) display_start_valheim ; admin_tools_menu ;;
+	        2) display_world_data_folder ; admin_tools_menu ;;
+		3) backup_world_data ; admin_tools_menu ;;
+		4) restore_world_data ; admin_tools_menu ;;
+		5) check_server_updates ; admin_tools_menu ;;
+		6) apply_server_updates ; admin_tools_menu ;;
+		7) valheim_server_install ; admin_tools_menu ;;
 		   0) menu ; menu ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
