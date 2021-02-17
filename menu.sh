@@ -133,37 +133,32 @@ function all_checks() {
 
 function confirmed_valheim_install() {
     #check for updates and upgrade the system auto yes
-    tput setaf 2; echo "Checking for upgrades"
+    tput setaf 2; echo "Checking for upgrades" ; tput setaf 9;
     apt update && apt upgrade -y
-    tput setaf 2; echo "Done"
-    tput setaf 9;
+    tput setaf 2; echo "Done" ; tput setaf 9;
     sleep 1
 
-tput setaf 2; echo "Install Git and Net-Tools"
+tput setaf 2; echo "Install Git and Net-Tools" ; tput setaf 9;
 apt install git net-tools -y
-tput setaf 2; echo "Done"
-tput setaf 9;
+tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
 #add multiverse repo
-    tput setaf 2; echo "Adding multiverse REPO"
+    tput setaf 2; echo "Adding multiverse REPO" ; tput setaf 9;
     add-apt-repository -y multiverse
-    tput setaf 2; echo "Done"
-    tput setaf 9;
+    tput setaf 2; echo "Done" ; tput setaf 9;
     sleep 1
 
 #add i386 architecture
-    tput setaf 1; echo "Adding i386 architecture"
+    tput setaf 1; echo "Adding i386 architecture" ; tput setaf 9;
     dpkg --add-architecture i386
-    tput setaf 2; echo "Done" 
-    tput setaf 9;
+    tput setaf 2; echo "Done" ; tput setaf 9;
     sleep 1
 
 #update system again
-    tput setaf 1; echo "Checking and updating system again"
+    tput setaf 1; echo "Checking and updating system again" ; tput setaf 9;
     apt update
-    tput setaf 2; echo "Done"
-    tput setaf 9;
+    tput setaf 2; echo "Done" ; tput setaf 9;
     sleep 1
 
 # Linux Steam Local Account Password input
@@ -184,8 +179,8 @@ sleep 1
       echo ""
         read -p "Please give steam a password: " userpassword
             [[ ${#userpassword} -ge 5 && "$userpassword" == *[[:lower:]]* && "$userpassword" == *[[:upper:]]* && "$userpassword" =~ ^[[:alnum:]]+$ ]] && break
-        echo "Password not accepted - Too Short or has Special Characters"
-        echo "I swear to LOKI, you better NOT use Special Characters" 
+      tput setaf 2; echo "Password not accepted - Too Short or has Special Characters" ; tput setaf 9;
+      tput setaf 2; echo "I swear to LOKI, you better NOT use Special Characters" ; tput setaf 9; 
     done
     clear
     echo ""
@@ -206,7 +201,8 @@ sleep 1
         tput setaf 1;  echo "Bad Example: Loki is a Trickster" ; tput setaf 9;
         read -p "Please make a world name: " worldname
             [[ ${#worldname} -ge 8 && "$worldname" =~ ^[[:alnum:]]+$ ]] && break
-        echo "World Name not set: Too Short or has Special Characters"
+        tput setaf 2;  echo "World Name not set: Too Short or has Special Characters" ; tput setaf 9; 
+	tput setaf 2; echo "I swear to LOKI, you better NOT use Special Characters" ; tput setaf 9; 
     done
     clear
     echo ""
@@ -225,8 +221,8 @@ sleep 1
     tput setaf 1;  echo "Bad Example: Vik!" ; tput setaf 9;
     read -p "Enter Password to Enter your Valheim Server: " password
         [[ ${#password} -ge 5 && "$password" == *[[:lower:]]* && "$password" == *[[:upper:]]* && "$password" =~ ^[[:alnum:]]+$ ]] && break
-    echo "Password not accepted - Too Short, Special Characters"
-    echo "I swear to LOKI, you better NOT use Special Characters" 
+    tput setaf 2; echo "Password not accepted - Too Short, Special Characters" ; tput setaf 9; 
+    tput setaf 2; echo "I swear to LOKI, you better NOT use Special Characters" ; tput setaf 9; 
 done
 echo ""
 clear
@@ -276,7 +272,7 @@ tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
 #build config for start_valheim.sh
-tput setaf 1; echo "Deleting old configuration if file exist"
+tput setaf 1; echo "Deleting old configuration if file exist" ; tput setaf 9;  
 tput setaf 1; echo "Building Valheim start_valheim server configuration" ; tput setaf 9;
 rm /home/steam/valheimserver/start_valheim.sh
 sleep 1
@@ -294,7 +290,7 @@ tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
 #build check log script
-tput setaf 1; echo "Deleting old configuration if file exist"
+tput setaf 1; echo "Deleting old configuration if file exist" ; tput setaf 9; 
 tput setaf 1; echo "Building check log script" ; tput setaf 9;
 rm /home/steam/check_log.sh
 sleep 1
@@ -308,15 +304,14 @@ sleep 1
 tput setaf 1; echo "Setting execute permissions on start_valheim.sh" ; tput setaf 9;
 chmod +x /home/steam/valheimserver/start_valheim.sh
 tput setaf 2; echo "Done" ; tput setaf 9;
-tput setaf 1; echo "Setting execute permissions on check_log.sh"
+tput setaf 1; echo "Setting execute permissions on check_log.sh" ; tput setaf 9; 
 chmod +x /home/steam/check_log.sh
-tput setaf 2; echo "Done"
-tput setaf 9;
+tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
 #build systemctl configurations for execution of processes for Valheim Server
-tput setaf 1; echo "Deleting old configuration if file exist"
-tput setaf 1; echo "Building systemctl instructions for Valheim"
+tput setaf 1; echo "Deleting old configuration if file exist" ; tput setaf 9; 
+tput setaf 1; echo "Building systemctl instructions for Valheim" ; tput setaf 9; 
 rm /etc/systemd/system/valheimserver.service
 sleep 1
 cat >> /etc/systemd/system/valheimserver.service <<EOF
@@ -341,33 +336,31 @@ LimitNOFILE=100000
 [Install]
 WantedBy=multi-user.target
 EOF
-tput setaf 2; echo "Done"
-tput setaf 9;
+tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
 #chown steam user permissions to all of user steam dir location
-tput setaf 1; echo "Setting steam account permissions to /home/steam/*"
+tput setaf 1; echo "Setting steam account permissions to /home/steam/*" ; tput setaf 9; 
 chown steam:steam -Rf /home/steam/*
-tput setaf 2; echo "Done"
-tput setaf 9;
+tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
 # Reload daemons
-tput setaf 1; echo "Reloading daemons"
+tput setaf 1; echo "Reloading daemons and spawning Necks" ; tput setaf 9; 
 systemctl daemon-reload
-tput setaf 2; echo "Done"
+tput setaf 2; echo "Done" ; tput setaf 9; 
 sleep 1
 
 # Start server
-tput setaf 1; echo "Starting Valheim Server"
+tput setaf 1; echo "By Thors Hammer we are Starting the Valheim Server" ; tput setaf 9; 
 systemctl start valheimserver
-tput setaf 2; echo "Done"
+tput setaf 2; echo "Done" ; tput setaf 9; 
 sleep 1
 
 # Enable server on restarts
-tput setaf 1; echo "Enabling Valheim Server on start or after reboots"
+tput setaf 1; echo "Enabling Valheim Server on start or after reboots" ; tput setaf 9; 
 systemctl enable valheimserver
-tput setaf 2; echo "Done"
+tput setaf 2; echo "Done" ; tput setaf 9; 
 sleep 2
 clear
 tput setaf 2; echo "Check server status by typing systemctl status valheimserver.service"
@@ -499,6 +492,7 @@ function display_world_data_folder() {
 }
 
 function display_start_valheim() {
+    clear
     echo ""
     sudo cat /home/steam/valheimserver/start_valheim.sh
     echo ""
