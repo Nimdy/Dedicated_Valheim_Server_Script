@@ -5,56 +5,6 @@
 # Thanks to YT: GeekHead for modivating me to do this
 
 
-# There are 4 things you need to change!
-# NOTE: Minimum password length is 5 characters & Password cant be in the server name.
-
-# Linux Steam Local Account Password input
-echo ""
-echo "Thanks for downloading the script, let's get started"
-echo "The following information is required for configuration files"
-echo "Read each step carefully"
-echo "A printout of data entered will be displayed to you"
-echo ""
-echo "A non-root account will be created to run Valheim Server"
-echo "This account is named steam"
-read -p "Give steam a password: " userpassword
-echo "Remember this Password, you will need it later"
-echo ""
-# Take user input for Valheim Server Public Display
-echo ""
-echo "Enter a name for your Valheim Server"
-echo "This is for all to see in the Steam Browser Listings"
-read -p "Enter public display name: " displayname
-echo ""
-# Take user input for Valheim Server Seed Generation
-echo ""
-echo "What do you want your in game world to be called"
-read -p "Enter a name for your World: " worldname
-echo ""
-# Password for Server
-echo ""
-echo "Now for Loki, please follow instructions"
-echo "Your server is required to have a password"
-echo "Your password cannot match your public display name nor world name"
-echo "Make your password unique"
-echo "This password must be 5 Characters or more"
-echo "Only user numbers and letters"
-echo "Anything else might break this script and Valheim Offical Script"
-echo "Your public display name: $displayname "
-echo "Your world name: $worldname "
-read -p "Enter Password to Enter your Valheim Server: " password
-echo ""
-clear
-echo "Here is the information you entered"
-echo "---------------------------------------"
-echo "nonroot steam password:  $userpassword "
-echo "Public Server Name:      $displayname "
-echo "Local World Name:        $worldname "
-echo "Valheim Server Password: $password "
-echo "---------------------------------------"
-echo ""
-
-
 #old remove after successful testing
 #userpassword='"user_password"'
 #password='"passw0rd"'
@@ -78,7 +28,7 @@ sleep 1
 #add i386 architecture
 tput setaf 1; echo "Adding i386 architecture"
 dpkg --add-architecture i386
-tput setaf 2; echo "Done"
+tput setaf 2; echo "Done" 
 tput setaf 9;
 sleep 1
 
@@ -88,6 +38,81 @@ apt update
 tput setaf 2; echo "Done"
 tput setaf 9;
 sleep 1
+
+# There are 4 things you need to change!
+# NOTE: Minimum password length is 5 characters & Password cant be in the server name.
+
+# Linux Steam Local Account Password input
+echo ""
+echo "Thanks for downloading the script, let's get started"
+echo "The following information is required for configuration files"
+echo "Read each step carefully"
+echo "A printout of data entered will be displayed to you"
+echo ""
+echo "A non-root account will be created to run Valheim Server"
+echo "This account is named steam"
+while true; do
+  echo "Password must be 5 Characters or more"
+  echo "At least one number, one uppercase letter and one lowercase letter"
+  echo "Good Example: Viking12"
+  echo "Bad Example: Vik!"
+    read -p "Please give steam a password: " userpassword
+        [[ ${#userpassword} -ge 5 && "$userpassword" == *[[:lower:]]* && "$userpassword" == *[[:upper:]]* && "$userpassword" =~ ^[[:alnum:]]+$ ]] && break
+    echo "Password not accepted - Too Short or has Special Characters"
+    echo "I swear to LOKI, you better NOT use Special Characters" 
+done
+clear
+echo ""
+# Take user input for Valheim Server Public Display
+echo ""
+echo "Enter a name for your Valheim Server"
+echo "This is for the Public Steam Browser Listing"
+read -p "Enter public server display name: " displayname
+echo ""
+clear
+# Take user input for Valheim Server World Database Generation
+echo ""
+echo "What do you want to call your in game world?"
+while true; do
+    echo "Name must be 8 Characters or more"
+    echo "No Special Characters not even a space"
+    read -p "Please give steam a password: " worldname
+        [[ ${#worldname} -ge 8 && "$worldname" =~ ^[[:alnum:]]+$ ]] && break
+    echo "World Name not set: Too Short or has Special Characters"
+done
+clear
+echo ""
+# Password for Server
+echo ""
+echo "Now for Loki, please follow instructions"
+echo "Your server is required to have a password"
+echo "Your password cannot match your public display name nor world name"
+echo "Make your password unique"
+echo "Your public display name: $displayname "
+echo "Your world name: $worldname "
+while true; do
+  echo "This password must be 5 Characters or more"
+  echo "At least one number, one uppercase letter and one lowercase letter"
+  echo "Good Example: Viking12"
+  echo "Bad Example: Vik!"
+    read -p "Enter Password to Enter your Valheim Server: " password
+        [[ ${#password} -ge 5 && "$password" == *[[:lower:]]* && "$password" == *[[:upper:]]* && "$password" =~ ^[[:alnum:]]+$ ]] && break
+    echo "Password not accepted - Too Short, Special Characters"
+    echo "I swear to LOKI, you better NOT use Special Characters" 
+done
+clear
+#read -p "Enter Password to Enter your Valheim Server: " password
+echo ""
+clear
+echo "Here is the information you entered"
+echo "---------------------------------------"
+echo "nonroot steam password:  $userpassword "
+echo "Public Server Name:      $displayname "
+echo "Local World Name:        $worldname "
+echo "Valheim Server Password: $password "
+echo "---------------------------------------"
+echo ""
+
 
 #install steamcmd
 tput setaf 1; echo "Installing steamcmd"
