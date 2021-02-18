@@ -418,7 +418,8 @@ function backup_world_data() {
          ## Add -h to convert the symbolic links into a regular files.
          ## Backup some system files, also the entire `/home` directory, etc.
          ##--exclude some directories, for example the the browser's cache, `.bash_history`, etc.
-         tar zcvf $backupPath/valheim-backup-$TODAY.tgz $worldpath/* 
+         tar zcvf $backupPath/valheim-backup-$TODAY.tgz $worldpath/*
+	 chown -Rf steam:steam /home/steam/backups
          chown -Rf steam:steam $backupPath/*
     echo ""
 
@@ -471,7 +472,7 @@ if [ "$confirmBackup" == "y" ]; then
  cp ${backups[$selectedIndex-1]} ${worldpath}/
  #untar
  echo "Unpacking ${worldpath}/${restorefile}"
- tar -zxvf ${worldpath}/${restorefile} --directory ${worldpath}/
+ tar -zxvf ${worldpath}/${restorefile}
 else
  echo "Canceling restore process"
 fi
