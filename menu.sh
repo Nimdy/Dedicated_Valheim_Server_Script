@@ -406,7 +406,7 @@ function backup_world_data() {
     echo ""
     echo ""
          ## Get the current date as variable.
-         TODAY="$(date +%Y-%m-%d)"
+         TODAY="$(date +%Y-%m-%d-%X)"
 	 
 	 dldir=$backupPath
 	 [ ! -d "$dldir" ] && mkdir -p "$dldir"
@@ -446,33 +446,38 @@ for item in "${backups[@]}";do
  bIndex=$((bIndex+1))
 done
 #promt user for index
-echo "Select Backup File by Index"
+echo "Select Backup File you wish to restore"
 read -p "" selectedIndex
 #show confirmation message
 
 
 restorefile=$(basename "${backups[$selectedIndex-1]}")
-echo "${restorefile}"
-echo "Restore "${restorefile}" ?"
-
-echo "Press y or n"
+    echo "${restorefile}"
+    echo "Restore "${restorefile}" ?"
+    echo "Press y(yes) or n(no)"
 #read user input confirmation
-read -p "" confirmBackup
+    read -p "" confirmBackup
 #if y, then continue, else cancel
-if [ "$confirmBackup" == "y" ]; then
+        if [ "$confirmBackup" == "y" ]; then
  #stop valheim server
- systemctl stop valheimserver
- echo "Stopping Valheim Server"
+        systemctl stop valheimserver
+        echo "Stopping Valheim Server"
  #give it a few
- sleep 5
+        sleep 5
  #copy backup to worlds folder
- echo "Copying ${backups[$selectedIndex-1]} to ${worldpath}/"
- cp ${backups[$selectedIndex-1]} ${worldpath}/
+        echo "Copying ${backups[$selectedIndex-1]} to ${worldpath}/"
+        cp ${backups[$selectedIndex-1]} ${worldpath}/
  #untar
- echo "Unpacking ${worldpath}/${restorefile}"
- tar -zxvf ${worldpath}/${restorefile} --directory ${worldpath}/
+        echo "Unpacking ${worldpath}/${restorefile}"
+        tar xzf ${worldpath}/${restorefile} --strip-components=7 --directory ${worldpath}/  
+	chown -Rf steam:steam $worldpath
+ #start valheim server
+        echo "Starting Valheim Services"
+        echo "This better work Loki!"
+        systemctl start valheimserver
+	systemctl status valheimserver
 else
- echo "Canceling restore process"
+        echo "Canceling restore process because Loki sucks"
 fi
 
 }
