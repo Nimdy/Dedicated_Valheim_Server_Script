@@ -427,7 +427,7 @@ worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
 #init empty array
 declare -a backups
 #loop through backups and put in array
-for file in " /home/steam/backups/*.tgz"
+for file in /home/steam/backups/*.tgz
 do
  backups=(${backups[*]} "$file")
 done;
