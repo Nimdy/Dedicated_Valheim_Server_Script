@@ -429,7 +429,7 @@ function restore_world_data() {
     shopt -s nullglob dotglob
     file=(/home/steam/backups/*)
     #loop through backups and put in array
-    for file in *.tgz
+for file in .tgz
       do
      backups=(${backups[]} "$file")
    done;
@@ -437,8 +437,7 @@ function restore_world_data() {
     bIndex=1
         for item in "${backups[@]}"; do
  #print option [index]> [file name]
-        echo "$bIndex> ${item%.*} "
-        echo "did I make it here"
+        echo "$bIndex> ${item%.} "
  #increment
          bIndex=$((bIndex+1))
    done
