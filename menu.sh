@@ -427,7 +427,7 @@ worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
 #init empty array
 declare -a backups
 #loop through backups and put in array
-for file in /home/steam/backups/*.tgz
+for file in " /home/steam/backups/*.tgz"
 do
  backups=(${backups[*]} "$file")
 done;
@@ -456,7 +456,7 @@ if [ "$confirmBackup" == "y" ]; then
  #give it a few
  sleep 5
  #copy backup to worlds folder
- cp ${backups[$selectedIndex-1]} $worldpath
+ cp $worldpath ${backups[$selectedIndex-1]} 
  #untar
  tar zxvf ${worldpath}/${backups[$selectedIndex-1]} 
 
