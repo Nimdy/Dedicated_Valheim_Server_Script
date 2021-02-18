@@ -193,7 +193,6 @@ userpassword='"user_password"'        <---password for the new Linux User it cre
 password='"passw0rd"'                 <---password for the Valheim Server Access
 displayname='"server display name"'   <---Public display name for server
 worldname='"111111111"'               <---local inside world name
-port='"2456"'                         <---port used by Valheim Server
 
 #Save the file
 (press ESC and save/exit by entering)
