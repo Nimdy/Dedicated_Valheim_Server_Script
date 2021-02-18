@@ -459,6 +459,9 @@ function restore_world_data() {
  #untar
     tar zxvf ${worldpath}/${backups[$selectedIndex-1]} 
     echo ""
+else
+ echo "Canceling restore process"
+fi
 
 }
 
