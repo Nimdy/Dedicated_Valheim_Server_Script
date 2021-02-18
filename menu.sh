@@ -412,7 +412,7 @@ function backup_world_data() {
 	 [ ! -d "$dldir" ] && mkdir -p "$dldir"
          
          ## Clean up files older than 2 weeks. Create a new backup.
-         find /$backupPath"/*" -mtime +14 -type f -delete
+         find $backupPath"/*" -mtime +14 -type f -delete
 
          ## Tar Section. Create a backup file, with the current date in its name.
          ## Add -h to convert the symbolic links into a regular files.
