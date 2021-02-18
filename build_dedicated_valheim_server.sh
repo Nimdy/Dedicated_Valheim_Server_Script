@@ -42,8 +42,8 @@ tput setaf 9;
 sleep 1
 
 #install steamcmd
-tput setaf 1; echo "Installing steamcmd"
-apt install steamcmd -y
+tput setaf 1; echo "Installing steamcmd and libsdl2"
+apt install steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386 -y
 tput setaf 2; echo "Done"
 tput setaf 9;
 sleep 1
