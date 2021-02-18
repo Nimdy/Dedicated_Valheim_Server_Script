@@ -581,7 +581,7 @@ function display_start_valheim() {
 function display_world_data_folder() {
     clear
     echo ""
-    sudo ls -lisa /home/steam/.config/unity3d/IronGate/Valheim/worlds/
+    sudo ls -lisa $worldpath
     echo ""
 
 }
@@ -599,6 +599,7 @@ function stop_valheim_server() {
     else
     echo "Canceling Stopping of Valheim Server Service - because Loki sucks"
 fi
+
 }
 
 function start_valheim_server() {
@@ -630,16 +631,17 @@ function restart_valheim_server() {
     else
         echo "Canceling Restarting of Valheim Server Service - because Loki sucks"
 fi
-}
 
 }
+
+
 function display_valheim_server_status() {
     clear
     echo ""
     sudo systemctl status valheimserver.service
     echo ""
 
-
+}
 
 function display_start_valheim() {
     clear
