@@ -237,7 +237,13 @@ sleep 1
     read -p "Enter Password to Enter your Valheim Server: " password
         [[ ${#password} -ge 5 && "$password" == *[[:lower:]]* && "$password" == *[[:upper:]]* && "$password" =~ ^[[:alnum:]]+$ ]] && break
     tput setaf 2; echo "Password not accepted - Too Short, Special Characters" ; tput setaf 9; 
-    tput setaf 2; echo "I swear to LOKI, you better NOT use Special Characters" ; tput setaf 9; 
+    tput setaf 2; echo "I swear to LOKI, you better NOT use Special Characters" ; tput setaf 9;
+    echo ""
+    clear
+    echo ""
+    # Server port
+    echo ""
+    echo "Do you want to change the port used by the server ?"
     read -p "Enter the port used by the Valheim Server (default=2456): " -i 2456 -e port
 done
 echo ""
