@@ -472,7 +472,8 @@ if [ "$confirmBackup" == "y" ]; then
  cp ${backups[$selectedIndex-1]} ${worldpath}/
  #untar
  echo "Unpacking ${worldpath}/${restorefile}"
- tar -zxvf "${worldpath}/${restorefile}"
+ echo "${worldpath}/${restorefile}"
+ #tar -zxvf "${worldpath}/${restorefile}"
 else
  echo "Canceling restore process"
 fi
