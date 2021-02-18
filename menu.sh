@@ -427,7 +427,7 @@ declare -a backups
 #loop through backups and put in array
 for file in .tgz
 do
- backups=(${backups[]} "$file")
+ backups=(${backups[*]} "$file")
 done;
 #counter index
 bIndex=1
