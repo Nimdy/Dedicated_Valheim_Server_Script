@@ -19,8 +19,6 @@
   <p align="center">
     So easy a Viking can do it!
     <br />
-    <a href="https://cyberreport.io"><strong>A CyberReport.io Product</strong></a>
-    <br />
     <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
