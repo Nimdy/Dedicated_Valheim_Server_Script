@@ -552,8 +552,6 @@ function check_apply_server_updates() {
 
 }
 
-    tput setaf 2; echo "Done" ; tput setaf 9;
-
 function confirm_check_apply_server_updates() {
 
 while true; do
