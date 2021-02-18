@@ -418,7 +418,7 @@ function backup_world_data() {
          ## Add -h to convert the symbolic links into a regular files.
          ## Backup some system files, also the entire `/home` directory, etc.
          ##--exclude some directories, for example the the browser's cache, `.bash_history`, etc.
-         tar zcvf $backupPath/valheim-backup-$TODAY.tgz $worldpath/*
+         tar czf $backupPath/valheim-backup-$TODAY.tgz $worldpath/*
 	 chown -Rf steam:steam /home/steam/backups
          chown -Rf steam:steam $backupPath/*
     echo ""
