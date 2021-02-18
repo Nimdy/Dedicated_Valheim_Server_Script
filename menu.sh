@@ -422,6 +422,14 @@ function backup_world_data() {
 
 # Thanks to GITHUB @LachlanMac
 function restore_world_data() {
+
+shopt -s nullglob
+
+# Expand the glob /Applications/*Adobe* into an array
+backups=( /home/steam/*backups* )
+
+# Trim the prefix /steam/ from each element of that array
+#backups=( "${backups[@]#/steam/}" )
 #init empty array
 declare -a backups
 #loop through backups and put in array
