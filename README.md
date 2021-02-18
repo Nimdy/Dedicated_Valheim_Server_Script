@@ -68,6 +68,10 @@
 
 [![Thumbnail](https://img.youtube.com/vi/0YPLf7Bw5W4/0.jpg)](https://www.youtube.com/watch?v=0YPLf7Bw5W4)
 
+
+* Added new EASY to use menu system - Enjoy
+* This Menu will also install your Server, if you do not have one already!
+
 I started this to help out the community and I did not think for a moment it would have taken off so quickly.
 If this script did help you get your Valheim server running, please star and share this with others!
 Should you need any help troubleshooting your Valheim Server visit me on Twitch or Discord.
