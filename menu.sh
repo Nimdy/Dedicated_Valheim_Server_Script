@@ -5,6 +5,8 @@
 # Easy Valheim Server Menu
 # Open to other commands that should be used... 
 clear
+# Set Menu Version
+mversion="Version 1.0"
 ##
 # System script that checks:
 #   - Display System Info
@@ -585,17 +587,22 @@ $(ColorBlue 'Choose an option:') "
 
 menu(){
 echo -ne "
-$(ColorOrange '~*~*~*~*Valheim Toolbox Menu*~*~*~*~')
-$(ColorOrange '-----Server System Information-----')
-$(ColorGreen '1)') Check for Nimdy Script Updates
-$(ColorGreen '2)') System Info
-$(ColorGreen '3)') Network Info 
-$(ColorGreen '4)') Check All
-$(ColorOrange '-----Valheim Server Commands-----')
-$(ColorGreen '5)') Server Admin Tools 
-$(ColorGreen '6)') Tech Support Tools
-$(ColorGreen '7)') Install Valheim Server
-$(ColorGreen '0)') Exit
+$(ColorOrange '╔═════════════════════════════════════╗')
+$(ColorOrange '║ -ZeroBandwidths Easy Valheim Menu -   ║')
+$(ColorOrange '╠═════════════════════════════════════╝')
+$(ColorOrange '╚ ')${mversion} 
+
+$(ColorOrange '----------Server System Information---------')
+$(ColorOrange '-')$(ColorGreen ' 1)') Check for Nimdy Script Updates
+$(ColorOrange '-')$(ColorGreen ' 2)') System Info
+$(ColorOrange '-')$(ColorGreen ' 3)') Network Info 
+$(ColorOrange '-')$(ColorGreen ' 4)') Check All
+$(ColorOrange '-----------Valheim Server Commands---------')
+$(ColorOrange '-')$(ColorGreen ' 5)') Server Admin Tools 
+$(ColorOrange '-')$(ColorGreen ' 6)') Tech Support Tools
+$(ColorOrange '-')$(ColorGreen ' 7)') Install Valheim Server
+$(ColorGreen ' 0)') Exit
+$(ColorOrange '-------------------------------------------')
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
