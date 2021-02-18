@@ -92,7 +92,7 @@ ColorWhite(){
 
 
 function script_check_update() {
-BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/beta"
+BRANCH="github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/beta"
     git stash
     LAST_UPDATE=`git show --no-notes --format=format:"%H" $BRANCH | head -n 1`
     LAST_COMMIT=`git show --no-notes --format=format:"%H" origin/$BRANCH | head -n 1`
