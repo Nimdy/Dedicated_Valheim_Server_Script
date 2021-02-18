@@ -32,7 +32,7 @@ mversion="Version 1.0"
 # Start Valheim Server
 # Restart Valheim Server
 # Display Valheim Server Status
-# Check for Offical Valheim updates and apply them
+# Check for Official Valheim updates and apply them
 ##
 ##
 # Tech Support Tools
