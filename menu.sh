@@ -31,6 +31,11 @@ mversion="Version 1.0"
 ##
 # Color  Variables
 ##
+#If you changed the location of your default 
+worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
+#If you have a different backup director change it.
+#
+backupPath=/home/steam/backups
 
 NOCOLOR='\033[0m'
 RED='\033[0;31m'
@@ -403,18 +408,18 @@ function backup_world_data() {
          ## Get the current date as variable.
          TODAY="$(date +%Y-%m-%d)"
 	 
-	 dldir="/home/steam/backups"
+	 dldir=$backupPath
 	 [ ! -d "$dldir" ] && mkdir -p "$dldir"
          
          ## Clean up files older than 2 weeks. Create a new backup.
-         find /home/steam/backups/ -mtime +14 -type f -delete
+         find /$backupPath"/*" -mtime +14 -type f -delete
 
          ## Tar Section. Create a backup file, with the current date in its name.
          ## Add -h to convert the symbolic links into a regular files.
          ## Backup some system files, also the entire `/home` directory, etc.
          ##--exclude some directories, for example the the browser's cache, `.bash_history`, etc.
-         tar zcvf "/home/steam/backups/valheim-backup-$TODAY.tgz" /home/steam/.config/unity3d/IronGate/Valheim/worlds/* 
-         chown -Rf steam:steam /home/steam/backups/*
+         tar zcvf $backupPath"/valheim-backup-$TODAY.tgz" $worldpath"/*" 
+         chown -Rf steam:steam $backupPath"/*"
     echo ""
 
 }
@@ -423,8 +428,7 @@ function backup_world_data() {
 # Thanks to GITHUB @LachlanMac
 function restore_world_data() {
 
-worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
-backupPath=/home/steam/backups
+
 
 #init empty array
 declare -a backups
