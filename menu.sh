@@ -424,10 +424,12 @@ function backup_world_data() {
 function restore_world_data() {
 
 worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
+backupPath=/home/steam/backups
+
 #init empty array
 declare -a backups
 #loop through backups and put in array
-for file in /home/steam/backups/*.tgz
+for file in ${backupPath}/*.tgz
 do
  backups=(${backups[*]} "$file")
 done;
@@ -435,16 +437,21 @@ done;
 bIndex=1
 for item in "${backups[@]}";do
  #print option [index]> [file name]
- echo "$bIndex> ${item%.*} "
+ basefile=$(basename "$item")
+ echo "$bIndex> ${basefile} "
  #increment
  bIndex=$((bIndex+1))
 done
-
 #promt user for index
 echo "Select Backup File by Index"
 read -p "" selectedIndex
 #show confirmation message
-echo "Restore ${backups[$selectedIndex-1]} ?"
+
+
+restorefile=$(basename "${backups[$selectedIndex-1]}")
+echo "${restorefile}"
+echo "Restore "${restorefile}" ?"
+
 echo "Press y or n"
 #read user input confirmation
 read -p "" confirmBackup
@@ -456,12 +463,11 @@ if [ "$confirmBackup" == "y" ]; then
  #give it a few
  sleep 5
  #copy backup to worlds folder
- cp $worldpath ${backups[$selectedIndex-1]} 
+ echo "Copying ${backups[$selectedIndex-1]} to ${worldpath}/"
+ cp ${backups[$selectedIndex-1]} ${worldpath}/
  #untar
- tar zxvf ${worldpath}/${backups[$selectedIndex-1]} 
-
-
-
+ echo "Unpacking ${worldpath}/${restorefile}"
+ tar -zxvf ${worldpath}/${restorefile} --directory ${worldpath}/
 else
  echo "Canceling restore process"
 fi
