@@ -223,8 +223,8 @@ sleep 1
     echo "Your server is required to have a password"
     echo "Your password cannot match your public display name nor world name"
     echo "Make your password unique"
-    echo "Your public display name: $displayname "
-    echo "Your world name: $worldname "
+    tput setaf 2; echo "Your public display name: $displayname " ; tput setaf 9;
+    tput setaf 2; echo "Your world name: $worldname " ; tput setaf 9;
     while true; do
     echo "This password must be 5 Characters or more"
     echo "At least one number, one uppercase letter and one lowercase letter"
@@ -389,10 +389,32 @@ echo ""
 }
 
 function valheim_update_check() {
-    echo ""
-    echo "Not ready yet, come back soon"
-    echo ""
-    echo ""
+#default install dir
+valheiminstall=/home/steam/valheimserver/
+#make temp directory for this Loki file dump
+vaheiminstall_temp=/tmp/lokidump
+loki_started=true
+
+dltmpdir=vaheiminstall_temp
+[ ! -d "$dltmpdir" ] && mkdir -p "$dltmpdir"
+
+    logfile="$(mktemp)"
+    echo "Update and Check Valheim Server"
+    steamcmd +login anonymous +force_install_dir $valheiminstall_temp +app_update 896660 -validate +quit
+    rsync -a --itemize-changes --delete --exclude server_exit.drp --exclude steamapps $valheiminstall_temp $valheiminstall | tee "$logfile"
+    grep '^[*>]' "$logfile" > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "Valheim Server was updated - restarting"
+        systemctl restart valheimserver.service
+    else
+        echo "Valheim Server is already the latest version"
+        if [ $loki_started = true ]; then
+            systemctl start valheimserver.service
+        fi
+    fi
+    loki_started=false
+    rm -f "$logfile"
+
 }
 
 
@@ -500,16 +522,32 @@ fi
 function check_apply_server_updates() {
     echo ""
     echo "Oh for Loki! This is not ready yet."
-    echo "Coming soon"
-    #echo "Shutting Down Valheim Server"
-    #sudo systemctl stop valheimserver.services
-    #echo "Valheim Server Stopped"
-    #echo "Sending Loki to find updates"
-    #echo "If updates are found auto install"
-    #sudo steamcmd +login anonymous +force_install_dir /home/steam/valheimserver +app_update 896660 validate +exit
-    #Add Functions here if then...
-    #sudo systemctl start valheimserver.services
-    #echo ""
+    #Thanks to @lloesche for the throught process and function
+    valheiminstall=/home/steam/valheimserver/
+    #make temp directory for this Loki file dump
+    vaheiminstall_temp=/tmp/lokidump
+    loki_started=true
+
+    dltmpdir=vaheiminstall_temp
+    [ ! -d "$dltmpdir" ] && mkdir -p "$dltmpdir"
+
+    logfile="$(mktemp)"
+    echo "Update and Check Valheim Server"
+    steamcmd +login anonymous +force_install_dir $valheiminstall_temp +app_update 896660 -validate +quit
+    rsync -a --itemize-changes --delete --exclude server_exit.drp --exclude steamapps $valheiminstall_temp $valheiminstall | tee "$logfile"
+    grep '^[*>]' "$logfile" > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "Valheim Server was updated - restarting"
+        systemctl restart valheimserver.service
+    else
+        echo "Valheim Server is already the latest version"
+        if [ $loki_started = true ]; then
+            systemctl start valheimserver.service
+        fi
+    fi
+    loki_started=false
+    rm -f "$logfile"
+
     echo ""
 
 }
@@ -538,13 +576,8 @@ function display_start_valheim() {
     echo ""
 
 }
-function display_valheim_server_status() {
-    clear
-    echo ""
-    sudo systemctl status valheimserver.service
-    echo ""
 
-}
+
 function display_world_data_folder() {
     clear
     echo ""
@@ -552,6 +585,61 @@ function display_world_data_folder() {
     echo ""
 
 }
+
+function stop_valheim_server() {
+    clear
+    echo ""
+    echo "You are about to STOP the Valheim Server"
+    echo "You are you sure y(YES) or n(NO)?"
+    read -p "" confirmStop
+#if y, then continue, else cancel
+        if [ "$confirmStop" == "y" ]; then
+    sudo systemctl stop valheimserver.service
+    echo ""
+    else
+    echo "Canceling Stopping of Valheim Server Service - because Loki sucks"
+fi
+}
+
+function start_valheim_server() {
+    clear
+    echo ""
+    echo "You are about to START the Valheim Server"
+    echo "You are you sure y(YES) or n(NO)?"
+    read -p "" confirmStart
+#if y, then continue, else cancel
+        if [ "$confirmStart" == "y" ]; then
+    sudo systemctl start valheimserver.service
+    echo ""
+    else
+        echo "Canceling Starting of Valheim Server Service - because Loki sucks"
+fi
+
+}
+
+function restart_valheim_server() {
+    clear
+    echo ""
+    echo "You are about to RESTART the Valheim Server"
+    echo "You are you sure y(YES) or n(NO)?"
+    read -p "" confirmRestart
+#if y, then continue, else cancel
+        if [ "$confirmRestart" == "y" ]; then
+    sudo systemctl restart valheimserver.service
+    echo ""
+    else
+        echo "Canceling Restarting of Valheim Server Service - because Loki sucks"
+fi
+}
+
+}
+function display_valheim_server_status() {
+    clear
+    echo ""
+    sudo systemctl status valheimserver.service
+    echo ""
+
+
 
 function display_start_valheim() {
     clear
@@ -580,12 +668,12 @@ $(ColorBlue 'Choose an option:') "
 
 tech_support(){
 echo -ne "
-$(ColorOrange '------------Valheim Tech Support-----------')
+$(ColorOrange '--------------Valheim Tech Support--------------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Display Valheim Config File
 $(ColorOrange '-')$(ColorGreen ' 2)') Display Valheim Server Service
 $(ColorOrange '-')$(ColorGreen ' 3)') Display World Data Folder
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
-$(ColorOrange '-------------------------------------------')
+$(ColorOrange '-------------------------------------------------')
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
@@ -599,20 +687,29 @@ $(ColorBlue 'Choose an option:') "
 
 admin_tools_menu(){
 echo -ne "
-$(ColorOrange '-------------Valheim Admin Tools-----------')
+$(ColorOrange '--------------------Valheim Admin Tools---------------------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Backup World
 $(ColorOrange '-')$(ColorGreen ' 2)') Restore World
-$(ColorOrange '-')$(ColorGreen ' 3)') Check and Apply Valheim Server Update
-$(ColorOrange '-')$(ColorGreen ' 4)') Fresh Valheim Server
+$(ColorOrange '-')$(ColorGreen ' 3)') Stop Valheim Server
+$(ColorOrange '-')$(ColorGreen ' 4)') Start Valheim Server
+$(ColorOrange '-')$(ColorGreen ' 5)') Restart Valheim Server
+$(ColorOrange '-')$(ColorGreen ' 6)') Status Valheim Server
+$(ColorOrange '-')$(ColorGreen ' 7)') Check and Apply Valheim Server Update
+$(ColorOrange '------------------First Time or Reinstall-------------------')
+$(ColorOrange '-')$(ColorGreen ' 8)') Fresh Valheim Server
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
-$(ColorOrange '-------------------------------------------')
+$(ColorOrange '------------------------------------------------------------')
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
 		1) backup_world_data ; admin_tools_menu ;;
 		2) restore_world_data ; admin_tools_menu ;;
-		3) check_apply_server_updates ; admin_tools_menu ;;
-		4) valheim_server_install ; admin_tools_menu ;;
+		3) stop_valheim_server ; admin_tools_menu ;;
+		4) start_valheim_server ; admin_tools_menu ;;
+		5) restart_valheim_server ; admin_tools_menu ;;
+		6) display_valheim_server_status ; admin_tools_menu ;;
+		7) confirm_check_apply_server_updates ; admin_tools_menu ;;
+		8) valheim_server_install ; admin_tools_menu ;;
 		   0) menu ; menu ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
