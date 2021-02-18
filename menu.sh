@@ -590,7 +590,7 @@ echo -ne "
 $(ColorOrange '╔═════════════════════════════════════╗')
 $(ColorOrange '║ -ZeroBandwidths Easy Valheim Menu -   ║')
 $(ColorOrange '╠═════════════════════════════════════╝')
-$(ColorOrange '╚ ')${mversion} 
+#$(ColorOrange '╚ ')${mversion} 
 
 $(ColorOrange '----------Server System Information---------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Check for Nimdy Script Updates
