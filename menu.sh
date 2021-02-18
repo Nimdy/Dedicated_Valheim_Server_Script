@@ -420,17 +420,41 @@ function restore_world_data() {
     echo ""
     echo "Not ready yet because Loki sucks, come back soon"
     echo "Do it manually from the Nimdy GITHUB"
-#    echo "look into /home/steam/backups"
-#    echo "print list"
-#    echo "allow list for selection"
-#    echo "take user input for select file"
-#    echo "confirm file to be restored"
-#    echo "stop valheim service"
-#    echo "copy backup file into /home/steam/.config/unity3d/IronGate/Valheim/worlds/"
-#    echo "untar files whateverfile.db and whateverfile.fwl"
-#    echo "chown steam:steam to files"
-#    echo "start valheim service"
-#    echo "print restore completed"
+#init empty array
+declare -a backups
+#loop through backups and put in array
+for file in .tgz
+do
+ backups=(${backups[]} "$file")
+done;
+#counter index
+bIndex=1
+for item in "${backups[@]}";do
+ #print option [index]> [file name]
+ echo "$bIndex> ${item%.*} "
+ #increment
+ bIndex=$((bIndex+1))
+done
+
+#promt user for index
+echo "Select Backup File by Index"
+read -p "" selectedIndex
+#show confirmation message
+echo "Restore ${backups[$selectedIndex-1]} ?"
+echo "Press y or n"
+#read user input confirmation
+read -p "" confirmBackup
+#if y, then continue, else cancel
+if [ "$confirmBackup" == "y" ]; then
+ #stop valheim server
+ systemctl stop valheimserver
+ echo "Stopping Valheim Server"
+ #give it a few
+ sleep 5
+ #copy backup to worlds folder
+ cp ${backups[$selectedIndex-1]} $worldpath
+ #untar
+ tar zxvf ${worldpath}/${backups[$selectedIndex-1]} 
     echo ""
 
 }
