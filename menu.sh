@@ -418,43 +418,42 @@ function backup_world_data() {
 
 function restore_world_data() {
     echo ""
-    echo "Not ready yet because Loki sucks, come back soon"
-    echo "Do it manually from the Nimdy GITHUB"
-#init empty array
-declare -a backups
-#loop through backups and put in array
-for file in .tgz
-do
- backups=(${backups[]} "$file")
-done;
+    echo Because Loki sucks, this needs testing"
+    #init empty array
+    declare -a backups
+    #loop through backups and put in array
+    for file in .tgz
+      do
+      backups=(${backups[]} "$file")
+   done;
 #counter index
-bIndex=1
-for item in "${backups[@]}";do
+    bIndex=1
+        for item in "${backups[@]}";do
  #print option [index]> [file name]
- echo "$bIndex> ${item%.*} "
+        echo "$bIndex> ${item%.*} "
  #increment
- bIndex=$((bIndex+1))
-done
+         bIndex=$((bIndex+1))
+   done
 
 #promt user for index
-echo "Select Backup File by Index"
-read -p "" selectedIndex
+    echo "Select Backup File by Index"
+    read -p "" selectedIndex
 #show confirmation message
-echo "Restore ${backups[$selectedIndex-1]} ?"
-echo "Press y or n"
+    echo "Restore ${backups[$selectedIndex-1]} ?"
+    echo "Press y or n"
 #read user input confirmation
-read -p "" confirmBackup
+    read -p "" confirmBackup
 #if y, then continue, else cancel
-if [ "$confirmBackup" == "y" ]; then
+    if [ "$confirmBackup" == "y" ]; then
  #stop valheim server
- systemctl stop valheimserver
- echo "Stopping Valheim Server"
+    echo "Stopping Valheim Server"
+    systemctl stop valheimserver
  #give it a few
- sleep 5
+    sleep 5
  #copy backup to worlds folder
- cp ${backups[$selectedIndex-1]} $worldpath
+    cp ${backups[$selectedIndex-1]} $worldpath
  #untar
- tar zxvf ${worldpath}/${backups[$selectedIndex-1]} 
+    tar zxvf ${worldpath}/${backups[$selectedIndex-1]} 
     echo ""
 
 }
