@@ -419,22 +419,26 @@ function backup_world_data() {
 
 }
 
-# Thanks to GITHUB @LachlanMac 
+
+# Thanks to GITHUB @LachlanMac
 function restore_world_data() {
     echo ""
     echo "Because Loki sucks, this needs testing"
     #init empty array
     declare -a backups
+    shopt -s nullglob dotglob
+    file=(/home/steam/backups/*)
     #loop through backups and put in array
-    for file in .tgz
+    for file in *.tgz
       do
-      backups=(${backups[]} "$file")
+     backups=(${backups[]} "$file")
    done;
 #counter index
     bIndex=1
         for item in "${backups[@]}"; do
  #print option [index]> [file name]
         echo "$bIndex> ${item%.*} "
+        echo "did I make it here"
  #increment
          bIndex=$((bIndex+1))
    done
@@ -457,13 +461,15 @@ function restore_world_data() {
  #copy backup to worlds folder
     cp ${backups[$selectedIndex-1]} $worldpath
  #untar
-    tar zxvf ${worldpath}/${backups[$selectedIndex-1]} 
+    tar zxvf ${worldpath}/${backups[$selectedIndex-1]}
     echo ""
 else
  echo "Canceling restore process"
 fi
 
 }
+
+
 
 
 function check_apply_server_updates() {
