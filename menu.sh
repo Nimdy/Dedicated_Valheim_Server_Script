@@ -423,7 +423,7 @@ function backup_world_data() {
 # Thanks to GITHUB @LachlanMac
 function restore_world_data() {
 
-
+worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds/
 #init empty array
 declare -a backups
 #loop through backups and put in array
