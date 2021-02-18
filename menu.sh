@@ -417,12 +417,12 @@ dltmpdir=vaheiminstall_temp
 
 }
 
-
-
 function valheim_server_install() {
 
 while true; do
-    read -p "Do you wish to install Valheim Server?" yn
+$(ColorRed '--------------------------------------')
+tput setaf 2; read -p "Do you wish to install Valheim Server?" yn ; tput setaf 9;
+$(ColorRed '--------------------------------------')
     case $yn in
         [Yy]* ) confirmed_valheim_install; break;;
         [Nn]* ) exit;;
@@ -552,13 +552,17 @@ function check_apply_server_updates() {
 
 }
 
+    tput setaf 2; echo "Done" ; tput setaf 9;
+
 function confirm_check_apply_server_updates() {
 
 while true; do
-    echo "WARNING DOING THIS WILL SHUTDOWN THE SERVER"
-    echo "MAKE SURE EVERYBODY IS LOGGED OUT OF THE SERVER"
-    echo "Press y(YES) and n(NO)"
-    read -p "Do you wish to continue?" yn
+$(ColorRed '-----------------------------------------------')
+tput setaf 2; echo "WARNING DOING THIS WILL SHUTDOWN THE SERVER" ; tput setaf 9;
+tput setaf 2; echo "MAKE SURE EVERYBODY IS LOGGED OUT OF THE SERVER" ; tput setaf 9;
+tput setaf 2; echo "Press y(YES) and n(NO)" ; tput setaf 9;
+tput setaf 2; read -p "Do you wish to continue?" yn ; tput setaf 9; 
+$(ColorRed '-----------------------------------------------')
     case $yn in
         [Yy]* ) check_apply_server_updates; break;;
         [Nn]* ) exit;;
@@ -589,8 +593,10 @@ function display_world_data_folder() {
 function stop_valheim_server() {
     clear
     echo ""
-    echo "You are about to STOP the Valheim Server"
-    echo "You are you sure y(YES) or n(NO)?"
+$(ColorRed '----------------------------------------------------')
+tput setaf 2; echo "You are about to STOP the Valheim Server" ; tput setaf 9; 
+tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
+$(ColorRed '----------------------------------------------------')
     read -p "" confirmStop
 #if y, then continue, else cancel
         if [ "$confirmStop" == "y" ]; then
@@ -605,8 +611,10 @@ fi
 function start_valheim_server() {
     clear
     echo ""
-    echo "You are about to START the Valheim Server"
-    echo "You are you sure y(YES) or n(NO)?"
+ $(ColorRed '----------------------------------------------------')
+ tput setaf 2; echo "You are about to START the Valheim Server" ; tput setaf 9; 
+ tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
+ $(ColorRed '----------------------------------------------------')
     read -p "" confirmStart
 #if y, then continue, else cancel
         if [ "$confirmStart" == "y" ]; then
@@ -621,9 +629,11 @@ fi
 function restart_valheim_server() {
     clear
     echo ""
-    echo "You are about to RESTART the Valheim Server"
-    echo "You are you sure y(YES) or n(NO)?"
-    read -p "" confirmRestart
+$(ColorRed '----------------------------------------------------')
+tput setaf 2; echo "You are about to RESTART the Valheim Server" ; tput setaf 9; 
+tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
+$(ColorRed '----------------------------------------------------')
+read -p "" confirmRestart
 #if y, then continue, else cancel
         if [ "$confirmRestart" == "y" ]; then
     sudo systemctl restart valheimserver.service
