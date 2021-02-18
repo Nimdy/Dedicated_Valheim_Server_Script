@@ -227,6 +227,7 @@ done
 echo ""
 clear
 echo "Here is the information you entered"
+echo "This information is only saved in the valheim_server.sh file"
 tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
 tput setaf 2; echo "nonroot steam password:  $userpassword " ; tput setaf 9;
 tput setaf 2; echo "Public Server Name:      $displayname " ; tput setaf 9;
@@ -527,9 +528,10 @@ function display_start_valheim() {
 
 server_install_menu(){
 echo -ne "
-$(ColorOrange '-----Server System Information-----')
-$(ColorGreen '1)') Fresh Valheim Server
-$(ColorGreen '0)') Go to Main Menu
+$(ColorOrange '-')$(ColorOrange '---------Server System Information--------')
+$(ColorOrange '-')$(ColorGreen '1)') Fresh or Reinstall Valheim Server
+$(ColorOrange '-')$(ColorGreen '0)') Go to Main Menu
+$(ColorOrange '-------------------------------------------')
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
@@ -541,11 +543,12 @@ $(ColorBlue 'Choose an option:') "
 
 tech_support(){
 echo -ne "
-$(ColorOrange '-----Valheim Tech Support-----')
-$(ColorGreen '1)') Display Valheim Config File
-$(ColorGreen '2)') Display Valheim Server Service
-$(ColorGreen '3)') Display World Data Folder
-$(ColorGreen '0)') Go to Main Menu
+$(ColorOrange '------------Valheim Tech Support-----------')
+$(ColorOrange '-')$(ColorGreen ' 1)') Display Valheim Config File
+$(ColorOrange '-')$(ColorGreen ' 2)') Display Valheim Server Service
+$(ColorOrange '-')$(ColorGreen ' 3)') Display World Data Folder
+$(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
+$(ColorOrange '-------------------------------------------')
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
@@ -559,12 +562,13 @@ $(ColorBlue 'Choose an option:') "
 
 admin_tools_menu(){
 echo -ne "
-$(ColorOrange '-----Valheim Admin Tools-----')
-$(ColorGreen '1)') Backup World
-$(ColorGreen '2)') Restore World
-$(ColorGreen '3)') Check and Apply Valheim Server Update
-$(ColorGreen '4)') Fresh Valheim Server
-$(ColorGreen '0)') Go to Main Menu
+$(ColorOrange '-------------Valheim Admin Tools-----------')
+$(ColorOrange '-')$(ColorGreen ' 1)') Backup World
+$(ColorOrange '-')$(ColorGreen ' 2)') Restore World
+$(ColorOrange '-')$(ColorGreen ' 3)') Check and Apply Valheim Server Update
+$(ColorOrange '-')$(ColorGreen ' 4)') Fresh Valheim Server
+$(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
+$(ColorOrange '-------------------------------------------')
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
