@@ -412,14 +412,14 @@ function backup_world_data() {
 	 [ ! -d "$dldir" ] && mkdir -p "$dldir"
          
          ## Clean up files older than 2 weeks. Create a new backup.
-         find $backupPath"/*" -mtime +14 -type f -delete
+         find $backupPath/* -mtime +14 -type f -delete
 
          ## Tar Section. Create a backup file, with the current date in its name.
          ## Add -h to convert the symbolic links into a regular files.
          ## Backup some system files, also the entire `/home` directory, etc.
          ##--exclude some directories, for example the the browser's cache, `.bash_history`, etc.
-         tar zcvf $backupPath"/valheim-backup-$TODAY.tgz" $worldpath"/*" 
-         chown -Rf steam:steam $backupPath"/*"
+         tar zcvf $backupPath"/valheim-backup-$TODAY.tgz" $worldpath/* 
+         chown -Rf steam:steam $backupPath/*
     echo ""
 
 }
