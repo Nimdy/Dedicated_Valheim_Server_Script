@@ -429,7 +429,8 @@ function backup_world_data() {
 # Thanks to GITHUB @LachlanMac
 function restore_world_data() {
 
-
+worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
+backupPath=/home/steam/backups
 
 #init empty array
 declare -a backups
@@ -472,9 +473,7 @@ if [ "$confirmBackup" == "y" ]; then
  cp ${backups[$selectedIndex-1]} ${worldpath}/
  #untar
  echo "Unpacking ${worldpath}/${restorefile}"
- echo "${worldpath}/${restorefile}"
- #tar zcvf $backupPath/valheim-backup-$TODAY.tgz $worldpath/*
- tar zxvf ${restorefile} $worldpath
+ tar -zxvf ${worldpath}/${restorefile} --directory ${worldpath}/
 else
  echo "Canceling restore process"
 fi
