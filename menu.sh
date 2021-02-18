@@ -416,6 +416,7 @@ function backup_world_data() {
 
 }
 
+# Thanks to GITHUB @LachlanMac 
 function restore_world_data() {
     echo ""
     echo Because Loki sucks, this needs testing"
