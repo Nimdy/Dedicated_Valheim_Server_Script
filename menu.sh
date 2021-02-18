@@ -473,7 +473,8 @@ if [ "$confirmBackup" == "y" ]; then
  #untar
  echo "Unpacking ${worldpath}/${restorefile}"
  echo "${worldpath}/${restorefile}"
- #tar -zxvf "${worldpath}/${restorefile}"
+ #tar zcvf $backupPath/valheim-backup-$TODAY.tgz $worldpath/*
+ tar zxvf ${restorefile} $worldpath
 else
  echo "Canceling restore process"
 fi
