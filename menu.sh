@@ -421,6 +421,7 @@ function backup_world_data() {
 
 
 # Thanks to GITHUB @LachlanMac
+function restore_world_data() {
 #init empty array
 declare -a backups
 #loop through backups and put in array
