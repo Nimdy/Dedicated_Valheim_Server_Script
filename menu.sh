@@ -320,9 +320,14 @@ sleep 1
 #build systemctl configurations for execution of processes for Valheim Server
 tput setaf 1; echo "Deleting old configuration if file exist" ; tput setaf 9; 
 tput setaf 1; echo "Building systemctl instructions for Valheim" ; tput setaf 9; 
+# remove old Valheim Server Service
 rm /etc/systemd/system/valheimserver.service
+# remove past Valheim Server Service
+rm /lib/systemd/system/valheimserver.service
 sleep 1
-cat >> /etc/systemd/system/valheimserver.service <<EOF
+# Add new Valheim Server Service
+# Thanks @QuadeHale
+cat >> /lib/systemd/system/valheimserver.service <<EOF
 [Unit]
 Description=Valheim Server
 Wants=network-online.target
@@ -426,34 +431,37 @@ function backup_world_data() {
 }
 
 
-# Thanks to GITHUB @LachlanMac
+# Thanks to GITHUB @LachlanMac and @Kurt
 function restore_world_data() {
 
 #init empty array
-declare -a backups
+    declare -a backups
 #loop through backups and put in array
-for file in ${backupPath}/*.tgz
-do
- backups=(${backups[*]} "$file")
-done;
+    for file in ${backupPath}/*.tgz
+    do
+        backups=(${backups[*]} "$file")
+    done;
 #counter index
-bIndex=1
-for item in "${backups[@]}";do
+    bIndex=1
+    for item in "${backups[@]}";do
  #print option [index]> [file name]
- basefile=$(basename "$item")
- echo "$bIndex> ${basefile} "
- #increment
- bIndex=$((bIndex+1))
-done
+        basefile=$(basename "$item")
+         echo "$bIndex> ${basefile} "
+#increment
+    bIndex=$((bIndex+1))
+    done
 #promt user for index
-echo "Select Backup File you wish to restore"
-read -p "" selectedIndex
+    echo "Select Backup File you wish to restore"
+    read -p "" selectedIndex
 #show confirmation message
 
 
 restorefile=$(basename "${backups[$selectedIndex-1]}")
     echo "${restorefile}"
     echo "Restore "${restorefile}" ?"
+    echo "Are you sure you want to do this?"
+    echo "Remember to match world name with /home/steam/valheimserver/start_valheim.sh"
+    echo "The param for -world "worldname" much match restore file worldname.db and worldname.fwl"
     echo "Press y(yes) or n(no)"
 #read user input confirmation
     read -p "" confirmBackup
