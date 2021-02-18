@@ -1,7 +1,7 @@
 #!/bin/bash
-# BETA TESTING USE AT YOUR OWN RISK!!!
+# 
 # If Frankenstein was a bash script
-# Please fill free to add/change
+# Please help improve this script
 # Easy Valheim Server Menu
 # Open to other commands that should be used... 
 clear
@@ -19,23 +19,27 @@ mversion="Version 1.0"
 # System script that checks:
 #   - Display System Info
 #   - Display Network Info
-#   - other stuff? 
-#  
 ##
-
 ##
 # Server Install:
-#   - Install Valheim Server
+#   - Install or Reinstall - Valheim Server
 ##
-
 ##
 # Server Tools:
-#   - Do Manual Backup
-#   - Restore from Backup
-#   - Check and apply Valheim Official Server Updates
-
+# Do Manual Backup
+# Do Manual Restore | Make sure -world and whatever.db and whatever.fwl are the same
+# Stop Valheim Server
+# Start Valheim Server
+# Restart Valheim Server
+# Display Valheim Server Status
+# Check for Offical Valheim updates and apply them
 ##
-
+##
+# Tech Support Tools
+# Display start_valheim.sh configuration
+# Display Valheim Server Status
+# Display Valheim World Data Folder
+##
 ##
 # Color  Variables
 ##
