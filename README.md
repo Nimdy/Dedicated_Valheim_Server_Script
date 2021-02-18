@@ -72,10 +72,10 @@ I started this to help out the community and I did not think for a moment it wou
 If this script did help you get your Valheim server running, please star and share this with others!
 Should you need any help troubleshooting your Valheim Server visit me on Twitch or Discord.
 
-My production server is 6 days solid as of 18FEB2021)
-In game time is 430+ days
-Zero issues, zero crashes, zero cases of corrupted data. 
-If is it not broke, don't fix it!  <-- Yes, I said that right
+* My production server is 6 days solid as of 18FEB2021)
+* In game time is 430+ days
+* Zero issues, zero crashes, zero cases of corrupted data. 
+* If is it not broke, don't fix it!  <-- Yes, I said that right
 
 * Twitch Channel: https://www.twitch.tv/zerobandwidth
 * Discord for Tech Support https://discord.gg/ejgQUfc
