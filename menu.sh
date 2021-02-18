@@ -432,7 +432,7 @@ function restore_world_data() {
    done;
 #counter index
     bIndex=1
-        for item in "${backups[@]}";do
+        for item in "${backups[@]}"; do
  #print option [index]> [file name]
         echo "$bIndex> ${item%.*} "
  #increment
