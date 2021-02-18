@@ -14,7 +14,7 @@
     <img src="https://user-images.githubusercontent.com/16698453/108028539-4f863700-702c-11eb-82b8-c40c9644da18.jpg" alt="Logo" width="300" height="250">
   </a>
 
-  <h3 align="center">Zero's Easy Valheim Installer</h3>
+  <h3 align="center">ZeroBandwidth's Original Easy Valheim Installer</h3>
 
   <p align="center">
     So easy a Viking can do it!
@@ -24,6 +24,8 @@
     <br />
     <a href="https://www.youtube.com/watch?v=0YPLf7Bw5W4">View Demo</a>   
     ·
+    <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/How-to-Update-Your-Valheim-Server">How to Update your Server</a>
+    .
     <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/Top-10-Reason-your-Server-is-not-working-and-how-to-fix">Top 10 Server Issue Fixes</a>
     .
     <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/issues">Report Bug</a>
@@ -83,7 +85,6 @@ Using my DigitalOcean Referral Link:
 
 ### Built With
 
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 * [BASH](https://www.gnu.org/software/bash/)
 * [UBUNTU](https://ubuntu.com/)
 * [SteamCMD](https://developer.valvesoftware.com/wiki/SteamCMD)
@@ -97,8 +98,6 @@ This is an example of how you may give instructions on setting up your project l
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
 
 * Cloud Hosting or Virtualization Service
   ```sh
@@ -119,13 +118,26 @@ This is an example of how to list things you need to use the software and how to
   ```sh
   https://winscp.net/eng/download.php
   ```
+* Tested in lab envoriment
+* Software: LInux Server disro.
+* Hardware: 1CPU 1GB RAM 4GB Storage
+* Recommended: 4CPU+ 16GB RAM 256GB Storage
 
+*Nerd Stats:
+```sh
+1-3  players 1 CPU 1GB RAM 4GB Storage
+2-5  players 2 CPU 4GB    RAM 64GB  Storage
+5-7  players 3 CPU 6GB    RAM 100GB Storage
+8-10 players 4 CPU 8-16GB RAM 256GB Storage (16GB RAM+ for larger servers)
+Network Connection 5 players 10MBps (up/down) Latency 1-20ms
+```
+  
 
 ### Installation
 
 * SSH into your newly Created VM
   ```sh
-  Home your home computer connect to your Ubuntu VM via SSH
+  From your home computer, connect to your Ubuntu VM via SSH
   Using putty or another terminal is recommended
   If you can connect via Putty/Terminal, then you have setup firewall rules correctly
   ```
@@ -143,7 +155,7 @@ cd /opt
 3. Download Easy Installer from Github - Nimdy (Zero Bandwidth)
 =
 ```sh
-sudo git clone https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
+git clone https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
 ```
 4. Change directory to Dedicated_Valheim_Server_Script
 =
@@ -192,11 +204,14 @@ Select I Agree
 Press Enter
 ```
 10. Allow ports 2456,2457,2458 (TCP/UDP) on your server 
+This might take you a while, if you never done it before. Don't worry, members in my discord and myself can help troubleshoot later
 =
-```sh
-sudo ufw allow 2456:2458/tcp
-sudo ufw allow 2456:2458/udp
-```
+
+**(DO NOT OVER LOOK THIS STEP)**
+
+If running in a Cloud Server, please check the WIKI for configuration steps.
+* [Port Configuration WIKI](https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/AWS-Azure-GCP-and-DigitalOcean-Valheim-Port-Configuration)
+
 11. Stop Valheim service
 =
 ```sh
@@ -238,9 +253,9 @@ See the [open issues](https://github.com/Nimdy/Dedicated_Valheim_Server_Script/i
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
+2. Create your Feature Branch (`git checkout -b feature/AmazingIdea`)
+3. Commit your Changes (`git commit -m 'Add some AmazingIdea'`)
+4. Push to the Branch (`git push origin feature/AmazingIdea`)
 5. Open a Pull Request
 
 
@@ -251,9 +266,7 @@ Contributions are what make the open source community such an amazing place to b
 <!-- CONTACT -->
 ## Contact
 
-ZeroBandwidth- [@zerobandwidth](https://twitter.com/zerobandwidth) - mrzerobandwidth@gmail.com
-
-Patreon link: [Zero's Patreon](https://www.patreon.com/zerobandwidth)
+Your Name - [@zerobandwidth](https://twitter.com/zerobandwidth) - mrzerobandwidth@gmail.com
 
 Project Link: [https://github.com/Nimdy/Dedicated_Valheim_Server_Script](https://github.com/Nimdy/Dedicated_Valheim_Server_Script)
 
@@ -270,7 +283,7 @@ Project Link: [https://github.com/Nimdy/Dedicated_Valheim_Server_Script](https:/
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links 
 [contributors-shield]: #
 [contributors-url]: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/graphs/contributors
 [forks-shield]: #
@@ -279,4 +292,4 @@ Project Link: [https://github.com/Nimdy/Dedicated_Valheim_Server_Script](https:/
 [stars-url]: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/stargazers
 [issues-shield]: #
 [issues-url]: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/issues
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: images/screenshot.png-->
