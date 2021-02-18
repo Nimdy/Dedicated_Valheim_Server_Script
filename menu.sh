@@ -32,10 +32,10 @@ mversion="Version 1.0"
 # Color  Variables
 ##
 #If you changed the location of your default 
-worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
+worldpath="/home/steam/.config/unity3d/IronGate/Valheim/worlds"
 #If you have a different backup director change it.
 #
-backupPath=/home/steam/backups
+backupPath="/home/steam/backups"
 
 NOCOLOR='\033[0m'
 RED='\033[0;31m'
