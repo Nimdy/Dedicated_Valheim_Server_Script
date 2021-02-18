@@ -612,7 +612,7 @@ $(ColorBlue 'Choose an option:') "
 	        4) all_checks ; menu ;;
 		5) admin_tools_menu ; menu ;;
 		6) tech_support ; menu ;;
-		6) server_install_menu ; menu ;;
+		7) server_install_menu ; menu ;;
 		    0) exit 0 ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
