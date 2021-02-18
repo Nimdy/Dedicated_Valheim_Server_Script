@@ -519,6 +519,7 @@ function confirm_check_apply_server_updates() {
 while true; do
     echo "WARNING DOING THIS WILL SHUTDOWN THE SERVER"
     echo "MAKE SURE EVERYBODY IS LOGGED OUT OF THE SERVER"
+    echo "Press y(YES) and n(NO)"
     read -p "Do you wish to continue?" yn
     case $yn in
         [Yy]* ) check_apply_server_updates; break;;
