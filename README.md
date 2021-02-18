@@ -69,10 +69,10 @@
 [![Thumbnail](https://img.youtube.com/vi/0YPLf7Bw5W4/0.jpg)](https://www.youtube.com/watch?v=0YPLf7Bw5W4)
 
 
-* Added new EASY to use menu system - Enjoy
+* Added new EASY to use menu system for new user - Enjoy
 * This Menu will also install your Server and do many many other things! Enjoy!
-* How to use:
-* https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/How-to-use-the-Menu-Script
+* How to use: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/How-to-use-the-Menu-Script
+* Old install process works just fine. (Until Loki Kills it)
 
 I started this to help out the community and I did not think for a moment it would have taken off so quickly.
 If this script did help you get your Valheim server running, please star and share this with others!
