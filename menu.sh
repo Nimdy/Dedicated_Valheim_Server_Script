@@ -1,4 +1,5 @@
 #!/bin/bash
+# BETA BRANCH MENU
 #  THIS IS STILL A WORK IN PROGRESS BUT ALL THE FUNCTIONS WORK
 #  I NEED TO JUST CLEAN IT UP AND FORMAT BETTER
 #  PLEASE LET ME KNOW ABOUT ISSUES
@@ -99,7 +100,7 @@ ColorWhite(){
 
 
 function script_check_update() {
-BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/main"
+BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/beta"
     git stash
     LAST_UPDATE=`git show --no-notes --format=format:"%H" $BRANCH | head -n 1`
     LAST_COMMIT=`git show --no-notes --format=format:"%H" origin/$BRANCH | head -n 1`
