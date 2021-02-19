@@ -500,7 +500,7 @@ function restore_world_data() {
     bIndex=$((bIndex+1))
     done
 #promt user for index
-    echo "Select Backup File you wish to restore"
+tput setaf 2; echo "Select Backup File you wish to restore"  ; tput setaf 9;
     read -p "" selectedIndex
 #show confirmation message
 
@@ -584,6 +584,7 @@ function confirm_check_apply_server_updates() {
 while true; do
 echo -ne "
 $(ColorRed '-----------------------------------------------')"
+echo ""
 tput setaf 2; echo "WARNING DOING THIS WILL SHUTDOWN THE SERVER" ; tput setaf 9;
 tput setaf 2; echo "MAKE SURE EVERYBODY IS LOGGED OUT OF THE SERVER" ; tput setaf 9;
 tput setaf 2; echo "Press y(YES) and n(NO)" ; tput setaf 9;
