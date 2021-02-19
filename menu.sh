@@ -103,11 +103,16 @@ BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/main"
         if [ $LAST_COMMIT != $LAST_UPDATE ]; then
             echo "Updating your branch $BRANCH"
             git pull --no-edit
-	    chmod +x menu.sh	    
+            echo "Resetting Execute Permissions on Menu"
+            chmod +x menu.sh
+            echo "Updates completed, exiting menu in 5 seconds, please restart menu"
+            sleep 5
+            exit
         else
             echo "No updates available"
         fi
 }
+
 
 function system_info() {
 echo ""
