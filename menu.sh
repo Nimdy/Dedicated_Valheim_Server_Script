@@ -517,8 +517,10 @@ restorefile=$(basename "${backups[$selectedIndex-1]}")
  #untar
         echo "Unpacking ${worldpath}/${restorefile}"
         tar xzf ${worldpath}/${restorefile} --strip-components=7 --directory ${worldpath}/  
-	chown -Rf /home/steam/.config/unity3d/IronGate/Valheim/worlds
+	chown -Rf steam:steam /home/steam/.config/unity3d/IronGate/Valheim/worlds/*
 	#uncomment when test are 100%
+	#last time steam was applied to /usr and other locations 
+	#really jacked stuff up - DAMN IT LOKI!!!
 	#chown -Rf steam:steam $worldpath
  #start valheim server
         echo "Starting Valheim Services"
