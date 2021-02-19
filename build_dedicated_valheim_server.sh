@@ -43,6 +43,8 @@ sleep 1
 
 #install steamcmd
 tput setaf 1; echo "Installing steamcmd and libsdl2"
+echo steam steam/question select "I AGREE" | sudo debconf-set-selections
+echo steam steam/license note '' | sudo debconf-set-selections
 apt install steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386 -y
 tput setaf 2; echo "Done"
 tput setaf 9;
@@ -160,7 +162,7 @@ sleep 1
 
 #chown steam user permissions to all of user steam dir location
 tput setaf 1; echo "Setting steam account permissions to /home/steam/*"
-chown steam:steam -Rf /home/steam/*
+chown -Rf steam:steam /home/steam/*
 tput setaf 2; echo "Done"
 tput setaf 9;
 sleep 1
