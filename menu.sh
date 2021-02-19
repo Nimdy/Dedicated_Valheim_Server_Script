@@ -428,8 +428,9 @@ function valheim_server_install() {
 
 while true; do
 echo -ne "
-$(ColorRed '--------------------------------------')
+$(ColorRed '--------------------------------------')"
 tput setaf 2; read -p "Do you wish to install Valheim Server?" yn ; tput setaf 9;
+echo -ne "
 $(ColorRed '--------------------------------------')"
     case $yn in
         [Yy]* ) confirmed_valheim_install; break;;
