@@ -9,7 +9,7 @@ clear
 #Only change this if you know what you are doing
 #Valheim Server Install location(Default) 
 worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
-#Backup Directory (Default)
+#Backup Directory ( Default )
 backupPath=/home/steam/backups
 ###############################################################
 
