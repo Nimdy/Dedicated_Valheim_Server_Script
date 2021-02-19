@@ -462,7 +462,6 @@ function backup_world_data() {
          ##--exclude some directories, for example the the browser's cache, `.bash_history`, etc.
          tar czf $backupPath/valheim-backup-$TODAY.tgz $worldpath/*
 	 chown -Rf steam:steam /home/steam/backups
-         chown -Rf steam:steam $backupPath/*
     echo ""
 
 }
@@ -515,7 +514,9 @@ restorefile=$(basename "${backups[$selectedIndex-1]}")
  #untar
         echo "Unpacking ${worldpath}/${restorefile}"
         tar xzf ${worldpath}/${restorefile} --strip-components=7 --directory ${worldpath}/  
-	chown -Rf steam:steam $worldpath
+	chown -Rf /home/steam/.config/unity3d/IronGate/Valheim/worlds
+	#uncomment when test are 100%
+	#chown -Rf steam:steam $worldpath
  #start valheim server
         echo "Starting Valheim Services"
         echo "This better work Loki!"
