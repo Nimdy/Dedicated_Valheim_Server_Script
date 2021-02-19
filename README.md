@@ -290,6 +290,8 @@ Project Link: [https://github.com/Nimdy/Dedicated_Valheim_Server_Script](https:/
 * [Nicolas-Martin for Variable Assignment](https://github.com/nicolas-martin)
 * [madmozg - Pointing out my Typos](https://github.com/madmozg)
 * [bherbruck - Correct Profile Creation](https://github.com/bherbruck)
+* [Kurt - Debugging and Testing](#)
+* [LachlanMaco - Backup and Restore Functions](https://github.com/LachlanMac)
 * [beko - Correct KillSignal for Valheim Server](#)
 
 
