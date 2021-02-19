@@ -509,7 +509,7 @@ restorefile=$(basename "${backups[$selectedIndex-1]}")
 echo -ne "
 $(ColorRed '-----------------------------------------------')
 $(ColorGreen 'echo "${restorefile}" ')
-    echo "Restore "${restorefile}" ?"
+    echo "Restore "${restorefile}" '?'"
     echo "Are you sure you want to do this?"
     echo "Remember to match world name with /home/steam/valheimserver/start_valheim.sh"
     echo "The param for -world "worldname" much match restore file worldname.db and worldname.fwl"
