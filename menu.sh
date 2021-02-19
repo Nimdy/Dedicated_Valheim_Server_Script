@@ -453,15 +453,16 @@ function backup_world_data() {
     echo ""
          ## Get the current date as variable.
          TODAY="$(date +%Y-%m-%d-%X)"
-	 
+	 echo "Checking to see if backup directory is created"
+	 echo "If not, one will be created"
 	 dldir=$backupPath
 	 [ ! -d "$dldir" ] && mkdir -p "$dldir"
-         
+         sleep 1
          ## Clean up files older than 2 weeks. Create a new backup.
 	 echo "Cleaning up old backup files. Older than 2 weeks"
          find $backupPath/* -mtime +14 -type f -delete
 	 echo "Cleaned up better than Loki"
-
+         sleep 1
          ## Tar Section. Create a backup file, with the current date in its name.
          ## Add -h to convert the symbolic links into a regular files.
          ## Backup some system files, also the entire `/home` directory, etc.
@@ -469,6 +470,7 @@ function backup_world_data() {
 	 echo "Making tar file of world data"
          tar czf $backupPath/valheim-backup-$TODAY.tgz $worldpath/*
 	 echo "Process complete!"
+	 sleep 1
 	 echo ""
 	 echo "Setting permissions for steam on backup file"
 	 chown -Rf steam:steam /home/steam/backups
