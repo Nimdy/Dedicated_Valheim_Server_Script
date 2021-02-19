@@ -75,16 +75,12 @@
 * Old install process works just fine. (Until Loki Kills it)
 
 I started this to help out the community and I did not think for a moment it would have taken off so quickly.
-If this script did help you get your Valheim server running, please star and share this with others!
 Should you need any help troubleshooting your Valheim Server visit me on Twitch or Discord.
 
 * My production server is 6 days solid as of 18FEB2021)
-* In game time is 430+ days
-* Zero issues, zero crashes, zero cases of corrupted data. 
-* If is it not broke, don't fix it!  <-- Yes, I said that right
+* In game time is 430+ days |* Zero issues, zero crashes, zero cases of corrupted data. 
 
-* Twitch Channel: https://www.twitch.tv/zerobandwidth
-* Discord for Tech Support https://discord.gg/ejgQUfc
+* Twitch Channel: https://www.twitch.tv/zerobandwidth | * Discord for Tech Support https://discord.gg/ejgQUfc
 
 Using my DigitalOcean Referral Link:
 * Unsure you want a dedicated server?
@@ -241,7 +237,8 @@ sudo reboot
 sudo systemctl status valheimserver.service
 ```
 
-
+* Did this help you?  Please star it!
+* Do you want to add to this? Please fork it!
 
 <!-- USAGE EXAMPLES -->
 ## Usage
