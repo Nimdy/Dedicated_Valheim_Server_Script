@@ -14,7 +14,7 @@ backupPath=/home/steam/backups
 ###############################################################
 
 # Set Menu Version
-mversion="Version 1.0"
+mversion="Version 1.1"
 ##
 # System script that checks:
 #   - Display System Info
@@ -103,6 +103,8 @@ BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/main"
         if [ $LAST_COMMIT != $LAST_UPDATE ]; then
             echo "Updating your branch $BRANCH"
             git pull --no-edit
+	    chmod +x menu.sh
+	    
         else
             echo "No updates available"
         fi
