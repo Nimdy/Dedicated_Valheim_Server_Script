@@ -103,8 +103,7 @@ BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/main"
         if [ $LAST_COMMIT != $LAST_UPDATE ]; then
             echo "Updating your branch $BRANCH"
             git pull --no-edit
-	    chmod +x menu.sh
-	    
+	    chmod +x menu.sh	    
         else
             echo "No updates available"
         fi
@@ -774,8 +773,6 @@ $(ColorBlue 'Choose an option:') "
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
 }
-
-
 
 # Call the menu function
 menu
