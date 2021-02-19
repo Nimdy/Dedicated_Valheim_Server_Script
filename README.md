@@ -204,14 +204,7 @@ sudo ./build_dedicated_valheim_server.sh
 ```sh
 Select  keep the local version currently installed or No (default)
 ```
-9. User prompt for agreement of STEAM LICENSE AGREEMENT
-=
-```sh
-Select Ok
-Select I Agree
-Press Enter
-```
-10. Allow ports 2456,2457,2458 (TCP/UDP) on your server 
+9. Allow ports 2456,2457,2458 (TCP/UDP) on your server 
 This might take you a while, if you never done it before. Don't worry, members in my discord and myself can help troubleshoot later
 =
 
@@ -221,17 +214,17 @@ If running in a Cloud Server, please check the WIKI for configuration steps.
 * [CLICK - Port Configuration WIKI](https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/AWS-Azure-GCP-and-DigitalOcean-Valheim-Port-Configuration)
 * Oh LOKI!!! Did you skip the link above? 
 
-11. Stop Valheim service
+10. Stop Valheim service
 =
 ```sh
 sudo systemctl stop valheimserver.service
 ```
-12. Reboot Server for the lawls! (Always good to reboot after installing something)
+11. Reboot Server for the lawls! (Always good to reboot after installing something)
 =
 ```sh
 sudo reboot
 ```
-13. Once your server comes back online wait 1-3 mins and check Valheim service
+12. Once your server comes back online wait 1-3 mins and check Valheim service
 =
 ```sh
 sudo systemctl status valheimserver.service
