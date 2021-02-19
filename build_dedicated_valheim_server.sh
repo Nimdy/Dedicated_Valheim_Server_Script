@@ -3,7 +3,7 @@
 # All in one Script to install Valheim Dedicated Server
 # Thanks to nicolas-martin for the variable assignment changes
 # Thanks to YT: GeekHead for modivating me to do this
-#making changes to push beta
+# making changes to push beta
 
 
 # There are 4 things you need to change!
