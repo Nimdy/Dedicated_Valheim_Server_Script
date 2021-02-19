@@ -602,12 +602,15 @@ function stop_valheim_server() {
     clear
     echo ""
     echo -ne "
+$(ColorOrange '----------------Stop Valheim Server----------------')
 $(ColorRed '----------------------------------------------------')"
+echo ""
 tput setaf 2; echo "You are about to STOP the Valheim Server" ; tput setaf 9; 
 tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
-    echo -ne "
+echo -ne "
 $(ColorRed '----------------------------------------------------')"
-    read -p "" confirmStop
+echo ""
+ read -p "Please confirm:" confirmStop
 #if y, then continue, else cancel
         if [ "$confirmStop" == "y" ]; then
     sudo systemctl stop valheimserver.service
@@ -615,19 +618,21 @@ $(ColorRed '----------------------------------------------------')"
     else
     echo "Canceling Stopping of Valheim Server Service - because Loki sucks"
 fi
-
 }
 
 function start_valheim_server() {
     clear
     echo ""
     echo -ne "
- $(ColorRed '----------------------------------------------------')"
- tput setaf 2; echo "You are about to START the Valheim Server" ; tput setaf 9; 
- tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
-    echo -ne "
- $(ColorRed '----------------------------------------------------')"
-    read -p "" confirmStart
+$(ColorOrange '----------------Start Valheim Server----------------')
+$(ColorRed '----------------------------------------------------')"
+echo ""
+tput setaf 2; echo "You are about to START the Valheim Server" ; tput setaf 9;
+tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9;
+echo -ne "
+$(ColorRed '----------------------------------------------------')"
+echo ""
+ read -p "Please confirm:" confirmStart
 #if y, then continue, else cancel
         if [ "$confirmStart" == "y" ]; then
     sudo systemctl start valheimserver.service
@@ -635,19 +640,21 @@ function start_valheim_server() {
     else
         echo "Canceling Starting of Valheim Server Service - because Loki sucks"
 fi
-
 }
 
 function restart_valheim_server() {
     clear
     echo ""
     echo -ne "
+$(ColorOrange '------------Restart Valheim Server----------------')
 $(ColorRed '----------------------------------------------------')"
+echo ""
 tput setaf 2; echo "You are about to RESTART the Valheim Server" ; tput setaf 9; 
 tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
-    echo -ne "
+echo -ne "
 $(ColorRed '----------------------------------------------------')"
-read -p "" confirmRestart
+echo ""
+ read -p "Please confirm:" confirmRestart
 #if y, then continue, else cancel
         if [ "$confirmRestart" == "y" ]; then
     sudo systemctl restart valheimserver.service
@@ -655,7 +662,6 @@ read -p "" confirmRestart
     else
         echo "Canceling Restarting of Valheim Server Service - because Loki sucks"
 fi
-
 }
 
 
