@@ -279,7 +279,7 @@ sleep 1
 
 #chown steam user to steam
 tput setaf 1; echo "Setting steam permissions" ; tput setaf 9;
-chown -Rf steam:steam /home/steam
+chown -Rf steam:steam /home/steam/*
 tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
