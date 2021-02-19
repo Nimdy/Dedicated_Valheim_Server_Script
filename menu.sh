@@ -425,8 +425,9 @@ dltmpdir=vaheiminstall_temp
 }
 
 function valheim_server_install() {
-echo -ne "
+
 while true; do
+echo -ne "
 $(ColorRed '--------------------------------------')
 tput setaf 2; read -p "Do you wish to install Valheim Server?" yn ; tput setaf 9;
 $(ColorRed '--------------------------------------')"
