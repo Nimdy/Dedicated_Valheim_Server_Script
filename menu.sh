@@ -1,5 +1,8 @@
 #!/bin/bash
-# 
+#  THIS IS STILL A WORK IN PROGRESS BUT ALL THE FUNCTIONS WORK
+#  I NEED TO JUST CLEAN IT UP AND FORMAT BETTER
+#  PLEASE LET ME KNOW ABOUT ISSUES
+#  UPDATE THE MENU BEFORE YOU USE IT 
 # If Frankenstein was a bash script
 # Please help improve this script
 # Easy Valheim Server Menu
@@ -103,16 +106,11 @@ BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/main"
         if [ $LAST_COMMIT != $LAST_UPDATE ]; then
             echo "Updating your branch $BRANCH"
             git pull --no-edit
-            echo "Resetting Execute Permissions on Menu"
-            chmod +x menu.sh
-            echo "Updates completed, exiting menu in 5 seconds, please restart menu"
-            sleep 5
-            exit
+	    chmod +x menu.sh	    
         else
             echo "No updates available"
         fi
 }
-
 
 function system_info() {
 echo ""
@@ -284,7 +282,7 @@ sleep 1
 
 #chown steam user to steam
 tput setaf 1; echo "Setting steam permissions" ; tput setaf 9;
-chown -Rf steam:steam /home/steam
+chown -Rf steam:steam /home/steam/*
 tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
@@ -433,8 +431,11 @@ function valheim_server_install() {
 
 while true; do
 echo -ne "
-$(ColorRed '--------------------------------------')
+$(ColorRed '--------------------------------------')"
+echo ""
 tput setaf 2; read -p "Do you wish to install Valheim Server?" yn ; tput setaf 9;
+echo ""
+echo -ne "
 $(ColorRed '--------------------------------------')"
     case $yn in
         [Yy]* ) confirmed_valheim_install; break;;
@@ -464,7 +465,6 @@ function backup_world_data() {
          ##--exclude some directories, for example the the browser's cache, `.bash_history`, etc.
          tar czf $backupPath/valheim-backup-$TODAY.tgz $worldpath/*
 	 chown -Rf steam:steam /home/steam/backups
-         chown -Rf steam:steam $backupPath/*
     echo ""
 
 }
@@ -517,7 +517,11 @@ restorefile=$(basename "${backups[$selectedIndex-1]}")
  #untar
         echo "Unpacking ${worldpath}/${restorefile}"
         tar xzf ${worldpath}/${restorefile} --strip-components=7 --directory ${worldpath}/  
-	chown -Rf steam:steam $worldpath
+	chown -Rf steam:steam /home/steam/.config/unity3d/IronGate/Valheim/worlds/*
+	#uncomment when test are 100%
+	#last time steam was applied to /usr and other locations 
+	#really jacked stuff up - DAMN IT LOKI!!!
+	#chown -Rf steam:steam $worldpath
  #start valheim server
         echo "Starting Valheim Services"
         echo "This better work Loki!"
@@ -623,9 +627,7 @@ echo ""
     else
     echo "Canceling Stopping of Valheim Server Service - because Loki sucks"
 fi
-
 }
-
 
 function start_valheim_server() {
     clear
@@ -669,7 +671,6 @@ echo ""
     else
         echo "Canceling Restarting of Valheim Server Service - because Loki sucks"
 fi
-
 }
 
 
