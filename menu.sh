@@ -257,6 +257,8 @@ sleep 5
 #install steamcmd and libsd12-2
 tput setaf 1; echo "Installing steamcmd and libsdl2"
 apt install steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386 -y
+echo steam steam/question select "I AGREE" | sudo debconf-set-selections
+echo steam steam/license note '' | sudo debconf-set-selections
 tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
