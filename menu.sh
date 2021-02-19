@@ -1,5 +1,8 @@
 #!/bin/bash
-# 
+#  THIS IS STILL A WORK IN PROGRESS BUT ALL THE FUNCTIONS WORK
+#  I NEED TO JUST CLEAN IT UP AND FORMAT BETTER
+#  PLEASE LET ME KNOW ABOUT ISSUES
+#  UPDATE THE MENU BEFORE YOU USE IT 
 # If Frankenstein was a bash script
 # Please help improve this script
 # Easy Valheim Server Menu
