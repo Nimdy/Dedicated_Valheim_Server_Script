@@ -508,12 +508,12 @@ tput setaf 2; echo "Select Backup File you wish to restore"  ; tput setaf 9;
 restorefile=$(basename "${backups[$selectedIndex-1]}")
 echo -ne "
 $(ColorRed '-----------------------------------------------')
-$(ColorGreen 'echo "${restorefile}" ')
-    echo "Restore "${restorefile}" '?'"
-    echo "Are you sure you want to do this?"
-    echo "Remember to match world name with /home/steam/valheimserver/start_valheim.sh"
-    echo "The param for -world "worldname" much match restore file worldname.db and worldname.fwl"
-    echo "Press y(yes) or n(no)" "
+$(ColorGreen 'Restore '${restorefile}' ?')
+$(ColorGreen  'Are you sure you want to do this? ')
+$(ColorOrange  'Remember to match world name with /home/steam/valheimserver/start_valheim.sh')
+$(ColorOrange  'The param for -world "worldname" much match restore file worldname.db and worldname.fwl')
+$(ColorGreen   'Press y(yes) or n(no)') "
+
 #read user input confirmation
     read -p "" confirmBackup
 #if y, then continue, else cancel
@@ -538,7 +538,6 @@ $(ColorGreen 'echo "${restorefile}" ')
         echo "Starting Valheim Services"
         echo "This better work Loki!"
         systemctl start valheimserver
-	systemctl status valheimserver
 else
         echo "Canceling restore process because Loki sucks"
 fi
