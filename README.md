@@ -222,7 +222,8 @@ This might take you a while, if you never done it before. Don't worry, members i
 **(DO NOT OVER LOOK THIS STEP)**
 
 If running in a Cloud Server, please check the WIKI for configuration steps.
-* [Port Configuration WIKI](https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/AWS-Azure-GCP-and-DigitalOcean-Valheim-Port-Configuration)
+* [CLICK - Port Configuration WIKI](https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/AWS-Azure-GCP-and-DigitalOcean-Valheim-Port-Configuration)
+* Oh LOKI!!! Did you skip the link above? 
 
 11. Stop Valheim service
 =
