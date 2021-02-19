@@ -602,9 +602,10 @@ function stop_valheim_server() {
     clear
     echo ""
     echo -ne "
-$(ColorRed '----------------------------------------------------')
+$(ColorRed '----------------------------------------------------')"
 tput setaf 2; echo "You are about to STOP the Valheim Server" ; tput setaf 9; 
 tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
+    echo -ne "
 $(ColorRed '----------------------------------------------------')"
     read -p "" confirmStop
 #if y, then continue, else cancel
@@ -621,9 +622,10 @@ function start_valheim_server() {
     clear
     echo ""
     echo -ne "
- $(ColorRed '----------------------------------------------------')
+ $(ColorRed '----------------------------------------------------')"
  tput setaf 2; echo "You are about to START the Valheim Server" ; tput setaf 9; 
  tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
+    echo -ne "
  $(ColorRed '----------------------------------------------------')"
     read -p "" confirmStart
 #if y, then continue, else cancel
@@ -640,9 +642,10 @@ function restart_valheim_server() {
     clear
     echo ""
     echo -ne "
-$(ColorRed '----------------------------------------------------')
+$(ColorRed '----------------------------------------------------')"
 tput setaf 2; echo "You are about to RESTART the Valheim Server" ; tput setaf 9; 
 tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
+    echo -ne "
 $(ColorRed '----------------------------------------------------')"
 read -p "" confirmRestart
 #if y, then continue, else cancel
