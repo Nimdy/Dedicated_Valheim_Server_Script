@@ -481,7 +481,6 @@ function backup_world_data() {
 
 # Thanks to GITHUB @LachlanMac and @Kurt
 function restore_world_data() {
-
 #init empty array
     declare -a backups
 #loop through backups and put in array
@@ -499,18 +498,17 @@ function restore_world_data() {
     bIndex=$((bIndex+1))
     done
 #promt user for index
-    echo "Select Backup File you wish to restore"
+tput setaf 2; echo "Select Backup File you wish to restore"  ; tput setaf 9;
     read -p "" selectedIndex
 #show confirmation message
-
-
 restorefile=$(basename "${backups[$selectedIndex-1]}")
-    echo "${restorefile}"
-    echo "Restore "${restorefile}" ?"
-    echo "Are you sure you want to do this?"
-    echo "Remember to match world name with /home/steam/valheimserver/start_valheim.sh"
-    echo "The param for -world "worldname" much match restore file worldname.db and worldname.fwl"
-    echo "Press y(yes) or n(no)"
+echo -ne "
+$(ColorRed '-----------------------------------------------')
+$(ColorGreen 'Restore '${restorefile}' ?')
+$(ColorGreen  'Are you sure you want to do this? ')
+$(ColorOrange  'Remember to match world name with /home/steam/valheimserver/start_valheim.sh')
+$(ColorOrange  'The param for -world "worldname" much match restore file worldname.db and worldname.fwl')
+$(ColorGreen   'Press y(yes) or n(no)') "
 #read user input confirmation
     read -p "" confirmBackup
 #if y, then continue, else cancel
@@ -535,15 +533,10 @@ restorefile=$(basename "${backups[$selectedIndex-1]}")
         echo "Starting Valheim Services"
         echo "This better work Loki!"
         systemctl start valheimserver
-	systemctl status valheimserver
 else
         echo "Canceling restore process because Loki sucks"
 fi
-
 }
-
-
-
 
 function check_apply_server_updates() {
     echo ""
