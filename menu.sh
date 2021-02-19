@@ -14,7 +14,7 @@ backupPath=/home/steam/backups
 ###############################################################
 
 # Set Menu Version
-mversion="Version 1.0"
+mversion="Version 1.1"
 ##
 # System script that checks:
 #   - Display System Info
@@ -103,6 +103,7 @@ BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/main"
         if [ $LAST_COMMIT != $LAST_UPDATE ]; then
             echo "Updating your branch $BRANCH"
             git pull --no-edit
+	    chmod +x menu.sh	    
         else
             echo "No updates available"
         fi
@@ -254,6 +255,8 @@ sleep 5
 
 #install steamcmd and libsd12-2
 tput setaf 1; echo "Installing steamcmd and libsdl2"
+echo steam steam/question select "I AGREE" | sudo debconf-set-selections
+echo steam steam/license note '' | sudo debconf-set-selections
 apt install steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386 -y
 tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
@@ -424,9 +427,10 @@ dltmpdir=vaheiminstall_temp
 function valheim_server_install() {
 
 while true; do
+echo -ne "
 $(ColorRed '--------------------------------------')
 tput setaf 2; read -p "Do you wish to install Valheim Server?" yn ; tput setaf 9;
-$(ColorRed '--------------------------------------')
+$(ColorRed '--------------------------------------')"
     case $yn in
         [Yy]* ) confirmed_valheim_install; break;;
         [Nn]* ) exit;;
@@ -559,12 +563,14 @@ function check_apply_server_updates() {
 function confirm_check_apply_server_updates() {
 
 while true; do
-$(ColorRed '-----------------------------------------------')
+echo -ne "
+$(ColorRed '-----------------------------------------------')"
 tput setaf 2; echo "WARNING DOING THIS WILL SHUTDOWN THE SERVER" ; tput setaf 9;
 tput setaf 2; echo "MAKE SURE EVERYBODY IS LOGGED OUT OF THE SERVER" ; tput setaf 9;
 tput setaf 2; echo "Press y(YES) and n(NO)" ; tput setaf 9;
 tput setaf 2; read -p "Do you wish to continue?" yn ; tput setaf 9; 
-$(ColorRed '-----------------------------------------------')
+echo -ne "
+$(ColorRed '-----------------------------------------------')"
     case $yn in
         [Yy]* ) check_apply_server_updates; break;;
         [Nn]* ) exit;;
@@ -595,10 +601,12 @@ function display_world_data_folder() {
 function stop_valheim_server() {
     clear
     echo ""
-$(ColorRed '----------------------------------------------------')
+    echo -ne "
+$(ColorRed '----------------------------------------------------')"
 tput setaf 2; echo "You are about to STOP the Valheim Server" ; tput setaf 9; 
 tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
-$(ColorRed '----------------------------------------------------')
+    echo -ne "
+$(ColorRed '----------------------------------------------------')"
     read -p "" confirmStop
 #if y, then continue, else cancel
         if [ "$confirmStop" == "y" ]; then
@@ -613,10 +621,12 @@ fi
 function start_valheim_server() {
     clear
     echo ""
- $(ColorRed '----------------------------------------------------')
+    echo -ne "
+ $(ColorRed '----------------------------------------------------')"
  tput setaf 2; echo "You are about to START the Valheim Server" ; tput setaf 9; 
  tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
- $(ColorRed '----------------------------------------------------')
+    echo -ne "
+ $(ColorRed '----------------------------------------------------')"
     read -p "" confirmStart
 #if y, then continue, else cancel
         if [ "$confirmStart" == "y" ]; then
@@ -631,10 +641,12 @@ fi
 function restart_valheim_server() {
     clear
     echo ""
-$(ColorRed '----------------------------------------------------')
+    echo -ne "
+$(ColorRed '----------------------------------------------------')"
 tput setaf 2; echo "You are about to RESTART the Valheim Server" ; tput setaf 9; 
 tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
-$(ColorRed '----------------------------------------------------')
+    echo -ne "
+$(ColorRed '----------------------------------------------------')"
 read -p "" confirmRestart
 #if y, then continue, else cancel
         if [ "$confirmRestart" == "y" ]; then
@@ -765,8 +777,6 @@ $(ColorBlue 'Choose an option:') "
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
 }
-
-
 
 # Call the menu function
 menu
