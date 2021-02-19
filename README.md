@@ -69,7 +69,7 @@
 [![Thumbnail](https://img.youtube.com/vi/0YPLf7Bw5W4/0.jpg)](https://www.youtube.com/watch?v=0YPLf7Bw5W4)
 
 
-* Added new EASY to use menu system for new user - Enjoy
+* Added new EASY to use menu system for new and old users of the script - Enjoy
 * This Menu will also install your Server and do many many other things! Enjoy!
 * How to use: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/How-to-use-the-Menu-Script
 * Old install process works just fine. (Until Loki Kills it)
