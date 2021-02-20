@@ -720,6 +720,7 @@ $(ColorBlue 'Choose an option:') "
 
 
 function display_system_info() {
+clear
 echo ""
     echo -e "-------------------------------System Information----------------------------"
     echo -e "Hostname:\t\t"`hostname`
@@ -750,15 +751,16 @@ echo ""
 ########################################################################
 
 function display_network_info() {
-echo ""
-sudo netstat -atunp | grep valheim
-sudo ipconfig
-echo ""
+clear
+    echo ""
+    sudo netstat -atunp | grep valheim
+    sudo ipconfig
+    echo ""
 
 }
 
 function display_player_history() {
-    clear
+clear
     echo ""
     sudo cat syslog | grep ZDOID
     echo ""
