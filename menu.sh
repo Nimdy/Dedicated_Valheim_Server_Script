@@ -736,6 +736,7 @@ function display_valheim_server_status() {
 }
 
 function display_start_valheim() {
+    clear
     echo ""
     sudo cat /home/steam/valheimserver/start_valheim.sh
     echo ""
