@@ -746,6 +746,8 @@ function display_start_valheim() {
 
 
 server_install_menu(){
+clear
+echo ""
 echo -ne "
 $(ColorOrange '-')$(ColorOrange '---------Server System Information--------')
 $(ColorOrange '-')$(ColorGreen '1)') Fresh or Reinstall Valheim Server
@@ -761,6 +763,8 @@ $(ColorBlue 'Choose an option:') "
 }
 
 tech_support(){
+clear
+echo ""
 echo -ne "
 $(ColorOrange '--------------Valheim Tech Support--------------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Display Valheim Config File
@@ -780,6 +784,8 @@ $(ColorBlue 'Choose an option:') "
 }
 
 admin_tools_menu(){
+clear
+echo ""
 echo -ne "
 $(ColorOrange '-------------Valheim Backup and Restore Tools---------------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Backup World
@@ -885,6 +891,8 @@ function other_mods() {
 
 
 valheim_plus_options(){
+clear
+echo ""
 echo -ne "
 $(ColorRed '-------NOT ADDED YET BUILDING FRAME WORK---------')
 $(ColorCyan '-------------Valheim+ Mod Menu---------------')
@@ -910,6 +918,8 @@ $(ColorBlue 'Choose an option:') "
 
 
 mods_menu(){
+clear
+echo ""
 echo -ne "
 $(ColorCyan '-----------Valheim+ Install Remove Update----------')
 $(ColorCyan '-')$(ColorGreen ' 1)') Install Valheim+ 
@@ -934,6 +944,8 @@ $(ColorBlue 'Choose an option:') "
 ########################################################################
 
 menu(){
+clear
+echo ""
 echo -ne "
 $(ColorOrange '╔═════════════════════════════════════════╗')
 $(ColorOrange '║~~~-ZeroBandwidths Easy Valheim Menu-~~~~║')
