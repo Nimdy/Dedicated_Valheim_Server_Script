@@ -112,7 +112,7 @@ BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/beta"
             echo "No updates available"
 
         fi
-    echo "Resetting permissions on menu.sh
+    echo "Resetting permissions on menu.sh"
     chmod +x menu.sh
     tput setaf 2; echo "Restarting menu system" ; tput setaf 9; 
     sleep 3
