@@ -762,7 +762,7 @@ clear
 function display_player_history() {
 clear
     echo ""
-    sudo cat syslog | grep ZDOID
+    sudo cat /var/log/syslog | grep ZDOID
     echo ""
 
 }
