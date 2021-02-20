@@ -44,10 +44,9 @@ mversion="Version 1.1"
 # Display Valheim Server Status
 # Display Valheim World Data Folder
 ##
-##
-# Color  Variables
-##
-
+########################################################################
+#############################Set COLOR VARS#############################
+########################################################################
 
 NOCOLOR='\033[0m'
 RED='\033[0;31m'
@@ -97,7 +96,9 @@ ColorWhite(){
 	echo -ne $WHITE$1$CLEAR
 }
 
-
+########################################################################
+#####################Check for Menu Updates#############################
+########################################################################
 
 function script_check_update() {
 BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/beta"
@@ -113,6 +114,11 @@ BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/beta"
             echo "No updates available"
         fi
 }
+
+########################################################################
+#########################Print System INFOS#############################
+########################################################################
+
 
 function system_info() {
 echo ""
@@ -140,6 +146,10 @@ echo ""
 echo ""
 }
 
+########################################################################
+#############################PRINT NETWORK INFO#########################
+########################################################################
+
 function network_info() {
 echo ""
 sudo netstat -atunp | grep valheim
@@ -152,7 +162,9 @@ function all_checks() {
 	network_info
 }
 
-
+########################################################################
+########################Check of Valheim Updates########################
+########################################################################
 
 function valheim_update_check() {
 #default install dir
