@@ -199,7 +199,7 @@ echo ""
 #if y, then continue, else cancel
         if [ "$confirmStartInstall" == "y" ]; then
     echo ""
-function confirmed_valheim_install() {
+
     #check for updates and upgrade the system auto yes
     tput setaf 2; echo "Checking for upgrades" ; tput setaf 9;
     apt update && apt upgrade -y
@@ -459,7 +459,7 @@ tput setaf 2; echo "Twitch: ZeroBandwidth"
 tput setaf 2; echo "GLHF"
 tput setaf 9;
 echo ""
-}    
+  
     echo ""    
     else
         echo "Canceling the INSTALL of Valheim Server Service - because Loki sucks"
