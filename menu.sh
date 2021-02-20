@@ -903,7 +903,6 @@ function other_mods() {
 
 
 valheim_plus_options(){
-clear
 echo ""
 echo -ne "
 $(ColorRed '-------NOT ADDED YET BUILDING FRAME WORK---------')
