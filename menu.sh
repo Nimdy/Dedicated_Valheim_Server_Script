@@ -935,9 +935,9 @@ $(ColorBlue 'Choose an option:') "
 
 menu(){
 echo -ne "
-$(ColorOrange '╔═════════════════════════════════════╗')
-$(ColorOrange '║ -ZeroBandwidths Easy Valheim Menu -   ║')
-$(ColorOrange '╠═════════════════════════════════════╝')
+$(ColorOrange '╔═════════════════════════════════════════╗')
+$(ColorOrange '║   -ZeroBandwidths Easy Valheim Menu -   ║')
+$(ColorOrange '╠═════════════════════════════════════════╝')
 $(ColorOrange '║ Welcome Viking!')
 $(ColorOrange '║ open to improvements')
 $(ColorOrange '║ Beware Loki hides within this script')
