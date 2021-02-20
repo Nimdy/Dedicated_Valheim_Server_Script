@@ -469,10 +469,9 @@ echo ""
  read -p "Please confirm:" confirmStartInstall
 #if y, then continue, else cancel
         if [ "$confirmStartInstall" == "y" ]; then
-        confirmed_valheim_install; break;;
     echo ""
     else
-    echo "Canceling the INSTALL of Valheim Server Service - because Loki sucks"
+        echo "Canceling the INSTALL of Valheim Server Service - because Loki sucks"
 fi
 }
 
