@@ -788,7 +788,78 @@ $(ColorBlue 'Choose an option:') "
         esac
 }
 
+########################################################################
+###################START VALHEIM PLUS MOD SECTION#######################
+########################################################################
 
+
+
+function install_mod_valheim_plus() {
+    clear
+    echo ""
+    echo "Coming Soon"
+    echo ""
+
+}
+
+function remove_mod_valheim_plus() {
+    clear
+    echo ""
+    echo "Coming Soon"
+    echo ""
+
+}
+
+function valheim_plus_options() {
+    clear
+    echo ""
+    echo "Coming Soon"
+    echo ""
+
+}
+
+valheim_plus_options(){
+echo -ne "
+$(ColorRed '-------NOT ADDED YET BUILDING FRAME WORK---------')
+$(ColorOrange '-------------Valheim+ Mod Menu---------------')
+$(ColorOrange '-')$(ColorGreen ' 1)') Server Mods
+$(ColorOrange '-')$(ColorGreen ' 2)') Player Mods
+$(ColorOrange '-')$(ColorGreen ' 3)') Valheim+ Options
+$(ColorOrange '------------------------------------------------------------')
+$(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
+$(ColorBlue 'Choose an option:') "
+        read a
+        case $a in
+
+		3) valheim_plus_options ; mods_menu ;;
+		   0) menu ; menu ;;
+		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
+        esac
+}
+
+
+mods_menu(){
+echo -ne "
+$(ColorOrange '-------------Valheim+ Install Remove---------------')
+$(ColorOrange '-')$(ColorGreen ' 1)') Install Valheim+ Mod
+$(ColorOrange '-')$(ColorGreen ' 2)') Remove Valheim+ Mod
+$(ColorOrange '---------------Valheim+ Mod Menu-------------------')
+$(ColorOrange '-')$(ColorGreen ' 3)') Valheim+ Options
+$(ColorOrange '------------------------------------------------------------')
+$(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
+$(ColorBlue 'Choose an option:') "
+        read a
+        case $a in
+		1) install_mod_valheim_plus ; mods_menu ;;
+		2) remove_mod_valheim_plus ; mods_menu ;;
+		3) valheim_plus_options ; mods_menu ;;
+		   0) menu ; menu ;;
+		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
+        esac
+}
+########################################################################
+##################FINISH VALHEIM PLUS MOD SECTION#######################
+########################################################################
 
 menu(){
 echo -ne "
@@ -798,8 +869,7 @@ $(ColorOrange '╠════════════════════�
 $(ColorOrange '║ open to improvements')
 $(ColorOrange '║ Loki hides within this script')
 $(ColorOrange '╚ ')${mversion} or beta 
-
-$(ColorOrange '----------Server System Information---------')
+$(ColorOrange '---------Server System Information---------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Check for Nimdy Script Updates
 $(ColorOrange '-')$(ColorGreen ' 2)') System Info
 $(ColorOrange '-')$(ColorGreen ' 3)') Network Info 
@@ -808,6 +878,9 @@ $(ColorOrange '-----------Valheim Server Commands---------')
 $(ColorOrange '-')$(ColorGreen ' 5)') Server Admin Tools 
 $(ColorOrange '-')$(ColorGreen ' 6)') Tech Support Tools
 $(ColorOrange '-')$(ColorGreen ' 7)') Install Valheim Server
+$(ColorOrange '-----------------Mods Menu-----------------')
+$(ColorOrange '-')$(ColorGreen ' 8)') 
+$(ColorOrange '-------------------------------------------')
 $(ColorGreen ' 0)') Exit
 $(ColorOrange '-------------------------------------------')
 $(ColorBlue 'Choose an option:') "
@@ -820,6 +893,7 @@ $(ColorBlue 'Choose an option:') "
 		5) admin_tools_menu ; menu ;;
 		6) tech_support ; menu ;;
 		7) server_install_menu ; menu ;;
+		8) mods_menu ; menu ;;
 		    0) exit 0 ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
