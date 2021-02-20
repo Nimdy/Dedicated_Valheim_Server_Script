@@ -247,18 +247,16 @@ sleep 1
 done
 echo ""
 cat >> /home/steam/serverSetup.txt <<EOF
-echo "---------------------------------------------------------------"
-echo "Here is the information you entered"
-echo "This information is for you to ref later, in case you forgot"
-tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
-tput setaf 2; echo "nonroot steam password:  $userpassword " ; tput setaf 9;
-tput setaf 2; echo "Public Server Name:      $displayname " ; tput setaf 9;
-tput setaf 2; echo "Local World Name:        $worldname " ; tput setaf 9;
-tput setaf 2; echo "Valheim Server Password: $password " ; tput setaf 9;
-tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
-echo ""
-echo "Each time this is ran, the past info will be added to each line"
-echo "---------------------------------------------------------------"
+Here is the information you entered
+This information is for you to ref later, in case you forgot
+---------------------------------------------------------------
+nonroot steam password:  $userpassword
+Public Server Name:      $displayname
+Local World Name:        $worldname
+Valheim Server Password: $password
+---------------------------------------------------------------
+Each time this is ran, the past info will be added to each line
+---------------------------------------------------------------
 EOF
 chown steam:steam /home/steam/serverSetup.txt
 clear
