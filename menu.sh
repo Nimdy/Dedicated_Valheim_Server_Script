@@ -740,16 +740,20 @@ $(ColorBlue 'Choose an option:') "
 
 admin_tools_menu(){
 echo -ne "
-$(ColorOrange '--------------------Valheim Admin Tools---------------------')
+$(ColorOrange '-------------Valheim Backup and Restore Tools---------------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Backup World
 $(ColorOrange '-')$(ColorGreen ' 2)') Restore World
+$(ColorOrange '--------------------Valheim Service Tools-------------------')
 $(ColorOrange '-')$(ColorGreen ' 3)') Stop Valheim Server
 $(ColorOrange '-')$(ColorGreen ' 4)') Start Valheim Server
 $(ColorOrange '-')$(ColorGreen ' 5)') Restart Valheim Server
 $(ColorOrange '-')$(ColorGreen ' 6)') Status Valheim Server
+$(ColorOrange '----------------Official Valheim Server Update--------------')
 $(ColorOrange '-')$(ColorGreen ' 7)') Check and Apply Valheim Server Update
 $(ColorOrange '------------------First Time or Reinstall-------------------')
 $(ColorOrange '-')$(ColorGreen ' 8)') Fresh Valheim Server
+$(ColorOrange '-----------------------Coming Soon-------------------------')
+$(ColorOrange '-')$(ColorGreen ' )') Display a list of past players
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorOrange '------------------------------------------------------------')
 $(ColorBlue 'Choose an option:') "
