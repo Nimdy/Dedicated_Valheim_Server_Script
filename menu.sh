@@ -112,10 +112,11 @@ BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/beta"
  tput setaf 2; echo "Updates found and applied" ; tput setaf 9; 
  tput setaf 2; echo "Restarting menu system" ; tput setaf 9; 
 	    sleep 3
-	    ./menu.sh
         else
             echo "No updates available"
+
         fi
+  ./menu.sh
 }
 
 ########################################################################
