@@ -1,4 +1,5 @@
 #!/bin/bash
+# BETA BRANCH MENU
 #  THIS IS STILL A WORK IN PROGRESS BUT ALL THE FUNCTIONS WORK
 #  I NEED TO JUST CLEAN IT UP AND FORMAT BETTER
 #  PLEASE LET ME KNOW ABOUT ISSUES
@@ -43,10 +44,9 @@ mversion="Version 1.1"
 # Display Valheim Server Status
 # Display Valheim World Data Folder
 ##
-##
-# Color  Variables
-##
-
+########################################################################
+#############################Set COLOR VARS#############################
+########################################################################
 
 NOCOLOR='\033[0m'
 RED='\033[0;31m'
@@ -96,7 +96,9 @@ ColorWhite(){
 	echo -ne $WHITE$1$CLEAR
 }
 
-
+########################################################################
+#####################Check for Menu Updates#############################
+########################################################################
 
 function script_check_update() {
 BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/main"
@@ -104,53 +106,70 @@ BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/main"
     LAST_UPDATE=`git show --no-notes --format=format:"%H" $BRANCH | head -n 1`
     LAST_COMMIT=`git show --no-notes --format=format:"%H" origin/$BRANCH | head -n 1`
         if [ $LAST_COMMIT != $LAST_UPDATE ]; then
-            echo "Updating your branch $BRANCH"
+   tput setaf 2; echo "Updating your branch $BRANCH" ; tput setaf 9; 
             git pull --no-edit
-	    chmod +x menu.sh	    
-        else
+	  else
             echo "No updates available"
+
         fi
+    echo "Resetting permissions on menu.sh"
+    chmod +x menu.sh
+    tput setaf 2; echo "Restarting menu system" ; tput setaf 9; 
+    sleep 3
+    ./menu.sh
 }
 
-function system_info() {
-echo ""
-    echo -e "-------------------------------System Information----------------------------"
-    echo -e "Hostname:\t\t"`hostname`
-    echo -e "uptime:\t\t\t"`uptime | awk '{print $3,$4}' | sed 's/,//'`
-    echo -e "Manufacturer:\t\t"`cat /sys/class/dmi/id/chassis_vendor`
-    echo -e "Product Name:\t\t"`cat /sys/class/dmi/id/product_name`
-    echo -e "Version:\t\t"`cat /sys/class/dmi/id/product_version`
-    echo -e "Serial Number:\t\t"`cat /sys/class/dmi/id/product_serial`
-    echo -e "Machine Type:\t\t"`vserver=$(lscpu | grep Hypervisor | wc -l); if [ $vserver -gt 0 ]; then echo "VM"; else echo "Physical"; fi`
-    echo -e "Operating System:\t"`hostnamectl | grep "Operating System" | cut -d ' ' -f5-`
-    echo -e "Kernel:\t\t\t"`uname -r`
-    echo -e "Architecture:\t\t"`arch`
-    echo -e "Processor Name:\t\t"`awk -F':' '/^model name/ {print $2}' /proc/cpuinfo | uniq | sed -e 's/^[ \t]*//'`
-    echo -e "Active User:\t\t"`w | cut -d ' ' -f1 | grep -v USER | xargs -n1`
-    echo -e "System Main IP:\t\t"`hostname -I`
-echo ""
-    echo -e "-------------------------------CPU/Memory Usage------------------------------"
-    echo -e "Memory Usage:\t"`free | awk '/Mem/{printf("%.2f%"), $3/$2*100}'`
-    echo -e "CPU Usage:\t"`cat /proc/stat | awk '/cpu/{printf("%.2f%\n"), ($2+$4)*100/($2+$4+$5)}' |  awk '{print $0}' | head -1`
-echo ""
-    echo -e "-------------------------------Disk Usage >80%-------------------------------"
-    df -Ph | sed s/%//g | awk '{ if($5 > 80) print $0;}'
-echo ""
+
+########################################################################
+########################Check of Valheim Updates########################
+########################################################################
+
+function valheim_update_check() {
+#default install dir
+valheiminstall=/home/steam/valheimserver/
+#make temp directory for this Loki file dump
+vaheiminstall_temp=/tmp/lokidump
+loki_started=true
+
+dltmpdir=vaheiminstall_temp
+[ ! -d "$dltmpdir" ] && mkdir -p "$dltmpdir"
+
+    logfile="$(mktemp)"
+    echo "Update and Check Valheim Server"
+    steamcmd +login anonymous +force_install_dir $valheiminstall_temp +app_update 896660 -validate +quit
+    rsync -a --itemize-changes --delete --exclude server_exit.drp --exclude steamapps $valheiminstall_temp $valheiminstall | tee "$logfile"
+    grep '^[*>]' "$logfile" > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "Valheim Server was updated - restarting"
+        systemctl restart valheimserver.service
+    else
+        echo "Valheim Server is already the latest version"
+        if [ $loki_started = true ]; then
+            systemctl start valheimserver.service
+        fi
+    fi
+    loki_started=false
+    rm -f "$logfile"
+
 }
 
-function network_info() {
+function valheim_server_install() {
+    clear
+    echo ""
+    echo -ne "
+$(ColorOrange '--------------Install Valheim Server----------------')
+$(ColorRed '----------------------------------------------------')"
 echo ""
-sudo netstat -atunp | grep valheim
+tput setaf 2; echo "You are about to INSTALL the Valheim Server" ; tput setaf 9; 
+tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
+echo -ne "
+$(ColorRed '----------------------------------------------------')"
 echo ""
+ read -p "Please confirm:" confirmStartInstall
+#if y, then continue, else cancel
+        if [ "$confirmStartInstall" == "y" ]; then
+    echo ""
 
-}
-
-function all_checks() {
-	system_info
-	network_info
-}
-
-function confirmed_valheim_install() {
     #check for updates and upgrade the system auto yes
     tput setaf 2; echo "Checking for upgrades" ; tput setaf 9;
     apt update && apt upgrade -y
@@ -244,9 +263,23 @@ sleep 1
     tput setaf 2; echo "I swear to LOKI, you better NOT use Special Characters" ; tput setaf 9; 
 done
 echo ""
+cat >> /home/steam/serverSetup.txt <<EOF
+Here is the information you entered
+This information is for you to ref later, in case you forgot
+---------------------------------------------------------------
+nonroot steam password:  $userpassword
+Public Server Name:      $displayname
+Local World Name:        $worldname
+Valheim Server Password: $password
+---------------------------------------------------------------
+Each time this is ran, the past info will be added to each line
+---------------------------------------------------------------
+EOF
+chown steam:steam /home/steam/serverSetup.txt
 clear
 echo "Here is the information you entered"
-echo "This information is only saved in the valheim_server.sh file"
+echo "This information is saved in the valheim_server.sh file"
+echo "This information is saved in /home/steam/serverSetup.txt for referance later, if you forget"
 tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
 tput setaf 2; echo "nonroot steam password:  $userpassword " ; tput setaf 9;
 tput setaf 2; echo "Public Server Name:      $displayname " ; tput setaf 9;
@@ -396,54 +429,11 @@ tput setaf 2; echo "Twitch: ZeroBandwidth"
 tput setaf 2; echo "GLHF"
 tput setaf 9;
 echo ""
-}
-
-function valheim_update_check() {
-#default install dir
-valheiminstall=/home/steam/valheimserver/
-#make temp directory for this Loki file dump
-vaheiminstall_temp=/tmp/lokidump
-loki_started=true
-
-dltmpdir=vaheiminstall_temp
-[ ! -d "$dltmpdir" ] && mkdir -p "$dltmpdir"
-
-    logfile="$(mktemp)"
-    echo "Update and Check Valheim Server"
-    steamcmd +login anonymous +force_install_dir $valheiminstall_temp +app_update 896660 -validate +quit
-    rsync -a --itemize-changes --delete --exclude server_exit.drp --exclude steamapps $valheiminstall_temp $valheiminstall | tee "$logfile"
-    grep '^[*>]' "$logfile" > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        echo "Valheim Server was updated - restarting"
-        systemctl restart valheimserver.service
+  
+    echo ""    
     else
-        echo "Valheim Server is already the latest version"
-        if [ $loki_started = true ]; then
-            systemctl start valheimserver.service
-        fi
-    fi
-    loki_started=false
-    rm -f "$logfile"
-
-}
-
-function valheim_server_install() {
-
-while true; do
-echo -ne "
-$(ColorRed '--------------------------------------')"
-echo ""
-tput setaf 2; read -p "Do you wish to install Valheim Server?" yn ; tput setaf 9;
-echo ""
-echo -ne "
-$(ColorRed '--------------------------------------')"
-    case $yn in
-        [Yy]* ) confirmed_valheim_install; break;;
-        [Nn]* ) exit;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done;
-
+        echo "Canceling the INSTALL of Valheim Server Service - because Loki sucks"
+fi
 }
 
 
@@ -481,6 +471,7 @@ function backup_world_data() {
 
 # Thanks to GITHUB @LachlanMac and @Kurt
 function restore_world_data() {
+
 #init empty array
     declare -a backups
 #loop through backups and put in array
@@ -501,6 +492,8 @@ function restore_world_data() {
 tput setaf 2; echo "Select Backup File you wish to restore"  ; tput setaf 9;
     read -p "" selectedIndex
 #show confirmation message
+
+
 restorefile=$(basename "${backups[$selectedIndex-1]}")
 echo -ne "
 $(ColorRed '-----------------------------------------------')
@@ -509,6 +502,7 @@ $(ColorGreen  'Are you sure you want to do this? ')
 $(ColorOrange  'Remember to match world name with /home/steam/valheimserver/start_valheim.sh')
 $(ColorOrange  'The param for -world "worldname" much match restore file worldname.db and worldname.fwl')
 $(ColorGreen   'Press y(yes) or n(no)') "
+
 #read user input confirmation
     read -p "" confirmBackup
 #if y, then continue, else cancel
@@ -536,7 +530,11 @@ $(ColorGreen   'Press y(yes) or n(no)') "
 else
         echo "Canceling restore process because Loki sucks"
 fi
+
 }
+
+
+
 
 function check_apply_server_updates() {
     echo ""
@@ -576,6 +574,7 @@ function confirm_check_apply_server_updates() {
 while true; do
 echo -ne "
 $(ColorRed '-----------------------------------------------')"
+echo ""
 tput setaf 2; echo "WARNING DOING THIS WILL SHUTDOWN THE SERVER" ; tput setaf 9;
 tput setaf 2; echo "MAKE SURE EVERYBODY IS LOGGED OUT OF THE SERVER" ; tput setaf 9;
 tput setaf 2; echo "Press y(YES) and n(NO)" ; tput setaf 9;
@@ -628,6 +627,8 @@ echo ""
     echo ""
     else
     echo "Canceling Stopping of Valheim Server Service - because Loki sucks"
+    sleep 3
+    clear
 fi
 }
 
@@ -650,6 +651,8 @@ echo ""
     echo ""
     else
         echo "Canceling Starting of Valheim Server Service - because Loki sucks"
+        sleep 3
+    clear
 fi
 }
 
@@ -672,6 +675,8 @@ echo ""
     echo ""
     else
         echo "Canceling Restarting of Valheim Server Service - because Loki sucks"
+        sleep 3
+    clear
 fi
 }
 
@@ -695,6 +700,7 @@ function display_start_valheim() {
 
 
 server_install_menu(){
+echo ""
 echo -ne "
 $(ColorOrange '-')$(ColorOrange '---------Server System Information--------')
 $(ColorOrange '-')$(ColorGreen '1)') Fresh or Reinstall Valheim Server
@@ -708,13 +714,70 @@ $(ColorBlue 'Choose an option:') "
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
 }
+########################################################################
+#########################Print System INFOS#############################
+########################################################################
+
+
+function display_system_info() {
+clear
+echo ""
+    echo -e "-------------------------------System Information----------------------------"
+    echo -e "Hostname:\t\t"`hostname`
+    echo -e "uptime:\t\t\t"`uptime | awk '{print $3,$4}' | sed 's/,//'`
+    echo -e "Manufacturer:\t\t"`cat /sys/class/dmi/id/chassis_vendor`
+    echo -e "Product Name:\t\t"`cat /sys/class/dmi/id/product_name`
+    echo -e "Version:\t\t"`cat /sys/class/dmi/id/product_version`
+    echo -e "Serial Number:\t\t"`cat /sys/class/dmi/id/product_serial`
+    echo -e "Machine Type:\t\t"`vserver=$(lscpu | grep Hypervisor | wc -l); if [ $vserver -gt 0 ]; then echo "VM"; else echo "Physical"; fi`
+    echo -e "Operating System:\t"`hostnamectl | grep "Operating System" | cut -d ' ' -f5-`
+    echo -e "Kernel:\t\t\t"`uname -r`
+    echo -e "Architecture:\t\t"`arch`
+    echo -e "Processor Name:\t\t"`awk -F':' '/^model name/ {print $2}' /proc/cpuinfo | uniq | sed -e 's/^[ \t]*//'`
+    echo -e "Active User:\t\t"`w | cut -d ' ' -f1 | grep -v USER | xargs -n1`
+    echo -e "System Main IP:\t\t"`hostname -I`
+echo ""
+    echo -e "-------------------------------CPU/Memory Usage------------------------------"
+    echo -e "Memory Usage:\t"`free | awk '/Mem/{printf("%.2f%"), $3/$2*100}'`
+    echo -e "CPU Usage:\t"`cat /proc/stat | awk '/cpu/{printf("%.2f%\n"), ($2+$4)*100/($2+$4+$5)}' |  awk '{print $0}' | head -1`
+echo ""
+    echo -e "-------------------------------Disk Usage >80%-------------------------------"
+    df -Ph | sed s/%//g | awk '{ if($5 > 80) print $0;}'
+echo ""
+}
+
+########################################################################
+#############################PRINT NETWORK INFO#########################
+########################################################################
+
+function display_network_info() {
+clear
+    echo ""
+    sudo netstat -atunp | grep valheim
+    sudo ipconfig
+    echo ""
+
+}
+
+function display_player_history() {
+clear
+    echo ""
+    sudo cat /var/log/syslog | grep ZDOID
+    echo ""
+
+}
+
 
 tech_support(){
+echo ""
 echo -ne "
 $(ColorOrange '--------------Valheim Tech Support--------------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Display Valheim Config File
 $(ColorOrange '-')$(ColorGreen ' 2)') Display Valheim Server Service
 $(ColorOrange '-')$(ColorGreen ' 3)') Display World Data Folder
+$(ColorOrange '-')$(ColorGreen ' 4)') Display System Info
+$(ColorOrange '-')$(ColorGreen ' 5)') Display Network Info
+$(ColorOrange '-')$(ColorGreen ' 6)') Display Connected Players History
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorOrange '-------------------------------------------------')
 $(ColorBlue 'Choose an option:') "
@@ -723,25 +786,33 @@ $(ColorBlue 'Choose an option:') "
 	        1) display_start_valheim ; tech_support ;; 
 		2) display_valheim_server_status ; tech_support ;;
 	        3) display_world_data_folder ; tech_support ;;
+		4) display_system_info ; tech_support ;;
+		5) display_network_info ; tech_support ;;
+	        6) display_player_history ; tech_support ;;
 		  0) menu ; menu ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
 }
 
 admin_tools_menu(){
+echo ""
 echo -ne "
-$(ColorOrange '--------------------Valheim Admin Tools---------------------')
+$(ColorOrange '-------------Valheim Backup and Restore Tools---------------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Backup World
 $(ColorOrange '-')$(ColorGreen ' 2)') Restore World
+$(ColorOrange '--------------------Valheim Service Tools-------------------')
 $(ColorOrange '-')$(ColorGreen ' 3)') Stop Valheim Server
 $(ColorOrange '-')$(ColorGreen ' 4)') Start Valheim Server
 $(ColorOrange '-')$(ColorGreen ' 5)') Restart Valheim Server
 $(ColorOrange '-')$(ColorGreen ' 6)') Status Valheim Server
+$(ColorOrange '----------------Official Valheim Server Update--------------')
 $(ColorOrange '-')$(ColorGreen ' 7)') Check and Apply Valheim Server Update
 $(ColorOrange '------------------First Time or Reinstall-------------------')
 $(ColorOrange '-')$(ColorGreen ' 8)') Fresh Valheim Server
-$(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
+$(ColorOrange '------------------------Coming Soon-------------------------')
+$(ColorOrange '-')$(ColorGreen ' )') Display a list of past players
 $(ColorOrange '------------------------------------------------------------')
+$(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
@@ -758,38 +829,180 @@ $(ColorBlue 'Choose an option:') "
         esac
 }
 
+########################################################################
+###################START VALHEIM PLUS MOD SECTION#######################
+########################################################################
+
+
+
+function install_mod_valheim_plus() {
+clear
+    echo ""
+    echo "Install Valheim+"
+    echo "Coming Soon"
+    echo ""
+
+}
+
+function remove_mod_valheim_plus() {
+clear
+    echo ""
+    echo "Remove Valheim+"
+    echo "Coming Soon"
+    echo ""
+
+}
+
+function update_valheim_plus() {
+clear
+    echo ""
+    echo "Update Valheim+"
+    echo "Coming Soon"
+    echo ""
+
+}
+
+function valheim_plus_options() {
+clear
+    echo ""
+    echo "Valheim+ Options"
+    echo "Coming Soon"
+    echo ""
+
+}
+
+########################################################################
+######################START MOD SECTION AREAS###########################
+########################################################################
+
+function server_mods() {
+    clear
+    echo ""
+    echo "Server Related Mods"
+    echo "Coming Soon"
+    echo ""
+
+}
+
+function player_mods() {
+    clear
+    echo ""
+    echo "Player Related Mods"
+    echo "Coming Soon"
+    echo ""
+
+}
+
+function building_mods() {
+    clear
+    echo ""
+    echo "Building Related Mods"
+    echo "Coming Soon"
+    echo ""
+
+}
+
+function other_mods() {
+    clear
+    echo ""
+    echo "Other Related Mods"
+    echo "Coming Soon"
+    echo ""
+
+}
+
+########################################################################
+######################END MOD SECTION AREAS###########################
+########################################################################
+
+
+valheim_plus_options(){
+echo ""
+echo -ne "
+$(ColorRed '-------NOT ADDED YET BUILDING FRAME WORK---------')
+$(ColorCyan '-------------Valheim+ Mod Menu---------------')
+$(ColorCyan '-')$(ColorGreen ' 1)') Server Mods
+$(ColorCyan '-')$(ColorGreen ' 2)') Player Mods
+$(ColorCyan '-')$(ColorGreen ' 3)') Building Mods
+$(ColorCyan '-')$(ColorGreen ' 4)') Other Mods
+$(ColorCyan '------------------------------------------------------------')
+$(ColorCyan '-')$(ColorGreen ' 0)') Go to Valheim+ Menu
+$(ColorCyan '-')$(ColorGreen ' 00)') Go to Main Menu
+$(ColorBlue 'Choose an option:') "
+        read a
+        case $a in
+		1) server_mods ; valheim_plus_options ;;
+		2) player_mods ; valheim_plus_options ;;
+		3) building_mods ; valheim_plus_options ;;
+		4) other_mods ; valheim_plus_options ;;
+		   0) mods_menu ; menu ;;
+		   00) menu ; menu ;;
+		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
+        esac
+}
+
+
+mods_menu(){
+echo ""
+echo -ne "
+$(ColorCyan '-----------Valheim+ Install Remove Update----------')
+$(ColorCyan '-')$(ColorGreen ' 1)') Install Valheim+ 
+$(ColorCyan '-')$(ColorGreen ' 2)') Remove Valheim+ 
+$(ColorCyan '-')$(ColorGreen ' 3)') Update Valheim+ 
+$(ColorCyan '---------------Valheim+ Mod Menu-------------------')
+$(ColorCyan '-')$(ColorGreen ' 4)') Valheim+ Options
+$(ColorCyan '---------------------------------------------------')
+$(ColorCyan '-')$(ColorGreen ' 0)') Go to Main Menu
+$(ColorBlue 'Choose an option:') "
+        read a
+        case $a in
+		1) install_mod_valheim_plus ; mods_menu ;;
+		2) remove_mod_valheim_plus ; mods_menu ;;
+		3) update_valheim_plus ; mods_menu ;;
+		4) valheim_plus_options ; mods_menu ;;
+		   0) menu ; menu ;;
+		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
+        esac
+}
+########################################################################
+##################FINISH VALHEIM PLUS MOD SECTION#######################
+########################################################################
+
+
+
+
 
 
 menu(){
+clear
+echo ""
 echo -ne "
-$(ColorOrange '╔═════════════════════════════════════╗')
-$(ColorOrange '║ -ZeroBandwidths Easy Valheim Menu -   ║')
-$(ColorOrange '╠═════════════════════════════════════╝')
+$(ColorOrange '╔═════════════════════════════════════════╗')
+$(ColorOrange '║~~~-ZeroBandwidths Easy Valheim Menu-~~~~║')
+$(ColorOrange '╠═════════════════════════════════════════╝')
+$(ColorOrange '║ Welcome Viking!')
 $(ColorOrange '║ open to improvements')
-$(ColorOrange '║ Loki hides within this script')
-$(ColorOrange '╚ ')${mversion} or beta 
-
-$(ColorOrange '----------Server System Information---------')
+$(ColorOrange '║ Beware Loki hides within this script')
+$(ColorOrange '╚ ')${mversion} 
+$(ColorOrange '----------Check for Script Updates---------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Check for Nimdy Script Updates
-$(ColorOrange '-')$(ColorGreen ' 2)') System Info
-$(ColorOrange '-')$(ColorGreen ' 3)') Network Info 
-$(ColorOrange '-')$(ColorGreen ' 4)') Check All
 $(ColorOrange '-----------Valheim Server Commands---------')
-$(ColorOrange '-')$(ColorGreen ' 5)') Server Admin Tools 
-$(ColorOrange '-')$(ColorGreen ' 6)') Tech Support Tools
-$(ColorOrange '-')$(ColorGreen ' 7)') Install Valheim Server
+$(ColorOrange '-')$(ColorGreen ' 2)') Server Admin Tools 
+$(ColorOrange '-')$(ColorGreen ' 3)') Tech Support Tools
+$(ColorOrange '-')$(ColorGreen ' 4)') Install Valheim Server
+$(ColorOrange '-----------------Mods Menu-----------------')
+$(ColorOrange '-')$(ColorGreen ' 5)') Coming Soon
+$(ColorOrange '-------------------------------------------')
 $(ColorGreen ' 0)') Exit
 $(ColorOrange '-------------------------------------------')
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
 	        1) script_check_update ; menu ;;
-		2) system_info ; menu ;;
-	        3) network_info ; menu ;;
-	        4) all_checks ; menu ;;
-		5) admin_tools_menu ; menu ;;
-		6) tech_support ; menu ;;
-		7) server_install_menu ; menu ;;
+		2) admin_tools_menu ; menu ;;
+		3) tech_support ; menu ;;
+		4) server_install_menu ; menu ;;
+		5) mods_menu ; menu ;;
 		    0) exit 0 ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
