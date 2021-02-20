@@ -719,7 +719,7 @@ $(ColorBlue 'Choose an option:') "
 ########################################################################
 
 
-function system_info() {
+function display_system_info() {
 echo ""
     echo -e "-------------------------------System Information----------------------------"
     echo -e "Hostname:\t\t"`hostname`
@@ -749,7 +749,7 @@ echo ""
 #############################PRINT NETWORK INFO#########################
 ########################################################################
 
-function network_info() {
+function display_network_info() {
 echo ""
 sudo netstat -atunp | grep valheim
 sudo ipconfig
@@ -757,6 +757,13 @@ echo ""
 
 }
 
+function display_player_history() {
+    clear
+    echo ""
+    sudo cat syslog | grep ZDOID
+    echo ""
+
+}
 
 
 tech_support(){
@@ -768,6 +775,7 @@ $(ColorOrange '-')$(ColorGreen ' 2)') Display Valheim Server Service
 $(ColorOrange '-')$(ColorGreen ' 3)') Display World Data Folder
 $(ColorOrange '-')$(ColorGreen ' 4)') Display System Info
 $(ColorOrange '-')$(ColorGreen ' 5)') Display Network Info
+$(ColorOrange '-')$(ColorGreen ' 6)') Display Connected Players History
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorOrange '-------------------------------------------------')
 $(ColorBlue 'Choose an option:') "
@@ -776,8 +784,9 @@ $(ColorBlue 'Choose an option:') "
 	        1) display_start_valheim ; tech_support ;; 
 		2) display_valheim_server_status ; tech_support ;;
 	        3) display_world_data_folder ; tech_support ;;
-		3) system_info ; tech_support ;;
-		3) network_info ; tech_support ;;
+		4) display_system_info ; tech_support ;;
+		5) display_network_info ; tech_support ;;
+	        6) display_player_history ; tech_support ;;
 		  0) menu ; menu ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
@@ -973,7 +982,7 @@ $(ColorOrange '║ Welcome Viking!')
 $(ColorOrange '║ open to improvements')
 $(ColorOrange '║ Beware Loki hides within this script')
 $(ColorOrange '╚ ')${mversion} 
-$(ColorOrange '---------Server System Information---------')
+$(ColorOrange '----------Check for Script Updates---------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Check for Nimdy Script Updates
 $(ColorOrange '-----------Valheim Server Commands---------')
 $(ColorOrange '-')$(ColorGreen ' 2)') Server Admin Tools 
