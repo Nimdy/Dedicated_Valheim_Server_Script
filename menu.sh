@@ -824,6 +824,7 @@ $(ColorBlue 'Choose an option:') "
 function install_mod_valheim_plus() {
 clear
     echo ""
+    echo "Install Valheim+"
     echo "Coming Soon"
     echo ""
 
@@ -832,6 +833,7 @@ clear
 function remove_mod_valheim_plus() {
 clear
     echo ""
+    echo "Remove Valheim+"
     echo "Coming Soon"
     echo ""
 
@@ -840,6 +842,7 @@ clear
 function valheim_plus_options() {
 clear
     echo ""
+    echo "Valheim+ Options"
     echo "Coming Soon"
     echo ""
 
@@ -851,6 +854,7 @@ clear
 
 function server_mods() {
     echo ""
+    echo "Server Related Mods"
     echo "Coming Soon"
     echo ""
 
@@ -858,6 +862,7 @@ function server_mods() {
 
 function player_mods() {
     echo ""
+    echo "Player Related Mods"
     echo "Coming Soon"
     echo ""
 
@@ -865,6 +870,7 @@ function player_mods() {
 
 function building_mods() {
     echo ""
+    echo "Building Related Mods"
     echo "Coming Soon"
     echo ""
 
@@ -872,6 +878,7 @@ function building_mods() {
 
 function other_mods() {
     echo ""
+    echo "Other Related Mods"
     echo "Coming Soon"
     echo ""
 
@@ -883,6 +890,7 @@ function other_mods() {
 
 
 valheim_plus_options(){
+clear
 echo ""
 echo -ne "
 $(ColorRed '-------NOT ADDED YET BUILDING FRAME WORK---------')
