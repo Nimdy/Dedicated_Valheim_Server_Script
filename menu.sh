@@ -754,7 +754,7 @@ function display_network_info() {
 clear
     echo ""
     sudo netstat -atunp | grep valheim
-    sudo ipconfig
+    sudo ifconfig
     echo ""
 
 }
@@ -809,8 +809,6 @@ $(ColorOrange '----------------Official Valheim Server Update--------------')
 $(ColorOrange '-')$(ColorGreen ' 7)') Check and Apply Valheim Server Update
 $(ColorOrange '------------------First Time or Reinstall-------------------')
 $(ColorOrange '-')$(ColorGreen ' 8)') Fresh Valheim Server
-$(ColorOrange '------------------------Coming Soon-------------------------')
-$(ColorOrange '-')$(ColorGreen ' )') Display a list of past players
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
