@@ -826,7 +826,6 @@ $(ColorBlue 'Choose an option:') "
 
 
 function install_mod_valheim_plus() {
-    clear
     echo ""
     echo "Coming Soon"
     echo ""
@@ -834,7 +833,6 @@ function install_mod_valheim_plus() {
 }
 
 function remove_mod_valheim_plus() {
-    clear
     echo ""
     echo "Coming Soon"
     echo ""
@@ -842,7 +840,6 @@ function remove_mod_valheim_plus() {
 }
 
 function valheim_plus_options() {
-    clear
     echo ""
     echo "Coming Soon"
     echo ""
@@ -854,7 +851,6 @@ function valheim_plus_options() {
 ########################################################################
 
 function server_mods() {
-    clear
     echo ""
     echo "Coming Soon"
     echo ""
@@ -862,7 +858,6 @@ function server_mods() {
 }
 
 function player_mods() {
-    clear
     echo ""
     echo "Coming Soon"
     echo ""
@@ -870,7 +865,6 @@ function player_mods() {
 }
 
 function building_mods() {
-    clear
     echo ""
     echo "Coming Soon"
     echo ""
@@ -878,7 +872,6 @@ function building_mods() {
 }
 
 function other_mods() {
-    clear
     echo ""
     echo "Coming Soon"
     echo ""
