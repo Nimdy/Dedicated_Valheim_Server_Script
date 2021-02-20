@@ -862,6 +862,7 @@ function server_mods() {
 }
 
 function player_mods() {
+    clear
     echo ""
     echo "Player Related Mods"
     echo "Coming Soon"
@@ -870,6 +871,7 @@ function player_mods() {
 }
 
 function building_mods() {
+    clear
     echo ""
     echo "Building Related Mods"
     echo "Coming Soon"
@@ -878,6 +880,7 @@ function building_mods() {
 }
 
 function other_mods() {
+    clear
     echo ""
     echo "Other Related Mods"
     echo "Coming Soon"
