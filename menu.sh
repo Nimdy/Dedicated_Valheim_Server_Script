@@ -453,13 +453,27 @@ tput setaf 2; read -p "Do you wish to install Valheim Server?" yn ; tput setaf 9
 echo ""
 echo -ne "
 $(ColorRed '--------------------------------------')"
-    case $yn in
-        [Yy]* ) confirmed_valheim_install; break;;
-        [Nn]* ) exit;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done;
 
+function valheim_server_install() {
+    clear
+    echo ""
+    echo -ne "
+$(ColorOrange '--------------Install Valheim Server----------------')
+$(ColorRed '----------------------------------------------------')"
+echo ""
+tput setaf 2; echo "You are about to INSTALL the Valheim Server" ; tput setaf 9; 
+tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
+echo -ne "
+$(ColorRed '----------------------------------------------------')"
+echo ""
+ read -p "Please confirm:" confirmStartInstall
+#if y, then continue, else cancel
+        if [ "$confirmStartInstall" == "y" ]; then
+        confirmed_valheim_install; break;;
+    echo ""
+    else
+    echo "Canceling the INSTALL of Valheim Server Service - because Loki sucks"
+fi
 }
 
 
