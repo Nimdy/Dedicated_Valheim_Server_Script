@@ -770,8 +770,8 @@ $(ColorOrange '------------------First Time or Reinstall-------------------')
 $(ColorOrange '-')$(ColorGreen ' 8)') Fresh Valheim Server
 $(ColorOrange '-----------------------Coming Soon-------------------------')
 $(ColorOrange '-')$(ColorGreen ' )') Display a list of past players
-$(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorOrange '------------------------------------------------------------')
+$(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
