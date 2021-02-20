@@ -109,6 +109,9 @@ BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/beta"
             echo "Updating your branch $BRANCH"
             git pull --no-edit
 	    chmod +x menu.sh
+	    echo "Updates found and applied"
+	    echo "Restarting menu system"
+	    sleep 1
 	    ./menu.sh
         else
             echo "No updates available"
