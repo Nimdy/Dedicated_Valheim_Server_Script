@@ -459,6 +459,8 @@ echo ""
 #if y, then continue, else cancel
         if [ "$confirmStartInstall" == "y" ]; then
     echo ""
+    valheim_update_check()
+    echo ""    
     else
         echo "Canceling the INSTALL of Valheim Server Service - because Loki sucks"
 fi
