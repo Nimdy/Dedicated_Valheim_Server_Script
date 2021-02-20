@@ -975,15 +975,12 @@ $(ColorOrange '║ Beware Loki hides within this script')
 $(ColorOrange '╚ ')${mversion} 
 $(ColorOrange '---------Server System Information---------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Check for Nimdy Script Updates
-$(ColorOrange '-')$(ColorGreen ' 2)') System Info
-$(ColorOrange '-')$(ColorGreen ' 3)') Network Info 
-$(ColorOrange '-')$(ColorGreen ' 4)') Check All
 $(ColorOrange '-----------Valheim Server Commands---------')
-$(ColorOrange '-')$(ColorGreen ' 5)') Server Admin Tools 
-$(ColorOrange '-')$(ColorGreen ' 6)') Tech Support Tools
-$(ColorOrange '-')$(ColorGreen ' 7)') Install Valheim Server
+$(ColorOrange '-')$(ColorGreen ' 2)') Server Admin Tools 
+$(ColorOrange '-')$(ColorGreen ' 3)') Tech Support Tools
+$(ColorOrange '-')$(ColorGreen ' 4)') Install Valheim Server
 $(ColorOrange '-----------------Mods Menu-----------------')
-$(ColorOrange '-')$(ColorGreen ' 8)') Coming Soon
+$(ColorOrange '-')$(ColorGreen ' 5)') Coming Soon
 $(ColorOrange '-------------------------------------------')
 $(ColorGreen ' 0)') Exit
 $(ColorOrange '-------------------------------------------')
