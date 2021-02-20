@@ -119,52 +119,6 @@ BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/beta"
     ./menu.sh
 }
 
-########################################################################
-#########################Print System INFOS#############################
-########################################################################
-
-
-function system_info() {
-echo ""
-    echo -e "-------------------------------System Information----------------------------"
-    echo -e "Hostname:\t\t"`hostname`
-    echo -e "uptime:\t\t\t"`uptime | awk '{print $3,$4}' | sed 's/,//'`
-    echo -e "Manufacturer:\t\t"`cat /sys/class/dmi/id/chassis_vendor`
-    echo -e "Product Name:\t\t"`cat /sys/class/dmi/id/product_name`
-    echo -e "Version:\t\t"`cat /sys/class/dmi/id/product_version`
-    echo -e "Serial Number:\t\t"`cat /sys/class/dmi/id/product_serial`
-    echo -e "Machine Type:\t\t"`vserver=$(lscpu | grep Hypervisor | wc -l); if [ $vserver -gt 0 ]; then echo "VM"; else echo "Physical"; fi`
-    echo -e "Operating System:\t"`hostnamectl | grep "Operating System" | cut -d ' ' -f5-`
-    echo -e "Kernel:\t\t\t"`uname -r`
-    echo -e "Architecture:\t\t"`arch`
-    echo -e "Processor Name:\t\t"`awk -F':' '/^model name/ {print $2}' /proc/cpuinfo | uniq | sed -e 's/^[ \t]*//'`
-    echo -e "Active User:\t\t"`w | cut -d ' ' -f1 | grep -v USER | xargs -n1`
-    echo -e "System Main IP:\t\t"`hostname -I`
-echo ""
-    echo -e "-------------------------------CPU/Memory Usage------------------------------"
-    echo -e "Memory Usage:\t"`free | awk '/Mem/{printf("%.2f%"), $3/$2*100}'`
-    echo -e "CPU Usage:\t"`cat /proc/stat | awk '/cpu/{printf("%.2f%\n"), ($2+$4)*100/($2+$4+$5)}' |  awk '{print $0}' | head -1`
-echo ""
-    echo -e "-------------------------------Disk Usage >80%-------------------------------"
-    df -Ph | sed s/%//g | awk '{ if($5 > 80) print $0;}'
-echo ""
-}
-
-########################################################################
-#############################PRINT NETWORK INFO#########################
-########################################################################
-
-function network_info() {
-echo ""
-sudo netstat -atunp | grep valheim
-echo ""
-
-}
-
-function all_checks() {
-	system_info
-	network_info
-}
 
 ########################################################################
 ########################Check of Valheim Updates########################
@@ -760,6 +714,50 @@ $(ColorBlue 'Choose an option:') "
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
 }
+########################################################################
+#########################Print System INFOS#############################
+########################################################################
+
+
+function system_info() {
+echo ""
+    echo -e "-------------------------------System Information----------------------------"
+    echo -e "Hostname:\t\t"`hostname`
+    echo -e "uptime:\t\t\t"`uptime | awk '{print $3,$4}' | sed 's/,//'`
+    echo -e "Manufacturer:\t\t"`cat /sys/class/dmi/id/chassis_vendor`
+    echo -e "Product Name:\t\t"`cat /sys/class/dmi/id/product_name`
+    echo -e "Version:\t\t"`cat /sys/class/dmi/id/product_version`
+    echo -e "Serial Number:\t\t"`cat /sys/class/dmi/id/product_serial`
+    echo -e "Machine Type:\t\t"`vserver=$(lscpu | grep Hypervisor | wc -l); if [ $vserver -gt 0 ]; then echo "VM"; else echo "Physical"; fi`
+    echo -e "Operating System:\t"`hostnamectl | grep "Operating System" | cut -d ' ' -f5-`
+    echo -e "Kernel:\t\t\t"`uname -r`
+    echo -e "Architecture:\t\t"`arch`
+    echo -e "Processor Name:\t\t"`awk -F':' '/^model name/ {print $2}' /proc/cpuinfo | uniq | sed -e 's/^[ \t]*//'`
+    echo -e "Active User:\t\t"`w | cut -d ' ' -f1 | grep -v USER | xargs -n1`
+    echo -e "System Main IP:\t\t"`hostname -I`
+echo ""
+    echo -e "-------------------------------CPU/Memory Usage------------------------------"
+    echo -e "Memory Usage:\t"`free | awk '/Mem/{printf("%.2f%"), $3/$2*100}'`
+    echo -e "CPU Usage:\t"`cat /proc/stat | awk '/cpu/{printf("%.2f%\n"), ($2+$4)*100/($2+$4+$5)}' |  awk '{print $0}' | head -1`
+echo ""
+    echo -e "-------------------------------Disk Usage >80%-------------------------------"
+    df -Ph | sed s/%//g | awk '{ if($5 > 80) print $0;}'
+echo ""
+}
+
+########################################################################
+#############################PRINT NETWORK INFO#########################
+########################################################################
+
+function network_info() {
+echo ""
+sudo netstat -atunp | grep valheim
+sudo ipconfig
+echo ""
+
+}
+
+
 
 tech_support(){
 echo ""
@@ -768,6 +766,8 @@ $(ColorOrange '--------------Valheim Tech Support--------------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Display Valheim Config File
 $(ColorOrange '-')$(ColorGreen ' 2)') Display Valheim Server Service
 $(ColorOrange '-')$(ColorGreen ' 3)') Display World Data Folder
+$(ColorOrange '-')$(ColorGreen ' 4)') Display System Info
+$(ColorOrange '-')$(ColorGreen ' 5)') Display Network Info
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorOrange '-------------------------------------------------')
 $(ColorBlue 'Choose an option:') "
@@ -776,6 +776,8 @@ $(ColorBlue 'Choose an option:') "
 	        1) display_start_valheim ; tech_support ;; 
 		2) display_valheim_server_status ; tech_support ;;
 	        3) display_world_data_folder ; tech_support ;;
+		3) system_info ; tech_support ;;
+		3) network_info ; tech_support ;;
 		  0) menu ; menu ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
@@ -955,6 +957,11 @@ $(ColorBlue 'Choose an option:') "
 ##################FINISH VALHEIM PLUS MOD SECTION#######################
 ########################################################################
 
+
+
+
+
+
 menu(){
 clear
 echo ""
@@ -984,13 +991,10 @@ $(ColorBlue 'Choose an option:') "
         read a
         case $a in
 	        1) script_check_update ; menu ;;
-		2) system_info ; menu ;;
-	        3) network_info ; menu ;;
-	        4) all_checks ; menu ;;
-		5) admin_tools_menu ; menu ;;
-		6) tech_support ; menu ;;
-		7) server_install_menu ; menu ;;
-		8) mods_menu ; menu ;;
+		2) admin_tools_menu ; menu ;;
+		3) tech_support ; menu ;;
+		4) server_install_menu ; menu ;;
+		5) mods_menu ; menu ;;
 		    0) exit 0 ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
