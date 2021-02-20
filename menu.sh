@@ -673,6 +673,8 @@ echo ""
     echo ""
     else
     echo "Canceling Stopping of Valheim Server Service - because Loki sucks"
+    sleep 3
+    clear
 fi
 }
 
