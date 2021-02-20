@@ -106,12 +106,12 @@ BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/beta"
     LAST_UPDATE=`git show --no-notes --format=format:"%H" $BRANCH | head -n 1`
     LAST_COMMIT=`git show --no-notes --format=format:"%H" origin/$BRANCH | head -n 1`
         if [ $LAST_COMMIT != $LAST_UPDATE ]; then
-            echo "Updating your branch $BRANCH"
+ tput setaf 2; echo "Updating your branch $BRANCH" ; tput setaf 9; 
             git pull --no-edit
 	    chmod +x menu.sh
-	    echo "Updates found and applied"
-	    echo "Restarting menu system"
-	    sleep 1
+ tput setaf 2; echo "Updates found and applied" ; tput setaf 9; 
+ tput setaf 2; echo "Restarting menu system" ; tput setaf 9; 
+	    sleep 3
 	    ./menu.sh
         else
             echo "No updates available"
