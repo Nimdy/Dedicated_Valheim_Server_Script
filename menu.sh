@@ -697,6 +697,8 @@ echo ""
     echo ""
     else
         echo "Canceling Starting of Valheim Server Service - because Loki sucks"
+        sleep 3
+    clear
 fi
 }
 
@@ -719,6 +721,8 @@ echo ""
     echo ""
     else
         echo "Canceling Restarting of Valheim Server Service - because Loki sucks"
+        sleep 3
+    clear
 fi
 }
 
@@ -934,9 +938,10 @@ echo -ne "
 $(ColorOrange '╔═════════════════════════════════════╗')
 $(ColorOrange '║ -ZeroBandwidths Easy Valheim Menu -   ║')
 $(ColorOrange '╠═════════════════════════════════════╝')
+$(ColorOrange '║ Welcome Viking!')
 $(ColorOrange '║ open to improvements')
-$(ColorOrange '║ Loki hides within this script')
-$(ColorOrange '╚ ')${mversion} or beta 
+$(ColorOrange '║ Beware Loki hides within this script')
+$(ColorOrange '╚ ')${mversion} 
 $(ColorOrange '---------Server System Information---------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Check for Nimdy Script Updates
 $(ColorOrange '-')$(ColorGreen ' 2)') System Info
