@@ -883,7 +883,6 @@ function other_mods() {
 
 
 valheim_plus_options(){
-clear
 echo ""
 echo -ne "
 $(ColorRed '-------NOT ADDED YET BUILDING FRAME WORK---------')
@@ -910,7 +909,6 @@ $(ColorBlue 'Choose an option:') "
 
 
 mods_menu(){
-clear
 echo ""
 echo -ne "
 $(ColorCyan '-----------Valheim+ Install Remove Update----------')
