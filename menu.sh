@@ -952,7 +952,7 @@ $(ColorOrange '-')$(ColorGreen ' 5)') Server Admin Tools
 $(ColorOrange '-')$(ColorGreen ' 6)') Tech Support Tools
 $(ColorOrange '-')$(ColorGreen ' 7)') Install Valheim Server
 $(ColorOrange '-----------------Mods Menu-----------------')
-$(ColorOrange '-')$(ColorGreen ' 8)') 
+$(ColorOrange '-')$(ColorGreen ' 8)') Coming Soon
 $(ColorOrange '-------------------------------------------')
 $(ColorGreen ' 0)') Exit
 $(ColorOrange '-------------------------------------------')
