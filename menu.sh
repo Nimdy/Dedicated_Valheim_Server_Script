@@ -152,6 +152,53 @@ function all_checks() {
 	network_info
 }
 
+
+
+function valheim_update_check() {
+#default install dir
+valheiminstall=/home/steam/valheimserver/
+#make temp directory for this Loki file dump
+vaheiminstall_temp=/tmp/lokidump
+loki_started=true
+
+dltmpdir=vaheiminstall_temp
+[ ! -d "$dltmpdir" ] && mkdir -p "$dltmpdir"
+
+    logfile="$(mktemp)"
+    echo "Update and Check Valheim Server"
+    steamcmd +login anonymous +force_install_dir $valheiminstall_temp +app_update 896660 -validate +quit
+    rsync -a --itemize-changes --delete --exclude server_exit.drp --exclude steamapps $valheiminstall_temp $valheiminstall | tee "$logfile"
+    grep '^[*>]' "$logfile" > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "Valheim Server was updated - restarting"
+        systemctl restart valheimserver.service
+    else
+        echo "Valheim Server is already the latest version"
+        if [ $loki_started = true ]; then
+            systemctl start valheimserver.service
+        fi
+    fi
+    loki_started=false
+    rm -f "$logfile"
+
+}
+
+function valheim_server_install() {
+    clear
+    echo ""
+    echo -ne "
+$(ColorOrange '--------------Install Valheim Server----------------')
+$(ColorRed '----------------------------------------------------')"
+echo ""
+tput setaf 2; echo "You are about to INSTALL the Valheim Server" ; tput setaf 9; 
+tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
+echo -ne "
+$(ColorRed '----------------------------------------------------')"
+echo ""
+ read -p "Please confirm:" confirmStartInstall
+#if y, then continue, else cancel
+        if [ "$confirmStartInstall" == "y" ]; then
+    echo ""
 function confirmed_valheim_install() {
     #check for updates and upgrade the system auto yes
     tput setaf 2; echo "Checking for upgrades" ; tput setaf 9;
@@ -412,54 +459,7 @@ tput setaf 2; echo "Twitch: ZeroBandwidth"
 tput setaf 2; echo "GLHF"
 tput setaf 9;
 echo ""
-}
-
-function valheim_update_check() {
-#default install dir
-valheiminstall=/home/steam/valheimserver/
-#make temp directory for this Loki file dump
-vaheiminstall_temp=/tmp/lokidump
-loki_started=true
-
-dltmpdir=vaheiminstall_temp
-[ ! -d "$dltmpdir" ] && mkdir -p "$dltmpdir"
-
-    logfile="$(mktemp)"
-    echo "Update and Check Valheim Server"
-    steamcmd +login anonymous +force_install_dir $valheiminstall_temp +app_update 896660 -validate +quit
-    rsync -a --itemize-changes --delete --exclude server_exit.drp --exclude steamapps $valheiminstall_temp $valheiminstall | tee "$logfile"
-    grep '^[*>]' "$logfile" > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        echo "Valheim Server was updated - restarting"
-        systemctl restart valheimserver.service
-    else
-        echo "Valheim Server is already the latest version"
-        if [ $loki_started = true ]; then
-            systemctl start valheimserver.service
-        fi
-    fi
-    loki_started=false
-    rm -f "$logfile"
-
-}
-
-function valheim_server_install() {
-    clear
-    echo ""
-    echo -ne "
-$(ColorOrange '--------------Install Valheim Server----------------')
-$(ColorRed '----------------------------------------------------')"
-echo ""
-tput setaf 2; echo "You are about to INSTALL the Valheim Server" ; tput setaf 9; 
-tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
-echo -ne "
-$(ColorRed '----------------------------------------------------')"
-echo ""
- read -p "Please confirm:" confirmStartInstall
-#if y, then continue, else cancel
-        if [ "$confirmStartInstall" == "y" ]; then
-    echo ""
-    valheim_update_check()
+}    
     echo ""    
     else
         echo "Canceling the INSTALL of Valheim Server Service - because Loki sucks"
