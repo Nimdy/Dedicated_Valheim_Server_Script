@@ -839,6 +839,15 @@ clear
 
 }
 
+function update_valheim_plus() {
+clear
+    echo ""
+    echo "Update Valheim+"
+    echo "Coming Soon"
+    echo ""
+
+}
+
 function valheim_plus_options() {
 clear
     echo ""
@@ -927,7 +936,7 @@ $(ColorCyan '-')$(ColorGreen ' 1)') Install Valheim+
 $(ColorCyan '-')$(ColorGreen ' 2)') Remove Valheim+ 
 $(ColorCyan '-')$(ColorGreen ' 3)') Update Valheim+ 
 $(ColorCyan '---------------Valheim+ Mod Menu-------------------')
-$(ColorCyan '-')$(ColorGreen ' 3)') Valheim+ Options
+$(ColorCyan '-')$(ColorGreen ' 4)') Valheim+ Options
 $(ColorCyan '---------------------------------------------------')
 $(ColorCyan '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
@@ -935,7 +944,8 @@ $(ColorBlue 'Choose an option:') "
         case $a in
 		1) install_mod_valheim_plus ; mods_menu ;;
 		2) remove_mod_valheim_plus ; mods_menu ;;
-		3) valheim_plus_options ; mods_menu ;;
+		3) update_valheim_plus ; mods_menu ;;
+		4) valheim_plus_options ; mods_menu ;;
 		   0) menu ; menu ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
