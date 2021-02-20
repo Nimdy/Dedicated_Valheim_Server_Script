@@ -107,7 +107,8 @@ BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/beta"
         if [ $LAST_COMMIT != $LAST_UPDATE ]; then
             echo "Updating your branch $BRANCH"
             git pull --no-edit
-	    chmod +x menu.sh	    
+	    chmod +x menu.sh
+	    ./menu.sh
         else
             echo "No updates available"
         fi
