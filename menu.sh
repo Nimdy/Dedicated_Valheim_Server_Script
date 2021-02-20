@@ -862,14 +862,14 @@ function other_mods() {
 valheim_plus_options(){
 echo -ne "
 $(ColorRed '-------NOT ADDED YET BUILDING FRAME WORK---------')
-$(ColorOrange '-------------Valheim+ Mod Menu---------------')
-$(ColorOrange '-')$(ColorGreen ' 1)') Server Mods
-$(ColorOrange '-')$(ColorGreen ' 2)') Player Mods
-$(ColorOrange '-')$(ColorGreen ' 3)') Building Mods
-$(ColorOrange '-')$(ColorGreen ' 4)') Other Mods
-$(ColorOrange '------------------------------------------------------------')
-$(ColorOrange '-')$(ColorGreen ' 0)') Go to Valheim+ Menu
-$(ColorOrange '-')$(ColorGreen ' 00)') Go to Main Menu
+$(ColorCyan '-------------Valheim+ Mod Menu---------------')
+$(ColorCyan '-')$(ColorGreen ' 1)') Server Mods
+$(ColorCyan '-')$(ColorGreen ' 2)') Player Mods
+$(ColorCyan '-')$(ColorGreen ' 3)') Building Mods
+$(ColorCyan '-')$(ColorGreen ' 4)') Other Mods
+$(ColorCyan '------------------------------------------------------------')
+$(ColorCyan '-')$(ColorGreen ' 0)') Go to Valheim+ Menu
+$(ColorCyan '-')$(ColorGreen ' 00)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
@@ -886,14 +886,14 @@ $(ColorBlue 'Choose an option:') "
 
 mods_menu(){
 echo -ne "
-$(ColorOrange '-----------Valheim+ Install Remove Update----------')
-$(ColorOrange '-')$(ColorGreen ' 1)') Install Valheim+ 
-$(ColorOrange '-')$(ColorGreen ' 2)') Remove Valheim+ 
-$(ColorOrange '-')$(ColorGreen ' 3)') Update Valheim+ 
-$(ColorOrange '---------------Valheim+ Mod Menu-------------------')
-$(ColorOrange '-')$(ColorGreen ' 3)') Valheim+ Options
-$(ColorOrange '---------------------------------------------------')
-$(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
+$(ColorCyan '-----------Valheim+ Install Remove Update----------')
+$(ColorCyan '-')$(ColorGreen ' 1)') Install Valheim+ 
+$(ColorCyan '-')$(ColorGreen ' 2)') Remove Valheim+ 
+$(ColorCyan '-')$(ColorGreen ' 3)') Update Valheim+ 
+$(ColorCyan '---------------Valheim+ Mod Menu-------------------')
+$(ColorCyan '-')$(ColorGreen ' 3)') Valheim+ Options
+$(ColorCyan '---------------------------------------------------')
+$(ColorCyan '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
