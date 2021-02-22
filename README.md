@@ -127,21 +127,7 @@ To get a local copy up and running follow these simple example steps.
   ```sh
   https://winscp.net/eng/download.php
   ```
-  
-*Nerd Stats:
-```sh
-Test results from lab envoriment
-* Software: Linux Server disro.
-* Hardware: 1CPU 1GB RAM 4GB Storage
-* Recommended: 4CPU+ 16GB RAM 256GB Storage
---------------------------------------------
-1-3  players 1 CPU 1GB RAM 4GB Storage
-2-5  players 2 CPU 4GB    RAM 64GB  Storage
-5-7  players 3 CPU 6GB    RAM 100GB Storage
-8-10 players 4 CPU 8-16GB RAM 256GB Storage (16GB RAM+ for larger servers)
-Network Connection 5 players 10MBps (up/down) Latency 1-20ms
-```
-  
+
 
 ### Installation
 
