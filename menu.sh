@@ -1,5 +1,5 @@
 #!/bin/bash
-# BETA BRANCH MENU
+# MAIN BRANCH MENU
 #  THIS IS STILL A WORK IN PROGRESS BUT ALL THE FUNCTIONS WORK
 #  I NEED TO JUST CLEAN IT UP AND FORMAT BETTER
 #  PLEASE LET ME KNOW ABOUT ISSUES
@@ -18,32 +18,39 @@ backupPath=/home/steam/backups
 ###############################################################
 
 # Set Menu Version
-mversion="Version 1.3"
+mversion="Version 1.6"
 ##
-# System script that checks:
-#   - Display System Info
-#   - Display Network Info
+# Update Menu script 
 ##
+
+
 ##
-# Server Install:
-#   - Install or Reinstall - Valheim Server
+# Admin Tools:
+# -Backup World: Manual backups of .db and .fwl files
+# -Restore World: Manual restore of .db and .fwl files
+# -Stop Valheim Server: Stops the Valheim Service
+# -Start Valheim Server: Starts the Valheim Service
+# -Restart Valheim Server: Restarts the Valheim Service (stop/start)
+# -Status Valheim Server: Displays the current status of the Valheim Server Service
+# -Check and Apply Valheim Server Update: Reaches out to to Steam with steamcmd and looks for official updates. If found applies them and restarts Valheim services
+# -Fresh Valheim Server: Installs Valheim server from official Steam repo. 
 ##
-##
-# Server Tools:
-# Do Manual Backup
-# Do Manual Restore | Make sure -world and whatever.db and whatever.fwl are the same
-# Stop Valheim Server
-# Start Valheim Server
-# Restart Valheim Server
-# Display Valheim Server Status
-# Check for Official Valheim updates and apply them
-##
+
 ##
 # Tech Support Tools
-# Display start_valheim.sh configuration
-# Display Valheim Server Status
-# Display Valheim World Data Folder
+#Display Valheim Config File
+#Display Valheim Server Service
+#Display World Data Folder
+#Display System Info
+#Display Network Info
+#Display Connected Players History
 ##
+
+##
+# Adding Valheim+ Mod Support
+##
+
+
 ########################################################################
 #############################Set COLOR VARS#############################
 ########################################################################
@@ -152,6 +159,10 @@ dltmpdir=vaheiminstall_temp
     rm -f "$logfile"
 
 }
+
+########################################################################
+########################Install Valheim Server##########################
+########################################################################
 
 function valheim_server_install() {
     clear
@@ -338,7 +349,7 @@ export LD_LIBRARY_PATH=./linux64:$LD_LIBRARY_PATH
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name $displayname -port 2456 -nographics -batchmode -world $worldname -password $password
+./valheim_server.x86_64 -name "${displayname}" -port 2456 -nographics -batchmode -world "${worldname}" -password "${password}"
 export LD_LIBRARY_PATH=$templdpath
 EOF
 tput setaf 2; echo "Done" ; tput setaf 9;
@@ -436,7 +447,9 @@ echo ""
 fi
 }
 
-
+########################################################################
+###################Backup World DB and FWL Files########################
+########################################################################
 function backup_world_data() {
     echo ""
     echo ""
@@ -456,10 +469,17 @@ function backup_world_data() {
          ## Add -h to convert the symbolic links into a regular files.
          ## Backup some system files, also the entire `/home` directory, etc.
          ##--exclude some directories, for example the the browser's cache, `.bash_history`, etc.
+	  #stop valheim server
+         echo "Stopping Valheim Server for clean backups"
+         systemctl stop valheimserver.service
+         echo "Stopped"
 	 echo "Making tar file of world data"
          tar czf $backupPath/valheim-backup-$TODAY.tgz $worldpath/*
 	 echo "Process complete!"
 	 sleep 1
+	 echo "Restarting the best Valheim Server in the world"
+         systemctl start valheimserver.service
+         echo "Valheim Server Service Started"
 	 echo ""
 	 echo "Setting permissions for steam on backup file"
 	 chown -Rf steam:steam /home/steam/backups
@@ -468,6 +488,9 @@ function backup_world_data() {
 
 }
 
+########################################################################
+##################Restore World Files DB and FWL########################
+########################################################################
 
 # Thanks to GITHUB @LachlanMac and @Kurt
 function restore_world_data() {
@@ -508,8 +531,9 @@ $(ColorGreen   'Press y(yes) or n(no)') "
 #if y, then continue, else cancel
         if [ "$confirmBackup" == "y" ]; then
  #stop valheim server
-        systemctl stop valheimserver
         echo "Stopping Valheim Server"
+        systemctl stop valheimserver.service
+        echo "Stopped"
  #give it a few
         sleep 5
  #copy backup to worlds folder
@@ -526,19 +550,21 @@ $(ColorGreen   'Press y(yes) or n(no)') "
  #start valheim server
         echo "Starting Valheim Services"
         echo "This better work Loki!"
-        systemctl start valheimserver
+        systemctl start valheimserver.service
 else
         echo "Canceling restore process because Loki sucks"
 fi
 
 }
 
-
+########################################################################
+########################Check of Valheim Updates########################
+########################################################################
 
 
 function check_apply_server_updates() {
     echo ""
-    echo "Oh for Loki! This is not ready yet."
+    echo "Checking up Valheim Updates and Applying it"
     #Thanks to @lloesche for the throught process and function
     valheiminstall=/home/steam/valheimserver/
     #make temp directory for this Loki file dump
@@ -569,6 +595,10 @@ function check_apply_server_updates() {
 
 }
 
+########################################################################
+##############Verify Checking Updates for Valheim Server################
+########################################################################
+
 function confirm_check_apply_server_updates() {
 
 while true; do
@@ -590,6 +620,9 @@ done
 
 }
 
+########################################################################
+###############Display Valheim Start Configuration######################
+########################################################################
 
 function display_start_valheim() {
     clear
@@ -599,6 +632,9 @@ function display_start_valheim() {
 
 }
 
+########################################################################
+###############Display Valheim World Data Folder########################
+########################################################################
 
 function display_world_data_folder() {
     clear
@@ -607,6 +643,11 @@ function display_world_data_folder() {
     echo ""
 
 }
+
+########################################################################
+######################Stop Valheim Server Service#######################
+########################################################################
+
 
 function stop_valheim_server() {
     clear
@@ -623,6 +664,8 @@ echo ""
  read -p "Please confirm:" confirmStop
 #if y, then continue, else cancel
         if [ "$confirmStop" == "y" ]; then
+    echo ""
+    echo "Stopping Valheim Server Services"
     sudo systemctl stop valheimserver.service
     echo ""
     else
@@ -631,6 +674,11 @@ echo ""
     clear
 fi
 }
+
+########################################################################
+###################Start Valheim Server Service#########################
+########################################################################
+
 
 function start_valheim_server() {
     clear
@@ -647,6 +695,8 @@ echo ""
  read -p "Please confirm:" confirmStart
 #if y, then continue, else cancel
         if [ "$confirmStart" == "y" ]; then
+    echo ""
+    tput setaf 2; echo "Starting Valheim Server with Thor's Hammer!!!!" ; tput setaf 9;
     sudo systemctl start valheimserver.service
     echo ""
     else
@@ -655,6 +705,10 @@ echo ""
     clear
 fi
 }
+
+########################################################################
+####################Restart Valheim Server Service######################
+########################################################################
 
 function restart_valheim_server() {
     clear
@@ -671,6 +725,7 @@ echo ""
  read -p "Please confirm:" confirmRestart
 #if y, then continue, else cancel
         if [ "$confirmRestart" == "y" ]; then
+tput setaf 2; echo "Restarting Valheim Server with Thor's Hammer!!!!" ; tput setaf 9; 
     sudo systemctl restart valheimserver.service
     echo ""
     else
@@ -680,14 +735,22 @@ echo ""
 fi
 }
 
+########################################################################
+#####################Display Valheim Server Status######################
+########################################################################
 
 function display_valheim_server_status() {
     clear
     echo ""
-    sudo systemctl status valheimserver.service
+    sudo systemctl status --no-pager -l valheimserver.service
     echo ""
 
 }
+
+########################################################################
+##############Display Valheim Vanilla Configuration File################
+########################################################################
+
 
 function display_start_valheim() {
     clear
@@ -697,7 +760,9 @@ function display_start_valheim() {
 
 }
 
-
+########################################################################
+#######################Sub Server Menu System###########################
+########################################################################
 
 server_install_menu(){
 echo ""
@@ -754,10 +819,14 @@ function display_network_info() {
 clear
     echo ""
     sudo netstat -atunp | grep valheim
-    sudo ifconfig
+    sudo ipconfig
     echo ""
 
 }
+
+########################################################################
+################Display History of Connected Players####################
+########################################################################
 
 function display_player_history() {
 clear
@@ -767,6 +836,9 @@ clear
 
 }
 
+########################################################################
+#####################Sub Tech Support Menu System#######################
+########################################################################
 
 tech_support(){
 echo ""
@@ -778,6 +850,7 @@ $(ColorOrange '-')$(ColorGreen ' 3)') Display World Data Folder
 $(ColorOrange '-')$(ColorGreen ' 4)') Display System Info
 $(ColorOrange '-')$(ColorGreen ' 5)') Display Network Info
 $(ColorOrange '-')$(ColorGreen ' 6)') Display Connected Players History
+$(ColorOrange '-------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorOrange '-------------------------------------------------')
 $(ColorBlue 'Choose an option:') "
@@ -793,6 +866,10 @@ $(ColorBlue 'Choose an option:') "
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
 }
+
+########################################################################
+########################Sub Admin Menu System###########################
+########################################################################
 
 admin_tools_menu(){
 echo ""
@@ -969,7 +1046,9 @@ $(ColorBlue 'Choose an option:') "
 
 
 
-
+########################################################################
+#######################Display Main Menu System#########################
+########################################################################
 
 menu(){
 clear
