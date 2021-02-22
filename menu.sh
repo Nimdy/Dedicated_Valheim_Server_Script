@@ -524,8 +524,9 @@ $(ColorGreen   'Press y(yes) or n(no)') "
 #if y, then continue, else cancel
         if [ "$confirmBackup" == "y" ]; then
  #stop valheim server
-        systemctl stop valheimserver
         echo "Stopping Valheim Server"
+        systemctl stop valheimserver
+        echo "Stopped"
  #give it a few
         sleep 5
  #copy backup to worlds folder
@@ -656,6 +657,8 @@ echo ""
  read -p "Please confirm:" confirmStop
 #if y, then continue, else cancel
         if [ "$confirmStop" == "y" ]; then
+    echo ""
+    echo "Stopping Valheim Server Services"
     sudo systemctl stop valheimserver.service
     echo ""
     else
