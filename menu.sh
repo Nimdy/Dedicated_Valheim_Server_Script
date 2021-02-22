@@ -18,7 +18,7 @@ backupPath=/home/steam/backups
 ###############################################################
 
 # Set Menu Version
-mversion="Version 1.1"
+mversion="Version 1.6"
 ##
 # System script that checks:
 #   - Display System Info
