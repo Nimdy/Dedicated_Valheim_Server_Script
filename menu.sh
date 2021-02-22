@@ -685,6 +685,8 @@ echo ""
  read -p "Please confirm:" confirmStart
 #if y, then continue, else cancel
         if [ "$confirmStart" == "y" ]; then
+    echo ""
+    tput setaf 2; echo "Starting Valheim Server with Thor's Hammer!!!!" ; tput setaf 9;
     sudo systemctl start valheimserver.service
     echo ""
     else
@@ -713,6 +715,7 @@ echo ""
  read -p "Please confirm:" confirmRestart
 #if y, then continue, else cancel
         if [ "$confirmRestart" == "y" ]; then
+tput setaf 2; echo "Restarting Valheim Server with Thor's Hammer!!!!" ; tput setaf 9; 
     sudo systemctl restart valheimserver.service
     echo ""
     else
@@ -837,6 +840,7 @@ $(ColorOrange '-')$(ColorGreen ' 3)') Display World Data Folder
 $(ColorOrange '-')$(ColorGreen ' 4)') Display System Info
 $(ColorOrange '-')$(ColorGreen ' 5)') Display Network Info
 $(ColorOrange '-')$(ColorGreen ' 6)') Display Connected Players History
+$(ColorOrange '-------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorOrange '-------------------------------------------------')
 $(ColorBlue 'Choose an option:') "
