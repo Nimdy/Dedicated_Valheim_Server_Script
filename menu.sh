@@ -742,7 +742,7 @@ fi
 function display_valheim_server_status() {
     clear
     echo ""
-    sudo systemctl status valheimserver.service
+    sudo systemctl status --no-pager -l valheimserver.service
     q
     echo ""
 
