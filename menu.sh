@@ -477,6 +477,9 @@ function backup_world_data() {
          tar czf $backupPath/valheim-backup-$TODAY.tgz $worldpath/*
 	 echo "Process complete!"
 	 sleep 1
+	 echo "Restarting the best Valheim Server in the world"
+         systemctl start valheimserver.service
+         echo "Valheim Server Service Started"
 	 echo ""
 	 echo "Setting permissions for steam on backup file"
 	 chown -Rf steam:steam /home/steam/backups
