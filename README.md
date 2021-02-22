@@ -117,7 +117,7 @@ To get a local copy up and running follow these simple example steps.
   ```
 * Ubuntu Install
   ```sh
-  Ubuntu 18.06 LTS 64bit and Ubuntu 20.04 LTS (tested 10 FEB 2021)
+  Ubuntu 18.04 LTS 64bit and Ubuntu 20.04 LTS (tested 10 FEB 2021)
   ```
 * Putty 64bit for Windows User
   ```sh
