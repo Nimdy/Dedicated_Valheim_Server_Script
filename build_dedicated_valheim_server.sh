@@ -1,4 +1,9 @@
 #!/bin/bash
+# Prmissions check
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run with elivated permisions"
+   echo "Please re-run with sudo ./ "
+   exit 1
 
 # All in one Script to install Valheim Dedicated Server
 # Thanks to nicolas-martin for the variable assignment changes
