@@ -1057,8 +1057,8 @@ echo -ne "
 $(ColorOrange '╔═════════════════════════════════════════╗')
 $(ColorOrange '║~~~-ZeroBandwidths Easy Valheim Menu-~~~~║')
 $(ColorOrange '╠═════════════════════════════════════════╝')
-$(ColorOrange '║ Welcome Viking!')
-$(ColorOrange '║ open to improvements')
+$(ColorOrange '║ Welcome Viking!') 
+$(ColorOrange '║ open to improvement and small change for requiemzz')
 $(ColorOrange '║ Beware Loki hides within this script')
 $(ColorOrange '╚ ')${mversion} 
 $(ColorOrange '----------Check for Script Updates---------')
