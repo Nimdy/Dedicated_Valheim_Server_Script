@@ -469,6 +469,10 @@ function backup_world_data() {
          ## Add -h to convert the symbolic links into a regular files.
          ## Backup some system files, also the entire `/home` directory, etc.
          ##--exclude some directories, for example the the browser's cache, `.bash_history`, etc.
+	  #stop valheim server
+         echo "Stopping Valheim Server for clean backups"
+         systemctl stop valheimserver.service
+         echo "Stopped"
 	 echo "Making tar file of world data"
          tar czf $backupPath/valheim-backup-$TODAY.tgz $worldpath/*
 	 echo "Process complete!"
@@ -525,7 +529,7 @@ $(ColorGreen   'Press y(yes) or n(no)') "
         if [ "$confirmBackup" == "y" ]; then
  #stop valheim server
         echo "Stopping Valheim Server"
-        systemctl stop valheimserver
+        systemctl stop valheimserver.service
         echo "Stopped"
  #give it a few
         sleep 5
@@ -543,7 +547,7 @@ $(ColorGreen   'Press y(yes) or n(no)') "
  #start valheim server
         echo "Starting Valheim Services"
         echo "This better work Loki!"
-        systemctl start valheimserver
+        systemctl start valheimserver.service
 else
         echo "Canceling restore process because Loki sucks"
 fi
