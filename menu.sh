@@ -20,30 +20,37 @@ backupPath=/home/steam/backups
 # Set Menu Version
 mversion="Version 1.6"
 ##
-# System script that checks:
-#   - Display System Info
-#   - Display Network Info
+# Update Menu script 
 ##
+
+
 ##
-# Server Install:
-#   - Install or Reinstall - Valheim Server
+# Admin Tools:
+# -Backup World: Manual backups of .db and .fwl files
+# -Restore World: Manual restore of .db and .fwl files
+# -Stop Valheim Server: Stops the Valheim Service
+# -Start Valheim Server: Starts the Valheim Service
+# -Restart Valheim Server: Restarts the Valheim Service (stop/start)
+# -Status Valheim Server: Displays the current status of the Valheim Server Service
+# -Check and Apply Valheim Server Update: Reaches out to to Steam with steamcmd and looks for official updates. If found applies them and restarts Valheim services
+# -Fresh Valheim Server: Installs Valheim server from official Steam repo. 
 ##
-##
-# Server Tools:
-# Do Manual Backup
-# Do Manual Restore | Make sure -world and whatever.db and whatever.fwl are the same
-# Stop Valheim Server
-# Start Valheim Server
-# Restart Valheim Server
-# Display Valheim Server Status
-# Check for Official Valheim updates and apply them
-##
+
 ##
 # Tech Support Tools
-# Display start_valheim.sh configuration
-# Display Valheim Server Status
-# Display Valheim World Data Folder
+#Display Valheim Config File
+#Display Valheim Server Service
+#Display World Data Folder
+#Display System Info
+#Display Network Info
+#Display Connected Players History
 ##
+
+##
+# Adding Valheim+ Mod Support
+##
+
+
 ########################################################################
 #############################Set COLOR VARS#############################
 ########################################################################
@@ -865,8 +872,6 @@ $(ColorOrange '----------------Official Valheim Server Update--------------')
 $(ColorOrange '-')$(ColorGreen ' 7)') Check and Apply Valheim Server Update
 $(ColorOrange '------------------First Time or Reinstall-------------------')
 $(ColorOrange '-')$(ColorGreen ' 8)') Fresh Valheim Server
-$(ColorOrange '------------------------Coming Soon-------------------------')
-$(ColorOrange '-')$(ColorGreen ' )') Display a list of past players
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
