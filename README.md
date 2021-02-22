@@ -34,7 +34,12 @@
   </p>
 </p>
 
-
+Using my DigitalOcean Referral Link:
+* Unsure you want a dedicated server?
+* Using my code gives you 100USD credit for 60 days on DigitalOcean :smile:
+* This is a great way to test your Valheim server without a commitment!
+* I pay for the 40USD a month 4CPU and 8GB RAM Droplet Server
+* My Referral Link https://m.do.co/c/9d2217a2725c
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -84,12 +89,7 @@ Should you need any help troubleshooting your Valheim Server visit me on Twitch 
 
 * Twitch Channel: https://www.twitch.tv/zerobandwidth | * Discord for Tech Support https://discord.gg/ejgQUfc
 
-Using my DigitalOcean Referral Link:
-* Unsure you want a dedicated server?
-* Using my code gives you 100USD credit for 60 days on DigitalOcean :smile:
-* This is a great way to test your Valheim server without a commitment!
-* I pay for the 40USD a month 4CPU and 8GB RAM Droplet Server
-* My Referral Link https://m.do.co/c/9d2217a2725c
+
 
 
 ### Built With
