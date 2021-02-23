@@ -241,12 +241,11 @@ sleep 1
     echo ""
     clear
     echo ""
-    # Server port
-    echo ""
-    echo "Do you want to change the port used by the server ?"
-    read -p "Enter the port used by the Valheim Server (default=2456): " -i 2456 -e port
 done
+# Server port
 echo ""
+echo "Do you want to change the port used by the server ?"
+read -p "Enter the port used by the Valheim Server (default=2456): " -i 2456 -e port
 clear
 echo "Here is the information you entered"
 echo "This information is only saved in the valheim_server.sh file"
@@ -404,7 +403,7 @@ function valheim_update_check() {
 #default install dir
 valheiminstall=/home/steam/valheimserver/
 #make temp directory for this Loki file dump
-vaheiminstall_temp=/tmp/lokidump
+vaheiminstall_temp=/tmp/lokidump/
 loki_started=true
 
 dltmpdir=vaheiminstall_temp
@@ -413,7 +412,7 @@ dltmpdir=vaheiminstall_temp
     logfile="$(mktemp)"
     echo "Update and Check Valheim Server"
     steamcmd +login anonymous +force_install_dir $valheiminstall_temp +app_update 896660 -validate +quit
-    rsync -a --itemize-changes --delete --exclude server_exit.drp --exclude steamapps $valheiminstall_temp $valheiminstall | tee "$logfile"
+    rsync -a --chown=steam:steam--itemize-changes --delete --exclude server_exit.drp --exclude steamapps --exclude start_valheim.sh $valheiminstall_temp $valheiminstall | tee "$logfile"
     grep '^[*>]' "$logfile" > /dev/null 2>&1
     if [ $? -eq 0 ]; then
         echo "Valheim Server was updated - restarting"
@@ -537,7 +536,7 @@ function check_apply_server_updates() {
     #Thanks to @lloesche for the throught process and function
     valheiminstall=/home/steam/valheimserver/
     #make temp directory for this Loki file dump
-    vaheiminstall_temp=/tmp/lokidump
+    vaheiminstall_temp=/tmp/lokidump/
     loki_started=true
 
     dltmpdir=vaheiminstall_temp
@@ -546,7 +545,7 @@ function check_apply_server_updates() {
     logfile="$(mktemp)"
     echo "Update and Check Valheim Server"
     steamcmd +login anonymous +force_install_dir $valheiminstall_temp +app_update 896660 -validate +quit
-    rsync -a --itemize-changes --delete --exclude server_exit.drp --exclude steamapps $valheiminstall_temp $valheiminstall | tee "$logfile"
+    rsync -a --chown=steam:steam --itemize-changes --delete --exclude server_exit.drp --exclude steamapps --exclude start_valheim.sh $valheiminstall_temp $valheiminstall | tee "$logfile"
     grep '^[*>]' "$logfile" > /dev/null 2>&1
     if [ $? -eq 0 ]; then
         echo "Valheim Server was updated - restarting"
@@ -757,7 +756,7 @@ $(ColorOrange '-----------Valheim Server Commands---------')
 $(ColorOrange '-')$(ColorGreen ' 5)') Server Admin Tools 
 $(ColorOrange '-')$(ColorGreen ' 6)') Tech Support Tools
 $(ColorOrange '-')$(ColorGreen ' 7)') Install Valheim Server
-$(ColorGreen ' 0)') Exit
+$(ColorOrange '-')$(ColorGreen ' 0)') Exit
 $(ColorOrange '-------------------------------------------')
 $(ColorBlue 'Choose an option:') "
         read a
