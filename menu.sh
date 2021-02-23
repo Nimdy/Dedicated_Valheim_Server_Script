@@ -8,6 +8,8 @@
 # Please help improve this script
 # Easy Valheim Server Menu
 # Open to other commands that should be used... 
+#If you want to buy me a beer: https://www.patreon.com/zerobandwidth
+#Or send me VET coint: 0x6a2e7c13606e07d57664821a0d9920da75719c01
 clear
 ###############################################################
 #Only change this if you know what you are doing
