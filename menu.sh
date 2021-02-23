@@ -240,7 +240,6 @@ sleep 1
     tput setaf 2; echo "I swear to LOKI, you better NOT use Special Characters" ; tput setaf 9;
     echo ""
     clear
-    echo ""
 done
 # Server port
 echo ""
