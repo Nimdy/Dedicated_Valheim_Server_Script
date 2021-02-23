@@ -596,6 +596,32 @@ function check_apply_server_updates() {
 }
 
 ########################################################################
+##############beta updater for Valheim################
+########################################################################
+function check_apply_server_updates_beta() {
+    echo ""
+    echo "Checking up Valheim Updates and Applying it"
+
+    echo "Update and Check Valheim Server"
+      steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit > temp.log
+      sed -e 's/[\t ]//g;/^$/d' temp.log > newtemp.log
+      repoValheim=$(sed -n '154p' newtemp.log)
+      echo "$repoValheim"
+      sed -e 's/[\t ]//g;/^$/d' /home/steam/valheimserver/steamapps/appmanifest_896660.acf > appmani.log
+      localValheim=$(sed -n '11p' appmani.log)
+      echo "$localValheim"
+      if [ $repoValheim == $localValheim ]; then
+        echo "No new Updates found"
+	else
+        echo "Updates found, do you wish to continue?"	
+	steamcmd +login anonymous +force_install_dir $valheiminstall_temp +app_update 896660 -validate +quit
+    fi
+
+
+    echo ""
+}
+
+########################################################################
 ##############Verify Checking Updates for Valheim Server################
 ########################################################################
 
