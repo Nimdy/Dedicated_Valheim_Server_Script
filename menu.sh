@@ -1,4 +1,13 @@
 #!/bin/bash
+# Sanity Check
+#    #######################################################
+echo "$(tput setaf 4)-------------------------------------------------------"
+echo "$(tput setaf 0)$(tput setab 7)Since we need to run the menu with elivated prilvages$(tput sgr 0)"
+echo "$(tput setaf 0)$(tput setab 7)Please enter your password now.$(tput sgr 0)"
+echo "$(tput setaf 4)-------------------------------------------------------"
+#    ###################################################### 
+[[ "$EUID" -eq 0 ]] || exec sudo "$0" "$@"
+
 # BETA BRANCH MENU
 #  THIS IS STILL A WORK IN PROGRESS BUT ALL THE FUNCTIONS WORK
 #  I NEED TO JUST CLEAN IT UP AND FORMAT BETTER
@@ -1108,3 +1117,4 @@ $(ColorBlue 'Choose an option:') "
 
 # Call the menu function
 menu
+done
