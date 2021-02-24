@@ -12,6 +12,8 @@ clear
 ###############################################################
 #Only change this if you know what you are doing
 #Valheim Server Install location(Default) 
+valheimInstallPath=/home/steam/valheimserver
+#Valheim World Data Path(Default)
 worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
 #Backup Directory ( Default )
 backupPath=/home/steam/backups
@@ -515,8 +517,6 @@ function restore_world_data() {
 tput setaf 2; echo "Select Backup File you wish to restore"  ; tput setaf 9;
     read -p "" selectedIndex
 #show confirmation message
-
-
 restorefile=$(basename "${backups[$selectedIndex-1]}")
 echo -ne "
 $(ColorRed '-----------------------------------------------')
@@ -561,48 +561,74 @@ fi
 ########################Check of Valheim Updates########################
 ########################################################################
 
+#################
+#function check_apply_server_updates() {
+#    echo ""
+#    echo "Checking up Valheim Updates and Applying it"
+#    #Thanks to @lloesche for the throught process and function
+#    valheiminstall=/home/steam/valheimserver/
+#    #make temp directory for this Loki file dump
+#    vaheiminstall_temp=/tmp/lokidump
+#    loki_started=true
+#
+#    dltmpdir=vaheiminstall_temp
+#    [ ! -d "$dltmpdir" ] && mkdir -p "$dltmpdir"
+#
+#    logfile="$(mktemp)"
+#    echo "Update and Check Valheim Server"
+#    steamcmd +login anonymous +force_install_dir $valheiminstall_temp +app_update 896660 -validate +quit
+#    rsync -a --itemize-changes --delete --exclude server_exit.drp --exclude steamapps $valheiminstall_temp $valheiminstall | tee "$logfile"
+#    grep '^[*>]' "$logfile" > /dev/null 2>&1
+#    if [ $? -eq 0 ]; then
+#        echo "Valheim Server was updated - restarting"
+#        systemctl restart valheimserver.service
+#    else
+#        echo "Valheim Server is already the latest version"
+#        if [ $loki_started = true ]; then
+#            systemctl start valheimserver.service
+#        fi
+#    fi
+#    loki_started=false
+#    rm -f "$logfile"
+#
+#    echo ""
+#
+#}
+##############
 
-function check_apply_server_updates() {
-    echo ""
-    echo "Checking up Valheim Updates and Applying it"
-    #Thanks to @lloesche for the throught process and function
-    valheiminstall=/home/steam/valheimserver/
-    #make temp directory for this Loki file dump
-    vaheiminstall_temp=/tmp/lokidump
-    loki_started=true
 
-    dltmpdir=vaheiminstall_temp
-    [ ! -d "$dltmpdir" ] && mkdir -p "$dltmpdir"
-
-    logfile="$(mktemp)"
-    echo "Update and Check Valheim Server"
-    steamcmd +login anonymous +force_install_dir $valheiminstall_temp +app_update 896660 -validate +quit
-    rsync -a --itemize-changes --delete --exclude server_exit.drp --exclude steamapps $valheiminstall_temp $valheiminstall | tee "$logfile"
-    grep '^[*>]' "$logfile" > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        echo "Valheim Server was updated - restarting"
-        systemctl restart valheimserver.service
-    else
-        echo "Valheim Server is already the latest version"
-        if [ $loki_started = true ]; then
-            systemctl start valheimserver.service
-        fi
-    fi
-    loki_started=false
-    rm -f "$logfile"
-
-    echo ""
-
-}
 
 ########################################################################
 ##############beta updater for Valheim################
 ########################################################################
 function check_apply_server_updates_beta() {
-    echo ""
-    echo "Checking up Valheim Updates and Applying it"
 
-    echo "Update and Check Valheim Server"
+function continue_with_valheim_update_install(){
+    clear
+    echo ""
+    echo -ne "
+$(ColorOrange '------------Installing Valheim Updates--------------')
+$(ColorRed '----------------------------------------------------')"
+echo ""
+tput setaf 2; echo "You are about to apply Official Valheim Updates" ; tput setaf 9; 
+tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
+echo -ne "
+$(ColorRed '----------------------------------------------------')"
+echo ""
+ read -p "Please confirm:" confirmOfficialUpdates
+#if y, then continue, else cancel
+        if [ "$confirmOfficialUpdates" == "y" ]; then
+tput setaf 2; echo "Using Thor's Hammer to apply Official Updates!" ; tput setaf 9; 
+    steamcmd +login anonymous +force_install_dir /home/steam/valheimserver +app_update 896660 validate +exit
+    echo ""
+    else
+        echo "Canceling all Official Updates for Valheim Server - because Loki sucks"
+        sleep 3
+    clear
+fi
+}
+    echo ""
+    echo "Downloading Valheim Repo Meta Data only for comparison"
       steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit > temp.log
       sed -e 's/[\t ]//g;/^$/d' temp.log > newtemp.log
       repoValheim=$(sed -n '154p' newtemp.log)
@@ -612,13 +638,14 @@ function check_apply_server_updates_beta() {
       echo "$localValheim"
       if [ $repoValheim == $localValheim ]; then
         echo "No new Updates found"
+	sleep 2
 	else
-        echo "Updates found, do you wish to continue?"	
-	steamcmd +login anonymous +force_install_dir $valheiminstall_temp +app_update 896660 -validate +quit
-    fi
-
-
-    echo ""
+	echo "Update Found kick process to Odin for updating!"
+	sleep 2
+        install_valheim_updates()
+        echo ""
+     fi
+     echo ""
 }
 
 ########################################################################
