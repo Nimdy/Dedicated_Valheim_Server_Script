@@ -341,6 +341,7 @@ sleep 1
 cat >> /home/steam/check_log.sh <<EOF
 journalctl --unit=valheimserver --reverse
 EOF
+chmod +x /home/steam/check_log.sh
 tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
@@ -739,6 +740,7 @@ function display_valheim_server_status() {
     clear
     echo ""
     sudo systemctl status --no-pager -l valheimserver.service
+    ./home/steam/check_log.sh
     echo ""
 
 }
