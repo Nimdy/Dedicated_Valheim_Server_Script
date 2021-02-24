@@ -157,16 +157,17 @@ echo ""
         if [ "$confirmStartInstall" == "y" ]; then
     echo ""
 
-    #check for updates and upgrade the system auto yes
+#check for updates and upgrade the system auto yes
     tput setaf 2; echo "Checking for upgrades" ; tput setaf 9;
     apt update && apt upgrade -y
     tput setaf 2; echo "Done" ; tput setaf 9;
     sleep 1
-
-tput setaf 2; echo "Install Git and Net-Tools" ; tput setaf 9;
-apt install git net-tools -y
-tput setaf 2; echo "Done" ; tput setaf 9;
-sleep 1
+    
+#check for updates and upgrade the system auto yes
+    tput setaf 2; echo "Install Git, Locate and Net-Tools" ; tput setaf 9;
+    apt install git mlocate net-tools -y
+    tput setaf 2; echo "Done" ; tput setaf 9;
+    sleep 1
 
 #add multiverse repo
     tput setaf 2; echo "Adding multiverse REPO" ; tput setaf 9;
@@ -209,14 +210,14 @@ sleep 1
     done
     clear
     echo ""
-    # Take user input for Valheim Server Public Display
+# Take user input for Valheim Server Public Display
     echo ""
     echo "Enter a name for your Valheim Server"
     echo "This is for the Public Steam Browser Listing"
     read -p "Enter public server display name: " displayname
     echo ""
     clear
-    # Take user input for Valheim Server World Database Generation
+# Take user input for Valheim Server World Database Generation
     echo ""
     echo "What do you want to call your in game world?"
     while true; do
@@ -231,7 +232,8 @@ sleep 1
     done
     clear
     echo ""
-    # Password for Server
+# Take user input for Valheim Server password
+# Added security for harder passwords
     echo ""
     echo "Now for Loki, please follow instructions"
     echo "Your server is required to have a password"
@@ -248,8 +250,8 @@ sleep 1
         [[ ${#password} -ge 5 && "$password" == *[[:lower:]]* && "$password" == *[[:upper:]]* && "$password" =~ ^[[:alnum:]]+$ ]] && break
     tput setaf 2; echo "Password not accepted - Too Short, Special Characters" ; tput setaf 9; 
     tput setaf 2; echo "I swear to LOKI, you better NOT use Special Characters" ; tput setaf 9; 
-done
-echo ""
+    done
+    echo ""
 cat >> /home/steam/serverSetup.txt <<EOF
 Here is the information you entered
 This information is for you to ref later, in case you forgot
@@ -316,7 +318,7 @@ sleep 1
 #build config for start_valheim.sh
 tput setaf 1; echo "Deleting old configuration if file exist" ; tput setaf 9;  
 tput setaf 1; echo "Building Valheim start_valheim server configuration" ; tput setaf 9;
-rm /home/steam/valheimserver/start_valheim.sh
+[ -e /home/steam/valheimserver/start_valheim.sh ] && rm /home/steam/valheimserver/start_valheim.sh
 sleep 1
 cat >> /home/steam/valheimserver/start_valheim.sh <<EOF
 #!/bin/bash
@@ -355,9 +357,9 @@ sleep 1
 tput setaf 1; echo "Deleting old configuration if file exist" ; tput setaf 9; 
 tput setaf 1; echo "Building systemctl instructions for Valheim" ; tput setaf 9; 
 # remove old Valheim Server Service
-rm /etc/systemd/system/valheimserver.service
+[ -e /etc/systemd/system/valheimserver.service ] && rm /etc/systemd/system/valheimserver.service
 # remove past Valheim Server Service
-rm /lib/systemd/system/valheimserver.service
+[ -e /lib/systemd/system/valheimserver.service ] && rm /lib/systemd/system/valheimserver.service
 sleep 1
 # Add new Valheim Server Service
 # Thanks @QuadeHale
@@ -535,45 +537,9 @@ fi
 ########################Check of Valheim Updates########################
 ########################################################################
 
-#################
-#function check_apply_server_updates() {
-#    echo ""
-#    echo "Checking up Valheim Updates and Applying it"
-#    #Thanks to @lloesche for the throught process and function
-#    valheiminstall=/home/steam/valheimserver/
-#    #make temp directory for this Loki file dump
-#    vaheiminstall_temp=/tmp/lokidump
-#    loki_started=true
-#
-#    dltmpdir=vaheiminstall_temp
-#    [ ! -d "$dltmpdir" ] && mkdir -p "$dltmpdir"
-#
-#    logfile="$(mktemp)"
-#    echo "Update and Check Valheim Server"
-#    steamcmd +login anonymous +force_install_dir $valheiminstall_temp +app_update 896660 -validate +quit
-#    rsync -a --itemize-changes --delete --exclude server_exit.drp --exclude steamapps $valheiminstall_temp $valheiminstall | tee "$logfile"
-#    grep '^[*>]' "$logfile" > /dev/null 2>&1
-#    if [ $? -eq 0 ]; then
-#        echo "Valheim Server was updated - restarting"
-#        systemctl restart valheimserver.service
-#    else
-#        echo "Valheim Server is already the latest version"
-#        if [ $loki_started = true ]; then
-#            systemctl start valheimserver.service
-#        fi
-#    fi
-#    loki_started=false
-#    rm -f "$logfile"
-#
-#    echo ""
-#
-#}
-##############
-
-
 
 ########################################################################
-##############beta updater for Valheim################
+######################beta updater for Valheim##########################
 ########################################################################
 function check_apply_server_updates_beta() {
 
@@ -633,8 +599,10 @@ while true; do
 echo -ne "
 $(ColorRed '-----------------------------------------------')"
 echo ""
-tput setaf 2; echo "WARNING DOING THIS WILL SHUTDOWN THE SERVER" ; tput setaf 9;
-tput setaf 2; echo "MAKE SURE EVERYBODY IS LOGGED OUT OF THE SERVER" ; tput setaf 9;
+tput setaf 2; echo "The Script will download the Log Data from" ; tput setaf 9;
+tput setaf 2; echo "the official Steam Valheim Repo and compare" ; tput setaf 9;
+tput setaf 2; echo "the data. No changes will be made, until" ; tput setaf 9;
+tput setaf 2; echo "you agree later." ; tput setaf 9;
 tput setaf 2; echo "Press y(YES) and n(NO)" ; tput setaf 9;
 tput setaf 2; read -p "Do you wish to continue?" yn ; tput setaf 9; 
 echo -ne "
