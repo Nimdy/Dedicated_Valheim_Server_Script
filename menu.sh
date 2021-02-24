@@ -192,7 +192,9 @@ echo ""
     echo "A non-root account will be created to run Valheim Server"
     echo "This account is named steam"
     while true; do
+      tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
       tput setaf 2; echo "----NONROOT STEAM ACCOUNT PASSWORD-----" ; tput setaf 9;
+      tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
       tput setaf 1; echo "Password must be 5 Characters or more" ; tput setaf 9;
       tput setaf 1 ;echo "At least one number, one uppercase letter and one lowercase letter" ; tput setaf 9;
       tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
@@ -211,6 +213,8 @@ echo ""
 # Take user input for Valheim Server Public Display
     echo ""
     tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "------Public Server Display Name-------" ; tput setaf 9;
+    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
     tput setaf 1;  echo "Enter a name for your Valheim Server" ; tput setaf 9;
     tput setaf 1;  echo "This is for the Public Steam Browser Listing" ; tput setaf 9;
     tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
@@ -224,8 +228,9 @@ echo ""
     clear
 # Take user input for Valheim Server World Database Generation
     echo ""
-    echo "What do you want to call your in game world?"
-    while true; do
+     while true; do
+        tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+        tput setaf 2; echo "-----------Set your World Name---------" ; tput setaf 9;
         tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
         tput setaf 1;  echo "Name must be 8 Characters or more" ; tput setaf 9;
         tput setaf 1;  echo "No Special Characters not even a space" ; tput setaf 9;
@@ -244,7 +249,9 @@ echo ""
     echo ""
 # Take user input for Valheim Server password
 # Added security for harder passwords
-    echo ""
+    echo ""        
+    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "-------Set Server Access Password------" ; tput setaf 9;
     tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
     tput setaf 1;  echo "Now for Loki, please follow instructions" ; tput setaf 9;
     tput setaf 1;  echo "Your server is required to have a password" ; tput setaf 9;
@@ -257,9 +264,12 @@ echo ""
     while true; do
     tput setaf 1;  echo "This password must be 5 Characters or more" ; tput setaf 9;
     tput setaf 1;  echo "At least one number, one uppercase letter and one lowercase letter" ; tput setaf 9;
+    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
     tput setaf 2;  echo "Good Example: Viking12" ; tput setaf 9;
     tput setaf 1;  echo "Bad Example: Vik!" ; tput setaf 9;
+    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
     read -p "Enter Password to Enter your Valheim Server: " password
+    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
         [[ ${#password} -ge 5 && "$password" == *[[:lower:]]* && "$password" == *[[:upper:]]* && "$password" =~ ^[[:alnum:]]+$ ]] && break
     tput setaf 2; echo "Password not accepted - Too Short, Special Characters" ; tput setaf 9; 
     tput setaf 2; echo "I swear to LOKI, you better NOT use Special Characters" ; tput setaf 9; 
