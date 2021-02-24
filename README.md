@@ -56,6 +56,7 @@ Using my DigitalOcean Referral Link:
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#installationold">Installation Old Method</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -127,9 +128,9 @@ To get a local copy up and running follow these simple example steps.
   ```sh
   https://winscp.net/eng/download.php
   ```
-
-
 ### Installation
+
+### Installationold
 
 * SSH into your newly Created VM
   ```sh
