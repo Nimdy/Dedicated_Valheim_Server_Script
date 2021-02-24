@@ -201,6 +201,7 @@ echo ""
       tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
       echo ""
         read -p "Please give steam a password: " userpassword
+      tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
             [[ ${#userpassword} -ge 5 && "$userpassword" == *[[:lower:]]* && "$userpassword" == *[[:upper:]]* && "$userpassword" =~ ^[[:alnum:]]+$ ]] && break
       tput setaf 2; echo "Password not accepted - Too Short or has Special Characters" ; tput setaf 9;
       tput setaf 2; echo "I swear to LOKI, you better NOT use Special Characters" ; tput setaf 9; 
@@ -215,7 +216,10 @@ echo ""
     tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
     tput setaf 2;  echo "Good Example: Zero's Viking Server" ; tput setaf 9;
     tput setaf 1;  echo "Bad Example: Zero's #1 Server Cash Signs will break the script MOney!" ; tput setaf 9;
+    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+    echo ""
       read -p "Enter public server display name: " displayname
+    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
     echo ""
     clear
 # Take user input for Valheim Server World Database Generation
@@ -229,6 +233,7 @@ echo ""
 	tput setaf 2;  echo "Good Example: ThorsHammer" ; tput setaf 9;
         tput setaf 1;  echo "Bad Example: Loki is a Trickster" ; tput setaf 9;
 	tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+	echo ""
         read -p "Please make a world name: " worldname
 	tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
             [[ ${#worldname} -ge 8 && "$worldname" =~ ^[[:alnum:]]+$ ]] && break
