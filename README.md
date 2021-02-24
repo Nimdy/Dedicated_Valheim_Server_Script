@@ -34,7 +34,12 @@
   </p>
 </p>
 
-
+Using my DigitalOcean Referral Link:
+* Unsure you want a dedicated server?
+* Using my code gives you 100USD credit for 60 days on DigitalOcean :smile:
+* This is a great way to test your Valheim server without a commitment!
+* I pay for the 40USD a month 4CPU and 8GB RAM Droplet Server
+* My Referral Link https://m.do.co/c/9d2217a2725c
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -68,24 +73,23 @@
 
 [![Thumbnail](https://img.youtube.com/vi/0YPLf7Bw5W4/0.jpg)](https://www.youtube.com/watch?v=0YPLf7Bw5W4)
 
+
+* Added new EASY to use menu system for new and old users of the script - Enjoy
+* This Menu will also install your Server and do many many other things! Enjoy!
+* How to use: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/How-to-use-the-Menu-Script
+* Old install process works just fine. (Until Loki Kills it)
+
 I started this to help out the community and I did not think for a moment it would have taken off so quickly.
-If this script did help you get your Valheim server running, please star and share this with others!
 Should you need any help troubleshooting your Valheim Server visit me on Twitch or Discord.
 
 * My production server is 6 days solid as of 18FEB2021)
-* In game time is 430+ days
-* Zero issues, zero crashes, zero cases of corrupted data. 
-* If is it not broke, don't fix it!  <-- Yes, I said that right
+* In game time is 430+ days |* Zero issues, zero crashes, zero cases of corrupted data. 
 
-* Twitch Channel: https://www.twitch.tv/zerobandwidth
-* Discord for Tech Support https://discord.gg/ejgQUfc
+* If you wish to Tip: https://www.patreon.com/zerobandwidth 
 
-Using my DigitalOcean Referral Link:
-* Unsure you want a dedicated server?
-* Using my code gives you 100USD credit for 60 days on DigitalOcean :smile:
-* This is a great way to test your Valheim server without a commitment!
-* I pay for the 40USD a month 4CPU and 8GB RAM Droplet Server
-* My Referral Link https://m.do.co/c/9d2217a2725c
+* Twitch Channel: https://www.twitch.tv/zerobandwidth | * Discord for Tech Support https://discord.gg/ejgQUfc
+
+
 
 
 ### Built With
@@ -113,7 +117,7 @@ To get a local copy up and running follow these simple example steps.
   ```
 * Ubuntu Install
   ```sh
-  Ubuntu 18.06 LTS 64bit and Ubuntu 20.04 LTS (tested 10 FEB 2021)
+  Ubuntu 18.04 LTS 64bit and Ubuntu 20.04 LTS (tested 10 FEB 2021)
   ```
 * Putty 64bit for Windows User
   ```sh
@@ -123,21 +127,7 @@ To get a local copy up and running follow these simple example steps.
   ```sh
   https://winscp.net/eng/download.php
   ```
-  
-*Nerd Stats:
-```sh
-Test results from lab envoriment
-* Software: Linux Server disro.
-* Hardware: 1CPU 1GB RAM 4GB Storage
-* Recommended: 4CPU+ 16GB RAM 256GB Storage
---------------------------------------------
-1-3  players 1 CPU 1GB RAM 4GB Storage
-2-5  players 2 CPU 4GB    RAM 64GB  Storage
-5-7  players 3 CPU 6GB    RAM 100GB Storage
-8-10 players 4 CPU 8-16GB RAM 256GB Storage (16GB RAM+ for larger servers)
-Network Connection 5 players 10MBps (up/down) Latency 1-20ms
-```
-  
+
 
 ### Installation
 
@@ -202,39 +192,34 @@ sudo ./build_dedicated_valheim_server.sh
 ```sh
 Select  keep the local version currently installed or No (default)
 ```
-9. User prompt for agreement of STEAM LICENSE AGREEMENT
-=
-```sh
-Select Ok
-Select I Agree
-Press Enter
-```
-10. Allow ports 2456,2457,2458 (TCP/UDP) on your server 
+9. Allow ports 2456,2457,2458 (TCP/UDP) on your server 
 This might take you a while, if you never done it before. Don't worry, members in my discord and myself can help troubleshoot later
 =
 
 **(DO NOT OVER LOOK THIS STEP)**
 
 If running in a Cloud Server, please check the WIKI for configuration steps.
-* [Port Configuration WIKI](https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/AWS-Azure-GCP-and-DigitalOcean-Valheim-Port-Configuration)
+* [CLICK - Port Configuration WIKI](https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/AWS-Azure-GCP-and-DigitalOcean-Valheim-Port-Configuration)
+* Oh LOKI!!! Did you skip the link above? 
 
-11. Stop Valheim service
+10. Stop Valheim service
 =
 ```sh
 sudo systemctl stop valheimserver.service
 ```
-12. Reboot Server for the lawls! (Always good to reboot after installing something)
+11. Reboot Server for the lawls! (Always good to reboot after installing something)
 =
 ```sh
 sudo reboot
 ```
-13. Once your server comes back online wait 1-3 mins and check Valheim service
+12. Once your server comes back online wait 1-3 mins and check Valheim service
 =
 ```sh
 sudo systemctl status valheimserver.service
 ```
 
-
+* Did this help you?  Please star it!
+* Do you want to add to this? Please fork it!
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -272,7 +257,7 @@ Contributions are what make the open source community such an amazing place to b
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@zerobandwidth](https://twitter.com/zerobandwidth) - mrzerobandwidth@gmail.com
+[@zerobandwidth](https://twitter.com/zerobandwidth) - mrzerobandwidth@gmail.com
 
 Project Link: [https://github.com/Nimdy/Dedicated_Valheim_Server_Script](https://github.com/Nimdy/Dedicated_Valheim_Server_Script)
 
@@ -284,6 +269,8 @@ Project Link: [https://github.com/Nimdy/Dedicated_Valheim_Server_Script](https:/
 * [Nicolas-Martin for Variable Assignment](https://github.com/nicolas-martin)
 * [madmozg - Pointing out my Typos](https://github.com/madmozg)
 * [bherbruck - Correct Profile Creation](https://github.com/bherbruck)
+* [Kurt - Debugging and Testing](#)
+* [LachlanMaco - Backup and Restore Functions](https://github.com/LachlanMac)
 * [beko - Correct KillSignal for Valheim Server](#)
 
 
