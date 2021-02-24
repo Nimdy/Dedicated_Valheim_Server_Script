@@ -847,7 +847,6 @@ function display_network_info() {
 clear
     echo ""
     sudo netstat -atunp | grep valheim
-    sudo ipconfig
     echo ""
 
 }
