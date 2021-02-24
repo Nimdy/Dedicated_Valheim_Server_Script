@@ -762,7 +762,6 @@ function display_valheim_server_status() {
     clear
     echo ""
     sudo systemctl status --no-pager -l valheimserver.service
-    /home/steam/check_log.sh
     echo ""
 
 }
