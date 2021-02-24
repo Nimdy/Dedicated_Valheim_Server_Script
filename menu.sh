@@ -544,7 +544,7 @@ fi
 ########################################################################
 function check_apply_server_updates_beta() {
 
-function continue_with_valheim_update_install(){
+continue_with_valheim_update_install() {
     clear
     echo ""
     echo -ne "
@@ -569,6 +569,7 @@ tput setaf 2; echo "Using Thor's Hammer to apply Official Updates!" ; tput setaf
     clear
 fi
 }
+
     echo ""
     echo "Downloading Official Valheim Repo Log Data for comparison only"
       steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit > temp.log
@@ -584,7 +585,7 @@ fi
 	else
 	echo "Update Found kicking process to Odin for updating!"
 	sleep 2
-        continue_with_valheim_update_install()
+        continue_with_valheim_update_install
         echo ""
      fi
      echo ""
