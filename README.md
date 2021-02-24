@@ -114,6 +114,8 @@ To get a local copy up and running follow these simple example steps.
   AWS
   Azure
   Google Cloud Platform
+  
+  2CPUs and 4GB RAM min... anything less is pushing it
   ```
 * Ubuntu Install
   ```sh
