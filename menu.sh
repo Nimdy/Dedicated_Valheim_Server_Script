@@ -9,12 +9,6 @@
 # Easy Valheim Server Menu
 # Open to other commands that should be used... 
 clear
-###Thanks Jamie for the SUDO Check
-if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run with elivated permisions"
-   echo "Please re-run with sudo ./ "
-   exit 1
-else 
 ###############################################################
 #Only change this if you know what you are doing
 #Valheim Server Install location(Default) 
@@ -26,7 +20,7 @@ backupPath=/home/steam/backups
 ###############################################################
 
 # Set Menu Version
-mversion="Version 1.6"
+mversion="Version 1.7"
 ##
 # Update Menu script 
 ##
@@ -573,10 +567,10 @@ function check_apply_server_updates_beta() {
       steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit > temp.log
       sed -e 's/[\t ]//g;/^$/d' temp.log > newtemp.log
       repoValheim=$(sed -n '154p' newtemp.log)
-      echo "$repoValheim"
+      echo "Official Valheim-: $repoValheim"
       sed -e 's/[\t ]//g;/^$/d' /home/steam/valheimserver/steamapps/appmanifest_896660.acf > appmani.log
       localValheim=$(sed -n '11p' appmani.log)
-      echo "$localValheim"
+      echo "Local Valheim Ver: $localValheim"
       if [ $repoValheim == $localValheim ]; then
         echo "No new Updates found"
 	sleep 2
@@ -761,7 +755,7 @@ function display_start_valheim() {
 #######################Sub Server Menu System###########################
 ########################################################################
 
-server_install_menu(){
+server_install_menu() {
 echo ""
 echo -ne "
 $(ColorOrange '-')$(ColorOrange '---------Server System Information--------')
