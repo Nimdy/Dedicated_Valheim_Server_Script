@@ -135,38 +135,6 @@ BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/beta"
 }
 
 
-########################################################################
-########################Check of Valheim Updates########################
-########################################################################
-
-function valheim_update_check() {
-#default install dir
-valheiminstall=/home/steam/valheimserver/
-#make temp directory for this Loki file dump
-vaheiminstall_temp=/tmp/lokidump
-loki_started=true
-
-dltmpdir=vaheiminstall_temp
-[ ! -d "$dltmpdir" ] && mkdir -p "$dltmpdir"
-
-    logfile="$(mktemp)"
-    echo "Update and Check Valheim Server"
-    steamcmd +login anonymous +force_install_dir $valheiminstall_temp +app_update 896660 -validate +quit
-    rsync -a --itemize-changes --delete --exclude server_exit.drp --exclude steamapps $valheiminstall_temp $valheiminstall | tee "$logfile"
-    grep '^[*>]' "$logfile" > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        echo "Valheim Server was updated - restarting"
-        systemctl restart valheimserver.service
-    else
-        echo "Valheim Server is already the latest version"
-        if [ $loki_started = true ]; then
-            systemctl start valheimserver.service
-        fi
-    fi
-    loki_started=false
-    rm -f "$logfile"
-
-}
 
 ########################################################################
 ########################Install Valheim Server##########################
@@ -530,7 +498,7 @@ $(ColorGreen 'Restore '${restorefile}' ?')
 $(ColorGreen  'Are you sure you want to do this? ')
 $(ColorOrange  'Remember to match world name with /home/steam/valheimserver/start_valheim.sh')
 $(ColorOrange  'The param for -world "worldname" much match restore file worldname.db and worldname.fwl')
-$(ColorGreen   'Press y(yes) or n(no)') "
+$(ColorGreen   'Press y (for yes) or n (for no)') "
 
 #read user input confirmation
     read -p "" confirmBackup
@@ -616,6 +584,7 @@ function continue_with_valheim_update_install(){
 $(ColorOrange '------------Installing Valheim Updates--------------')
 $(ColorRed '----------------------------------------------------')"
 echo ""
+tput setaf 2; echo "A NEW update was found!" ; tput setaf 9;
 tput setaf 2; echo "You are about to apply Official Valheim Updates" ; tput setaf 9; 
 tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
 echo -ne "
@@ -634,7 +603,7 @@ tput setaf 2; echo "Using Thor's Hammer to apply Official Updates!" ; tput setaf
 fi
 }
     echo ""
-    echo "Downloading Valheim Repo Meta Data only for comparison"
+    echo "Downloading Official Valheim Repo Log Data for comparison only"
       steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit > temp.log
       sed -e 's/[\t ]//g;/^$/d' temp.log > newtemp.log
       repoValheim=$(sed -n '154p' newtemp.log)
@@ -646,9 +615,9 @@ fi
         echo "No new Updates found"
 	sleep 2
 	else
-	echo "Update Found kick process to Odin for updating!"
+	echo "Update Found kicking process to Odin for updating!"
 	sleep 2
-        install_valheim_updates()
+        continue_with_valheim_update_install()
         echo ""
      fi
      echo ""
@@ -671,7 +640,7 @@ tput setaf 2; read -p "Do you wish to continue?" yn ; tput setaf 9;
 echo -ne "
 $(ColorRed '-----------------------------------------------')"
     case $yn in
-        [Yy]* ) check_apply_server_updates; break;;
+        [Yy]* ) check_apply_server_updates_beta; break;;
         [Nn]* ) exit;;
         * ) echo "Please answer yes or no.";;
     esac
