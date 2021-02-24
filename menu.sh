@@ -535,16 +535,9 @@ fi
 }
 
 ########################################################################
-########################Check of Valheim Updates########################
+#############Install Official Update of Valheim Updates#################
 ########################################################################
-
-
-########################################################################
-######################beta updater for Valheim##########################
-########################################################################
-function check_apply_server_updates_beta() {
-
-continue_with_valheim_update_install() {
+function continue_with_valheim_update_install() {
     clear
     echo ""
     echo -ne "
@@ -569,6 +562,11 @@ tput setaf 2; echo "Using Thor's Hammer to apply Official Updates!" ; tput setaf
     clear
 fi
 }
+
+########################################################################
+######################beta updater for Valheim##########################
+########################################################################
+function check_apply_server_updates_beta() {
 
     echo ""
     echo "Downloading Official Valheim Repo Log Data for comparison only"
