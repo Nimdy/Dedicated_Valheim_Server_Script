@@ -6,7 +6,7 @@
 #  UPDATE THE MENU BEFORE YOU USE IT 
 # If Frankenstein was a bash script
 # Please help improve this script
-# Easy Valheim Server Menu
+# Easy Valheim Server Menu super duper easy
 # Open to other commands that should be used... 
 clear
 ###############################################################
