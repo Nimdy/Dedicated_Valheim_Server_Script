@@ -9,6 +9,12 @@
 # Easy Valheim Server Menu
 # Open to other commands that should be used... 
 clear
+###Thanks Jamie for the SUDO Check
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run with elivated permisions"
+   echo "Please re-run with sudo ./ "
+   exit 1
+else 
 ###############################################################
 #Only change this if you know what you are doing
 #Valheim Server Install location(Default) 
