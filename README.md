@@ -208,6 +208,7 @@ sudo ./menu.sh
 ![Server Configs](https://user-images.githubusercontent.com/16698453/108993432-d8d7e200-769a-11eb-9a67-b8341d056d2f.PNG?raw=true "Server Configs")
 
 * For all the features of the Menu System visit:
+
 https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/How-to-use-the-Menu-Script
 
 
