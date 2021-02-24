@@ -138,13 +138,13 @@ function valheim_server_install() {
     clear
     echo ""
     echo -ne "
-$(ColorOrange '--------------Install Valheim Server----------------')
-$(ColorRed '----------------------------------------------------')"
+$(ColorOrange '-----------------Install Valheim Server------------------')
+$(ColorRed '------------------------------------------------------------')"
 echo ""
 tput setaf 2; echo "You are about to INSTALL the Valheim Server" ; tput setaf 9; 
 tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
 echo -ne "
-$(ColorRed '----------------------------------------------------')"
+$(ColorRed '------------------------------------------------------------')"
 echo ""
  read -p "Please confirm:" confirmStartInstall
 #if y, then continue, else cancel
@@ -192,18 +192,18 @@ echo ""
     echo "A non-root account will be created to run Valheim Server"
     echo "This account is named steam"
     while true; do
-      tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
-      tput setaf 2; echo "----NONROOT STEAM ACCOUNT PASSWORD-----" ; tput setaf 9;
-      tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+      tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+      tput setaf 2; echo "----------------NONROOT STEAM ACCOUNT PASSWORD--------------" ; tput setaf 9;
+      tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
       tput setaf 1; echo "Password must be 5 Characters or more" ; tput setaf 9;
       tput setaf 1 ;echo "At least one number, one uppercase letter and one lowercase letter" ; tput setaf 9;
-      tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+      tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
       tput setaf 2;  echo "Good Example: Viking12" ; tput setaf 9;
       tput setaf 1;  echo "Bad Example: Vik!" ; tput setaf 9;
-      tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+      tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
       echo ""
         read -p "Please give steam a password: " userpassword
-      tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+      tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
             [[ ${#userpassword} -ge 5 && "$userpassword" == *[[:lower:]]* && "$userpassword" == *[[:upper:]]* && "$userpassword" =~ ^[[:alnum:]]+$ ]] && break
       tput setaf 2; echo "Password not accepted - Too Short or has Special Characters" ; tput setaf 9;
       tput setaf 2; echo "I swear to LOKI, you better NOT use Special Characters" ; tput setaf 9; 
@@ -212,35 +212,35 @@ echo ""
     echo ""
 # Take user input for Valheim Server Public Display
     echo ""
-    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
-    tput setaf 2; echo "------Public Server Display Name-------" ; tput setaf 9;
-    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------Public Server Display Name----------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     tput setaf 1;  echo "Enter a name for your Valheim Server" ; tput setaf 9;
     tput setaf 1;  echo "This is for the Public Steam Browser Listing" ; tput setaf 9;
-    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     tput setaf 2;  echo "Good Example: Zero's Viking Server" ; tput setaf 9;
     tput setaf 1;  echo "Bad Example: Zero's #1 Server Cash Signs will break the script MOney!" ; tput setaf 9;
-    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     echo ""
       read -p "Enter public server display name: " displayname
-    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     echo ""
     clear
 # Take user input for Valheim Server World Database Generation
     echo ""
      while true; do
-        tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
-        tput setaf 2; echo "-----------Set your World Name---------" ; tput setaf 9;
-        tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+        tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+        tput setaf 2; echo "----------------------Set your World Name-------------------" ; tput setaf 9;
+        tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
         tput setaf 1;  echo "Name must be 8 Characters or more" ; tput setaf 9;
         tput setaf 1;  echo "No Special Characters not even a space" ; tput setaf 9;
-	tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+	tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
 	tput setaf 2;  echo "Good Example: ThorsHammer" ; tput setaf 9;
         tput setaf 1;  echo "Bad Example: Loki is a Trickster" ; tput setaf 9;
-	tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+	tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
 	echo ""
         read -p "Please make a world name: " worldname
-	tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+	tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
             [[ ${#worldname} -ge 8 && "$worldname" =~ ^[[:alnum:]]+$ ]] && break
         tput setaf 2;  echo "World Name not set: Too Short or has Special Characters" ; tput setaf 9; 
 	tput setaf 2; echo "I swear to LOKI, you better NOT use Special Characters" ; tput setaf 9; 
@@ -250,26 +250,26 @@ echo ""
 # Take user input for Valheim Server password
 # Added security for harder passwords
     echo ""        
-    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
-    tput setaf 2; echo "-------Set Server Access Password------" ; tput setaf 9;
-    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
-    tput setaf 1;  echo "Now for Loki, please follow instructions" ; tput setaf 9;
-    tput setaf 1;  echo "Your server is required to have a password" ; tput setaf 9;
-    tput setaf 1;  echo "Your password cannot match your public display name nor world name" ; tput setaf 9;
-    tput setaf 1;  echo "Make your password unique" ; tput setaf 9;
-    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "--------------------Set Server Access Password--------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 1; echo "Now for Loki, please follow instructions" ; tput setaf 9;
+    tput setaf 1; echo "Server is required to have a password" ; tput setaf 9;
+    tput setaf 1; echo "Password cannot match public display name or world name" ; tput setaf 9;
+    tput setaf 1; echo "Make your password unique" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     tput setaf 2; echo "Your public display name: $displayname " ; tput setaf 9;
     tput setaf 2; echo "Your world name: $worldname " ; tput setaf 9;
-    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     while true; do
     tput setaf 1;  echo "This password must be 5 Characters or more" ; tput setaf 9;
     tput setaf 1;  echo "At least one number, one uppercase letter and one lowercase letter" ; tput setaf 9;
-    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     tput setaf 2;  echo "Good Example: Viking12" ; tput setaf 9;
     tput setaf 1;  echo "Bad Example: Vik!" ; tput setaf 9;
-    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     read -p "Enter Password to Enter your Valheim Server: " password
-    tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
         [[ ${#password} -ge 5 && "$password" == *[[:lower:]]* && "$password" == *[[:upper:]]* && "$password" =~ ^[[:alnum:]]+$ ]] && break
     tput setaf 2; echo "Password not accepted - Too Short, Special Characters" ; tput setaf 9; 
     tput setaf 2; echo "I swear to LOKI, you better NOT use Special Characters" ; tput setaf 9; 
@@ -292,12 +292,12 @@ clear
 echo "Here is the information you entered"
 echo "This information is saved in the valheim_server.sh file"
 echo "This information is saved in /home/steam/serverSetup.txt for referance later, if you forget"
-tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
 tput setaf 2; echo "nonroot steam password:  $userpassword " ; tput setaf 9;
 tput setaf 2; echo "Public Server Name:      $displayname " ; tput setaf 9;
 tput setaf 2; echo "Local World Name:        $worldname " ; tput setaf 9;
 tput setaf 2; echo "Valheim Server Password: $password " ; tput setaf 9;
-tput setaf 2; echo "---------------------------------------" ; tput setaf 9;
+tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
 echo ""
 sleep 5
 
@@ -519,7 +519,7 @@ tput setaf 2; echo "Select Backup File you wish to restore"  ; tput setaf 9;
 #show confirmation message
 restorefile=$(basename "${backups[$selectedIndex-1]}")
 echo -ne "
-$(ColorRed '-----------------------------------------------')
+$(ColorRed '------------------------------------------------------------')
 $(ColorGreen 'Restore '${restorefile}' ?')
 $(ColorGreen  'Are you sure you want to do this? ')
 $(ColorOrange  'Remember to match world name with /home/steam/valheimserver/start_valheim.sh')
@@ -564,14 +564,14 @@ function continue_with_valheim_update_install() {
     clear
     echo ""
     echo -ne "
-$(ColorOrange '------------Installing Valheim Updates--------------')
-$(ColorRed '----------------------------------------------------')"
+$(ColorOrange '-----------------Installing Valheim Updates-----------------')
+$(ColorRed '------------------------------------------------------------')"
 echo ""
 tput setaf 2; echo "A NEW update was found!" ; tput setaf 9;
 tput setaf 2; echo "You are about to apply Official Valheim Updates" ; tput setaf 9; 
 tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
 echo -ne "
-$(ColorRed '----------------------------------------------------')"
+$(ColorRed '------------------------------------------------------------')"
 echo ""
  read -p "Please confirm:" confirmOfficialUpdates
 #if y, then continue, else cancel
@@ -620,16 +620,18 @@ function confirm_check_apply_server_updates() {
 
 while true; do
 echo -ne "
-$(ColorRed '-----------------------------------------------')"
+$(ColorRed '------------------------------------------------------------')"
 echo ""
 tput setaf 2; echo "The Script will download the Log Data from" ; tput setaf 9;
 tput setaf 2; echo "the official Steam Valheim Repo and compare" ; tput setaf 9;
 tput setaf 2; echo "the data. No changes will be made, until" ; tput setaf 9;
 tput setaf 2; echo "you agree later." ; tput setaf 9;
 tput setaf 2; echo "Press y(YES) and n(NO)" ; tput setaf 9;
+echo -ne "
+$(ColorRed '------------------------------------------------------------')"
 tput setaf 2; read -p "Do you wish to continue?" yn ; tput setaf 9; 
 echo -ne "
-$(ColorRed '-----------------------------------------------')"
+$(ColorRed '------------------------------------------------------------')"
     case $yn in
         [Yy]* ) check_apply_server_updates_beta; break;;
         [Nn]* ) exit;;
@@ -672,13 +674,13 @@ function stop_valheim_server() {
     clear
     echo ""
     echo -ne "
-$(ColorOrange '----------------Stop Valheim Server----------------')
-$(ColorRed '----------------------------------------------------')"
+$(ColorOrange'--------------------Stop Valheim Server---------------------')
+$(ColorRed '------------------------------------------------------------')"
 echo ""
 tput setaf 2; echo "You are about to STOP the Valheim Server" ; tput setaf 9; 
 tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
 echo -ne "
-$(ColorRed '----------------------------------------------------')"
+$(ColorRed '------------------------------------------------------------')"
 echo ""
  read -p "Please confirm:" confirmStop
 #if y, then continue, else cancel
@@ -703,13 +705,13 @@ function start_valheim_server() {
     clear
     echo ""
     echo -ne "
-$(ColorOrange '----------------Start Valheim Server----------------')
-$(ColorRed '----------------------------------------------------')"
+$(ColorOrange '-------------------Start Valheim Server---------------------')
+$(ColorRed '------------------------------------------------------------')"
 echo ""
 tput setaf 2; echo "You are about to START the Valheim Server" ; tput setaf 9;
 tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9;
 echo -ne "
-$(ColorRed '----------------------------------------------------')"
+$(ColorRed '------------------------------------------------------------')"
 echo ""
  read -p "Please confirm:" confirmStart
 #if y, then continue, else cancel
@@ -733,13 +735,13 @@ function restart_valheim_server() {
     clear
     echo ""
     echo -ne "
-$(ColorOrange '------------Restart Valheim Server----------------')
-$(ColorRed '----------------------------------------------------')"
+$(ColorOrange '------------------Restart Valheim Server--------------------')
+$(ColorRed '------------------------------------------------------------')"
 echo ""
 tput setaf 2; echo "You are about to RESTART the Valheim Server" ; tput setaf 9; 
 tput setaf 2; echo "You are you sure y(YES) or n(NO)?" ; tput setaf 9; 
 echo -ne "
-$(ColorRed '----------------------------------------------------')"
+$(ColorRed '------------------------------------------------------------')"
 echo ""
  read -p "Please confirm:" confirmRestart
 #if y, then continue, else cancel
@@ -786,10 +788,11 @@ function display_start_valheim() {
 server_install_menu() {
 echo ""
 echo -ne "
-$(ColorOrange '-')$(ColorOrange '---------Server System Information--------')
+
+$(ColorOrange '----------------Server System Information-------------------')
 $(ColorOrange '-')$(ColorGreen '1)') Fresh or Reinstall Valheim Server
 $(ColorOrange '-')$(ColorGreen '0)') Go to Main Menu
-$(ColorOrange '-------------------------------------------')
+$(ColorOrange '------------------------------------------------------------')
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
@@ -861,16 +864,16 @@ clear
 tech_support(){
 echo ""
 echo -ne "
-$(ColorOrange '--------------Valheim Tech Support--------------')
+$(ColorOrange '--------------------Valheim Tech Support--------------------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Display Valheim Config File
 $(ColorOrange '-')$(ColorGreen ' 2)') Display Valheim Server Service
 $(ColorOrange '-')$(ColorGreen ' 3)') Display World Data Folder
 $(ColorOrange '-')$(ColorGreen ' 4)') Display System Info
 $(ColorOrange '-')$(ColorGreen ' 5)') Display Network Info
 $(ColorOrange '-')$(ColorGreen ' 6)') Display Connected Players History
-$(ColorOrange '-------------------------------------------------')
+$(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
-$(ColorOrange '-------------------------------------------------')
+$(ColorOrange '------------------------------------------------------------')
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
@@ -1013,7 +1016,7 @@ valheim_plus_options(){
 echo ""
 echo -ne "
 $(ColorRed '-------NOT ADDED YET BUILDING FRAME WORK---------')
-$(ColorCyan '-------------Valheim+ Mod Menu---------------')
+$(ColorCyan '---------------------Valheim+ Mod Menu----------------------')
 $(ColorCyan '-')$(ColorGreen ' 1)') Server Mods
 $(ColorCyan '-')$(ColorGreen ' 2)') Player Mods
 $(ColorCyan '-')$(ColorGreen ' 3)') Building Mods
@@ -1038,13 +1041,13 @@ $(ColorBlue 'Choose an option:') "
 mods_menu(){
 echo ""
 echo -ne "
-$(ColorCyan '-----------Valheim+ Install Remove Update----------')
+$(ColorCyan '---------------Valheim+ Install Remove Update---------------')
 $(ColorCyan '-')$(ColorGreen ' 1)') Install Valheim+ 
 $(ColorCyan '-')$(ColorGreen ' 2)') Remove Valheim+ 
 $(ColorCyan '-')$(ColorGreen ' 3)') Update Valheim+ 
-$(ColorCyan '---------------Valheim+ Mod Menu-------------------')
+$(ColorCyan '---------------------Valheim+ Mod Menu----------------------')
 $(ColorCyan '-')$(ColorGreen ' 4)') Valheim+ Options
-$(ColorCyan '---------------------------------------------------')
+$(ColorCyan '------------------------------------------------------------')
 $(ColorCyan '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
         read a
