@@ -56,6 +56,7 @@ Using my DigitalOcean Referral Link:
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#installationold">Installation Old Method</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -114,8 +115,6 @@ To get a local copy up and running follow these simple example steps.
   AWS
   Azure
   Google Cloud Platform
-  
-  2CPUs and 4GB RAM min... anything less is pushing it
   ```
 * Ubuntu Install
   ```sh
@@ -129,9 +128,91 @@ To get a local copy up and running follow these simple example steps.
   ```sh
   https://winscp.net/eng/download.php
   ```
-
-
 ### Installation
+
+* Many have asked for it and now here it is!!!
+* I can not make this any easier. 
+
+* SSH into your newly Created VM
+  ```sh
+  From your home computer, connect to your Ubuntu VM via SSH
+  Using putty or another terminal is recommended
+  If you can connect via Putty/Terminal, then you have setup firewall rules correctly
+  ```
+1. Verify GIT and Net Tools is installed
+=
+```sh
+sudo apt-get install -y git net-tools
+```
+2. Change directory to OPT for installation script
+=
+```sh
+cd /opt
+```
+3. Download Easy Installer from Github - Nimdy (Zero Bandwidth)
+=
+```sh
+git clone https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
+```
+4. Change directory to Dedicated_Valheim_Server_Script
+=
+```sh
+cd Dedicated_Valheim_Server_Script/
+```
+5. Give the script to execution permissions
+=
+```sh
+sudo chmod +x menu.sh
+```
+6. Launch the Menu System
+=
+```sh
+sudo ./menu.sh
+```
+![Main Menu](https://user-images.githubusercontent.com/16698453/108992554-be513900-7699-11eb-9bc1-877f7db072e8.PNG?raw=true "Main Menu")
+
+7. Select Option 4 - Install Valheim Server
+
+![Valheim Server](https://user-images.githubusercontent.com/16698453/108992557-bee9cf80-7699-11eb-9659-7c67165ee408.PNG?raw=true "Install Valheim Server")
+
+8. Confirm you want to continue with the Valheim Install
+
+![Confirm Install](https://user-images.githubusercontent.com/16698453/108992559-bf826600-7699-11eb-947a-1f2f24dfedd9.PNG?raw=true "Confirm Valheim Server")
+
+9. Accept Default Action on Resolv Update. 
+
+![Accept Default](https://user-images.githubusercontent.com/16698453/108992560-c01afc80-7699-11eb-82d8-8b80c71832f5.PNG?raw=true "Accept Default")
+
+10. Enter a Password for the newly created NONROOT local Steam account (This is not your Steam account, just a local account to run the Valheim Server)
+
+![Steam Password](https://user-images.githubusercontent.com/16698453/108992565-c01afc80-7699-11eb-95d3-87f9c15df1de.PNG?raw=true "Password Local Steam")
+
+11. Enter what you wish your Public Valheim Server display will be called
+
+![Public Server Name](https://user-images.githubusercontent.com/16698453/108992566-c0b39300-7699-11eb-91ad-b085e5a0d1bc.PNG?raw=true "Public Server Name")
+
+12. Enter your local world name. This is the name your map data files will be called and what your World is called for those who play in it.
+
+![Map Data Name](https://user-images.githubusercontent.com/16698453/108992570-c0b39300-7699-11eb-87fd-c135bfd5b4f8.PNG?raw=true "Map Data World Name")
+
+13. Enter the password required to connect to your server. This is required.
+
+![Server Password](https://user-images.githubusercontent.com/16698453/108992571-c14c2980-7699-11eb-925a-fb6d5bb5ce07.PNG?raw=true "Server Password")
+
+14. Your information is now saved for you later. A lot of people seem to forget this, so we added a little reminder. Keep this safe.
+
+![Server Configs](https://user-images.githubusercontent.com/16698453/108992573-c1e4c000-7699-11eb-8694-270431fa48d7.PNG?raw=true "Server Configs")
+
+15. That's it! All done! 
+
+![Server Configs](https://user-images.githubusercontent.com/16698453/108993432-d8d7e200-769a-11eb-9a67-b8341d056d2f.PNG?raw=true "Server Configs")
+
+* For all the features of the Menu System visit:
+
+https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/How-to-use-the-Menu-Script
+
+
+### Installationold
 
 * SSH into your newly Created VM
   ```sh
