@@ -29,7 +29,7 @@ backupPath=/home/steam/backups
 ###############################################################
 
 # Set Menu Version
-mversion="Version 1.7.2"
+mversion="Version 1.7.3"
 ##
 # Update Menu script 
 ##
@@ -608,15 +608,11 @@ fi
 ######################beta updater for Valheim##########################
 ########################################################################
 function check_apply_server_updates_beta() {
-
     echo ""
     echo "Downloading Official Valheim Repo Log Data for comparison only"
-      /home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit > temp.log
-      sed -e 's/[\t ]//g;/^$/d' temp.log > newtemp.log
-      repoValheim=$(sed -n '154p' newtemp.log)
+      repoValheim=$(/home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4)
       echo "Official Valheim-: $repoValheim"
-      sed -e 's/[\t ]//g;/^$/d' ${valheimInstallPath}/steamapps/appmanifest_896660.acf > appmani.log
-      localValheim=$(sed -n '11p' appmani.log)
+      localValheim=$(grep buildid ${valheimInstallPath}/steamapps/appmanifest_896660.acf | cut -d'"' -f4)
       echo "Local Valheim Ver: $localValheim"
       if [ "$repoValheim" == "$localValheim" ]; then
         echo "No new Updates found"
