@@ -594,7 +594,7 @@ echo ""
 #if y, then continue, else cancel
         if [ "$confirmOfficialUpdates" == "y" ]; then
 tput setaf 2; echo "Using Thor's Hammer to apply Official Updates!" ; tput setaf 9; 
-    steamcmd +login anonymous +force_install_dir /home/steam/valheimserver +app_update 896660 validate +exit
+    /home/steam/steamcmd +login anonymous +force_install_dir /home/steam/valheimserver +app_update 896660 validate +exit
     echo ""
     else
         echo "Canceling all Official Updates for Valheim Server - because Loki sucks"
@@ -610,7 +610,7 @@ function check_apply_server_updates_beta() {
 
     echo ""
     echo "Downloading Official Valheim Repo Log Data for comparison only"
-      steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit > temp.log
+      /home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit > temp.log
       sed -e 's/[\t ]//g;/^$/d' temp.log > newtemp.log
       repoValheim=$(sed -n '144p' newtemp.log)
       echo "Official Valheim-: $repoValheim"
