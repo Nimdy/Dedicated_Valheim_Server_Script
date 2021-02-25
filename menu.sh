@@ -350,16 +350,16 @@ sleep 1
 #Download Valheim from steam
 tput setaf 1; echo "Downloading and installing Valheim from Steam" ; tput setaf 9;
 sleep 1
-/home/steam/steamcmd +login anonymous +force_install_dir /home/steam/valheimserver +app_update 896660 validate +exit
+/home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
 tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
 #build config for start_valheim.sh
 tput setaf 1; echo "Deleting old configuration if file exist" ; tput setaf 9;  
 tput setaf 1; echo "Building Valheim start_valheim server configuration" ; tput setaf 9;
-[ -e /home/steam/valheimserver/start_valheim.sh ] && rm /home/steam/valheimserver/start_valheim.sh
+[ -e ${valheimInstallPath}/start_valheim.sh ] && rm ${valheimInstallPath}/start_valheim.sh
 sleep 1
-cat >> /home/steam/valheimserver/start_valheim.sh <<EOF
+cat >> ${valheimInstallPath}/start_valheim.sh <<EOF
 #!/bin/bash
 export templdpath=\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
@@ -387,7 +387,7 @@ sleep 1
 
 #set execute permissions
 tput setaf 1; echo "Setting execute permissions on start_valheim.sh" ; tput setaf 9;
-chmod +x /home/steam/valheimserver/start_valheim.sh
+chmod +x ${valheimInstallPath}/start_valheim.sh
 tput setaf 2; echo "Done" ; tput setaf 9;
 tput setaf 1; echo "Setting execute permissions on check_log.sh" ; tput setaf 9; 
 chmod +x /home/steam/check_log.sh
@@ -417,11 +417,11 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir /home/steam/valheimserver +app_update 896660 validate +exit
-ExecStart=/home/steam/valheimserver/start_valheim.sh
+ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
+ExecStart=${valheimInstallPath}/start_valheim.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
-WorkingDirectory=/home/steam/valheimserver
+WorkingDirectory=${valheimInstallPath}
 LimitNOFILE=100000
 [Install]
 WantedBy=multi-user.target
@@ -501,7 +501,7 @@ function backup_world_data() {
          echo "Valheim Server Service Started"
 	 echo ""
 	 echo "Setting permissions for steam on backup file"
-	 chown -Rf steam:steam /home/steam/backups
+	 chown -Rf steam:steam ${backupPath}
 	 echo "Process complete!"
     echo ""
 
@@ -539,7 +539,7 @@ echo -ne "
 $(ColorRed '------------------------------------------------------------')
 $(ColorGreen 'Restore '${restorefile}' ?')
 $(ColorGreen  'Are you sure you want to do this? ')
-$(ColorOrange  'Remember to match world name with /home/steam/valheimserver/start_valheim.sh')
+$(ColorOrange  'Remember to match world name with '${valheimInstallPath}'/start_valheim.sh')
 $(ColorOrange  'The param for -world "worldname" much match restore file worldname.db and worldname.fwl')
 $(ColorGreen   'Press y (for yes) or n (for no)') "
 
@@ -559,7 +559,7 @@ $(ColorGreen   'Press y (for yes) or n (for no)') "
  #untar
         echo "Unpacking ${worldpath}/${restorefile}"
         tar xzf ${worldpath}/${restorefile} --strip-components=7 --directory ${worldpath}/  
-	chown -Rf steam:steam /home/steam/.config/unity3d/IronGate/Valheim/worlds/*
+	chown -Rf steam:steam ${worldpath}
 	#uncomment when test are 100%
 	#last time steam was applied to /usr and other locations 
 	#really jacked stuff up - DAMN IT LOKI!!!
@@ -592,13 +592,14 @@ $(ColorRed '------------------------------------------------------------')"
 echo ""
  read -p "Please confirm:" confirmOfficialUpdates
 #if y, then continue, else cancel
-        if [ "$confirmOfficialUpdates" == "y" ]; then
-tput setaf 2; echo "Using Thor's Hammer to apply Official Updates!" ; tput setaf 9; 
-    /home/steam/steamcmd +login anonymous +force_install_dir /home/steam/valheimserver +app_update 896660 validate +exit
+if [ "$confirmOfficialUpdates" == "y" ]; then
+    tput setaf 2; echo "Using Thor's Hammer to apply Official Updates!" ; tput setaf 9; 
+    /home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
+    chown -R steam:steam ${valheimInstallPath}
     echo ""
-    else
-        echo "Canceling all Official Updates for Valheim Server - because Loki sucks"
-        sleep 3
+else
+    echo "Canceling all Official Updates for Valheim Server - because Loki sucks"
+    sleep 3
     clear
 fi
 }
@@ -614,7 +615,7 @@ function check_apply_server_updates_beta() {
       sed -e 's/[\t ]//g;/^$/d' temp.log > newtemp.log
       repoValheim=$(sed -n '144p' newtemp.log)
       echo "Official Valheim-: $repoValheim"
-      sed -e 's/[\t ]//g;/^$/d' /home/steam/valheimserver/steamapps/appmanifest_896660.acf > appmani.log
+      sed -e 's/[\t ]//g;/^$/d' ${valheimInstallPath}/steamapps/appmanifest_896660.acf > appmani.log
       localValheim=$(sed -n '11p' appmani.log)
       echo "Local Valheim Ver: $localValheim"
       if [ "$repoValheim" == "$localValheim" ]; then
@@ -665,7 +666,7 @@ done
 function display_start_valheim() {
     clear
     echo ""
-    sudo cat /home/steam/valheimserver/start_valheim.sh
+    sudo cat ${valheimInstallPath}/start_valheim.sh
     echo ""
 
 }
@@ -793,7 +794,7 @@ function display_valheim_server_status() {
 function display_start_valheim() {
     clear
     echo ""
-    sudo cat /home/steam/valheimserver/start_valheim.sh
+    sudo cat ${valheimInstallPath}/start_valheim.sh
     echo ""
 
 }
