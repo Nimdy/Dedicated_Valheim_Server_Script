@@ -691,7 +691,7 @@ function stop_valheim_server() {
     clear
     echo ""
     echo -ne "
-$(ColorOrange'--------------------Stop Valheim Server---------------------')
+$(ColorOrange '--------------------Stop Valheim Server---------------------')
 $(ColorRed '------------------------------------------------------------')"
 echo ""
 tput setaf 2; echo "You are about to STOP the Valheim Server" ; tput setaf 9; 
