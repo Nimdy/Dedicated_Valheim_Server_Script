@@ -98,15 +98,15 @@ rm /home/steam/valheimserver/start_valheim.sh
 sleep 1
 cat >> /home/steam/valheimserver/start_valheim.sh <<EOF
 #!/bin/bash
-export templdpath=$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=./linux64:$LD_LIBRARY_PATH
+export templdpath=\$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
 
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
 ./valheim_server.x86_64 -name $displayname -port 2456 -nographics -batchmode -world $worldname -password $password
 
-export LD_LIBRARY_PATH=$templdpath
+export LD_LIBRARY_PATH=\$templdpath
 EOF
 tput setaf 2; echo "Done"
 tput setaf 9;
@@ -155,7 +155,7 @@ User=steam
 Group=steam
 ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir /home/steam/valheimserver +app_update 896660 validate +exit
 ExecStart=/home/steam/valheimserver/start_valheim.sh
-ExecReload=/bin/kill -s HUP $MAINPID
+ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
 WorkingDirectory=/home/steam/valheimserver
 LimitNOFILE=100000
