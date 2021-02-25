@@ -29,7 +29,7 @@ backupPath=/home/steam/backups
 ###############################################################
 
 # Set Menu Version
-mversion="Version 1.7.2"
+mversion="Version 1.7.3"
 ##
 # Update Menu script 
 ##
