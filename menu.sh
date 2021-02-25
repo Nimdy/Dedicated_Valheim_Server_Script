@@ -613,7 +613,7 @@ function check_apply_server_updates_beta() {
     echo "Downloading Official Valheim Repo Log Data for comparison only"
       /home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit > temp.log
       sed -e 's/[\t ]//g;/^$/d' temp.log > newtemp.log
-      repoValheim=$(sed -n '144p' newtemp.log)
+      repoValheim=$(sed -n '154p' newtemp.log)
       echo "Official Valheim-: $repoValheim"
       sed -e 's/[\t ]//g;/^$/d' ${valheimInstallPath}/steamapps/appmanifest_896660.acf > appmani.log
       localValheim=$(sed -n '11p' appmani.log)
