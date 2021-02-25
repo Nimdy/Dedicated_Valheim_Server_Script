@@ -1,4 +1,17 @@
 #!/bin/bash
+# Sanity Check
+#    #######################################################
+echo "$(tput setaf 4)-------------------------------------------------------"
+echo "$(tput setaf 0)$(tput setab 7)Since we need to run the menu with elevated privileges$(tput sgr 0)"
+echo "$(tput setaf 0)$(tput setab 7)Please enter your password now.$(tput sgr 0)"
+echo "$(tput setaf 4)-------------------------------------------------------"
+#    ###################################################### 
+[[ "$EUID" -eq 0 ]] || exec sudo "$0" "$@"
+
+
+
+# USE THE MENU SYSTEM ITS BETTER!!!!!!!
+
 
 # All in one Script to install Valheim Dedicated Server
 # Thanks to nicolas-martin for the variable assignment changes
