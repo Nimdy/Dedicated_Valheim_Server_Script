@@ -646,6 +646,7 @@ tput setaf 2; echo "you agree later." ; tput setaf 9;
 tput setaf 2; echo "Press y(YES) and n(NO)" ; tput setaf 9;
 echo -ne "
 $(ColorRed '------------------------------------------------------------')"
+echo ""
 tput setaf 2; read -p "Do you wish to continue?" yn ; tput setaf 9; 
 echo -ne "
 $(ColorRed '------------------------------------------------------------')"
