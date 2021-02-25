@@ -608,18 +608,22 @@ fi
 ######################beta updater for Valheim##########################
 ########################################################################
 function check_apply_server_updates_beta() {
-
     echo ""
     echo "Downloading Official Valheim Repo Log Data for comparison only"
-      /home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit > temp.log
-      sed -e 's/[\t ]//g;/^$/d' temp.log > newtemp.log
-      repoValheim=$(sed -n '154p' newtemp.log)
+      [ ! -d /opt/valheimtemp ] && mkdir -p /opt/valheimtemp
+      /home/steam/steamcmd +login anonymous +force_install_dir /opt/valheimtemp +app_update 896660 validate +exit
+      sed -e 's/[\t ]//g;/^$/d' /opt/valheimtemp/steamapps/appmanifest_896660.acf > appmanirepo.log
+      repoValheim=$(sed -n '11p' appmanirepo.log)
       echo "Official Valheim-: $repoValheim"
-      sed -e 's/[\t ]//g;/^$/d' ${valheimInstallPath}/steamapps/appmanifest_896660.acf > appmani.log
-      localValheim=$(sed -n '11p' appmani.log)
+      sed -e 's/[\t ]//g;/^$/d' ${valheimInstallPath}/steamapps/appmanifest_896660.acf > appmanilocal.log
+      localValheim=$(sed -n '11p' appmanilocal.log)
       echo "Local Valheim Ver: $localValheim"
       if [ "$repoValheim" == "$localValheim" ]; then
         echo "No new Updates found"
+        echo "Cleaning up TEMP FILES"
+        rm -Rf /opt/valheimtemp
+        rm appmainrepo.log
+        rm appmanilocal.log
 	sleep 2
 	else
 	echo "Update Found kicking process to Odin for updating!"
