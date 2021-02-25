@@ -617,7 +617,7 @@ function check_apply_server_updates_beta() {
       sed -e 's/[\t ]//g;/^$/d' /home/steam/valheimserver/steamapps/appmanifest_896660.acf > appmani.log
       localValheim=$(sed -n '11p' appmani.log)
       echo "Local Valheim Ver: $localValheim"
-      if [ $repoValheim == $localValheim ]; then
+      if [ "$repoValheim" == "$localValheim" ]; then
         echo "No new Updates found"
 	sleep 2
 	else
