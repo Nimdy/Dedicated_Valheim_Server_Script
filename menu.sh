@@ -376,9 +376,9 @@ tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
 #build check log script
-tput setaf 1; echo "Deleting old configuration if file exist" ; tput setaf 9; 
+tput setaf 1; echo "Deleting old check log script if exist" ; tput setaf 9; 
 tput setaf 1; echo "Building check log script" ; tput setaf 9;
-rm /home/steam/check_log.sh
+[ -e /home/steam/check_log.sh ] && rm /home/steam/check_log.sh
 sleep 1
 cat >> /home/steam/check_log.sh <<EOF
 journalctl --unit=valheimserver --reverse
