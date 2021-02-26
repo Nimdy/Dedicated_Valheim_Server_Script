@@ -488,10 +488,6 @@ function backup_world_data() {
 	 echo "Cleaned up better than Loki"
          sleep 1
          ## Tar Section. Create a backup file, with the current date in its name.
-         ## Add -h to convert the symbolic links into a regular files.
-         ## Backup some system files, also the entire `/home` directory, etc.
-         ##--exclude some directories, for example the the browser's cache, `.bash_history`, etc.
-	  #stop valheim server
          echo "Stopping Valheim Server for clean backups"
          systemctl stop valheimserver.service
          echo "Stopped"
@@ -879,6 +875,34 @@ clear
     echo ""
 
 }
+
+########################################################################
+###############Change Valheim Server Access Password####################
+########################################################################
+
+function change_world_password() {
+clear
+    echo ""
+    echo "Add changing of password here... SED"
+    echo ""
+
+}
+
+########################################################################
+#################Change Public Server Displa Name#######################
+########################################################################
+
+function change_world_display_name() {
+clear
+    echo ""
+    echo "Add changing of public server name here...SED"
+    echo ""
+
+}
+
+
+
+
 
 ########################################################################
 #####################Sub Tech Support Menu System#######################
