@@ -476,7 +476,7 @@ function backup_world_data() {
     echo ""
     echo ""
          ## Get the current date as variable.
-         TODAY="$(date +%Y-%m-%d-%X)"
+         TODAY="$(date +%Y-%m-%d-%T)"
 	 echo "Checking to see if backup directory is created"
 	 echo "If not, one will be created"
 	 dldir=$backupPath
