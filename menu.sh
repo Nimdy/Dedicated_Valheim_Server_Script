@@ -29,7 +29,7 @@ backupPath=/home/steam/backups
 ###############################################################
 
 # Set Menu Version
-mversion="Version 1.7.3"
+mversion="Version 1.7.4"
 ##
 # Update Menu script 
 ##
@@ -343,7 +343,7 @@ sleep 1
 
 #chown steam user to steam
 tput setaf 1; echo "Setting steam permissions" ; tput setaf 9;
-chown -Rf steam:steam /home/steam/*
+chown steam:steam -Rf /home/steam/*
 tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 
