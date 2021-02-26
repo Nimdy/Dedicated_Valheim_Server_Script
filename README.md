@@ -22,7 +22,7 @@
     <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://www.youtube.com/watch?v=0YPLf7Bw5W4">View Demo</a>   
+    <a href="https://www.youtube.com/watch?v=eW6Zi76Qymw">View Demo</a>   
     ·
     <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/How-to-Update-Your-Valheim-Server">How to Update your Server</a>
     .
@@ -72,7 +72,7 @@ Using my DigitalOcean Referral Link:
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Thumbnail](https://img.youtube.com/vi/0YPLf7Bw5W4/0.jpg)](https://www.youtube.com/watch?v=0YPLf7Bw5W4)
+[![Thumbnail](https://img.youtube.com/vi/eW6Zi76Qymw/0.jpg)](https://www.youtube.com/watch?v=eW6Zi76Qymw)
 
 
 * Added new EASY to use menu system for new and old users of the script - Enjoy
@@ -232,7 +232,7 @@ Here is the complete walk through using DigitalOcean Services.
 
 _For more examples, please refer to the [Documentation](https://www.youtube.com/watch?v=0YPLf7Bw5W4)_
 
-[![Thumbnail](https://img.youtube.com/vi/0YPLf7Bw5W4/0.jpg)](https://www.youtube.com/watch?v=0YPLf7Bw5W4)
+[![Thumbnail](https://img.youtube.com/vi/eW6Zi76Qymw/0.jpg)](https://www.youtube.com/watch?v=eW6Zi76Qymw)
 
 <!-- ROADMAP -->
 ## Roadmap
