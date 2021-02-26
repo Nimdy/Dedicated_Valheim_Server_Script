@@ -1159,7 +1159,7 @@ $(ColorOrange '║ open to improvements')
 $(ColorOrange '║ Beware Loki hides within this script')
 $(ColorOrange '╚ ')${mversion} 
 $(ColorOrange '----------Check for Script Updates---------')
-$(ColorOrange '-')$(ColorGreen ' 1)') Check for Nimdy Script Updates
+$(ColorOrange '-')$(ColorGreen ' 1)') Check for Menu Script Updates
 $(ColorOrange '-----------Valheim Server Commands---------')
 $(ColorOrange '-')$(ColorGreen ' 2)') Server Admin Tools 
 $(ColorOrange '-')$(ColorGreen ' 3)') Tech Support Tools
