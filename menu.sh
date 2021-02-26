@@ -8,7 +8,7 @@ echo "$(tput setaf 4)-------------------------------------------------------"
 #    ###################################################### 
 [[ "$EUID" -eq 0 ]] || exec sudo "$0" "$@"
 
-# BETA BRANCH MENU
+# MAIN BRANCH MENU
 #  THIS IS STILL A WORK IN PROGRESS BUT ALL THE FUNCTIONS WORK
 #  I NEED TO JUST CLEAN IT UP AND FORMAT BETTER
 #  PLEASE LET ME KNOW ABOUT ISSUES
@@ -58,7 +58,7 @@ mversion="Version 1.7.4"
 ##
 
 ##
-# Adding Valheim+ Mod Support
+# Adding Valheim Mod Support
 ##
 
 
