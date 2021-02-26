@@ -207,6 +207,16 @@ sudo ./menu.sh
 
 ![Server Configs](https://user-images.githubusercontent.com/16698453/108993432-d8d7e200-769a-11eb-9a67-b8341d056d2f.PNG?raw=true "Server Configs")
 
+16. Now configure your firewalls to allow the game to connect.
+Allow ports 2456,2457,2458 (TCP/UDP) on your server This might take you a while, if you never done it before. Don't worry, members in my discord and myself can help troubleshoot later =
+**(DO NOT OVER LOOK THIS STEP)**
+
+If running in a Cloud Server, please check the WIKI for configuration steps.
+* [CLICK - Port Configuration WIKI](https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/AWS-Azure-GCP-and-DigitalOcean-Valheim-Port-Configuration)
+* Oh LOKI!!! Did you skip the link above? 
+
+
+
 * For all the features of the Menu System visit:
 
 https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/How-to-use-the-Menu-Script
