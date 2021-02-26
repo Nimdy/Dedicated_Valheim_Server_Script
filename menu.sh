@@ -58,7 +58,7 @@ mversion="Version 1.7.4"
 ##
 
 ##
-# Adding Valheim+ Mod Support
+# Adding Valheim Mod Support
 ##
 
 
