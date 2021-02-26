@@ -117,25 +117,55 @@ ColorWhite(){
 ########################################################################
 #####################Check for Menu Updates#############################
 ########################################################################
+MENUSCRIPT="$(readlink -f "$0")"
+SCRIPTFILE="$(basename "$MENUSCRIPT")"            
+SCRIPTPATH="$(dirname "$SCRIPT")"
+SCRIPTNAME="$0"
+ARGS=( "$@" )  
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name @{upstream})
 
 function script_check_update() {
-BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/main"
-    git stash
-    LAST_UPDATE=`git show --no-notes --format=format:"%H" $BRANCH | head -n 1`
-    LAST_COMMIT=`git show --no-notes --format=format:"%H" origin/$BRANCH | head -n 1`
-        if [ $LAST_COMMIT != $LAST_UPDATE ]; then
-   tput setaf 2; echo "Updating your branch $BRANCH" ; tput setaf 9; 
-            git pull --no-edit
-	  else
-            echo "No updates available"
+#Look I know this is not pretty like Loki's face but it works!
+    git fetch
+      [ -n "$(git diff --name-only "$UPSTREAM" "$SCRIPTFILE")" ] && {
+      echo "BY THORS HAMMER take a peek inside Valhalla!!"
+      sleep 1
+        git pull --force
+	git stash
+        git checkout "$BRANCH"
+        git pull --force
+	echo " Updating"
+      	sleep 1
+        cd /opt/Dedicated_Valheim_server_Script/
+	chmod +x menu.sh
+        exec "$SCRIPTNAME" "${ARGS[@]}"
 
-        fi
-    echo "Resetting permissions on menu.sh"
-    chmod +x menu.sh
-    tput setaf 2; echo "Restarting menu system" ; tput setaf 9; 
-    sleep 3
-    ./menu.sh
+        # Now exit this old instance
+        exit 1
+    }
+        echo "Oh for Loki sakes! No updates to be had... back to choring! "
 }
+
+#####Fully remove after one week of testing new menu system with public
+#function script_check_update() {
+#BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/main"
+#    git stash
+#    LAST_UPDATE=`git show --no-notes --format=format:"%H" $BRANCH | head -n 1`
+#    LAST_COMMIT=`git show --no-notes --format=format:"%H" origin/$BRANCH | head -n 1`
+#        if [ $LAST_COMMIT != $LAST_UPDATE ]; then
+#   tput setaf 2; echo "Updating your branch $BRANCH" ; tput setaf 9; 
+#            git pull --no-edit
+#	  else
+#            echo "No updates available"
+#
+#        fi
+#    echo "Resetting permissions on menu.sh"
+#    chmod +x menu.sh
+#    tput setaf 2; echo "Restarting menu system" ; tput setaf 9; 
+#    sleep 3
+#    ./menu.sh
+#}
 
 
 
