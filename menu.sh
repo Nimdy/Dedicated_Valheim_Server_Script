@@ -1002,42 +1002,42 @@ $(ColorBlue 'Choose an option:') "
 }
 
 ########################################################################
-###################START VALHEIM PLUS MOD SECTION#######################
+#######################START VALHEIM MOD SECTION########################
 ########################################################################
 
 
 
-function install_mod_valheim_plus() {
+function install_mod_valheim() {
 clear
     echo ""
-    echo "Install Valheim+"
+    echo "Install Valheim Mods"
     echo "Coming Soon"
     echo ""
 
 }
 
-function remove_mod_valheim_plus() {
+function remove_mod_valheim() {
 clear
     echo ""
-    echo "Remove Valheim+"
+    echo "Remove Valheim Mods"
     echo "Coming Soon"
     echo ""
 
 }
 
-function update_valheim_plus() {
+function update_valheim_mods() {
 clear
     echo ""
-    echo "Update Valheim+"
+    echo "Update Valheim Mods"
     echo "Coming Soon"
     echo ""
 
 }
 
-function valheim_plus_options() {
+function valheim_mod_options() {
 clear
     echo ""
-    echo "Valheim+ Options"
+    echo "Valheim Mod Options"
     echo "Coming Soon"
     echo ""
 
@@ -1088,25 +1088,25 @@ function other_mods() {
 ########################################################################
 
 
-valheim_plus_options(){
+valheim_mods_options(){
 echo ""
 echo -ne "
 $(ColorRed '-------NOT ADDED YET BUILDING FRAME WORK---------')
-$(ColorCyan '---------------------Valheim+ Mod Menu----------------------')
+$(ColorCyan '---------------------Valheim Mod Menu----------------------')
 $(ColorCyan '-')$(ColorGreen ' 1)') Server Mods
 $(ColorCyan '-')$(ColorGreen ' 2)') Player Mods
 $(ColorCyan '-')$(ColorGreen ' 3)') Building Mods
 $(ColorCyan '-')$(ColorGreen ' 4)') Other Mods
 $(ColorCyan '------------------------------------------------------------')
-$(ColorCyan '-')$(ColorGreen ' 0)') Go to Valheim+ Menu
+$(ColorCyan '-')$(ColorGreen ' 0)') Go to Valheim Mod Main Menu
 $(ColorCyan '-')$(ColorGreen ' 00)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
-		1) server_mods ; valheim_plus_options ;;
-		2) player_mods ; valheim_plus_options ;;
-		3) building_mods ; valheim_plus_options ;;
-		4) other_mods ; valheim_plus_options ;;
+		1) server_mods ; valheim_mods_options ;;
+		2) player_mods ; valheim_mods_options ;;
+		3) building_mods ; valheim_mods_options ;;
+		4) other_mods ; valheim_mods_options ;;
 		   0) mods_menu ; menu ;;
 		   00) menu ; menu ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
@@ -1117,28 +1117,29 @@ $(ColorBlue 'Choose an option:') "
 mods_menu(){
 echo ""
 echo -ne "
-$(ColorCyan '---------------Valheim+ Install Remove Update---------------')
-$(ColorCyan '-')$(ColorGreen ' 1)') Install Valheim+ 
-$(ColorCyan '-')$(ColorGreen ' 2)') Remove Valheim+ 
-$(ColorCyan '-')$(ColorGreen ' 3)') Update Valheim+ 
-$(ColorCyan '---------------------Valheim+ Mod Menu----------------------')
-$(ColorCyan '-')$(ColorGreen ' 4)') Valheim+ Options
+$(ColorCyan '---------------Valheim Mod Install Remove Update---------------')
+$(ColorCyan '-')$(ColorGreen ' 1)') Install Valheim Mods 
+$(ColorCyan '-')$(ColorGreen ' 2)') Remove Valheim Mods 
+$(ColorCyan '-')$(ColorGreen ' 3)') Update Valheim Mods 
+$(ColorCyan '---------------------Valheim Mod Menu----------------------')
+$(ColorCyan '-')$(ColorGreen ' 4)') Valheim Mods Options
 $(ColorCyan '------------------------------------------------------------')
 $(ColorCyan '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorBlue 'Choose an option:') "
         read a
         case $a in
-		1) install_mod_valheim_plus ; mods_menu ;;
-		2) remove_mod_valheim_plus ; mods_menu ;;
-		3) update_valheim_plus ; mods_menu ;;
-		4) valheim_plus_options ; mods_menu ;;
+		1) install_mod_valheim ; mods_menu ;;
+		2) remove_mod_valheim ; mods_menu ;;
+		3) update_valheim_mods ; mods_menu ;;
+		4) valheim_mods_options ; mods_menu ;;
 		   0) menu ; menu ;;
 		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
         esac
 }
 ########################################################################
-##################FINISH VALHEIM PLUS MOD SECTION#######################
+##################FINISH VALHEIM MOD SECTION#######################
 ########################################################################
+
 
 
 
