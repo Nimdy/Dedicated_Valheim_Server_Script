@@ -676,7 +676,7 @@ function check_apply_server_updates_beta() {
         echo "No new Updates found"
         echo "Cleaning up TEMP FILES"
         rm -Rf /opt/valheimtemp
-        rm appmainrepo.log
+        rm appmanirepo.log
         rm appmanilocal.log
     sleep 2
     else
