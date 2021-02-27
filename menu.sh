@@ -550,13 +550,12 @@ function restore_world_data() {
 #init empty array
     declare -a backups
 #loop through backups and put in array
-    for file in ${backupPath}/*.tgz
-    do
+    for file in ${backupPath}/*.tgz; do
         backups=(${backups[*]} "$file")
-    done;
+    done
 #counter index
     bIndex=1
-    for item in "${backups[@]}";do
+    for item in "${backups[@]}"; do
  #print option [index]> [file name]
         basefile=$(basename "$item")
          echo "$bIndex> ${basefile} "
