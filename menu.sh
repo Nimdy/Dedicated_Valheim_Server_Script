@@ -29,7 +29,7 @@ backupPath=/home/steam/backups
 ###############################################################
 
 # Set Menu Version
-mversion="Version 1.7.7-Loki"
+mversion="Version 1.7.8-Loki"
 ##
 # Update Menu script 
 ##
@@ -348,7 +348,7 @@ echo ""
 sleep 5
 
 #install steamcmd and libsd12-2
-tput setaf 1; echo "Installing steamcmd and libsdl2"
+tput setaf 1; echo "Installing steamcmd and libsdl2" ; tput setaf 9;
 echo steam steam/question select "I AGREE" | sudo debconf-set-selections
 echo steam steam/license note '' | sudo debconf-set-selections
 apt install steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386 -y
@@ -874,7 +874,7 @@ $(ColorBlue 'Choose an option:') "
         case $a in
 	        1) valheim_server_install ; server_install_menu ;;
            	    0) menu ; menu ;;
-		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
+		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; server_install_menu ;;
         esac
 }
 ########################################################################
@@ -960,7 +960,7 @@ $(ColorBlue 'Choose an option:') "
 		5) display_network_info ; tech_support ;;
 	        6) display_player_history ; tech_support ;;
 		  0) menu ; menu ;;
-		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
+		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; tech_support ;;
         esac
 }
 
@@ -997,7 +997,7 @@ $(ColorBlue 'Choose an option:') "
 		7) confirm_check_apply_server_updates ; admin_tools_menu ;;
 		8) valheim_server_install ; admin_tools_menu ;;
 		   0) menu ; menu ;;
-		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
+		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; admin_tools_menu ;;
         esac
 }
 
@@ -1109,7 +1109,7 @@ $(ColorBlue 'Choose an option:') "
 		4) other_mods ; valheim_mods_options ;;
 		   0) mods_menu ; menu ;;
 		   00) menu ; menu ;;
-		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
+		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; valheim_mods_options ;;
         esac
 }
 
@@ -1133,7 +1133,7 @@ $(ColorBlue 'Choose an option:') "
 		3) update_valheim_mods ; mods_menu ;;
 		4) valheim_mods_options ; mods_menu ;;
 		   0) menu ; menu ;;
-		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
+		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; mods_menu ;;
         esac
 }
 ########################################################################
@@ -1179,7 +1179,7 @@ $(ColorBlue 'Choose an option:') "
 		4) server_install_menu ; menu ;;
 		5) mods_menu ; menu ;;
 		    0) exit 0 ;;
-		    *) echo -e $RED"Wrong option."$CLEAR; WrongCommand;;
+		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
         esac
 }
 
