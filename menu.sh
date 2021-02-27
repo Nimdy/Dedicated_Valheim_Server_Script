@@ -698,13 +698,13 @@ while true; do
 echo -ne "
 $(ColorRed '------------------------------------------------------------')"
 echo ""
-tput setaf 2; echo "The Script will download the Log Data from" ; tput setaf 9;
-tput setaf 2; echo "the official Steam Valheim Repo and compare" ; tput setaf 9;
-tput setaf 2; echo "the data. No changes will be made, until" ; tput setaf 9;
-tput setaf 2; echo "you agree later." ; tput setaf 9;
+tput setaf 2; echo "The Script will download the Log Data from the official" ; tput setaf 9;
+tput setaf 2; echo "Steam Valheim Repo and compare the data." ; tput setaf 9;
+tput setaf 2; echo "No changes will be made, until you agree later." ; tput setaf 9;
 tput setaf 2; echo "Press y(YES) and n(NO)" ; tput setaf 9;
 echo -ne "
 $(ColorRed '------------------------------------------------------------')"
+echo ""
 tput setaf 2; read -p "Do you wish to continue?" yn ; tput setaf 9; 
 echo -ne "
 $(ColorRed '------------------------------------------------------------')"
