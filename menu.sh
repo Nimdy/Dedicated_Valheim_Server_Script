@@ -564,7 +564,7 @@ function restore_world_data() {
     bIndex=$((bIndex+1))
     done
 #promt user for index
-tput setaf 2; echo "Select Backup File you wish to restore"  ; tput setaf 9;
+tput setaf 2; echo "Select Backup File you wish to restore" ; tput setaf 9;
     read -p "" selectedIndex
 #show confirmation message
 restorefile=$(basename "${backups[$selectedIndex-1]}")
