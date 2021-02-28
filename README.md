@@ -139,6 +139,14 @@ To get a local copy up and running follow these simple example steps.
   Using putty or another terminal is recommended
   If you can connect via Putty/Terminal, then you have setup firewall rules correctly
   ```
+* Minimal Requirements:
+  ```sh
+  2CPU and 4GB RAM
+  You might be able to get it work with less but its a dice roll with any Cloud Services.  
+  Also, once your world starts becoming explored and you start building stuff... You will wish you had the minimal requirements.
+  Think about this like a Minecraft Server.... Your database will grow as you continue to play.
+  Your need for CPU and RAM resources will continue to grow.
+  ```
 1. Verify GIT and Net Tools is installed
 =
 ```sh
