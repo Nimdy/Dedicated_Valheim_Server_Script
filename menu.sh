@@ -29,7 +29,7 @@ backupPath=/home/steam/backups
 ###############################################################
 
 # Set Menu Version
-mversion="Version 1.7.8-Loki"
+mversion="Version 1.8-Loki"
 ##
 # Update Menu script 
 ##
@@ -44,6 +44,7 @@ mversion="Version 1.7.8-Loki"
 # -Restart Valheim Server: Restarts the Valheim Service (stop/start)
 # -Status Valheim Server: Displays the current status of the Valheim Server Service
 # -Check and Apply Valheim Server Update: Reaches out to to Steam with steamcmd and looks for official updates. If found applies them and restarts Valheim services
+# -Edit Valheim Configuration File from menu
 # -Fresh Valheim Server: Installs Valheim server from official Steam repo. 
 ##
 
@@ -147,26 +148,6 @@ function script_check_update() {
         echo "Oh for Loki sakes! No updates to be had... back to choring! "
 }
 
-#####Fully remove after one week of testing new menu system with public
-#function script_check_update() {
-#BRANCH="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/tree/main"
-#    git stash
-#    LAST_UPDATE=`git show --no-notes --format=format:"%H" $BRANCH | head -n 1`
-#    LAST_COMMIT=`git show --no-notes --format=format:"%H" origin/$BRANCH | head -n 1`
-#        if [ $LAST_COMMIT != $LAST_UPDATE ]; then
-#   tput setaf 2; echo "Updating your branch $BRANCH" ; tput setaf 9; 
-#            git pull --no-edit
-#	  else
-#            echo "No updates available"
-#
-#        fi
-#    echo "Resetting permissions on menu.sh"
-#    chmod +x menu.sh
-#    tput setaf 2; echo "Restarting menu system" ; tput setaf 9; 
-#    sleep 3
-#    ./menu.sh
-#}
-
 
 
 ########################################################################
@@ -191,26 +172,26 @@ echo ""
     echo ""
 
 #check for updates and upgrade the system auto yes
-    tput setaf 2; echo "Checking for upgrades" ; tput setaf 9;
+    tput setaf 1; echo "Checking for upgrades" ; tput setaf 9;
     apt update && apt upgrade -y
     tput setaf 2; echo "Done" ; tput setaf 9;
     sleep 1
     
 #check for updates and upgrade the system auto yes
-    tput setaf 2; echo "Install Git, Locate and Net-Tools" ; tput setaf 9;
+    tput setaf 1; echo "Install Git, Locate and Net-Tools" ; tput setaf 9;
     apt install git mlocate net-tools -y
     tput setaf 2; echo "Done" ; tput setaf 9;
     sleep 1
     
 #install software-properties-common for add-apt-repository command below
-    tput setaf 2; echo "Installing software-properties-common package"
+    tput setaf 1; echo "Installing software-properties-common package"
     apt install software-properties-common
     tput setaf 2; echo "Done"
     tput setaf 9;
     sleep 1
 
 #add multiverse repo
-    tput setaf 2; echo "Adding multiverse REPO" ; tput setaf 9;
+    tput setaf 1; echo "Adding multiverse REPO" ; tput setaf 9;
     add-apt-repository -y multiverse
     tput setaf 2; echo "Done" ; tput setaf 9;
     sleep 1
@@ -396,7 +377,7 @@ export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${displayname}" -port 2456 -nographics -batchmode -world "${worldname}" -password "${password}"
+./valheim_server.x86_64 -name "${displayname}" -port "2456" -nographics -batchmode -world "${worldname}" -password "${password}"
 #export LD_LIBRARY_PATH=$templdpath
 export LD_LIBRARY_PATH=\$templdpath
 EOF
@@ -485,8 +466,8 @@ sleep 2
 clear
 tput setaf 2; echo "Check server status by typing systemctl status valheimserver.service"
 tput setaf 2; echo "Thank you for using the script."
-tput setaf 2; echo "AND A HUGE THANKS TO github: @RedKrieg, @bherbruck, @xaviablaza, @joaoanes"
-tput setaf 2; echo "@amasover, @madmozg, @nicolas-martin, @devdavi, @Lachlanmac and others!"
+tput setaf 2; echo "AND A HUGE THANKS TO github: @Lachlanmac, @JamieeLee, @RedKrieg, @bherbruck "
+tput setaf 2; echo "@xaviablaza, @joaoanes, @amasover, @madmozg, @nicolas-martin, @devdavi and others!"
 tput setaf 2; echo "If your name is missing! Let me know!"
 tput setaf 2; echo "Twitch: ZeroBandwidth"
 tput setaf 2; echo "GLHF"
@@ -505,39 +486,47 @@ fi
 function backup_world_data() {
     echo ""
     echo ""
+    #read user input confirmation
+      tput setaf 1; echo "This will stop and start Valheim Services." ; tput setaf 9;
+      tput setaf 1; echo "Are you okay with this? (y=Yes, n=No)" ; tput setaf 9;
+         read -p "Press y or n:" confirmBackup
+         #if y, then continue, else cancel
+         if [ "$confirmBackup" == "y" ]; then
          ## Get the current date as variable.
          TODAY="$(date +%Y-%m-%d-%T)"
-	 echo "Checking to see if backup directory is created"
-	 echo "If not, one will be created"
+	 tput setaf 5; echo "Checking to see if backup directory is created" ; tput setaf 9;
+	 tput setaf 5; echo "If not, one will be created" ; tput setaf 9;
 	 dldir=$backupPath
 	 [ ! -d "$dldir" ] && mkdir -p "$dldir"
          sleep 1
          ## Clean up files older than 2 weeks. Create a new backup.
-	 echo "Cleaning up old backup files. Older than 2 weeks"
+	 tput setaf 1; echo "Cleaning up old backup files. Older than 2 weeks" ; tput setaf 9;
          find $backupPath/* -mtime +14 -type f -delete
-	 echo "Cleaned up better than Loki"
+	 tput setaf 2; echo "Cleaned up better than Loki" ; tput setaf 9;
          sleep 1
          ## Tar Section. Create a backup file, with the current date in its name.
          ## Add -h to convert the symbolic links into a regular files.
          ## Backup some system files, also the entire `/home` directory, etc.
          ##--exclude some directories, for example the the browser's cache, `.bash_history`, etc.
 	  #stop valheim server
-         echo "Stopping Valheim Server for clean backups"
+         tput setaf 1; echo "Stopping Valheim Server for clean backups" ; tput setaf 9;
          systemctl stop valheimserver.service
-         echo "Stopped"
-	 echo "Making tar file of world data"
+         tput setaf 1; echo "Stopped" ; tput setaf 9;
+	 tput setaf 1; echo "Making tar file of world data" ; tput setaf 9;
          tar czf $backupPath/valheim-backup-$TODAY.tgz $worldpath/*
-	 echo "Process complete!"
+	 tput setaf 2; echo "Process complete!" ; tput setaf 9;
 	 sleep 1
-	 echo "Restarting the best Valheim Server in the world"
+	 tput setaf 2; echo "Restarting the best Valheim Server in the world" ; tput setaf 9;
          systemctl start valheimserver.service
-         echo "Valheim Server Service Started"
+         tput setaf 2; echo "Valheim Server Service Started" ; tput setaf 9;
 	 echo ""
-	 echo "Setting permissions for steam on backup file"
+	 tput setaf 2; echo "Setting permissions for steam on backup file" ; tput setaf 9;
 	 chown -Rf steam:steam ${backupPath}
-	 echo "Process complete!"
+	 tput setaf 2; echo "Process complete!" ; tput setaf 9;
     echo ""
-
+ else 
+   tput setaf 3; echo "Backuping up of the world files .db and .fwl canceled" ; tput setaf 9;
+ fi
 }
 
 ########################################################################
@@ -571,38 +560,34 @@ restorefile=$(basename "${backups[$selectedIndex-1]}")
 echo -ne "
 $(ColorRed '------------------------------------------------------------')
 $(ColorGreen 'Restore '${restorefile}' ?')
-$(ColorGreen  'Are you sure you want to do this? ')
-$(ColorOrange  'Remember to match world name with '${valheimInstallPath}'/start_valheim.sh')
-$(ColorOrange  'The param for -world "worldname" much match restore file worldname.db and worldname.fwl')
-$(ColorGreen   'Press y (for yes) or n (for no)') "
+$(ColorGreen 'Are you sure you want to do this? ')
+$(ColorOrange 'Remember to match world name with '${valheimInstallPath}'/start_valheim.sh')
+$(ColorOrange 'The param for -world "worldname" much match restore file worldname.db and worldname.fwl')
+$(ColorGreen 'Press y (for yes) or n (for no)') "
 
 #read user input confirmation
-    read -p "" confirmBackup
+    read -p "" confirmBackupRestore
 #if y, then continue, else cancel
-        if [ "$confirmBackup" == "y" ]; then
+        if [ "$confirmBackupRestore" == "y" ]; then
  #stop valheim server
-        echo "Stopping Valheim Server"
+        tput setaf 1; echo "Stopping Valheim Server" ; tput setaf 9;
         systemctl stop valheimserver.service
-        echo "Stopped"
+        tput setaf 2; echo "Valheim Services successfully Stopped" ; tput setaf 9;
  #give it a few
         sleep 5
  #copy backup to worlds folder
-        echo "Copying ${backups[$selectedIndex-1]} to ${worldpath}/"
+        tput setaf 2; echo "Copying ${backups[$selectedIndex-1]} to ${worldpath}/" ; tput setaf 9;
         cp ${backups[$selectedIndex-1]} ${worldpath}/
  #untar
-        echo "Unpacking ${worldpath}/${restorefile}"
+        tput setaf 2; echo "Unpacking ${worldpath}/${restorefile}" ; tput setaf 9;
         tar xzf ${worldpath}/${restorefile} --strip-components=7 --directory ${worldpath}/  
 	chown -Rf steam:steam ${worldpath}
-	#uncomment when test are 100%
-	#last time steam was applied to /usr and other locations 
-	#really jacked stuff up - DAMN IT LOKI!!!
-	#chown -Rf steam:steam $worldpath
- #start valheim server
-        echo "Starting Valheim Services"
-        echo "This better work Loki!"
+	rm  ${worldpath}/*.tgz
+        tput setaf 2; echo "Starting Valheim Services" ; tput setaf 9;
+        tput setaf 2; echo "This better work Loki!" ; tput setaf 9;
         systemctl start valheimserver.service
 else
-        echo "Canceling restore process because Loki sucks"
+        tput setaf 2; echo "Canceling restore process because Loki sucks" ; tput setaf 9;
 fi
 
 }
@@ -869,7 +854,7 @@ $(ColorOrange '----------------Server System Information-------------------')
 $(ColorOrange '-')$(ColorGreen '1)') Fresh or Reinstall Valheim Server
 $(ColorOrange '-')$(ColorGreen '0)') Go to Main Menu
 $(ColorOrange '------------------------------------------------------------')
-$(ColorBlue 'Choose an option:') "
+$(ColorPurple 'Choose an option:') "
         read a
         case $a in
 	        1) valheim_server_install ; server_install_menu ;;
@@ -950,7 +935,7 @@ $(ColorOrange '-')$(ColorGreen ' 6)') Display Connected Players History
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorOrange '------------------------------------------------------------')
-$(ColorBlue 'Choose an option:') "
+$(ColorPurple 'Choose an option:') "
         read a
         case $a in
 	        1) display_start_valheim ; tech_support ;; 
@@ -971,8 +956,8 @@ $(ColorBlue 'Choose an option:') "
 admin_tools_menu(){
 echo ""
 echo -ne "
-$(ColorOrange '-------------Valheim Backup and Restore Tools---------------')
-$(ColorOrange '-')$(ColorGreen ' 1)') Backup World
+$(ColorOrange '---------------Valheim Backup and Restore Tools-------------')
+$(ColorOrange '-')$(ColorGreen ' 1)') Backup World (stop/starts Valheim)
 $(ColorOrange '-')$(ColorGreen ' 2)') Restore World
 $(ColorOrange '--------------------Valheim Service Tools-------------------')
 $(ColorOrange '-')$(ColorGreen ' 3)') Stop Valheim Server
@@ -983,9 +968,11 @@ $(ColorOrange '----------------Official Valheim Server Update--------------')
 $(ColorOrange '-')$(ColorGreen ' 7)') Check and Apply Valheim Server Update
 $(ColorOrange '------------------First Time or Reinstall-------------------')
 $(ColorOrange '-')$(ColorGreen ' 8)') Fresh Valheim Server
+$(ColorOrange '-------------Edit start_valehim.sh Configuration------------')
+$(ColorOrange '-')$(ColorGreen ' 9)') Edit Valheim Startup Config File
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
-$(ColorBlue 'Choose an option:') "
+$(ColorPurple 'Choose an option:') "
         read a
         case $a in
 		1) backup_world_data ; admin_tools_menu ;;
@@ -996,6 +983,7 @@ $(ColorBlue 'Choose an option:') "
 		6) display_valheim_server_status ; admin_tools_menu ;;
 		7) confirm_check_apply_server_updates ; admin_tools_menu ;;
 		8) valheim_server_install ; admin_tools_menu ;;
+		9) admin_valheim_config_edit ; admin_tools_menu ;;		
 		   0) menu ; menu ;;
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; admin_tools_menu ;;
         esac
@@ -1100,7 +1088,7 @@ $(ColorCyan '-')$(ColorGreen ' 4)') Other Mods
 $(ColorCyan '------------------------------------------------------------')
 $(ColorCyan '-')$(ColorGreen ' 0)') Go to Valheim Mod Main Menu
 $(ColorCyan '-')$(ColorGreen ' 00)') Go to Main Menu
-$(ColorBlue 'Choose an option:') "
+$(ColorPurple 'Choose an option:') "
         read a
         case $a in
 		1) server_mods ; valheim_mods_options ;;
@@ -1125,7 +1113,7 @@ $(ColorCyan '---------------------Valheim Mod Menu----------------------')
 $(ColorCyan '-')$(ColorGreen ' 4)') Valheim Mods Options
 $(ColorCyan '------------------------------------------------------------')
 $(ColorCyan '-')$(ColorGreen ' 0)') Go to Main Menu
-$(ColorBlue 'Choose an option:') "
+$(ColorPurple 'Choose an option:') "
         read a
         case $a in
 		1) install_mod_valheim ; mods_menu ;;
@@ -1137,9 +1125,307 @@ $(ColorBlue 'Choose an option:') "
         esac
 }
 ########################################################################
-##################FINISH VALHEIM MOD SECTION#######################
+#######################FINISH VALHEIM MOD SECTION#######################
 ########################################################################
 
+
+########################################################################
+##################START CHANGE VALHEIM START CONFIG#####################
+########################################################################
+
+function change_public_display_name() {
+
+#grep -oP '".*?"' ${valheimInstallPath}/start_valheim.sh > currentConf.log
+#currentConfig=currentConf.log
+#currentDisplayName=$(sed -n 1p $currentConfig)
+#currentPort=$(sed -n 2p $currentConfig)
+#currentWorldName=$(sed -n 3p $currentConfig)
+#currentPassword=$(sed -n 4p $currentConfig)
+
+currentDisplayName=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+currentPort=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+currentWorldName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+currentPassword=$(perl -n -e '/\-password "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+clear
+echo "Current Public Server Name: ${currentDisplayName} "
+echo "Current Port Information(default:2456): ${currentPort} "
+echo "Current Local World Name: ${currentWorldName} Do not change unless you know what you are doing"
+echo "Current Server Access Password: ${currentPassword} "
+
+#assign current varibles to set variables
+#if no are changes are made set variables will write to new config file anyways. No harm done
+#if changes are made set variables are updated with new data and will be wrote to new config file
+
+setCurrentDisplayName=$currentDisplayName
+setCurrentPort=$currentPort
+setCurrentWorldName=$currentWorldName
+setCurrentPassword=$currentPassword
+
+echo ""        
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------Set New Public Display Name---------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 1; echo "Now for Loki, please follow instructions" ; tput setaf 9;
+    tput setaf 1; echo "The Server is required to have a public display name" ; tput setaf 9;
+    tput setaf 1; echo "Do not use SPECIAL characters:" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "Current Public Display Name: ${setCurrentDisplayName} " ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    echo ""
+      read -p "Enter new public server display name: " setCurrentDisplayName
+    echo ""
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    echo ""
+    tput setaf 5; echo "Old Public Display Name: " ${currentDisplayName} ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    echo ""
+    tput setaf 1; echo "New Public Display Name:" ${setCurrentDisplayName} ; tput setaf 9;
+    echo ""
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    echo ""
+    read -p "Do you wish to continue with these changes? (y=Yes, n=No):" confirmPublicNameChange
+    #if y, then continue, else cancel
+        if [ "$confirmPublicNameChange" == "y" ]; then
+        tput setaf 1; echo "Deleting old configuration if file exist" ; tput setaf 9;  
+        [ -e ${valheimInstallPath}/start_valheim.sh ] && rm ${valheimInstallPath}/start_valheim.sh
+        tput setaf 1; echo "Rebuilding Valheim start_valheim.sh configuration file" ; tput setaf 9;
+        sleep 1
+cat >> ${valheimInstallPath}/start_valheim.sh <<EOF
+#!/bin/bash
+export templdpath=\$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
+export SteamAppId=892970
+# Tip: Make a local copy of this script to avoid it being overwritten by steam.
+# NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world ${setCurrentWorldName} -password ${setCurrentPassword}
+export LD_LIBRARY_PATH=\$templdpath
+EOF
+       echo "Setting Ownership to steam user and execute permissions on " ${valheimInstallPath}/start_valheim.sh 
+       chown steam:steam ${valheimInstallPath}/start_valheim.sh
+       chmod +x ${valheimInstallPath}/start_valheim.sh
+       echo "done"
+       echo "Restarting Valheim Server Service"
+       sudo systemctl restart valheimserver.service
+       echo ""
+    else
+        echo "Canceled the renaming of Public Valheim Server Display Name - because Loki sucks"
+        sleep 3
+    clear
+ fi
+ 
+}
+    
+function change_default_server_port() {
+
+currentDisplayName=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+currentPort=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+currentWorldName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+currentPassword=$(perl -n -e '/\-password "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+clear
+echo "Current Public Server Name: ${currentDisplayName} "
+echo "Current Port Information(default:2456): ${currentPort} "
+echo "Current Local World Name: ${currentWorldName} Do not change unless you know what you are doing"
+echo "Current Server Access Password: ${currentPassword} "
+
+#assign current varibles to set variables
+#if no are changes are made set variables will write to new config file anyways. No harm done
+#if changes are made set variables are updated with new data and will be wrote to new config file
+
+setCurrentDisplayName=$currentDisplayName
+setCurrentPort=$currentPort
+setCurrentWorldName=$currentWorldName
+setCurrentPassword=$currentPassword
+
+echo ""        
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "---------------------Set New Server Port--------------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 1; echo "Now for Loki, please follow instructions" ; tput setaf 9;
+    tput setaf 1; echo "The Server is required to have a port to operate on" ; tput setaf 9;
+    tput setaf 1; echo "Do not use SPECIAL characters:" ; tput setaf 9;
+    tput setaf 1; echo "New assigned port must be greater than 3000:" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "Current Server Port: ${setCurrentPort} " ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    echo ""
+    while true; do
+    read -p "Enter new Server Port (Default:2456): " setCurrentPort
+    echo ""
+     #check to make sure nobody types stupid Loki Jokes in here
+    [[ ${#setCurrentPort} -ge 4 && ${#setCurrentPort} -le 6 ]] && [[ $setCurrentPort -gt 1024 && $setCurrentPort -le 65530 ]] && [[ "$setCurrentPort" =~ ^[[:alnum:]]+$ ]] && break
+    echo ""
+    echo "Try again, Loki got you or you typed something wrong or your port range is incorrect"
+  done
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 5; echo "Old Server Port: " ${currentPort} ; tput setaf 9;
+    tput setaf 6; echo "New Server Port: " ${setCurrentPort} ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    read -p "Do you wish to continue with these changes? (y=Yes, n=No):" confirmServerPortChange
+    echo ""
+    #if y, then continue, else cancel
+    if [ "$confirmServerPortChange" == "y" ]; then
+        tput setaf 1; echo "Deleting old configuration if file exist" ; tput setaf 9;  
+        [ -e ${valheimInstallPath}/start_valheim.sh ] && rm ${valheimInstallPath}/start_valheim.sh
+        tput setaf 1; echo "Rebuilding Valheim start_valheim.sh configuration file" ; tput setaf 9;
+        sleep 1
+cat >> ${valheimInstallPath}/start_valheim.sh <<EOF
+#!/bin/bash
+export templdpath=\$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
+export SteamAppId=892970
+# Tip: Make a local copy of this script to avoid it being overwritten by steam.
+# NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world ${setCurrentWorldName} -password ${setCurrentPassword}
+export LD_LIBRARY_PATH=\$templdpath
+EOF
+       echo "Setting Ownership to steam user and execute permissions on " ${valheimInstallPath}/start_valheim.sh 
+       chown steam:steam ${valheimInstallPath}/start_valheim.sh
+       chmod +x ${valheimInstallPath}/start_valheim.sh
+       echo "done"
+       echo "Restarting Valheim Server Service"
+       sudo systemctl restart valheimserver.service
+       echo ""
+    else
+        echo "Canceled the changing of Server Port for Valheim - because Loki sucks"
+        sleep 3
+    clear
+ fi
+ 
+
+}
+
+function change_local_world_name() {
+
+echo ""
+echo "Not sure if I should allow people to do this"
+echo "Follow the wiki, if you feel the need to change your world name"
+echo "https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/Migrate-Valheim-Map-Data-from-server-to-server"
+echo "I fear to many people will end up breaking their servers, if I add this now"
+echo "Don't you have some bees to go check on?"
+echo ""
+
+}
+
+function change_server_access_password() {
+
+#grep -oP '".*?"' ${valheimInstallPath}/start_valheim.sh > currentConf.log
+#currentConfig=currentConf.log
+#currentDisplayName=$(sed -n 1p $currentConfig)
+#currentPort=$(sed -n 2p $currentConfig)
+#currentWorldName=$(sed -n 3p $currentConfig)
+#currentPassword=$(sed -n 4p $currentConfig)
+
+###start peeking into files
+currentDisplayName=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+currentPort=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+currentWorldName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+currentPassword=$(perl -n -e '/\-password "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+clear
+echo "Current Public Server Name: ${currentDisplayName} "
+echo "Current Port Information(default:2456): ${currentPort} "
+echo "Current Local World Name: ${currentWorldName} Do not change unless you know what you are doing"
+echo "Current Server Access Password: ${currentPassword} "
+
+#assign current varibles to set variables
+#if no are changes are made set variables will write to new config file anyways. No harm done
+#if changes are made set variables are updated with new data and will be wrote to new config file
+
+setCurrentDisplayName=$currentDisplayName
+setCurrentPort=$currentPort
+setCurrentWorldName=$currentWorldName
+setCurrentPassword=$currentPassword
+
+echo ""        
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "---------------Set New Server Access Password---------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 1; echo "Now for Loki, please follow instructions" ; tput setaf 9;
+    tput setaf 1; echo "Valheim requires a UNIQUE password 6 characaters or longer" ; tput setaf 9;
+    tput setaf 1; echo "UNIQUE means Password can not match Public and World Names" ; tput setaf 9;
+    tput setaf 1; echo "Do not use SPECIAL characters:" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 5; echo "Current Public Display Name:" ${setCurrentDisplayName} ; tput setaf 9;
+    tput setaf 5; echo "Current World Name:" ${setCurrentWorldName} ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "Current Access Password: ${currentPassword} " ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    while true; do
+    tput setaf 1; echo "This password must be 5 Characters or more" ; tput setaf 9;
+    tput setaf 1; echo "At least one number, one uppercase letter and one lowercase letter" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "Good Example: Viking12" ; tput setaf 9;
+    tput setaf 1; echo "Bad Example: Vik!" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    read -p "Enter Password to Enter your Valheim Server: " setCurrentPassword
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+        [[ ${#setCurrentPassword} -ge 5 && "$setCurrentPassword" == *[[:lower:]]* && "$setCurrentPassword" == *[[:upper:]]* && "$setCurrentPassword" =~ ^[[:alnum:]]+$ ]] && break
+    tput setaf 2; echo "Password not accepted - Too Short, Special Characters" ; tput setaf 9; 
+    tput setaf 2; echo "I swear to LOKI, you better NOT use Special Characters" ; tput setaf 9; 
+    done
+    echo ""
+    tput setaf 5; echo "Old Server Access Password:" ${currentPassword} ; tput setaf 9;
+    tput setaf 5; echo "New Server Access Password:" ${setCurrentPassword} ; tput setaf 9;
+    read -p "Do you wish to continue with these changes? (y=Yes, n=No):" confirmServerAccessPassword
+    #if y, then continue, else cancel
+        if [ "$confirmServerAccessPassword" == "y" ]; then
+        tput setaf 1; echo "Deleting old configuration if file exist" ; tput setaf 9;  
+        [ -e ${valheimInstallPath}/start_valheim.sh ] && rm ${valheimInstallPath}/start_valheim.sh
+        tput setaf 1; echo "Rebuilding Valheim start_valheim.sh configuration file" ; tput setaf 9;
+        sleep 1
+cat >> ${valheimInstallPath}/start_valheim.sh <<EOF
+#!/bin/bash
+export templdpath=\$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
+export SteamAppId=892970
+# Tip: Make a local copy of this script to avoid it being overwritten by steam.
+# NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
+./valheim_server.x86_64 -name ${setCurrentDisplayName} -port ${setCurrentPort} -nographics -batchmode -world ${setCurrentWorldName} -password "${setCurrentPassword}"
+export LD_LIBRARY_PATH=\$templdpath
+EOF
+       tput setaf 2; echo "Done" ; tput setaf 9;
+       tput setaf 1; echo "Setting Ownership to steam user and execute permissions on " ${valheimInstallPath}/start_valheim.sh ; tput setaf 9;
+       chown steam:steam ${valheimInstallPath}/start_valheim.sh
+       chmod +x ${valheimInstallPath}/start_valheim.sh
+       tput setaf 2; echo "done" ; tput setaf 9;
+       tput setaf 2; echo "Restarting Valheim Server Service" ; tput setaf 9;
+       sudo systemctl restart valheimserver.service
+       echo ""
+    else
+        echo "Canceled the renaming of Public Valheim Server Display Name - because Loki sucks"
+        sleep 3
+    clear
+ fi
+
+}
+
+
+admin_valheim_config_edit(){
+echo ""
+echo -ne "
+$(ColorOrange '------------Change Valheim Startup Config File--------------')
+$(ColorOrange '-')$(ColorGreen ' 1)') Change Public Display Name
+$(ColorOrange '-')$(ColorGreen ' 2)') Change Default Server Port
+$(ColorOrange '-')$(ColorGreen ' 3)') Change Local World Name
+$(ColorOrange '-')$(ColorGreen ' 4)') Change Server Access Password
+$(ColorOrange '------------------------------------------------------------')
+$(ColorOrange '-')$(ColorGreen ' 0)') Go to Admin Tools Menu
+$(ColorOrange '-')$(ColorGreen ' 00)') Go to Main Menu
+$(ColorOrange '------------------------------------------------------------')
+$(ColorPurple 'Choose an option:') "
+        read a
+        case $a in
+	        1) change_public_display_name ; admin_valheim_config_edit ;; 
+		2) change_default_server_port ; admin_valheim_config_edit ;;
+	        3) change_local_world_name ; admin_valheim_config_edit ;;
+		4) change_server_access_password ; admin_valheim_config_edit ;;
+		  0) admin_tools_menu ; admin_tools_menu ;;
+		  00) menu ; menu ;;
+		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; tech_support ;;
+        esac
+}
+########################################################################
+####################END CHANGE VALHEIM START CONFIG#####################
+########################################################################
 
 
 
@@ -1170,7 +1456,7 @@ $(ColorOrange '-')$(ColorGreen ' 5)') Coming Soon
 $(ColorOrange '-------------------------------------------')
 $(ColorGreen ' 0)') Exit
 $(ColorOrange '-------------------------------------------')
-$(ColorBlue 'Choose an option:') "
+$(ColorPurple 'Choose an option:') "
         read a
         case $a in
 	        1) script_check_update ; menu ;;
