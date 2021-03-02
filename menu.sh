@@ -377,7 +377,7 @@ export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${displayname}" -port "2456" -nographics -batchmode -world "${worldname}" -password "${password}"
+./valheim_server.x86_64 -name "${displayname}" -port "2456" -nographics -batchmode -world "${worldname}" -password "${password}" -public 0
 #export LD_LIBRARY_PATH=$templdpath
 export LD_LIBRARY_PATH=\$templdpath
 EOF
@@ -646,8 +646,6 @@ fi
 #     fi
 #     echo ""
 #}
-
-
 function check_apply_server_updates_beta() {
     echo ""
     echo "Downloading Official Valheim Repo Log Data for comparison only"
@@ -1171,7 +1169,7 @@ export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}"
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public 0
 export LD_LIBRARY_PATH=\$templdpath
 EOF
    echo "Setting Ownership to steam user and execute permissions on " ${valheimInstallPath}/start_valheim.sh
@@ -1182,6 +1180,16 @@ EOF
    sudo systemctl restart valheimserver.service
    echo ""
 }
+
+
+function add_public_to_config() {
+    get_current_config
+    print_current_config
+    set_config_defaults
+    write_config_and_restart
+}
+
+
 
 function change_public_display_name() {
     get_current_config
@@ -1326,6 +1334,8 @@ $(ColorOrange '-')$(ColorGreen ' 2)') Change Default Server Port
 $(ColorOrange '-')$(ColorGreen ' 3)') Change Local World Name
 $(ColorOrange '-')$(ColorGreen ' 4)') Change Server Access Password
 $(ColorOrange '------------------------------------------------------------')
+$(ColorOrange '-')$(ColorGreen ' 4)') Add Public option to Config 
+$(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Admin Tools Menu
 $(ColorOrange '-')$(ColorGreen ' 00)') Go to Main Menu
 $(ColorOrange '------------------------------------------------------------')
@@ -1336,6 +1346,7 @@ $(ColorPurple 'Choose an option:') "
 		2) change_default_server_port ; admin_valheim_config_edit ;;
 	        3) change_local_world_name ; admin_valheim_config_edit ;;
 		4) change_server_access_password ; admin_valheim_config_edit ;;
+		5) add_public_to_config ; admin_valheim_config_edit ;;
 		  0) admin_tools_menu ; admin_tools_menu ;;
 		  00) menu ; menu ;;
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; tech_support ;;
