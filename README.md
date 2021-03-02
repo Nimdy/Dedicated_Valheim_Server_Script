@@ -82,7 +82,7 @@ Should you need any help troubleshooting your Valheim Server visit me on Twitch 
 * My production server is 6 days solid as of 18FEB2021)
 * In game time is 430+ days |* Zero issues, zero crashes, zero cases of corrupted data. 
 
-* If you wish to Tip: https://www.patreon.com/zerobandwidth 
+* If you wish to Tip: https://www.patreon.com/zerobandwidth (funds go back into research and development costs - add those sweet juicy giveaways) 
 
 * Twitch Channel: https://www.twitch.tv/zerobandwidth | * Discord for Tech Support https://discord.gg/ejgQUfc
 
