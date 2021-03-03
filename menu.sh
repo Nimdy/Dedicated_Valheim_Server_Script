@@ -29,7 +29,7 @@ backupPath=/home/steam/backups
 ###############################################################
 
 # Set Menu Version for menu display
-mversion="Version 1.8-Loki"
+mversion="Version 1.8.1-Loki"
 
 
 
@@ -558,6 +558,7 @@ function restore_world_data() {
     done
 #promt user for index
 tput setaf 2; echo "Select Backup File you wish to restore" ; tput setaf 9;
+tput setaf 2; echo "To CANCEL select any file. Next are you can confirm or back out" ; tput setaf 9;
     read -p "" selectedIndex
 #show confirmation message
 restorefile=$(basename "${backups[$selectedIndex-1]}")
