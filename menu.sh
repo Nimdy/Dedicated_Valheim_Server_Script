@@ -1436,10 +1436,7 @@ function check_official_valheim_release_build() {
     else 
         echo "No Data";
   fi
-  
-  
-  
-  
+    
 }
 
 # Check Local Valheim Build for menu display
@@ -1464,7 +1461,7 @@ echo $latestScript
 
 function display_public_status_on_or_off() {
 
-if [ "$currentPublicSet" -eq "1" ]; then 
+if [ "$currentPublicSet" -eq "1" ] ; then 
 echo "On"
 else
 echo "Off"
