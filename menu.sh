@@ -1381,18 +1381,25 @@ function change_server_access_password() {
     fi
 }
 
+function display_full_config() {
+
+    get_current_config
+    print_current_config
+
+}
 
 admin_valheim_config_edit(){
 echo ""
 echo -ne "
 $(ColorOrange '------------Change Valheim Startup Config File--------------')
-$(ColorOrange '-')$(ColorGreen ' 1)') Change Public Display Name
-$(ColorOrange '-')$(ColorGreen ' 2)') Change Default Server Port
-$(ColorOrange '-')$(ColorGreen ' 3)') Change Local World Name
-$(ColorOrange '-')$(ColorGreen ' 4)') Change Server Access Password
+$(ColorOrange '-')$(ColorGreen ' 1)') Display Current Start Vahleim Config
+$(ColorOrange '-')$(ColorGreen ' 2)') Change Public Display Name
+$(ColorOrange '-')$(ColorGreen ' 3)') Change Default Server Port
+$(ColorOrange '-')$(ColorGreen ' 4)') Change Local World Name
+$(ColorOrange '-')$(ColorGreen ' 5)') Change Server Access Password
 $(ColorOrange '------------------------------------------------------------')
-$(ColorOrange '-')$(ColorGreen ' 5)') Enable Public Listing 
-$(ColorOrange '-')$(ColorGreen ' 6)') Disable Public Listing 
+$(ColorOrange '-')$(ColorGreen ' 6)') Enable Public Listing 
+$(ColorOrange '-')$(ColorGreen ' 7)') Disable Public Listing 
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Admin Tools Menu
 $(ColorOrange '-')$(ColorGreen ' 00)') Go to Main Menu
@@ -1400,12 +1407,13 @@ $(ColorOrange '------------------------------------------------------------')
 $(ColorPurple 'Choose an option:') "
         read a
         case $a in
-	        1) change_public_display_name ; admin_valheim_config_edit ;; 
-		2) change_default_server_port ; admin_valheim_config_edit ;;
-	        3) change_local_world_name ; admin_valheim_config_edit ;;
-		4) change_server_access_password ; admin_valheim_config_edit ;;
-		5) turn_on_public_listing ; admin_valheim_config_edit ;;
-		6) turn_off_public_listing ; admin_valheim_config_edit ;;
+		1) change_public_display_name ; admin_valheim_config_edit ;; 
+	        2) change_public_display_name ; admin_valheim_config_edit ;; 
+		3) change_default_server_port ; admin_valheim_config_edit ;;
+	        4) change_local_world_name ; admin_valheim_config_edit ;;
+		5) change_server_access_password ; admin_valheim_config_edit ;;
+		6) turn_on_public_listing ; admin_valheim_config_edit ;;
+		7) turn_off_public_listing ; admin_valheim_config_edit ;;
 		  0) admin_tools_menu ; admin_tools_menu ;;
 		  00) menu ; menu ;;
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; tech_support ;;
