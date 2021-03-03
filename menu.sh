@@ -1432,12 +1432,11 @@ function check_official_valheim_release_build() {
 
 # Check Local Valheim Build for menu display
 function check_local_valheim_build() {
-localValheimCollectivePath=${valheimInstallPath}/steamapps/appmanifest_896660.acf
 
-echo $localValheimCollectivePath
+localValheimAppmanifest=${valheimInstallPath}/steamapps/appmanifest_896660.acf
 
-   if [[ -e $localValheimCollectivePath ]] ; then
-    localValheimBuild=$(localValheim=$(grep buildid ${valheimInstallPath}/steamapps/appmanifest_896660.acf | cut -d'"' -f4)) 
+   if [[ -e $localValheimAppmanifest ]] ; then
+    localValheimBuild=$(grep buildid ${localValheimAppmanifest} | cut -d'"' -f4)) 
         echo $localValheimBuild
     else 
         echo "No Data";
