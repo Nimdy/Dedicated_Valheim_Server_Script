@@ -1450,6 +1450,19 @@ echo $latestScript
 
 }
 
+function display_public_status_on_or_off() {
+
+publicStatus=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' /home/steam/valheimserver/start_valheim.sh)
+echo $publicStatus
+if [ "$publicStatus" == "1" ]; then 
+echo "On"
+else
+echo "Off"
+fi
+
+}
+
+
 
 ########################################################################
 #######################Display Main Menu System#########################
@@ -1471,7 +1484,8 @@ echo -ne "
 $(ColorOrange '║') Valheim Official Build:" $(check_official_valheim_release_build)
 echo -ne "
 $(ColorOrange '║') Public Listing: ON/OFF
-$(ColorOrange '╚ ')Current Menu:" ${mversion} "Current Repo:" $(check_menu_script_repo)
+$(ColorOrange '║') Current Repo: $(check_menu_script_repo)
+$(ColorOrange '╚ ')Current Menu:" ${mversion}
 echo -ne "
 $(ColorOrange '----------Check for Script Updates---------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Check for Menu Script Updates
