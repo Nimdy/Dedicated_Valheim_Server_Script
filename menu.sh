@@ -1502,11 +1502,11 @@ echo -ne "
 $(ColorOrange '║') Your Server Port:" ${currentPort}
 echo -ne "
 $(ColorOrange '║') Public Listing: ON/OFF
-$(ColorOrange '║') Current Repo: $(check_menu_script_repo)
-$(ColorOrange '╚ ')Current Menu:" ${mversion}
+$(ColorOrange '║') Current Menu Release: $(check_menu_script_repo)
+$(ColorOrange '╚ ')Local Installed Menu:" ${mversion}
 echo -ne "
 $(ColorOrange '----------Check for Script Updates---------')
-$(ColorOrange '-')$(ColorGreen ' 1)') Check for Menu Script Updates
+$(ColorOrange '-')$(ColorGreen ' 1)') Update Menu Script from GitHub
 $(ColorOrange '-----------Valheim Server Commands---------')
 $(ColorOrange '-')$(ColorGreen ' 2)') Server Admin Tools 
 $(ColorOrange '-')$(ColorGreen ' 3)') Tech Support Tools
