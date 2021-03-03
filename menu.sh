@@ -1482,6 +1482,7 @@ echo $publicIP
 ########################################################################
 
 menu(){
+get_current_config
 clear
 echo ""
 echo -ne "
