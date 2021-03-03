@@ -1499,7 +1499,7 @@ $(ColorOrange '║') Valheim Server Build:" $(check_local_valheim_build)
 echo -ne "
 $(ColorOrange '║') Your Public IP:" $(display_public_IP)
 echo -ne "
-$(ColorOrange '║') Your Server Port:" $(currentPort)
+$(ColorOrange '║') Your Server Port:" ${currentPort}
 echo -ne "
 $(ColorOrange '║') Public Listing: ON/OFF
 $(ColorOrange '║') Current Repo: $(check_menu_script_repo)
