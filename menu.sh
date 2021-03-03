@@ -473,7 +473,7 @@ tput setaf 2; echo "Thank you for using the script."
 tput setaf 2; echo "AND A HUGE THANKS TO github: @Lachlanmac, @JamieeLee, @RedKrieg, @bherbruck "
 tput setaf 2; echo "@xaviablaza, @joaoanes, @amasover, @madmozg, @nicolas-martin, @devdavi and others!"
 tput setaf 2; echo "If your name is missing! Let me know!"
-tput setaf 2; echo "Twitch: ZeroBandwidth"
+tput setaf 2; echo "YouTube: ZeroBandwidth"
 tput setaf 2; echo "GLHF"
 tput setaf 9;
 echo ""
