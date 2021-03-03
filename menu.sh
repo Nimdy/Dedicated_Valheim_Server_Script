@@ -1141,7 +1141,8 @@ function get_current_config() {
     currentDisplayName=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
     currentPort=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
     currentWorldName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
-    currentPassword=$(perl -n -e '/\-password "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+    currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+ #   currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' /home/steam/valheimserver/start_valheim.sh)
 }
 
 function print_current_config() {
@@ -1150,6 +1151,7 @@ function print_current_config() {
     echo "Current Port Information(default:2456): ${currentPort}"
     echo "Current Local World Name: ${currentWorldName} # Do not change unless you know what you are doing"
     echo "Current Server Access Password: ${currentPassword}"
+    echo "Current Public Option is: ${currentPublicSet} - 0 Is OFF also used for LAN Parties - 1 Is ON for Public Listing"
 }
 
 function set_config_defaults() {
@@ -1161,6 +1163,7 @@ function set_config_defaults() {
     setCurrentPort=$currentPort
     setCurrentWorldName=$currentWorldName
     setCurrentPassword=$currentPassword
+    setCurrentPublicSet=$currentPublicSet
 }
 
 function write_config_and_restart() {
@@ -1173,7 +1176,7 @@ export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}"
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
    echo "Setting Ownership to steam user and execute permissions on " ${valheimInstallPath}/start_valheim.sh
@@ -1185,6 +1188,7 @@ EOF
    echo ""
 }
 
+#####Build input from user here later. Take 1 or 0 from user and apply to config. Until then... Two functions lol
 
 function write_public_on_config_and_restart() {
     tput setaf 1; echo "Rebuilding Valheim start_valheim.sh configuration file" ; tput setaf 9;
@@ -1196,7 +1200,7 @@ export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public 1
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "1"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
    echo "Setting Ownership to steam user and execute permissions on " ${valheimInstallPath}/start_valheim.sh
@@ -1218,7 +1222,7 @@ export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public 0
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "0"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
    echo "Setting Ownership to steam user and execute permissions on " ${valheimInstallPath}/start_valheim.sh
@@ -1229,8 +1233,6 @@ EOF
    sudo systemctl restart valheimserver.service
    echo ""
 }
-
-
 
 function write_public_on_config_and_restart() {
     get_current_config
@@ -1238,16 +1240,13 @@ function write_public_on_config_and_restart() {
     set_config_defaults
     write_public_on_config_and_restart
 }
+
 function write_public_off_config_and_restart() {
     get_current_config
     print_current_config
     set_config_defaults
     write_config_and_restart
 }
-
-
-
-
 
 function change_public_display_name() {
     get_current_config
