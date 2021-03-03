@@ -1142,7 +1142,7 @@ function get_current_config() {
     currentPort=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
     currentWorldName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
     currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
- #   currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' /home/steam/valheimserver/start_valheim.sh)
+    currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
 }
 
 function print_current_config() {
