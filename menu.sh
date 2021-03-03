@@ -1457,7 +1457,7 @@ echo -ne "
 $(ColorOrange '║') Official Release Build: " check_official_valheim_release_build
 echo -ne "
 $(ColorOrange '║') Public Listing: ON/OFF
-$(ColorOrange '╚ ')" echo "Menu Script:" ${mversion} echo "Online:" check_official_valheim_release_build
+$(ColorOrange '╚ ')" echo "Menu Script:" ${mversion} echo "Current Repo:" check_official_valheim_release_build
 echo -ne "
 $(ColorOrange '----------Check for Script Updates---------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Check for Menu Script Updates
