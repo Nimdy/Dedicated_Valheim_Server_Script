@@ -973,7 +973,7 @@ $(ColorOrange '-')$(ColorGreen ' 7)') Check and Apply Valheim Server Update
 $(ColorOrange '------------------First Time or Reinstall-------------------')
 $(ColorOrange '-')$(ColorGreen ' 8)') Fresh Valheim Server
 $(ColorOrange '-------------Edit start_valehim.sh Configuration------------')
-$(ColorOrange '-')$(ColorGreen ' 9)') Edit Valheim Startup Config File
+$(ColorOrange '-')$(ColorGreen ' 9)') Display or Edit Valheim Config File
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorPurple 'Choose an option:') "
@@ -1407,7 +1407,7 @@ $(ColorOrange '------------------------------------------------------------')
 $(ColorPurple 'Choose an option:') "
         read a
         case $a in
-		1) change_public_display_name ; admin_valheim_config_edit ;; 
+		1) display_full_config ; admin_valheim_config_edit ;; 
 	        2) change_public_display_name ; admin_valheim_config_edit ;; 
 		3) change_default_server_port ; admin_valheim_config_edit ;;
 	        4) change_local_world_name ; admin_valheim_config_edit ;;
