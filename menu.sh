@@ -33,9 +33,9 @@ mversion="Version 1.8-Loki"
 
 # Check Current Valheim REPO Build for menu display
 function check_official_valheim_release_build() {
-    [[ ! -e "/home/steam/steamcmd"]; then
+    if [[ ! -e "/home/steam/steamcmd" ]] ; then
     currentOfficialRepo=$(/home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4) 
-        echo "$currentOfficialRepo"
+        echo $currentOfficialRepo
     else 
         echo "No Data";
   fi
@@ -43,9 +43,9 @@ function check_official_valheim_release_build() {
 
 # Check Local Valheim Build for menu display
 function check_local_valheim__build() {
-    [[ ! -e ${valheimInstallPath}"/steamapps/appmanifest_896660.acf"]; then
+   if [[ ! -e ${valheimInstallPath}"/steamapps/appmanifest_896660.acf" ]] ; then
     localValheimBuild=$(localValheim=$(grep buildid ${valheimInstallPath}/steamapps/appmanifest_896660.acf | cut -d'"' -f4)) 
-        echo "$localValheimBuild"
+        echo $localValheimBuild
     else 
         echo "No Data";
   fi
