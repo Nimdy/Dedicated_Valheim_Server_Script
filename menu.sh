@@ -1388,13 +1388,13 @@ $(ColorOrange '║') Valheim Official Build:" $(check_official_valheim_release_b
 echo -ne "
 $(ColorOrange '║') Valheim Server Build:" $(check_local_valheim_build)
 echo -ne "
-$(ColorOrange '║') Your Public IP:" $(publicOn) $(publicOff)
+$(ColorOrange '║') Your Public IP:" $(display_public_IP)
 echo -ne "
-$(ColorOrange '║') Your Local IP:" $(display_public_IP)
+$(ColorOrange '║') Your Local IP:" $(display_local_IP)
 echo -ne "
 $(ColorOrange '║') Your Server Port:" ${currentPort}
 echo -ne "
-$(ColorOrange '║') Public Listing:" $(publicStatus)
+$(ColorOrange '║') Public Listing:" $(publicOn) $(publicOff)
 echo -ne "
 $(ColorOrange '║') Current Menu Release: $(check_menu_script_repo)
 $(ColorOrange '║') Local Installed Menu: ${mversion}
