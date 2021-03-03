@@ -1436,7 +1436,7 @@ function check_local_valheim_build() {
 localValheimAppmanifest=${valheimInstallPath}/steamapps/appmanifest_896660.acf
 
    if [[ -e $localValheimAppmanifest ]] ; then
-    localValheimBuild=$((grep buildid ${localValheimAppmanifest} | cut -d'"' -f4)) 
+    localValheimBuild=$(grep buildid ${localValheimAppmanifest} | cut -d'"' -f4)
         echo $localValheimBuild
     else 
         echo "No Data";
