@@ -1474,6 +1474,11 @@ function display_public_IP() {
 publicIP=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}')
 echo $publicIP
 }
+function display_local_IP() {
+
+localIP=$(hostname -I | cut -d' ' -f1)
+echo $localIP
+}
 
 
 
@@ -1497,7 +1502,9 @@ $(ColorOrange '║') Valheim Official Build:" $(check_official_valheim_release_b
 echo -ne "
 $(ColorOrange '║') Valheim Server Build:" $(check_local_valheim_build)
 echo -ne "
-$(ColorOrange '║') Your Public IP:" $(display_public_IP)
+$(ColorOrange '║') Your Public IP:" $(display_public_IP)  This is your true public IP
+echo -ne "
+$(ColorOrange '║') Your Local IP:" $(display_public_IP)   This is your local IP (Might be a NAT address, might match Public IP)
 echo -ne "
 $(ColorOrange '║') Your Server Port:" ${currentPort}
 echo -ne "
