@@ -1151,7 +1151,7 @@ function print_current_config() {
     echo "Current Port Information(default:2456):-> $(tput setaf 2)${currentPort} $(tput setaf 9) "
     echo "Current Local World Name:---------------> $(tput setaf 2)${currentWorldName} $(tput setaf 1) Do not change unless you know what you are doing $(tput setaf 9)"
     echo "Current Server Access Password:---------> $(tput setaf 2)${currentPassword} $(tput setaf 9) "
-    echo "Current Public Option is:---------------> $(tput setaf 2)${currentPublicSet}  $(tput setaf 9)        0 Is OFF or LAN Parties - 1  ON for Public Listing"
+    echo "Current Public Option is:---------------> $(tput setaf 2)${currentPublicSet}  $(tput setaf 9)          0 Is OFF or LAN Parties - 1  ON for Public Listing"
 }
 
 function set_config_defaults() {
