@@ -31,25 +31,7 @@ backupPath=/home/steam/backups
 # Set Menu Version for menu display
 mversion="Version 1.8-Loki"
 
-# Check Current Valheim REPO Build for menu display
-function check_official_valheim_release_build() {
-    if [[ -e "/home/steam/steamcmd" ]] ; then
-    currentOfficialRepo=$(/home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4) 
-        echo $currentOfficialRepo
-    else 
-        echo "No Data";
-  fi
-}
 
-# Check Local Valheim Build for menu display
-function check_local_valheim__build() {
-   if [[ -e ${valheimInstallPath}"/steamapps/appmanifest_896660.acf" ]] ; then
-    localValheimBuild=$(localValheim=$(grep buildid ${valheimInstallPath}/steamapps/appmanifest_896660.acf | cut -d'"' -f4)) 
-        echo $localValheimBuild
-    else 
-        echo "No Data";
-  fi
-}
 
  
 ##
@@ -1434,6 +1416,29 @@ $(ColorPurple 'Choose an option:') "
 ####################END CHANGE VALHEIM START CONFIG#####################
 ########################################################################
 
+########################################################################
+##########################MENUS STATUS VARIBLES#########################
+########################################################################
+
+# Check Current Valheim REPO Build for menu display
+function check_official_valheim_release_build() {
+    if [[ -e "/home/steam/steamcmd" ]] ; then
+    currentOfficialRepo=$(/home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4) 
+        echo $currentOfficialRepo
+    else 
+        echo "No Data";
+  fi
+}
+
+# Check Local Valheim Build for menu display
+function check_local_valheim__build() {
+   if [[ -e ${valheimInstallPath}"/steamapps/appmanifest_896660.acf" ]] ; then
+    localValheimBuild=$(localValheim=$(grep buildid ${valheimInstallPath}/steamapps/appmanifest_896660.acf | cut -d'"' -f4)) 
+        echo $localValheimBuild
+    else 
+        echo "No Data";
+  fi
+}
 
 
 
