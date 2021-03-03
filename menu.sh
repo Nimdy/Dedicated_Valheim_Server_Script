@@ -1469,6 +1469,11 @@ echo "Off"
 fi
 
 }
+function display_public_IP() {
+
+publicIP=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}')
+echo $publicIP
+}
 
 
 
@@ -1490,6 +1495,10 @@ $(ColorOrange '║')
 $(ColorOrange '║') Valheim Official Build:" $(check_official_valheim_release_build)
 echo -ne "
 $(ColorOrange '║') Valheim Server Build:" $(check_local_valheim_build)
+echo -ne "
+$(ColorOrange '║') Your Public IP:" $(display_public_IP)
+echo -ne "
+$(ColorOrange '║') Your Server Port:" $(currentPort)
 echo -ne "
 $(ColorOrange '║') Public Listing: ON/OFF
 $(ColorOrange '║') Current Repo: $(check_menu_script_repo)
