@@ -1459,15 +1459,6 @@ echo $latestScript
 
 }
 
-function display_public_status_on_or_off() {
-
-if [ "$currentPublicSet" -eq "1" ] ; then 
-echo "On"
-else
-echo "Off"
-fi
-
-}
 function display_public_IP() {
 
 publicIP=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}')
