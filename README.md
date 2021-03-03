@@ -168,10 +168,10 @@ cd Dedicated_Valheim_Server_Script/
 ```sh
 sudo chmod +x menu.sh
 ```
-6. Launch the Menu System
+6. Launch the Menu System (must be as root or sudo -i)
 =
 ```sh
-sudo ./menu.sh
+type: ./menu.sh  Press Enter
 ```
 ![Main Menu](https://user-images.githubusercontent.com/16698453/108992554-be513900-7699-11eb-9bc1-877f7db072e8.PNG?raw=true "Main Menu")
 
