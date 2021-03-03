@@ -1342,26 +1342,32 @@ localValheimAppmanifest=${valheimInstallPath}/steamapps/appmanifest_896660.acf
         echo "No Data";
   fi
 }
+
 function check_menu_script_repo() {
 latestScript=$(curl -s https://api.github.com/repos/Nimdy/Dedicated_Valheim_Server_Script/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
 echo $latestScript
 }
+
 function display_public_status_on_or_off() {
 publicStatus=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' /home/steam/valheimserver/start_valheim.sh)
 echo $publicStatus
+
 if [ "$publicStatus" == "1" ]; then 
-echo "On"
+publicOn=$(echo "On")
 else
-echo "Off"
+publicOff=$(echo "Off")
 fi
 }
+
 function display_public_IP() {
 publicIP=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}')
 echo $publicIP
 }
+
 function display_local_IP() {
 localIP=$(hostname -I | cut -d' ' -f1)
 echo $localIP
+
 }
 ########################################################################
 #######################Display Main Menu System#########################
@@ -1382,7 +1388,7 @@ $(ColorOrange '║') Valheim Official Build:" $(check_official_valheim_release_b
 echo -ne "
 $(ColorOrange '║') Valheim Server Build:" $(check_local_valheim_build)
 echo -ne "
-$(ColorOrange '║') Your Public IP:" $(display_public_IP)
+$(ColorOrange '║') Your Public IP:" $(publicOn) $(publicOff)
 echo -ne "
 $(ColorOrange '║') Your Local IP:" $(display_public_IP)
 echo -ne "
