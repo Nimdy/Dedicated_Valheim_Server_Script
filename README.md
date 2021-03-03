@@ -1,10 +1,4 @@
-<!--add later
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
--->
-
+![Discord](https://img.shields.io/discord/531841983229198375?color=blue&label=Discord&logoColor=blue&style=social) ![Gitstars](https://img.shields.io/github/stars/Nimdy/Dedicated_Valheim_Server_Script?logoColor=blue&style=social) ![Gitforks](https://img.shields.io/github/forks/Nimdy/Dedicated_Valheim_Server_Script?style=social) ![Twitter](https://img.shields.io/twitter/follow/zerobandwidth?style=social) ![YouTube](https://img.shields.io/youtube/views/0YPLf7Bw5W4?style=social) 
 
 
 <!-- PROJECT LOGO -->
