@@ -28,8 +28,30 @@ worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
 backupPath=/home/steam/backups
 ###############################################################
 
-# Set Menu Version
+# Set Menu Version for menu display
 mversion="Version 1.8-Loki"
+
+# Check Current Valheim REPO Build for menu display
+function check_official_valheim_release_build() {
+    [[ ! -e "/home/steam/steamcmd"]; then
+    currentOfficialRepo=$(/home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4) 
+        echo "$currentOfficialRepo"
+    else 
+        echo "No Data";
+  fi
+}
+
+# Check Local Valheim Build for menu display
+function check_local_valheim__build() {
+    [[ ! -e ${valheimInstallPath}"/steamapps/appmanifest_896660.acf"]; then
+    localValheimBuild=$(localValheim=$(grep buildid ${valheimInstallPath}/steamapps/appmanifest_896660.acf | cut -d'"' -f4)) 
+        echo "$localValheimBuild"
+    else 
+        echo "No Data";
+  fi
+}
+
+ 
 ##
 # Update Menu script 
 ##
@@ -377,7 +399,7 @@ export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${displayname}" -port "2456" -nographics -batchmode -world "${worldname}" -password "${password}" -public 0
+./valheim_server.x86_64 -name "${displayname}" -port "2456" -nographics -batchmode -world "${worldname}" -password "${password}" -public 1
 #export LD_LIBRARY_PATH=$templdpath
 export LD_LIBRARY_PATH=\$templdpath
 EOF
@@ -1327,7 +1349,7 @@ function change_local_world_name() {
     echo "Not sure if I should allow people to do this"
     echo "Follow the wiki, if you feel the need to change your world name"
     echo "https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/Migrate-Valheim-Map-Data-from-server-to-server"
-    echo "I fear to many people will end up breaking their servers, if I add this now"
+    echo "I fear too many people will end up breaking their servers, if I add this now"
     echo "Don't you have some bees to go check on?"
     echo ""
 }
@@ -1429,7 +1451,14 @@ $(ColorOrange '╠════════════════════�
 $(ColorOrange '║ Welcome Viking!')
 $(ColorOrange '║ open to improvements')
 $(ColorOrange '║ Beware Loki hides within this script')
-$(ColorOrange '╚ ')${mversion} 
+$(ColorOrange '║') 
+$(ColorOrange '║') Valheim Local Build:" check_local_valheim_build
+echo -ne "
+$(ColorOrange '║') Official Release Build: " check_official_valheim_release_build
+echo -ne "
+$(ColorOrange '║') Public Listing: ON/OFF
+$(ColorOrange '╚ ')" echo "Menu Script:" ${mversion} echo "Online:" check_official_valheim_release_build
+echo -ne "
 $(ColorOrange '----------Check for Script Updates---------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Check for Menu Script Updates
 $(ColorOrange '-----------Valheim Server Commands---------')
