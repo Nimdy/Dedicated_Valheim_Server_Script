@@ -1436,6 +1436,10 @@ function check_official_valheim_release_build() {
     else 
         echo "No Data";
   fi
+  
+  
+  
+  
 }
 
 # Check Local Valheim Build for menu display
@@ -1508,7 +1512,8 @@ $(ColorOrange '║') Your Local IP:" $(display_public_IP)
 echo -ne "
 $(ColorOrange '║') Your Server Port:" ${currentPort}
 echo -ne "
-$(ColorOrange '║') Public Listing: ON/OFF
+$(ColorOrange '║') Public Listing:" $(publicStatus)
+echo -ne "
 $(ColorOrange '║') Current Menu Release: $(check_menu_script_repo)
 $(ColorOrange '║') Local Installed Menu: ${mversion}
 $(ColorOrange '╚═════════════════════════════════════════')
