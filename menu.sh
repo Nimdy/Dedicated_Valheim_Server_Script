@@ -1495,7 +1495,7 @@ $(ColorOrange '║') Your Public IP:" $(display_public_IP)
 echo -ne "
 $(ColorOrange '║') Your Local IP:" $(display_public_IP)
 echo -ne "
-$(ColorOrange '║') Your Server Port:" ${currentPort}
+$(ColorOrange '║') Your Server Port:" $(currentPort)
 echo -ne "
 $(ColorOrange '║') Current Menu Release: $(check_menu_script_repo)
 $(ColorOrange '║') Local Installed Menu: ${mversion}
