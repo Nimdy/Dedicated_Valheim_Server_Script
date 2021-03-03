@@ -1442,10 +1442,13 @@ localValheimAppmanifest=${valheimInstallPath}/steamapps/appmanifest_896660.acf
         echo "No Data";
   fi
 }
+
 function check_menu_script_repo() {
+
 latestprint=$(curl -s https://api.github.com/repos/Nimdy/Dedicated_Valheim_Server_Script/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
 echo $latestprint
 
+}
 
 
 ########################################################################
