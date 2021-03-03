@@ -1442,6 +1442,9 @@ localValheimAppmanifest=${valheimInstallPath}/steamapps/appmanifest_896660.acf
         echo "No Data";
   fi
 }
+function check_menu_script_repo() {
+latestprint=$(curl -s https://api.github.com/repos/Nimdy/Dedicated_Valheim_Server_Script/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
+echo $latestprint
 
 
 
@@ -1465,7 +1468,7 @@ echo -ne "
 $(ColorOrange '║') Official Release Build:" $(check_official_valheim_release_build)
 echo -ne "
 $(ColorOrange '║') Public Listing: ON/OFF
-$(ColorOrange '╚ ') Current Menu:" ${mversion} "Current Repo:" check_official_valheim_release_build
+$(ColorOrange '╚ ') Current Menu:" ${mversion} "Current Repo:" check_menu_script_repo
 echo -ne "
 $(ColorOrange '----------Check for Script Updates---------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Check for Menu Script Updates
