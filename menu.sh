@@ -1503,7 +1503,8 @@ $(ColorOrange '║') Your Server Port:" ${currentPort}
 echo -ne "
 $(ColorOrange '║') Public Listing: ON/OFF
 $(ColorOrange '║') Current Menu Release: $(check_menu_script_repo)
-$(ColorOrange '╚ ')Local Installed Menu:" ${mversion}
+$(ColorOrange '║') Local Installed Menu:" ${mversion}
+$(ColorOrange '╚═════════════════════════════════════════'
 echo -ne "
 $(ColorOrange '----------Check for Script Updates---------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Update Menu Script from GitHub
