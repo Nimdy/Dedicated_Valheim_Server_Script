@@ -1491,7 +1491,6 @@ echo $localIP
 ########################################################################
 
 menu(){
-get_current_config
 clear
 echo ""
 echo -ne "
