@@ -1466,12 +1466,12 @@ $(ColorOrange '║ Welcome Viking!')
 $(ColorOrange '║ open to improvements')
 $(ColorOrange '║ Beware Loki hides within this script')
 $(ColorOrange '║') 
-$(ColorOrange '║') Valheim Local Build:" $(check_local_valheim_build)
+$(ColorOrange '║') Valheim Local Build:" tput setaf 5; $(check_local_valheim_build) ; tput setaf 9;
 echo -ne "
-$(ColorOrange '║') Official Release Build:" $(check_official_valheim_release_build)
+$(ColorOrange '║') Official Release Build:" tput setaf 5; $(check_official_valheim_release_build) ; tput setaf 9;
 echo -ne "
 $(ColorOrange '║') Public Listing: ON/OFF
-$(ColorOrange '╚ ') Current Menu:" ${mversion} "Current Repo:" $(check_menu_script_repo)
+$(ColorOrange '╚ ')Current Menu:" ${mversion} "Current Repo:" $(check_menu_script_repo)
 echo -ne "
 $(ColorOrange '----------Check for Script Updates---------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Check for Menu Script Updates
