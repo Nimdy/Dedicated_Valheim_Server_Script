@@ -1502,9 +1502,9 @@ $(ColorOrange '║') Valheim Official Build:" $(check_official_valheim_release_b
 echo -ne "
 $(ColorOrange '║') Valheim Server Build:" $(check_local_valheim_build)
 echo -ne "
-$(ColorOrange '║') Your Public IP:" $(display_public_IP)  This is your true public IP
+$(ColorOrange '║') Your Public IP:" $(display_public_IP)
 echo -ne "
-$(ColorOrange '║') Your Local IP:" $(display_public_IP)   This is your local IP (Might be a NAT address, might match Public IP)
+$(ColorOrange '║') Your Local IP:" $(display_public_IP)
 echo -ne "
 $(ColorOrange '║') Your Server Port:" ${currentPort}
 echo -ne "
