@@ -1464,7 +1464,7 @@ echo $latestScript
 
 function display_public_status_on_or_off() {
 
-if [ "$currentPublicSet" == "1" ]; then 
+if [ "$currentPublicSet" -eq "1" ]; then 
 echo "On"
 else
 echo "Off"
