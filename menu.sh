@@ -913,7 +913,7 @@ clear
 function display_player_history() {
 clear
     echo ""
-    sudo cat /var/log/syslog | grep ZDOID
+    sudo grep ZDOID /var/log/syslog*
     echo ""
 
 }
