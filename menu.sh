@@ -1354,9 +1354,9 @@ publicStatus=$"(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' /home/steam
 echo $publicStatus
 
 if [ "$publicStatus" == "1" ]; then 
-publicOn=$(echo "On")
+publicOn=$"(echo "On")"
 else
-publicOff=$(echo "Off")
+publicOff=$"(echo "Off")"
 fi
 }
 
