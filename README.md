@@ -1,13 +1,15 @@
 <p align="center">
     <a href="https://discord.gg/ejgQUfc" alt="Discord">
         <img src="https://img.shields.io/discord/531841983229198375?color=blue&label=Discord&logoColor=blue&style=social" /></a>
+    <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/graphs/contributors" alt="Contributors">
+        <img src="https://img.shields.io/github/contributors/Nimdy/Dedicated_Valheim_Server_Script?color=blue&logoColor=blue&style=social" /></a> 
     <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/stargazers" alt="GitStars">
         <img src="https://img.shields.io/github/stars/Nimdy/Dedicated_Valheim_Server_Script?logoColor=blue&style=social" /></a>
-      <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/network/members" alt="GitForks">
+    <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/network/members" alt="GitForks">
         <img src="https://img.shields.io/github/forks/Nimdy/Dedicated_Valheim_Server_Script?style=social" /></a>
-      <a href="https://www.twitter.com/zerobandwidth" alt="GitForks">
+    <a href="https://www.twitter.com/zerobandwidth" alt="Twitter">
         <img src="https://img.shields.io/twitter/follow/zerobandwidth?style=social" /></a>
-      <a href="https://www.youtube.com/channel/UCOLrqLxS7oVqVNjs9PGtKVA/" alt="GitForks">
+    <a href="https://www.youtube.com/channel/UCOLrqLxS7oVqVNjs9PGtKVA/" alt="YouTube">
         <img src="https://img.shields.io/youtube/views/0YPLf7Bw5W4?style=social" /></a>
 </p>
 
