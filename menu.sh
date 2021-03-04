@@ -138,7 +138,7 @@ function script_check_update() {
         git pull --force
 	echo " Updating"
       	sleep 1
-        cd /opt/Dedicated_Valheim_server_Script/
+        cd /opt/Dedicated_Valheim_Server_Script/
 	chmod +x menu.sh
         exec "$SCRIPTNAME" "${ARGS[@]}"
 
