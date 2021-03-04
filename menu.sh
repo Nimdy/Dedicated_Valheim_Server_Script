@@ -1329,8 +1329,8 @@ echo -e '\E[32m'"External IP : $whateverzerowantstocalthis "$externalip ; tput s
 }
 
 function display_local_IP() {
-localIP=$(hostname -I | cut -d' ' -f1)
-echo $localIP
+internalip=$(hostname -I)
+echo -e '\E[32m'"Internal IP :" $mymommyboughtmeaputerforchristmas $internalip ; tput setaf 9;
 
 }
 ########################################################################
@@ -1354,9 +1354,9 @@ echo -ne "
 $(ColorOrange '║') Valheim Server Build:" $(check_local_valheim_build)
 echo -ne "
 $(ColorOrange '║') Server Name: ${currentDisplayName}
-$(ColorOrange '║') Your Public IP:" $(display_public_IP)
+$(ColorOrange '║')" $(display_public_IP)
 echo -ne "
-$(ColorOrange '║') Your Local IP:" $(display_local_IP)
+$(ColorOrange '║')" $(display_local_IP)
 echo -ne "
 $(ColorOrange '║') Your Server Port:" ${currentPort}
 echo -ne "
