@@ -189,10 +189,9 @@ echo ""
     sleep 1
     
 #install software-properties-common for add-apt-repository command below
-    tput setaf 1; echo "Installing software-properties-common package"
+    tput setaf 1; echo "Installing software-properties-common package" ; tput setaf 9;
     apt install software-properties-common
-    tput setaf 2; echo "Done"
-    tput setaf 9;
+    tput setaf 2; echo "Done" ; tput setaf 9;
     sleep 1
 
 #add multiverse repo
@@ -377,8 +376,7 @@ export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${displayname}" -port "2456" -nographics -batchmode -world "${worldname}" -password "${password}" -public 1
-#export LD_LIBRARY_PATH=$templdpath
+./valheim_server.x86_64 -name "${displayname}" -port "2456" -nographics -batchmode -world "${worldname}" -password "${password}" -public "1"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
 tput setaf 2; echo "Done" ; tput setaf 9;
@@ -454,7 +452,7 @@ tput setaf 2; echo "Thank you for using the script."
 tput setaf 2; echo "AND A HUGE THANKS TO github: @Lachlanmac, @JamieeLee, @RedKrieg, @bherbruck "
 tput setaf 2; echo "@xaviablaza, @joaoanes, @amasover, @madmozg, @nicolas-martin, @devdavi and others!"
 tput setaf 2; echo "If your name is missing! Let me know!"
-tput setaf 2; echo "Twitch: ZeroBandwidth"
+tput setaf 2; echo "-ZeroBandwidth"
 tput setaf 2; echo "GLHF"
 tput setaf 9;
 echo ""
