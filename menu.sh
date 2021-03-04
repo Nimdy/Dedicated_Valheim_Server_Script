@@ -31,13 +31,9 @@ backupPath=/home/steam/backups
 # Set Menu Version for menu display
 mversion="1.8.1-Loki"
 
-
-
- 
 ##
 # Update Menu script 
 ##
-
 
 ##
 # Admin Tools:
@@ -66,7 +62,6 @@ mversion="1.8.1-Loki"
 # Adding Valheim Mod Support
 ##
 
-
 ########################################################################
 #############################Set COLOR VARS#############################
 ########################################################################
@@ -83,7 +78,6 @@ LIGHTGREEN='\033[1;32m'
 YELLOW='\033[1;33m'
 WHITE='\033[1;37m'
 CLEAR='\e[0m'
-
 
 ##
 # Color Functions
@@ -601,9 +595,6 @@ fi
 ########################################################################
 ######################beta updater for Valheim##########################
 ########################################################################
-########################################################################
-######################beta updater for Valheim##########################
-########################################################################
 #function check_apply_server_updates_beta() {
 #    echo ""
 #    echo "Downloading Official Valheim Repo Log Data for comparison only"
@@ -622,6 +613,7 @@ fi
 #     fi
 #     echo ""
 #}
+
 function check_apply_server_updates_beta() {
     echo ""
     echo "Downloading Official Valheim Repo Log Data for comparison only"
@@ -855,7 +847,7 @@ clear
 function display_player_history() {
 clear
     echo ""
-    sudo cat /var/log/syslog | grep ZDOID
+    sudo grep ZDOID /var/log/syslog*
     echo ""
 }
 ########################################################################
@@ -1039,6 +1031,7 @@ $(ColorPurple 'Choose an option:') "
 ########################################################################
 #######################FINISH VALHEIM MOD SECTION#######################
 ########################################################################
+
 ########################################################################
 ##################START CHANGE VALHEIM START CONFIG#####################
 ########################################################################
@@ -1340,10 +1333,10 @@ echo $latestScript
 }
 
 function display_public_status_on_or_off() {
-publicStatus=$"(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' /home/steam/valheimserver/start_valheim.sh)"
+publicStatus=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' /home/steam/valheimserver/start_valheim.sh)
 echo $publicStatus
 
-if [ "$publicStatus" == "1" ]; then 
+if [ "$publicStatus" = "1" ]; then 
 publicOn=$"(echo "On")"
 else
 publicOff=$"(echo "Off")"
