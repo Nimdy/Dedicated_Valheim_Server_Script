@@ -1324,8 +1324,8 @@ get_current_config
 
 
 function display_public_IP() {
-publicIP=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}')
-echo $publicIP
+externalip=$(curl -s ipecho.net/plain;echo)
+echo -e '\E[32m'"External IP : $whateverzerowantstocalthis "$externalip ; tput setaf 9;
 }
 
 function display_local_IP() {
@@ -1343,7 +1343,7 @@ display_public_status_on_or_off
 clear
 echo -ne "
 $(ColorOrange '╔═══════════════════════════════════════════════╗')
-$(ColorOrange '║~~~~~~~~~~~~~~~~~~~-DVSS Menu-~~~~~~~~~~~~~~~~~║')
+$(ColorOrange '║~~~~~~~~~~~~~~~~~~-Njord Menu-~~~~~~~~~~~~~~~~~║')
 $(ColorOrange '╠═══════════════════════════════════════════════╝')
 $(ColorOrange '║ Welcome Viking! Do not forget about your bees')
 $(ColorOrange '║ Visit our discord: https://discord.gg/ejgQUfc')
