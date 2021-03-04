@@ -1345,9 +1345,9 @@ echo $latestScript
 function display_public_status_on_or_off() {
 get_current_config
 if [ $currentPublicSet = "1" ]; then 
-echo "On"
+publicON=$(echo "On")
 else
-echo "Off"
+publicOFF=$(echo "Off")
 fi
 }
 
@@ -1366,6 +1366,7 @@ echo $localIP
 ########################################################################
 menu(){
 get_current_config
+display_public_status_on_or_off
 #get_current_config
 clear
 echo -ne "
@@ -1386,7 +1387,7 @@ $(ColorOrange '║') Your Local IP:" $(display_local_IP)
 echo -ne "
 $(ColorOrange '║') Your Server Port:" ${currentPort}
 echo -ne "
-$(ColorOrange '║') Public Listing:" display_public_status_on_or_off
+$(ColorOrange '║') Public Listing:" ${$publicON} ${$publicOFF}
 echo -ne "
 $(ColorOrange '║') Current Menu Release: $(check_menu_script_repo)
 $(ColorOrange '║') Local Installed Menu: ${mversion}
