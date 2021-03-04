@@ -1378,7 +1378,7 @@ $(ColorOrange '║') Valheim Official Build:" $(check_official_valheim_release_b
 echo -ne "
 $(ColorOrange '║') Valheim Server Build:" $(check_local_valheim_build)
 echo -ne "
-$(ColorOrange '║') Server Name: $(currentDisplayName)
+$(ColorOrange '║') Server Name: ${currentDisplayName}
 $(ColorOrange '║') Your Public IP:" $(display_public_IP)
 echo -ne "
 $(ColorOrange '║') Your Local IP:" $(display_local_IP)
