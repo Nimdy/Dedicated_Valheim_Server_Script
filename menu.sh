@@ -1317,7 +1317,7 @@ function check_official_valheim_release_build() {
 }
 
 # Check Local Valheim Build for menu display
-function check_local_valheim_build() {
+check_local_valheim_build() {
 localValheimAppmanifest=${valheimInstallPath}/steamapps/appmanifest_896660.acf
    if [[ -e $localValheimAppmanifest ]] ; then
     localValheimBuild=$(grep buildid ${localValheimAppmanifest} | cut -d'"' -f4)
@@ -1327,12 +1327,12 @@ localValheimAppmanifest=${valheimInstallPath}/steamapps/appmanifest_896660.acf
   fi
 }
 
-function check_menu_script_repo() {
+check_menu_script_repo() {
 latestScript=$(curl -s https://api.github.com/repos/Nimdy/Dedicated_Valheim_Server_Script/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
 echo $latestScript
 }
 
-function display_public_status_on_or_off() {
+display_public_status_on_or_off() {
 publicStatus=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' /home/steam/valheimserver/start_valheim.sh)
 echo $publicStatus
 
@@ -1343,12 +1343,12 @@ publicOff=$"(echo "Off")"
 fi
 }
 
-function display_public_IP() {
+display_public_IP() {
 publicIP=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}')
 echo $publicIP
 }
 
-function display_local_IP() {
+display_local_IP() {
 localIP=$(hostname -I | cut -d' ' -f1)
 echo $localIP
 
