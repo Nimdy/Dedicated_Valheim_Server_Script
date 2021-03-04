@@ -529,6 +529,65 @@ function backup_world_data() {
  fi
 }
 
+function backup_world_data_cmd() {
+    ## Get the current date as variable.
+    TODAY="$(date +%Y-%m-%d-%T)"
+    tput setaf 5
+    echo "Checking to see if backup directory is created"
+    tput setaf 9
+    tput setaf 5
+    echo "If not, one will be created"
+    tput setaf 9
+    dldir=$backupPath
+    [ ! -d "$dldir" ] && mkdir -p "$dldir"
+    sleep 1
+    ## Clean up files older than 2 weeks. Create a new backup.
+    tput setaf 1
+    echo "Cleaning up old backup files. Older than 2 weeks"
+    tput setaf 9
+    find $backupPath/* -mtime +14 -type f -delete
+    tput setaf 2
+    echo "Cleaned up better than Loki"
+    tput setaf 9
+    sleep 1
+    ## Tar Section. Create a backup file, with the current date in its name.
+    ## Add -h to convert the symbolic links into a regular files.
+    ## Backup some system files, also the entire `/home` directory, etc.
+    ##--exclude some directories, for example the the browser's cache, `.bash_history`, etc.
+    #stop valheim server
+    tput setaf 1
+    echo "Stopping Valheim Server for clean backups"
+    tput setaf 9
+    systemctl stop valheimserver.service
+    tput setaf 1
+    echo "Stopped"
+    tput setaf 9
+    tput setaf 1
+    echo "Making tar file of world data"
+    tput setaf 9
+    tar czf $backupPath/valheim-backup-$TODAY.tgz $worldpath/*
+    tput setaf 2
+    echo "Process complete!"
+    tput setaf 9
+    sleep 1
+    tput setaf 2
+    echo "Restarting the best Valheim Server in the world"
+    tput setaf 9
+    systemctl start valheimserver.service
+    tput setaf 2
+    echo "Valheim Server Service Started"
+    tput setaf 9
+    echo ""
+    tput setaf 2
+    echo "Setting permissions for steam on backup file"
+    tput setaf 9
+    chown -Rf steam:steam ${backupPath}
+    tput setaf 2
+    echo "Process complete!"
+    tput setaf 9
+    echo ""
+}
+
 ########################################################################
 ##################Restore World Files DB and FWL########################
 ########################################################################
@@ -673,6 +732,33 @@ function check_apply_server_updates_beta() {
      echo ""
 }
 
+function check_apply_server_updates_cmd_beta() {
+    echo ""
+    echo "Downloading Official Valheim Repo Log Data for comparison only"
+    [ ! -d /opt/valheimtemp ] && mkdir -p /opt/valheimtemp
+    /home/steam/steamcmd +login anonymous +force_install_dir /opt/valheimtemp +app_update 896660 validate +exit
+    sed -e 's/[\t ]//g;/^$/d' /opt/valheimtemp/steamapps/appmanifest_896660.acf >appmanirepo.log
+    repoValheim=$(sed -n '11p' appmanirepo.log)
+    echo "Official Valheim-: $repoValheim"
+    sed -e 's/[\t ]//g;/^$/d' ${valheimInstallPath}/steamapps/appmanifest_896660.acf >appmanilocal.log
+    localValheim=$(sed -n '11p' appmanilocal.log)
+    echo "Local Valheim Ver: $localValheim"
+    if [ "$repoValheim" == "$localValheim" ]; then
+        echo "No new Updates found"
+        echo "Cleaning up TEMP FILES"
+        rm -Rf /opt/valheimtemp
+        rm appmanirepo.log
+        rm appmanilocal.log
+        sleep 2
+    else
+        echo "Update Found kicking process to Odin for updating!"
+        sleep 2
+        continue_with_valheim_update_install
+        echo ""
+    fi
+    echo ""
+}
+
 ########################################################################
 ##############Verify Checking Updates for Valheim Server################
 ########################################################################
@@ -746,15 +832,19 @@ echo ""
  read -p "Please confirm:" confirmStop
 #if y, then continue, else cancel
         if [ "$confirmStop" == "y" ]; then
-    echo ""
-    echo "Stopping Valheim Server Services"
-    sudo systemctl stop valheimserver.service
-    echo ""
+    stop_valheim_server_cmd
     else
     echo "Canceling Stopping of Valheim Server Service - because Loki sucks"
     sleep 3
     clear
 fi
+}
+
+function stop_valheim_server_cmd() {
+    echo ""
+    echo "Stopping Valheim Server Services"
+    sudo systemctl stop valheimserver.service
+    echo ""
 }
 
 ########################################################################
@@ -777,15 +867,21 @@ echo ""
  read -p "Please confirm:" confirmStart
 #if y, then continue, else cancel
         if [ "$confirmStart" == "y" ]; then
-    echo ""
-    tput setaf 2; echo "Starting Valheim Server with Thor's Hammer!!!!" ; tput setaf 9;
-    sudo systemctl start valheimserver.service
-    echo ""
+    start_valheim_server_cmd
     else
         echo "Canceling Starting of Valheim Server Service - because Loki sucks"
         sleep 3
     clear
 fi
+}
+
+function start_valheim_server_cmd() {
+    echo ""
+    tput setaf 2
+    echo "Starting Valheim Server with Thor's Hammer!!!!"
+    tput setaf 9
+    sudo systemctl start valheimserver.service
+    echo ""
 }
 
 ########################################################################
@@ -807,14 +903,20 @@ echo ""
  read -p "Please confirm:" confirmRestart
 #if y, then continue, else cancel
         if [ "$confirmRestart" == "y" ]; then
-tput setaf 2; echo "Restarting Valheim Server with Thor's Hammer!!!!" ; tput setaf 9; 
-    sudo systemctl restart valheimserver.service
-    echo ""
+        restart_valheim_server_cmd
     else
         echo "Canceling Restarting of Valheim Server Service - because Loki sucks"
         sleep 3
     clear
 fi
+}
+
+function restart_valheim_server_cmd() {
+    tput setaf 2
+    echo "Restarting Valheim Server with Thor's Hammer!!!!"
+    tput setaf 9
+    sudo systemctl restart valheimserver.service
+    echo ""
 }
 
 ########################################################################
@@ -1391,19 +1493,19 @@ if [ $# = 0 ]; then
 else
     case "$1" in
     start)
-        start_valheim_server
+        start_valheim_server_cmd
         ;;
     stop)
-        stop_valheim_server
+        stop_valheim_server_cmd
         ;;
     restart)
-        restart_valheim_server
+        restart_valheim_server_cmd
         ;;
     update)
-        check_apply_server_updates_beta
+        check_apply_server_updates_cmd_beta
         ;;
     backup)
-        backup_world_data
+        backup_world_data_cmd
         ;;
     status)
         display_valheim_server_status
