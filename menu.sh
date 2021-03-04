@@ -1383,7 +1383,7 @@ $(ColorOrange '║') Your Public IP:" $(display_public_IP)
 echo -ne "
 $(ColorOrange '║') Your Local IP:" $(display_local_IP)
 echo -ne "
-$(ColorOrange '║') Your Server Port:" $(currentPort)
+$(ColorOrange '║') Your Server Port:" ${currentPort}
 echo -ne "
 $(ColorOrange '║') Public Listing:" display_public_status_on_or_off
 echo -ne "
