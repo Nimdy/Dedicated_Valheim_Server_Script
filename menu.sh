@@ -1333,6 +1333,12 @@ internalip=$(hostname -I)
 echo -e '\E[32m'"Internal IP :" $mymommyboughtmeaputerforchristmas $internalip ; tput setaf 9;
 
 }
+
+function are_you_connected() {
+ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"Internet: $tecreset Connected" || echo -e '\E[32m'"Internet: $tecreset Disconnected"
+
+}
+
 ########################################################################
 #######################Display Main Menu System#########################
 ########################################################################
@@ -1354,6 +1360,7 @@ echo -ne "
 $(ColorOrange '║') Valheim Server Build:" $(check_local_valheim_build)
 echo -ne "
 $(ColorOrange '║') Server Name: ${currentDisplayName}
+$(ColorOrange '║') $(are_you_connected)
 $(ColorOrange '║')" $(display_public_IP)
 echo -ne "
 $(ColorOrange '║')" $(display_local_IP)
