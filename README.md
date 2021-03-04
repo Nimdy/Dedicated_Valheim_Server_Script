@@ -259,9 +259,9 @@ See the [open issues](https://github.com/Nimdy/Dedicated_Valheim_Server_Script/i
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingIdea`)
+2. Create your Feature Branch (`git checkout -b beta`)
 3. Commit your Changes (`git commit -m 'Add some AmazingIdea'`)
-4. Push to the Branch (`git push origin feature/AmazingIdea`)
+4. Push to the Branch (`git push origin beta`)
 5. Open a Pull Request
 
 
