@@ -1340,10 +1340,10 @@ echo $latestScript
 }
 
 display_public_status_on_or_off() {
-publicStatus=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' /home/steam/valheimserver/start_valheim.sh)
-echo $publicStatus
-defaultStatus=1
-if [ "$publicStatus" = "$defaultStatus" ]; then 
+
+${currentPublicSet}
+
+if [ "$currentPublicSet" = "1" ]; then 
 publicOn=$"(echo "On")"
 else
 publicOff=$"(echo "Off")"
