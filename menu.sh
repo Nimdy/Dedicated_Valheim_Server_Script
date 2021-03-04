@@ -1315,12 +1315,13 @@ echo $latestScript
 
 function display_public_status_on_or_off() {
 get_current_config
-if [ $currentPublicSet = "1" ]; then 
-publicON=$(echo "On")
-else
-publicOFF=$(echo "Off")
-fi
+    if [ $currentPublicSet = "1" ]; then 
+      publicON=$(echo "On")
+    else
+      publicOFF=$(echo "Off")
+  fi
 }
+
 
 function display_public_IP() {
 publicIP=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}')
