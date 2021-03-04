@@ -383,17 +383,9 @@ export LD_LIBRARY_PATH=\$templdpath
 EOF
 tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
-#build check log script
+#delete old check log script, not required any longer.
 tput setaf 1; echo "Deleting old check log script if exist" ; tput setaf 9; 
-tput setaf 1; echo "Building check log script" ; tput setaf 9;
 [ -e /home/steam/check_log.sh ] && rm /home/steam/check_log.sh
-sleep 1
-cat >> /home/steam/check_log.sh <<EOF
-journalctl --unit=valheimserver --reverse
-EOF
-chmod +x /home/steam/check_log.sh
-tput setaf 2; echo "Done" ; tput setaf 9;
-sleep 1
 #set execute permissions
 tput setaf 1; echo "Setting execute permissions on start_valheim.sh" ; tput setaf 9;
 chmod +x ${valheimInstallPath}/start_valheim.sh
