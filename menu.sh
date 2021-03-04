@@ -1357,9 +1357,8 @@ echo $localIP
 #######################Display Main Menu System#########################
 ########################################################################
 menu(){
-get_current_config
+#get_current_config
 clear
-echo ""
 echo -ne "
 $(ColorOrange '╔═════════════════════════════════════════╗')
 $(ColorOrange '║~~~-ZeroBandwidths Easy Valheim Menu-~~~~║')
