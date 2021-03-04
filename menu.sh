@@ -896,10 +896,8 @@ $(ColorOrange '-')$(ColorGreen ' 5)') Restart Valheim Server
 $(ColorOrange '-')$(ColorGreen ' 6)') Status Valheim Server
 $(ColorOrange '----------------Official Valheim Server Update--------------')
 $(ColorOrange '-')$(ColorGreen ' 7)') Check and Apply Valheim Server Update
-$(ColorOrange '------------------First Time or Reinstall-------------------')
-$(ColorOrange '-')$(ColorGreen ' 8)') Fresh Valheim Server
 $(ColorOrange '-------------Edit start_valehim.sh Configuration------------')
-$(ColorOrange '-')$(ColorGreen ' 9)') Display or Edit Valheim Config File
+$(ColorOrange '-')$(ColorGreen ' 8)') Display or Edit Valheim Config File
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorPurple 'Choose an option:') "
@@ -912,8 +910,7 @@ $(ColorPurple 'Choose an option:') "
 		5) restart_valheim_server ; admin_tools_menu ;;
 		6) display_valheim_server_status ; admin_tools_menu ;;
 		7) confirm_check_apply_server_updates ; admin_tools_menu ;;
-		8) valheim_server_install ; admin_tools_menu ;;
-		9) admin_valheim_config_edit ; admin_tools_menu ;;		
+		8) admin_valheim_config_edit ; admin_tools_menu ;;		
 		   0) menu ; menu ;;
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; admin_tools_menu ;;
         esac
