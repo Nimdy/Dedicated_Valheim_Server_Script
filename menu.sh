@@ -1299,8 +1299,8 @@ $(ColorPurple 'Choose an option:') "
 		3) change_default_server_port ; admin_valheim_config_edit ;;
 	        4) change_local_world_name ; admin_valheim_config_edit ;;
 		5) change_server_access_password ; admin_valheim_config_edit ;;
-		6) turn_on_public_listing ; admin_valheim_config_edit ;;
-		7) turn_off_public_listing ; admin_valheim_config_edit ;;
+		6) write_public_on_config_and_restart ; admin_valheim_config_edit ;;
+		7) write_public_off_config_and_restart ; admin_valheim_config_edit ;;
 		  0) admin_tools_menu ; admin_tools_menu ;;
 		  00) menu ; menu ;;
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; tech_support ;;
