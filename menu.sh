@@ -886,8 +886,8 @@ echo ""
     echo -e "System Main IP:\t\t"`hostname -I`
 echo ""
     echo -e "-------------------------------CPU/Memory Usage------------------------------"
-    echo -e "Memory Usage:\t"`free | awk '/Mem/{printf("%.2f%"), $3/$2*100}'`
-    echo -e "CPU Usage:\t"`cat /proc/stat | awk '/cpu/{printf("%.2f%\n"), ($2+$4)*100/($2+$4+$5)}' |  awk '{print $0}' | head -1`
+    echo -e "Memory Usage:\t"`free | awk '/Mem/{printf("%.2f %%"), $3/$2*100}'`
+    echo -e "CPU Usage:\t"`cat /proc/stat | awk '/cpu/{printf("%.2f %%\n"), ($2+$4)*100/($2+$4+$5)}' |  awk '{print $0}' | head -1`
 echo ""
     echo -e "-------------------------------Disk Usage >80%-------------------------------"
     df -Ph | sed s/%//g | awk '{ if($5 > 80) print $0;}'
