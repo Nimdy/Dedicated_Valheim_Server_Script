@@ -1367,17 +1367,18 @@ display_public_status_on_or_off
 #get_current_config
 clear
 echo -ne "
-$(ColorOrange '╔═════════════════════════════════════════╗')
-$(ColorOrange '║~~~-ZeroBandwidths Easy Valheim Menu-~~~~║')
-$(ColorOrange '╠═════════════════════════════════════════╝')
-$(ColorOrange '║ Welcome Viking!')
-$(ColorOrange '║ open to improvements')
+$(ColorOrange '╔═══════════════════════════════════════════════╗')
+$(ColorOrange '║~~~~~~~~~~~~~~~~~~~-DVSS Menu-~~~~~~~~~~~~~~~~~║')
+$(ColorOrange '╠═══════════════════════════════════════════════╝')
+$(ColorOrange '║ Welcome Viking! Do not forget about your bees')
+$(ColorOrange '║ Visit our discord: https://discord.gg/ejgQUfc')
 $(ColorOrange '║ Beware Loki hides within this script')
 $(ColorOrange '║') 
 $(ColorOrange '║') Valheim Official Build:" $(check_official_valheim_release_build)
 echo -ne "
 $(ColorOrange '║') Valheim Server Build:" $(check_local_valheim_build)
 echo -ne "
+$(ColorOrange '║') Server Name: $(currentDisplayName)
 $(ColorOrange '║') Your Public IP:" $(display_public_IP)
 echo -ne "
 $(ColorOrange '║') Your Local IP:" $(display_local_IP)
@@ -1388,7 +1389,7 @@ $(ColorOrange '║') Public Listing:" $publicON $publicOFF
 echo -ne "
 $(ColorOrange '║') Current Menu Release: $(check_menu_script_repo)
 $(ColorOrange '║') Local Installed Menu: ${mversion}
-$(ColorOrange '╚═════════════════════════════════════════')
+$(ColorOrange '╚═══════════════════════════════════════════════')
 $(ColorOrange '----------Check for Script Updates---------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Update Menu Script from GitHub
 $(ColorOrange '-----------Valheim Server Commands---------')
