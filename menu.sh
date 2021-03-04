@@ -1341,12 +1341,10 @@ echo $latestScript
 
 display_public_status_on_or_off() {
 
-${currentPublicSet}
-
-if [ "$currentPublicSet" = "1" ]; then 
-publicOn=$"(echo "On")"
+if [ $currentPublicSet = "1" ]; then 
+echo "On"
 else
-publicOff=$"(echo "Off")"
+echo "Off"
 fi
 }
 
@@ -1384,7 +1382,7 @@ $(ColorOrange '║') Your Local IP:" $(display_local_IP)
 echo -ne "
 $(ColorOrange '║') Your Server Port:" ${currentPort}
 echo -ne "
-$(ColorOrange '║') Public Listing:" ${publicOn} ${publicOff}
+$(ColorOrange '║') Public Listing:" display_public_status_on_or_off
 echo -ne "
 $(ColorOrange '║') Current Menu Release: $(check_menu_script_repo)
 $(ColorOrange '║') Local Installed Menu: ${mversion}
