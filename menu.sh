@@ -142,7 +142,8 @@ function script_check_update() {
         git pull --force
 	echo " Updating"
       	sleep 1
-        cd /opt/Dedicated_Valheim_server_Script/
+	#remove for testing... pathing not required?
+       #cd /opt/Dedicated_Valheim_server_Script/
 	chmod +x menu.sh
         exec "$SCRIPTNAME" "${ARGS[@]}"
 
