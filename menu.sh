@@ -1342,8 +1342,8 @@ echo $latestScript
 display_public_status_on_or_off() {
 publicStatus=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' /home/steam/valheimserver/start_valheim.sh)
 echo $publicStatus
-
-if [ "$publicStatus" = "1" ]; then 
+defaultStatus=1
+if [ "$publicStatus" = "$defaultStatus" ]; then 
 publicOn=$"(echo "On")"
 else
 publicOff=$"(echo "Off")"
@@ -1382,7 +1382,7 @@ $(ColorOrange '║') Your Public IP:" $(display_public_IP)
 echo -ne "
 $(ColorOrange '║') Your Local IP:" $(display_local_IP)
 echo -ne "
-$(ColorOrange '║') Your Server Port:" $(currentPort)
+$(ColorOrange '║') Your Server Port:" ${currentPort}
 echo -ne "
 $(ColorOrange '║') Public Listing:" ${publicOn} ${publicOff}
 echo -ne "
