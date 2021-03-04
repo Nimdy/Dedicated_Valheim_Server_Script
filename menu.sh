@@ -1390,17 +1390,17 @@ echo -ne "
 $(ColorOrange '║') Current Menu Release: $(check_menu_script_repo)
 $(ColorOrange '║') Local Installed Menu: ${mversion}
 $(ColorOrange '╚═══════════════════════════════════════════════')
-$(ColorOrange '----------Check for Script Updates---------')
+$(ColorOrange '-------------Check for Script Updates-----------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Update Menu Script from GitHub
-$(ColorOrange '-----------Valheim Server Commands---------')
+$(ColorOrange '--------------Valheim Server Commands-----------')
 $(ColorOrange '-')$(ColorGreen ' 2)') Server Admin Tools 
 $(ColorOrange '-')$(ColorGreen ' 3)') Tech Support Tools
 $(ColorOrange '-')$(ColorGreen ' 4)') Install Valheim Server
-$(ColorOrange '-----------------Mods Menu-----------------')
+$(ColorOrange '--------------------Mods Menu-------------------')
 $(ColorOrange '-')$(ColorGreen ' 5)') Coming Soon
-$(ColorOrange '-------------------------------------------')
+$(ColorOrange '------------------------------------------------')
 $(ColorGreen ' 0)') Exit
-$(ColorOrange '-------------------------------------------')
+$(ColorOrange '------------------------------------------------')
 $(ColorPurple 'Choose an option:') "
         read a
         case $a in
