@@ -1060,6 +1060,7 @@ function set_config_defaults() {
     setCurrentPassword=$currentPassword
     setCurrentPublicSet=$currentPublicSet
 }
+
 function write_config_and_restart() {
     tput setaf 1; echo "Rebuilding Valheim start_valheim.sh configuration file" ; tput setaf 9;
     sleep 1
@@ -1081,50 +1082,7 @@ EOF
    sudo systemctl restart valheimserver.service
    echo ""
 }
-#####Build input from user here later. Take 1 or 0 from user and apply to config. Until then... Two functions lol
-function write_public_on_config_and_restart() {
-    tput setaf 1; echo "Rebuilding Valheim start_valheim.sh configuration file" ; tput setaf 9;
-    sleep 1
-    cat > ${valheimInstallPath}/start_valheim.sh <<EOF
-#!/bin/bash
-export templdpath=\$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
-export SteamAppId=892970
-# Tip: Make a local copy of this script to avoid it being overwritten by steam.
-# NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "1"
-export LD_LIBRARY_PATH=\$templdpath
-EOF
-   echo "Setting Ownership to steam user and execute permissions on " ${valheimInstallPath}/start_valheim.sh
-   chown steam:steam ${valheimInstallPath}/start_valheim.sh
-   chmod +x ${valheimInstallPath}/start_valheim.sh
-   echo "done"
-   echo "Restarting Valheim Server Service"
-   sudo systemctl restart valheimserver.service
-   echo ""
-}
-function write_public_off_config_and_restart() {
-    tput setaf 1; echo "Rebuilding Valheim start_valheim.sh configuration file" ; tput setaf 9;
-    sleep 1
-    cat > ${valheimInstallPath}/start_valheim.sh <<EOF
-#!/bin/bash
-export templdpath=\$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
-export SteamAppId=892970
-# Tip: Make a local copy of this script to avoid it being overwritten by steam.
-# NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setPublicOnOff}"
-export LD_LIBRARY_PATH=\$templdpath
-EOF
-   echo "Setting Ownership to steam user and execute permissions on " ${valheimInstallPath}/start_valheim.sh
-   chown steam:steam ${valheimInstallPath}/start_valheim.sh
-   chmod +x ${valheimInstallPath}/start_valheim.sh
-   echo "done"
-   echo "Restarting Valheim Server Service"
-   sudo systemctl restart valheimserver.service
-   ec
-   ho ""
-}
+
 function write_public_on_config_and_restart() {
     get_current_config
     print_current_config
@@ -1273,16 +1231,14 @@ function change_server_access_password() {
 
 function write_public_on_config_and_restart() {
     get_current_config
-    print_current_config
     set_config_defaults
-    setPublicOnOff=1
+    setCurrentPublicSet=1
     write_config_and_restart
 }
 function write_public_off_config_and_restart() {
     get_current_config
-    print_current_config
     set_config_defaults
-    setPublicOnOff=0
+    setCurrentPublicSet=0
     write_config_and_restart
 }
 
