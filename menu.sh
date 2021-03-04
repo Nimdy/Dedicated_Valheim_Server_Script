@@ -1113,7 +1113,7 @@ export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "0"
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setPublicOnOff}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
    echo "Setting Ownership to steam user and execute permissions on " ${valheimInstallPath}/start_valheim.sh
@@ -1270,6 +1270,24 @@ function change_server_access_password() {
         clear
     fi
 }
+
+function write_public_on_config_and_restart() {
+    get_current_config
+    print_current_config
+    set_config_defaults
+    setPublicOnOff=1
+    write_config_and_restart
+}
+function write_public_off_config_and_restart() {
+    get_current_config
+    print_current_config
+    set_config_defaults
+    setPublicOnOff=0
+    write_config_and_restart
+}
+
+
+
 
 function display_full_config() {
     get_current_config
