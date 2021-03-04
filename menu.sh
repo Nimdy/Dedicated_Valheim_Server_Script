@@ -124,7 +124,7 @@ ARGS=( "$@" )
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name @{upstream})
 
-script_check_update() {
+function script_check_update() {
 #Look I know this is not pretty like Loki's face but it works!
     git fetch
       [ -n "$(git diff --name-only "$UPSTREAM" "$SCRIPTFILE")" ] && {
@@ -153,7 +153,7 @@ script_check_update() {
 ########################Install Valheim Server##########################
 ########################################################################
 
-valheim_server_install() {
+function valheim_server_install() {
     clear
     echo ""
     echo -ne "
@@ -459,7 +459,7 @@ fi
 ########################################################################
 ###################Backup World DB and FWL Files########################
 ########################################################################
-backup_world_data() {
+function backup_world_data() {
     echo ""
     echo ""
     #read user input confirmation
@@ -508,7 +508,7 @@ backup_world_data() {
 ##################Restore World Files DB and FWL########################
 ########################################################################
 # Thanks to GITHUB @LachlanMac and @Kurt
-restore_world_data() {
+function restore_world_data() {
 #init empty array
     declare -a backups
 #loop through backups and put in array
@@ -563,10 +563,11 @@ else
         tput setaf 2; echo "Canceling restore process because Loki sucks" ; tput setaf 9;
 fi
 }
+
 ########################################################################
 #############Install Official Update of Valheim Updates#################
 ########################################################################
-continue_with_valheim_update_install() {
+function continue_with_valheim_update_install() {
     clear
     echo ""
     echo -ne "
@@ -614,7 +615,7 @@ fi
 #     echo ""
 #}
 
-check_apply_server_updates_beta() {
+function check_apply_server_updates_beta() {
     echo ""
     echo "Downloading Official Valheim Repo Log Data for comparison only"
       [ ! -d /opt/valheimtemp ] && mkdir -p /opt/valheimtemp
@@ -668,7 +669,7 @@ done
 ########################################################################
 ###############Display Valheim Start Configuration######################
 ########################################################################
-display_start_valheim() {
+function display_start_valheim() {
     clear
     echo ""
     sudo cat ${valheimInstallPath}/start_valheim.sh
@@ -677,7 +678,7 @@ display_start_valheim() {
 ########################################################################
 ###############Display Valheim World Data Folder########################
 ########################################################################
-display_world_data_folder() {
+function display_world_data_folder() {
     clear
     echo ""
     sudo ls -lisa $worldpath
@@ -686,7 +687,7 @@ display_world_data_folder() {
 ########################################################################
 ######################Stop Valheim Server Service#######################
 ########################################################################
-stop_valheim_server() {
+function stop_valheim_server() {
     clear
     echo ""
     echo -ne "
@@ -714,7 +715,7 @@ fi
 ########################################################################
 ###################Start Valheim Server Service#########################
 ########################################################################
-start_valheim_server() {
+function start_valheim_server() {
     clear
     echo ""
     echo -ne "
@@ -742,7 +743,7 @@ fi
 ########################################################################
 ####################Restart Valheim Server Service######################
 ########################################################################
-restart_valheim_server() {
+function restart_valheim_server() {
     clear
     echo ""
     echo -ne "
@@ -769,7 +770,7 @@ fi
 ########################################################################
 #####################Display Valheim Server Status######################
 ########################################################################
-display_valheim_server_status() {
+function display_valheim_server_status() {
     clear
     echo ""
     sudo systemctl status --no-pager -l valheimserver.service
@@ -778,7 +779,7 @@ display_valheim_server_status() {
 ########################################################################
 ##############Display Valheim Vanilla Configuration File################
 ########################################################################
-display_start_valheim() {
+function display_start_valheim() {
     clear
     echo ""
     sudo cat ${valheimInstallPath}/start_valheim.sh
@@ -787,7 +788,7 @@ display_start_valheim() {
 ########################################################################
 #######################Sub Server Menu System###########################
 ########################################################################
-server_install_menu() {
+function server_install_menu() {
 echo ""
 echo -ne "
 
@@ -806,7 +807,7 @@ $(ColorPurple 'Choose an option:') "
 ########################################################################
 #########################Print System INFOS#############################
 ########################################################################
-display_system_info() {
+function display_system_info() {
 clear
 echo ""
     echo -e "-------------------------------System Information----------------------------"
@@ -835,7 +836,7 @@ echo ""
 ########################################################################
 #############################PRINT NETWORK INFO#########################
 ########################################################################
-display_network_info() {
+function display_network_info() {
 clear
     echo ""
     sudo netstat -atunp | grep valheim
@@ -844,7 +845,7 @@ clear
 ########################################################################
 ################Display History of Connected Players####################
 ########################################################################
-display_player_history() {
+function display_player_history() {
 clear
     echo ""
     sudo grep ZDOID /var/log/syslog*
@@ -853,7 +854,7 @@ clear
 ########################################################################
 #####################Sub Tech Support Menu System#######################
 ########################################################################
-tech_support(){
+function tech_support(){
 echo ""
 echo -ne "
 $(ColorOrange '--------------------Valheim Tech Support--------------------')
@@ -920,28 +921,28 @@ $(ColorPurple 'Choose an option:') "
 ########################################################################
 #######################START VALHEIM MOD SECTION########################
 ########################################################################
-install_mod_valheim() {
+function install_mod_valheim() {
 clear
     echo ""
     echo "Install Valheim Mods"
     echo "Coming Soon"
     echo ""
 }
-remove_mod_valheim() {
+function remove_mod_valheim() {
 clear
     echo ""
     echo "Remove Valheim Mods"
     echo "Coming Soon"
     echo ""
 }
-update_valheim_mods() {
+function update_valheim_mods() {
 clear
     echo ""
     echo "Update Valheim Mods"
     echo "Coming Soon"
     echo ""
 }
-valheim_mod_options() {
+function valheim_mod_options() {
 clear
     echo ""
     echo "Valheim Mod Options"
@@ -951,28 +952,28 @@ clear
 ########################################################################
 ######################START MOD SECTION AREAS###########################
 ########################################################################
-server_mods() {
+function server_mods() {
     clear
     echo ""
     echo "Server Related Mods"
     echo "Coming Soon"
     echo ""
 }
-player_mods() {
+function player_mods() {
     clear
     echo ""
     echo "Player Related Mods"
     echo "Coming Soon"
     echo ""
 }
-building_mods() {
+function building_mods() {
     clear
     echo ""
     echo "Building Related Mods"
     echo "Coming Soon"
     echo ""
 }
-other_mods() {
+function other_mods() {
     clear
     echo ""
     echo "Other Related Mods"
@@ -982,7 +983,7 @@ other_mods() {
 ########################################################################
 ######################END MOD SECTION AREAS###########################
 ########################################################################
-valheim_mods_options(){
+function valheim_mods_options(){
 echo ""
 echo -ne "
 $(ColorRed '-------NOT ADDED YET BUILDING FRAME WORK---------')
@@ -1006,7 +1007,7 @@ $(ColorPurple 'Choose an option:') "
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; valheim_mods_options ;;
         esac
 }
-mods_menu(){
+function mods_menu(){
 echo ""
 echo -ne "
 $(ColorCyan '---------------Valheim Mod Install Remove Update---------------')
@@ -1035,14 +1036,15 @@ $(ColorPurple 'Choose an option:') "
 ########################################################################
 ##################START CHANGE VALHEIM START CONFIG#####################
 ########################################################################
-get_current_config() {
+function get_current_config() {
     currentDisplayName=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
     currentPort=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
     currentWorldName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
     currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
     currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
 }
-print_current_config() {
+
+function print_current_config() {
     clear
     echo "Current Public Server Name:-------------> $(tput setaf 2)${currentDisplayName} $(tput setaf 9) "
     echo "Current Port Information(default:2456):-> $(tput setaf 2)${currentPort} $(tput setaf 9) "
@@ -1050,7 +1052,8 @@ print_current_config() {
     echo "Current Server Access Password:---------> $(tput setaf 2)${currentPassword} $(tput setaf 9) "
     echo "Current Public Option is:---------------> $(tput setaf 2)${currentPublicSet}  $(tput setaf 9)          0 Is OFF or LAN Parties - 1  ON for Public Listing"
 }
-set_config_defaults() {
+
+function set_config_defaults() {
     #assign current varibles to set variables
     #if no are changes are made set variables will write to new config file anyways. No harm done
     #if changes are made set variables are updated with new data and will be wrote to new config file
@@ -1060,7 +1063,7 @@ set_config_defaults() {
     setCurrentPassword=$currentPassword
     setCurrentPublicSet=$currentPublicSet
 }
-write_config_and_restart() {
+function write_config_and_restart() {
     tput setaf 1; echo "Rebuilding Valheim start_valheim.sh configuration file" ; tput setaf 9;
     sleep 1
     cat > ${valheimInstallPath}/start_valheim.sh <<EOF
@@ -1082,7 +1085,7 @@ EOF
    echo ""
 }
 #####Build input from user here later. Take 1 or 0 from user and apply to config. Until then... Two functions lol
-write_public_on_config_and_restart() {
+function write_public_on_config_and_restart() {
     tput setaf 1; echo "Rebuilding Valheim start_valheim.sh configuration file" ; tput setaf 9;
     sleep 1
     cat > ${valheimInstallPath}/start_valheim.sh <<EOF
@@ -1103,7 +1106,7 @@ EOF
    sudo systemctl restart valheimserver.service
    echo ""
 }
-write_public_off_config_and_restart() {
+function write_public_off_config_and_restart() {
     tput setaf 1; echo "Rebuilding Valheim start_valheim.sh configuration file" ; tput setaf 9;
     sleep 1
     cat > ${valheimInstallPath}/start_valheim.sh <<EOF
@@ -1125,21 +1128,21 @@ EOF
    ec
    ho ""
 }
-write_public_on_config_and_restart() {
+function write_public_on_config_and_restart() {
     get_current_config
     print_current_config
     set_config_defaults
     write_public_on_config_and_restart
 }
 
-write_public_off_config_and_restart() {
+function write_public_off_config_and_restart() {
     get_current_config
     print_current_config
     set_config_defaults
     write_config_and_restart
 }
 
-change_public_display_name() {
+function change_public_display_name() {
     get_current_config
     print_current_config
     set_config_defaults
@@ -1176,7 +1179,7 @@ change_public_display_name() {
     fi
 }
     
-change_default_server_port() {
+function change_default_server_port() {
     get_current_config
     print_current_config
     set_config_defaults
@@ -1216,7 +1219,7 @@ change_default_server_port() {
     fi
 }
 
-change_local_world_name() {
+function change_local_world_name() {
     echo ""
     echo "Not sure if I should allow people to do this"
     echo "Follow the wiki, if you feel the need to change your world name"
@@ -1226,7 +1229,7 @@ change_local_world_name() {
     echo ""
 }
 
-change_server_access_password() {
+function change_server_access_password() {
     get_current_config
     print_current_config
     set_config_defaults
@@ -1271,11 +1274,11 @@ change_server_access_password() {
     fi
 }
 
-display_full_config() {
+function display_full_config() {
     get_current_config
     print_current_config
 }
-admin_valheim_config_edit(){
+function admin_valheim_config_edit(){
 echo ""
 echo -ne "
 $(ColorOrange '------------Change Valheim Startup Config File--------------')
@@ -1314,7 +1317,7 @@ $(ColorPurple 'Choose an option:') "
 ########################################################################
 # Check Current Valheim REPO Build for menu display
 
-check_official_valheim_release_build() {
+function check_official_valheim_release_build() {
     if [[ -e "/home/steam/steamcmd" ]] ; then
     currentOfficialRepo=$(/home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4) 
         echo $currentOfficialRepo
@@ -1324,7 +1327,7 @@ check_official_valheim_release_build() {
 }
 
 # Check Local Valheim Build for menu display
-check_local_valheim_build() {
+function check_local_valheim_build() {
 localValheimAppmanifest=${valheimInstallPath}/steamapps/appmanifest_896660.acf
    if [[ -e $localValheimAppmanifest ]] ; then
     localValheimBuild=$(grep buildid ${localValheimAppmanifest} | cut -d'"' -f4)
@@ -1334,12 +1337,12 @@ localValheimAppmanifest=${valheimInstallPath}/steamapps/appmanifest_896660.acf
   fi
 }
 
-check_menu_script_repo() {
+function check_menu_script_repo() {
 latestScript=$(curl -s https://api.github.com/repos/Nimdy/Dedicated_Valheim_Server_Script/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
 echo $latestScript
 }
 
-display_public_status_on_or_off() {
+function display_public_status_on_or_off() {
 
 if [ $currentPublicSet = "1" ]; then 
 echo "On"
@@ -1348,12 +1351,12 @@ echo "Off"
 fi
 }
 
-display_public_IP() {
+function display_public_IP() {
 publicIP=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}')
 echo $publicIP
 }
 
-display_local_IP() {
+function display_local_IP() {
 localIP=$(hostname -I | cut -d' ' -f1)
 echo $localIP
 
@@ -1380,7 +1383,7 @@ $(ColorOrange '║') Your Public IP:" $(display_public_IP)
 echo -ne "
 $(ColorOrange '║') Your Local IP:" $(display_local_IP)
 echo -ne "
-$(ColorOrange '║') Your Server Port:" ${currentPort}
+$(ColorOrange '║') Your Server Port:" $(currentPort)
 echo -ne "
 $(ColorOrange '║') Public Listing:" display_public_status_on_or_off
 echo -ne "
