@@ -222,7 +222,7 @@ echo ""
     echo "A printout of data entered will be displayed to you"
     echo ""
     echo "A non-root account will be created to run Valheim Server"
-    echo "This account is named steam"
+    echo "This account is named steam and will act as a service account only"
     while true; do
       tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
       tput setaf 2; echo "----------------NONROOT STEAM ACCOUNT PASSWORD--------------" ; tput setaf 9;
