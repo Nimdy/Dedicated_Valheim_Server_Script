@@ -1156,13 +1156,13 @@ function valheim_mods_options(){
 echo ""
 menu_header_vplus_enable
 echo -ne "
-$(ColorRed '-------NOT ADDED YET BUILDING FRAME WORK---------')
-$(ColorCyan '---------------------Valheim+ Mod Menu----------------------')
+$(ColorRed '--------NOT ADDED YET BUILDING FRAME WORK--------')
+$(ColorCyan '--------------Valheim+ Mod Menu-----------------')
 $(ColorCyan '-')$(ColorGreen ' 1)') Server Mods
 $(ColorCyan '-')$(ColorGreen ' 2)') Player Mods
 $(ColorCyan '-')$(ColorGreen ' 3)') Building Mods
 $(ColorCyan '-')$(ColorGreen ' 4)') Other Mods
-$(ColorCyan '------------------------------------------------------------')
+$(ColorCyan '------------------------------------------------')
 $(ColorCyan '-')$(ColorGreen ' 0)') Go to Valheim Mod Main Menu
 $(ColorCyan '-')$(ColorGreen ' 00)') Go to Main Menu
 $(ColorPurple 'Choose an option:') "
@@ -1181,9 +1181,9 @@ function mods_menu(){
 echo ""
 menu_header_vplus_enable
 echo -ne "
-$(ColorCyan '---------------Valheim+ Mod Install Remove Update---------------')
+$(ColorCyan '-------Valheim+ Mod Install Remove Update-------')
 $(ColorCyan '-')$(ColorGreen ' 1)') Install Valheim Mods 
-$(ColorCyan '------------------------------------------------------------')
+$(ColorCyan '------------------------------------------------')
 $(ColorCyan '-')$(ColorGreen ' 2)') Enable Valheim+ on Server
 $(ColorCyan '-')$(ColorGreen ' 3)') Disable Valheim+ on Server
 $(ColorCyan '-')$(ColorGreen ' 4)') Start Valheim+ Service 
@@ -1191,11 +1191,11 @@ $(ColorCyan '-')$(ColorGreen ' 5)') Stop Valheim+ Service
 $(ColorCyan '-')$(ColorGreen ' 6)') Restart Valheim+ Service
 $(ColorCyan '-')$(ColorGreen ' 7)') Status Valheim+ Service 
 $(ColorCyan '-')$(ColorGreen ' 8)') Update Valheim+ File System
-$(ColorCyan '---------------------Valheim+ Mod Menu----------------------')
+$(ColorCyan '--------------Valheim+ Mod Menu-----------------')
 $(ColorCyan '-')$(ColorGreen ' 9)') Valheim+ Mods Options
-$(ColorCyan '------------------------------------------------------------')
+$(ColorCyan '------------------------------------------------')
 $(ColorCyan '-')$(ColorGreen ' 10)') Remove Valheim Mods 
-$(ColorCyan '------------------------------------------------------------')
+$(ColorCyan '------------------------------------------------')
 $(ColorCyan '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorPurple 'Choose an option:') "
         read a
