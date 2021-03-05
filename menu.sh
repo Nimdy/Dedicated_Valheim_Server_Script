@@ -1259,8 +1259,8 @@ $(ColorOrange '-')$(ColorGreen ' 3)') Change Default Server Port
 $(ColorOrange '-')$(ColorGreen ' 4)') Change Local World Name
 $(ColorOrange '-')$(ColorGreen ' 5)') Change Server Access Password
 $(ColorOrange '------------------------------------------------------------')
-$(ColorOrange '-')$(ColorGreen ' 6)') Enable Public Listing 
-$(ColorOrange '-')$(ColorGreen ' 7)') Disable Public Listing 
+$(ColorOrange '-')$(ColorGreen ' 6)') Enable Public Listing (Restarts Valheim without asking)
+$(ColorOrange '-')$(ColorGreen ' 7)') Disable Public Listing (Restarts Valehim without asking)
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Admin Tools Menu
 $(ColorOrange '-')$(ColorGreen ' 00)') Go to Main Menu
