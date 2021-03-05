@@ -1441,19 +1441,19 @@ function admin_valheim_config_edit(){
 echo ""
 menu_header
 echo -ne "
-$(ColorOrange '------------Change Valheim Startup Config File--------------')
+$(ColorOrange '-------Change Valheim Startup Config File-------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Display Current Start Vahleim Config
 $(ColorOrange '-')$(ColorGreen ' 2)') Change Public Display Name
 $(ColorOrange '-')$(ColorGreen ' 3)') Change Default Server Port
 $(ColorOrange '-')$(ColorGreen ' 4)') Change Local World Name
 $(ColorOrange '-')$(ColorGreen ' 5)') Change Server Access Password
-$(ColorOrange '------------------------------------------------------------')
+$(ColorOrange '------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 6)') Enable Public Listing (Restarts Valheim without asking)
 $(ColorOrange '-')$(ColorGreen ' 7)') Disable Public Listing (Restarts Valehim without asking)
-$(ColorOrange '------------------------------------------------------------')
+$(ColorOrange '------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Admin Tools Menu
 $(ColorOrange '-')$(ColorGreen ' 00)') Go to Main Menu
-$(ColorOrange '------------------------------------------------------------')
+$(ColorOrange '------------------------------------------------')
 $(ColorPurple 'Choose an option:') "
         read a
         case $a in
