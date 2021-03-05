@@ -983,7 +983,7 @@ function other_mods() {
 
 function build_start_server_bepinex() {
 
-cat >> /home/steam/serverSetup.txt <<EOF
+cat >> ${valheimInstallPath}/serverSetup.txt <<EOF
 #!/bin/sh
 # BepInEx running script
 #
@@ -1091,7 +1091,6 @@ do
 	;;
 	esac
 done
-
 "${PWD}/${executable_name}" -name "$server_name" -password "$server_password" -port "$server_port" -world "$server_world" -public "$server_public"
 EOF
 }
