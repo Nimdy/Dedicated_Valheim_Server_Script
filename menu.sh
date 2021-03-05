@@ -28,6 +28,11 @@ worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
 backupPath=/home/steam/backups
 ###############################################################
 
+#Required for initial install of Valheim. DONT TOUCH THIS!!
+#Seriously! The menu system will switch this on and off.
+#Dont even look at it... dont even think about making that a 0
+#Set valheim to operate in vanilla mode and not with Valheim+ Mods
+valheimVanilla=1
 # Set Menu Version for menu display
 mversion="2.0-Lofn"
 
@@ -176,9 +181,9 @@ echo ""
     tput setaf 2; echo "Done" ; tput setaf 9;
     sleep 1
     
-#check for updates and upgrade the system auto yes
-    tput setaf 1; echo "Install Git, Locate and Net-Tools" ; tput setaf 9;
-    apt install git mlocate net-tools -y
+#check for updates and upgrade the system auto yes WTF is curl not installed by default... come on man!
+    tput setaf 1; echo "Install Git, Locate, Curl and Net-Tools" ; tput setaf 9;
+    apt install git mlocate net-tools curl -y
     tput setaf 2; echo "Done" ; tput setaf 9;
     sleep 1
     
