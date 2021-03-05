@@ -1394,8 +1394,8 @@ $(ColorPurple 'Choose an option:') "
 		2) admin_tools_menu ; menu ;;
 		3) tech_support ; menu ;;
 		4) server_install_menu ; menu ;;
-		5) admin_valheim_config_edit ; menu ;;	
-	        6) confirm_check_apply_server_updates ; menu ;;
+		5) confirm_check_apply_server_updates ; menu ;;	
+	        6) admin_valheim_config_edit ; menu ;;
 		7) mods_menu ; menu ;;
 		    0) exit 0 ;;
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
