@@ -917,9 +917,9 @@ $(ColorPurple 'Choose an option:') "
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; admin_tools_menu ;;
         esac
 }
-########################################################################
-#######################START VALHEIM MOD SECTION########################
-########################################################################
+#######################################################################################################################################################
+#########################################################START VALHEIM PLUS SECTION####################################################################
+#######################################################################################################################################################
 function install_valheim_plus() {
 clear
     echo ""
@@ -935,7 +935,7 @@ clear
     echo "Setting steam ownership to Directories, Folders and Files"
     chown steam:steam -Rf /home/steam/*
     echo "Building Start Configuration File for Modded Server"
-    build_start_server_bepinex_configuration_file
+    echo ${build_start_server_bepinex_configuration_file}
     echo ""
 }
 function valheim_plus_enable() {
@@ -1154,7 +1154,7 @@ EOF
 ########################################################################
 function valheim_mods_options(){
 echo ""
-menu_header
+menu_header_vplus_enable
 echo -ne "
 $(ColorRed '-------NOT ADDED YET BUILDING FRAME WORK---------')
 $(ColorCyan '---------------------Valheim+ Mod Menu----------------------')
@@ -1179,7 +1179,7 @@ $(ColorPurple 'Choose an option:') "
 }
 function mods_menu(){
 echo ""
-menu_header
+menu_header_vplus_enable
 echo -ne "
 $(ColorCyan '---------------Valheim+ Mod Install Remove Update---------------')
 $(ColorCyan '-')$(ColorGreen ' 1)') Install Valheim Mods 
@@ -1214,9 +1214,9 @@ $(ColorPurple 'Choose an option:') "
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; mods_menu ;;
         esac
 }
-########################################################################
-#######################FINISH VALHEIM MOD SECTION#######################
-########################################################################
+#######################################################################################################################################################
+###############################################################FINISH VALHEIM MOD SECTION##############################################################
+#######################################################################################################################################################
 
 ########################################################################
 ##################START CHANGE VALHEIM START CONFIG#####################
@@ -1558,6 +1558,37 @@ $(ColorOrange '║') Current Menu Release: $(check_menu_script_repo)
 $(ColorOrange '║') Local Installed Menu: ${mversion}
 $(ColorOrange '║') Happy Gaming - ZeroBandwidth
 $(ColorOrange '╚═══════════════════════════════════════════════')"
+}
+
+function menu_header_vplus_enable() {
+get_current_config
+display_public_status_on_or_off
+echo -ne "
+$(ColorPurple '╔═══════════════════════════════════════════════╗')
+$(ColorPurple '║~~~~~~~~~~~~~~~~~~-Njord Menu-~~~~~~~~~~~~~~~~~║')
+$(ColorPurple '╠═══════════════════════════════════════════════╝')
+$(ColorPurple '║ Welcome Viking! Do not forget about your bees')
+$(ColorPurple '║ Visit our discord: https://discord.gg/ejgQUfc')
+$(ColorPurple '║ Beware Loki hides within this script')
+$(ColorPurple '║') 
+$(ColorPurple '║') Valheim Official Build:" $(check_official_valheim_release_build)
+echo -ne "
+$(ColorPurple '║') Valheim Server Build:" $(check_local_valheim_build)
+echo -ne "
+$(ColorPurple '║') Server Name: ${currentDisplayName}
+$(ColorPurple '║') $(are_you_connected)
+$(ColorPurple '║')" $(display_public_IP)
+echo -ne "
+$(ColorPurple '║')" $(display_local_IP)
+echo -ne "
+$(ColorPurple '║') Your Server Port:" ${currentPort}
+echo -ne "
+$(ColorPurple '║') Public Listing:" $publicON $publicOFF
+echo -ne "
+$(ColorPurple '║') Current Menu Release: $(check_menu_script_repo)
+$(ColorPurple '║') Local Installed Menu: ${mversion}
+$(ColorPurple '║') Happy Gaming - ZeroBandwidth
+$(ColorPurple '╚═══════════════════════════════════════════════')"
 }
 
 ########################################################################
