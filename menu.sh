@@ -1564,7 +1564,7 @@ function menu_header_vplus_enable() {
 get_current_config
 display_public_status_on_or_off
 echo -ne "
-$(ColorPurple '╔═══════════════════════════════════════════════╗')
+$(ColorPurple '╔════════════════════Valheim+═══════════════════╗')
 $(ColorPurple '║~~~~~~~~~~~~~~~~~~-Njord Menu-~~~~~~~~~~~~~~~~~║')
 $(ColorPurple '╠═══════════════════════════════════════════════╝')
 $(ColorPurple '║ Welcome Viking! Do not forget about your bees')
