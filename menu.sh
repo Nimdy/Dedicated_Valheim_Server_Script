@@ -1373,6 +1373,7 @@ $(ColorOrange '║') Public Listing:" $publicON $publicOFF
 echo -ne "
 $(ColorOrange '║') Current Menu Release: $(check_menu_script_repo)
 $(ColorOrange '║') Local Installed Menu: ${mversion}
+$(ColorOrange '║') Happy Gaming - ZeroBandwidth
 $(ColorOrange '╚═══════════════════════════════════════════════')"
 }
 
