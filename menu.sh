@@ -467,7 +467,7 @@ function backup_world_data() {
       tput setaf 1; echo "Are you okay with this? (y=Yes, n=No)" ; tput setaf 9;
          read -p "Press y or n:" confirmBackup
          #if y, then continue, else cancel
-         if [ $2 = "-y" ] || [ "$confirmBackup" == "y" ]; then
+         if [ "$confirmBackup" == "y" ]; then
          ## Get the current date as variable.
          TODAY="$(date +%Y-%m-%d-%T)"
 	 tput setaf 5; echo "Checking to see if backup directory is created" ; tput setaf 9;
@@ -1419,7 +1419,7 @@ if [ $# = 0 ]; then
     menu
 else
     case "$1" in
-    start)
+    start -y)
         start_valheim_server
         ;;
     stop)
@@ -1431,7 +1431,7 @@ else
     update)
         check_apply_server_updates_beta
         ;;
-    backup)
+    backup -y)
         backup_world_data
         ;;
     status)
