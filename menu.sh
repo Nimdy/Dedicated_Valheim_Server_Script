@@ -920,7 +920,7 @@ $(ColorPurple 'Choose an option:') "
 ########################################################################
 #######################START VALHEIM MOD SECTION########################
 ########################################################################
-function install_mod_valheim_plus() {
+function install_valheim_plus() {
 clear
     echo ""
     echo "Changing into Valheim Install Directory"
