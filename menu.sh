@@ -1578,8 +1578,8 @@ $(ColorOrange '---------Official Valheim Server Update---------')
 $(ColorOrange '-')$(ColorGreen ' 5)') Check and Apply Valheim Server Update
 $(ColorOrange '-----Edit start_valehim.sh Configuration--------')
 $(ColorOrange '-')$(ColorGreen ' 6)') Display or Edit Valheim Config File
-$(ColorOrange '--------------------Mods Menu-------------------')
-$(ColorOrange '-')$(ColorGreen ' 7)') Coming Soon
+$(ColorOrange '------------------Valheim+ Menu-----------------')
+$(ColorOrange '-')$(ColorGreen ' 7)') Valiheim+
 $(ColorOrange '------------------------------------------------')
 $(ColorGreen ' 0)') Exit
 $(ColorOrange '------------------------------------------------')
