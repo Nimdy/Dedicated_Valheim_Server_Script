@@ -134,15 +134,12 @@ function script_check_update() {
     git fetch
       [ -n "$(git diff --name-only "$UPSTREAM" "$SCRIPTFILE")" ] && {
       echo "BY THORS HAMMER take a peek inside Valhalla!!"
-      sleep 1
         git pull --force
 	git stash
         git checkout "$BRANCH"
         git pull --force
 	echo " Updating"
-      	sleep 1
-	#remove for testing... pathing not required?
-       #cd /opt/Dedicated_Valheim_server_Script/
+      	clear
 	chmod +x menu.sh
         exec "$SCRIPTNAME" "${ARGS[@]}"
 
