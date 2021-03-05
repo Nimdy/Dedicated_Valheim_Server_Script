@@ -465,9 +465,9 @@ function backup_world_data() {
     #read user input confirmation
       tput setaf 1; echo "This will stop and start Valheim Services." ; tput setaf 9;
       tput setaf 1; echo "Are you okay with this? (y=Yes, n=No)" ; tput setaf 9;
-         read -r -p "Press y or n:" confirmBackup
+         read -p "Press y or n:" confirmBackup
          #if y, then continue, else cancel
-         if [ "$confirmBackup" == "y" ]; then
+         if [ "$confirmBackup" == "y" ] || [ $2 = "-y" ] then
          ## Get the current date as variable.
          TODAY="$(date +%Y-%m-%d-%T)"
 	 tput setaf 5; echo "Checking to see if backup directory is created" ; tput setaf 9;
