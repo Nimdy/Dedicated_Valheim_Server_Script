@@ -1340,13 +1340,7 @@ ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"Internet: $tecreset Connec
 
 }
 
-########################################################################
-#######################Display Main Menu System#########################
-########################################################################
-menu(){
-get_current_config
-display_public_status_on_or_off
-#get_current_config
+function menu_header() {
 clear
 echo -ne "
 $(ColorOrange '╔═══════════════════════════════════════════════╗')
@@ -1372,7 +1366,19 @@ $(ColorOrange '║') Public Listing:" $publicON $publicOFF
 echo -ne "
 $(ColorOrange '║') Current Menu Release: $(check_menu_script_repo)
 $(ColorOrange '║') Local Installed Menu: ${mversion}
-$(ColorOrange '╚═══════════════════════════════════════════════')
+$(ColorOrange '╚═══════════════════════════════════════════════')"
+}
+
+########################################################################
+#######################Display Main Menu System#########################
+########################################################################
+menu(){
+get_current_config
+display_public_status_on_or_off
+#get_current_config
+clear
+$(menu_header)
+echo -ne "
 $(ColorOrange '-------------Check for Script Updates-----------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Update Menu Script from GitHub
 $(ColorOrange '--------------Valheim Server Commands-----------')
