@@ -177,8 +177,8 @@ echo ""
     sleep 1
     
 #check for updates and upgrade the system auto yes
-    tput setaf 1; echo "Install Git, Locate and Net-Tools" ; tput setaf 9;
-    apt install git mlocate net-tools -y
+    tput setaf 1; echo "Install Git, Locate, curl and Net-Tools" ; tput setaf 9;
+    apt install git mlocate net-tools curl -y
     tput setaf 2; echo "Done" ; tput setaf 9;
     sleep 1
     
