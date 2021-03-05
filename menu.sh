@@ -1419,7 +1419,7 @@ if [ $# = 0 ]; then
     menu
 else
     case "$1" in
-    start -y)
+    start)
         start_valheim_server
         ;;
     stop)
@@ -1431,7 +1431,7 @@ else
     update)
         check_apply_server_updates_beta
         ;;
-    backup -y)
+    backup)
         backup_world_data
         ;;
     status)
