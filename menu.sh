@@ -920,11 +920,20 @@ $(ColorPurple 'Choose an option:') "
 ########################################################################
 #######################START VALHEIM MOD SECTION########################
 ########################################################################
-function install_mod_valheim() {
+function install_mod_valheim_plus() {
 clear
     echo ""
-    echo "Install Valheim+ Mods"
-    echo "Coming Soon"
+    echo "Changing into Valheim Install Directory"
+    cd ${valheimInstallPath}
+    echo "Downloading Latest Valheim+ UnixServer.zip from Official Github"
+    touch testdrop.txt
+    #wget https://github.com/valheimPlus/ValheimPlus/releases/download/0.9.3/UnixServer.zip
+    echo "Unpacking zip file"
+    #unzip -o -q UnixServer.zip
+    echo "Setting steam ownership to Directories, Folders and Files"
+    chown steam:steam -Rf /home/steam/*
+    echo "Building Start Configuration File for Modded Server"
+    build_start_server_bepinex_configuration_file
     echo ""
 }
 function remove_mod_valheim() {
@@ -981,7 +990,7 @@ function other_mods() {
 }
 
 
-function build_start_server_bepinex() {
+function build_start_server_bepinex_configuration_file() {
 
 cat >> ${valheimInstallPath}/serverSetup.txt <<EOF
 #!/bin/sh
@@ -1139,7 +1148,7 @@ $(ColorCyan '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorPurple 'Choose an option:') "
         read a
         case $a in
-		1) install_mod_valheim ; mods_menu ;;
+		1) install_mod_valheim_plus ; mods_menu ;;
 		2) remove_mod_valheim ; mods_menu ;;
 		3) update_valheim_mods ; mods_menu ;;
 		4) valheim_mods_options ; mods_menu ;;
