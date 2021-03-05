@@ -985,7 +985,10 @@ function valheim_plus_update() {
 clear
     echo "Scripting As Fast as I can"
     echo "Valheim+ Update"
-    echo "Coming Soon"
+    #valheimplus_type=UnixServer.zip
+    #$vplusdl=(curl -s https://api.github.com/valheimPlus/ValheimPlus/releases/latest | jq -r ".assets[] | select(.name | test(\"${valheimplus_type}\")) | .browser_download_url")
+    #wget ${vplusdl}
+    #do stuff duh
     echo ""
 }
 function valheim_mod_options() {
