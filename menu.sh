@@ -1361,10 +1361,10 @@ echo -ne "
 $(ColorOrange '║') Valheim Server Build:" $(check_local_valheim_build)
 echo -ne "
 $(ColorOrange '║') Server Name: ${currentDisplayName}
-$(ColorOrange '║')$(are_you_connected)
-$(ColorOrange '║')"$(display_public_IP)
+$(ColorOrange '║') $(are_you_connected)
+$(ColorOrange '║')" $(display_public_IP)
 echo -ne "
-$(ColorOrange '║')"$(display_local_IP)
+$(ColorOrange '║')" $(display_local_IP)
 echo -ne "
 $(ColorOrange '║') Your Server Port:" ${currentPort}
 echo -ne "
