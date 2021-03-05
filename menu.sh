@@ -855,6 +855,7 @@ clear
 #####################Sub Tech Support Menu System#######################
 ########################################################################
 function tech_support(){
+menu_header
 echo ""
 echo -ne "
 $(ColorOrange '--------------------Valheim Tech Support--------------------')
@@ -884,6 +885,7 @@ $(ColorPurple 'Choose an option:') "
 ########################Sub Admin Menu System###########################
 ########################################################################
 admin_tools_menu(){
+menu_header
 echo ""
 echo -ne "
 $(ColorOrange '---------------Valheim Backup and Restore Tools-------------')
@@ -982,6 +984,7 @@ function other_mods() {
 ########################################################################
 function valheim_mods_options(){
 echo ""
+menu_header
 echo -ne "
 $(ColorRed '-------NOT ADDED YET BUILDING FRAME WORK---------')
 $(ColorCyan '---------------------Valheim Mod Menu----------------------')
@@ -1006,6 +1009,7 @@ $(ColorPurple 'Choose an option:') "
 }
 function mods_menu(){
 echo ""
+menu_header
 echo -ne "
 $(ColorCyan '---------------Valheim Mod Install Remove Update---------------')
 $(ColorCyan '-')$(ColorGreen ' 1)') Install Valheim Mods 
@@ -1251,6 +1255,7 @@ function display_full_config() {
 }
 function admin_valheim_config_edit(){
 echo ""
+menu_header
 echo -ne "
 $(ColorOrange '------------Change Valheim Startup Config File--------------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Display Current Start Vahleim Config
