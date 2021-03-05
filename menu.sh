@@ -935,7 +935,7 @@ clear
     echo "Setting steam ownership to Directories, Folders and Files"
     chown steam:steam -Rf /home/steam/*
     echo "Building Start Configuration File for Modded Server"
-    echo ${build_start_server_bepinex_configuration_file}
+    echo $build_start_server_bepinex_configuration_file
     echo ""
 }
 function valheim_plus_enable() {
