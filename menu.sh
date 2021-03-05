@@ -1413,5 +1413,19 @@ $(ColorPurple 'Choose an option:') "
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
         esac
 }
-# Call the menu function
-menu
+# Call the menu function or the shortcut called in arg
+if [ $# = 0 ]; then
+    menu
+else
+    case "$1" in
+    start)   start_valheim_server ;;
+    stop)    stop_valheim_server  ;;
+    restart) restart_valheim_server ;;
+    update)  check_apply_server_updates_beta ;;
+    backup)  backup_world_data ;;
+    status)  display_valheim_server_status ;;
+    *)
+        menu
+        ;;
+    esac
+fi 
