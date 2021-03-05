@@ -925,6 +925,8 @@ clear
     echo ""
     echo "Changing into Valheim Install Directory"
     cd ${valheimInstallPath}
+    echo "Checking for older Valheim+ Package files and removing"
+    [ ! -e $UnixServer.zip ] && rm UnixServer.zip
     echo "Downloading Latest Valheim+ UnixServer.zip from Official Github"
     touch testdrop.txt
     #wget https://github.com/valheimPlus/ValheimPlus/releases/download/0.9.3/UnixServer.zip
@@ -936,24 +938,66 @@ clear
     build_start_server_bepinex_configuration_file
     echo ""
 }
-function remove_mod_valheim() {
+function valheim_plus_enable() {
 clear
     echo ""
-    echo "Remove Valheim+ Mods"
+    echo "Valheim+ Enable"
     echo "Coming Soon"
     echo ""
 }
-function update_valheim_mods() {
+function valheim_plus_disable() {
 clear
     echo ""
-    echo "Update Valheim+ Mods"
+    echo "Valheim+ Disable"
+    echo "Coming Soon"
+    echo ""
+}
+function valheim_plus_start() {
+clear
+    echo ""
+    echo "Valheim+ Starting"
+    echo "Coming Soon"
+    echo ""
+}
+function valheim_plus_stop() {
+clear
+    echo ""
+    echo "Valheim+ Stopping"
+    echo "Coming Soon"
+    echo ""
+}
+function valheim_plus_restart() {
+clear
+    echo ""
+    echo "Valheim+ Restarting"
+    echo "Coming Soon"
+    echo ""
+}
+function valheim_plus_status() {
+clear
+    echo "Scripting As Fast as I can"
+    echo "Valheim+ Status"
+    echo "Coming Soon"
+    echo ""
+}
+function valheim_plus_update() {
+clear
+    echo "Scripting As Fast as I can"
+    echo "Valheim+ Update"
     echo "Coming Soon"
     echo ""
 }
 function valheim_mod_options() {
 clear
-    echo ""
+    echo "Scripting As Fast as I can"
     echo "Valheim+ Mod Options"
+    echo "Coming Soon"
+    echo ""
+}
+function remove_mod_valheim() {
+clear
+    echo ""
+    echo "Deleting Valheim+ Mods from server"
     echo "Coming Soon"
     echo ""
 }
@@ -962,28 +1006,28 @@ clear
 ########################################################################
 function server_mods() {
     clear
-    echo ""
+    echo "Scripting As Fast as I can"
     echo "Server Related Mods"
     echo "Coming Soon"
     echo ""
 }
 function player_mods() {
     clear
-    echo ""
+    echo "Scripting As Fast as I can"
     echo "Player Related Mods"
     echo "Coming Soon"
     echo ""
 }
 function building_mods() {
     clear
-    echo ""
+    echo "Scripting As Fast as I can"
     echo "Building Related Mods"
     echo "Coming Soon"
     echo ""
 }
 function other_mods() {
     clear
-    echo ""
+    echo "Scripting As Fast as I can"
     echo "Other Related Mods"
     echo "Coming Soon"
     echo ""
@@ -1139,19 +1183,33 @@ menu_header
 echo -ne "
 $(ColorCyan '---------------Valheim+ Mod Install Remove Update---------------')
 $(ColorCyan '-')$(ColorGreen ' 1)') Install Valheim Mods 
-$(ColorCyan '-')$(ColorGreen ' 2)') Remove Valheim Mods 
-$(ColorCyan '-')$(ColorGreen ' 3)') Update Valheim Mods 
+$(ColorCyan '------------------------------------------------------------')
+$(ColorCyan '-')$(ColorGreen ' 2)') Enable Valheim+ on Server
+$(ColorCyan '-')$(ColorGreen ' 3)') Disable Valheim+ on Server
+$(ColorCyan '-')$(ColorGreen ' 4)') Start Valheim+ Service 
+$(ColorCyan '-')$(ColorGreen ' 5)') Stop Valheim+ Service
+$(ColorCyan '-')$(ColorGreen ' 6)') Restart Valheim+ Service
+$(ColorCyan '-')$(ColorGreen ' 7)') Status Valheim+ Service 
+$(ColorCyan '-')$(ColorGreen ' 8)') Update Valheim+ File System
 $(ColorCyan '---------------------Valheim+ Mod Menu----------------------')
-$(ColorCyan '-')$(ColorGreen ' 4)') Valheim+ Mods Options
+$(ColorCyan '-')$(ColorGreen ' 9)') Valheim+ Mods Options
+$(ColorCyan '------------------------------------------------------------')
+$(ColorCyan '-')$(ColorGreen ' 10)') Remove Valheim Mods 
 $(ColorCyan '------------------------------------------------------------')
 $(ColorCyan '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorPurple 'Choose an option:') "
         read a
         case $a in
-		1) install_mod_valheim_plus ; mods_menu ;;
-		2) remove_mod_valheim ; mods_menu ;;
-		3) update_valheim_mods ; mods_menu ;;
-		4) valheim_mods_options ; mods_menu ;;
+		1) install_valheim_plus ; mods_menu ;;
+		2) valheim_plus_enable ; mods_menu ;;
+		3) valheim_plus_disble ; mods_menu ;;
+		4) valheim_plus_start ; mods_menu ;;
+		5) valheim_plus_stop ; mods_menu ;;
+		6) valheim_plus_restart ; mods_menu ;;
+		7) valheim_plus_status ; mods_menu ;;
+		8) valheim_plus_update ; mods_menu ;;
+		9) valheim_mods_options ; mods_menu ;;
+		10) remove_mod_valheim ; mods_menu ;;
 		   0) menu ; menu ;;
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; mods_menu ;;
         esac
