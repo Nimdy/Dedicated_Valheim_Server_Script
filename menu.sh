@@ -1321,7 +1321,7 @@ echo $latestScript
 
 function display_public_status_on_or_off() {
 get_current_config
-    if [ $currentPublicSet = "1" ]; then 
+    if [ $currentPublicSet == "1" ]; then 
       publicON=$(echo "On")
     else
       publicOFF=$(echo "Off")
