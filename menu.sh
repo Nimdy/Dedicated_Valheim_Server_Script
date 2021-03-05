@@ -924,7 +924,8 @@ function install_valheim_plus() {
 clear
     echo ""
     echo "Changing into Valheim Install Directory"
-    cd ${valheimInstallPath}
+    cd $valheimInstallPath
+    pwd
     echo "Checking for older Valheim+ Package files and removing"
     [ ! -e $UnixServer.zip ] && rm UnixServer.zip
     echo "Downloading Latest Valheim+ UnixServer.zip from Official Github"
