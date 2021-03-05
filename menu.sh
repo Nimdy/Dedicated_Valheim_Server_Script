@@ -1342,6 +1342,8 @@ ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"Internet: $tecreset Connec
 
 function menu_header() {
 clear
+get_current_config
+display_public_status_on_or_off
 echo -ne "
 $(ColorOrange '╔═══════════════════════════════════════════════╗')
 $(ColorOrange '║~~~~~~~~~~~~~~~~~~-Njord Menu-~~~~~~~~~~~~~~~~~║')
@@ -1373,8 +1375,6 @@ $(ColorOrange '╚════════════════════�
 #######################Display Main Menu System#########################
 ########################################################################
 menu(){
-get_current_config
-display_public_status_on_or_off
 #get_current_config
 clear
 $(menu_header)
