@@ -661,7 +661,7 @@ echo -ne "
 $(ColorRed '------------------------------------------------------------')"
     case $yn in
         [Yy]* ) check_apply_server_updates_beta; break;;
-        [Nn]* ) exit;;
+        [Nn]* ) break;;
         * ) echo "Please answer yes or no.";;
     esac
 done
