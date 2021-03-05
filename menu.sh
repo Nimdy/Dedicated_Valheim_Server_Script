@@ -925,6 +925,61 @@ $(ColorPurple 'Choose an option:') "
 #######################################################################################################################################################
 #########################################################START VALHEIM PLUS SECTION####################################################################
 #######################################################################################################################################################
+
+
+function enable_valheim_server_for_valheim_plus_operations() {
+
+#build systemctl configurations for execution of processes for Valheim Server
+tput setaf 1; echo "Deleting old configuration if file exist" ; tput setaf 9; 
+tput setaf 1; echo "Building systemctl instructions for Valheim" ; tput setaf 9; 
+# remove old Valheim Server Service
+[ -e /etc/systemd/system/valheimserver.service ] && rm /etc/systemd/system/valheimserver.service
+# remove past Valheim Server Service
+[ -e /lib/systemd/system/valheimserver.service ] && rm /lib/systemd/system/valheimserver.service
+sleep 1
+# Add new Valheim Server Service
+# Thanks @QuadeHale
+cat >> /lib/systemd/system/valheimserver.service <<EOF
+[Unit]
+Description=Valheim Server
+Wants=network-online.target
+After=syslog.target network.target nss-lookup.target network-online.target
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+StartLimitInterval=60s
+StartLimitBurst=3
+User=steam
+Group=steam
+ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
+EOF
+if [ $valheimVanilla == 1]; then
+   {
+   echo 'ExecStart=${valheimInstallPath}/start_valheim.sh'
+   echo 'ExecStart=${valheimInstallPath}/start_game_bepinex.sh' 
+   echo 'ExecReload=/bin/kill -s HUP \$MAINPID'
+   echo 'KillSignal=SIGINT'
+   echo 'WorkingDirectory=${valheimInstallPath}'
+   echo 'LimitNOFILE=100000'
+   echo '[Install]'
+   echo 'WantedBy=multi-user.target'
+   } >> start_game_bepinex.sh
+else 
+   {
+   echo 'ExecStart=${valheimInstallPath}/start_game_bepinex.sh' >> lib/systemd/system/valheimserver.service
+   echo 'ExecReload=/bin/kill -s HUP \$MAINPID'
+   echo 'KillSignal=SIGINT'
+   echo 'WorkingDirectory=${valheimInstallPath}'
+   echo 'LimitNOFILE=100000'
+   echo '[Install]'
+   echo 'WantedBy=multi-user.target'
+   } >> start_game_bepinex.sh
+fi
+tput setaf 2; echo "Done" ; tput setaf 9;
+sleep 1
+}
+
 function install_valheim_plus() {
 clear
     echo ""
