@@ -1378,8 +1378,12 @@ $(ColorOrange '--------------Valheim Server Commands-----------')
 $(ColorOrange '-')$(ColorGreen ' 2)') Server Admin Tools 
 $(ColorOrange '-')$(ColorGreen ' 3)') Tech Support Tools
 $(ColorOrange '-')$(ColorGreen ' 4)') Install Valheim Server
+$(ColorOrange '---------Official Valheim Server Update---------')
+$(ColorOrange '-')$(ColorGreen ' 5)') Check and Apply Valheim Server Update
+$(ColorOrange '-----Edit start_valehim.sh Configuration--------')
+$(ColorOrange '-')$(ColorGreen ' 6)') Display or Edit Valheim Config File
 $(ColorOrange '--------------------Mods Menu-------------------')
-$(ColorOrange '-')$(ColorGreen ' 5)') Coming Soon
+$(ColorOrange '-')$(ColorGreen ' 7)') Coming Soon
 $(ColorOrange '------------------------------------------------')
 $(ColorGreen ' 0)') Exit
 $(ColorOrange '------------------------------------------------')
@@ -1390,7 +1394,9 @@ $(ColorPurple 'Choose an option:') "
 		2) admin_tools_menu ; menu ;;
 		3) tech_support ; menu ;;
 		4) server_install_menu ; menu ;;
-		5) mods_menu ; menu ;;
+		5) admin_valheim_config_edit ; menu ;;	
+	        6) confirm_check_apply_server_updates ; menu ;;
+		7) mods_menu ; menu ;;
 		    0) exit 0 ;;
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
         esac
