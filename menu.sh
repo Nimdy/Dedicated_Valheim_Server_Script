@@ -923,28 +923,28 @@ $(ColorPurple 'Choose an option:') "
 function install_mod_valheim() {
 clear
     echo ""
-    echo "Install Valheim Mods"
+    echo "Install Valheim+ Mods"
     echo "Coming Soon"
     echo ""
 }
 function remove_mod_valheim() {
 clear
     echo ""
-    echo "Remove Valheim Mods"
+    echo "Remove Valheim+ Mods"
     echo "Coming Soon"
     echo ""
 }
 function update_valheim_mods() {
 clear
     echo ""
-    echo "Update Valheim Mods"
+    echo "Update Valheim+ Mods"
     echo "Coming Soon"
     echo ""
 }
 function valheim_mod_options() {
 clear
     echo ""
-    echo "Valheim Mod Options"
+    echo "Valheim+ Mod Options"
     echo "Coming Soon"
     echo ""
 }
@@ -987,7 +987,7 @@ echo ""
 menu_header
 echo -ne "
 $(ColorRed '-------NOT ADDED YET BUILDING FRAME WORK---------')
-$(ColorCyan '---------------------Valheim Mod Menu----------------------')
+$(ColorCyan '---------------------Valheim+ Mod Menu----------------------')
 $(ColorCyan '-')$(ColorGreen ' 1)') Server Mods
 $(ColorCyan '-')$(ColorGreen ' 2)') Player Mods
 $(ColorCyan '-')$(ColorGreen ' 3)') Building Mods
@@ -1011,12 +1011,12 @@ function mods_menu(){
 echo ""
 menu_header
 echo -ne "
-$(ColorCyan '---------------Valheim Mod Install Remove Update---------------')
+$(ColorCyan '---------------Valheim+ Mod Install Remove Update---------------')
 $(ColorCyan '-')$(ColorGreen ' 1)') Install Valheim Mods 
 $(ColorCyan '-')$(ColorGreen ' 2)') Remove Valheim Mods 
 $(ColorCyan '-')$(ColorGreen ' 3)') Update Valheim Mods 
-$(ColorCyan '---------------------Valheim Mod Menu----------------------')
-$(ColorCyan '-')$(ColorGreen ' 4)') Valheim Mods Options
+$(ColorCyan '---------------------Valheim+ Mod Menu----------------------')
+$(ColorCyan '-')$(ColorGreen ' 4)') Valheim+ Mods Options
 $(ColorCyan '------------------------------------------------------------')
 $(ColorCyan '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorPurple 'Choose an option:') "
