@@ -29,7 +29,7 @@ backupPath=/home/steam/backups
 ###############################################################
 
 # Set Menu Version for menu display
-mversion="1.9-Fenrir"
+mversion="1.9.1-Fenrir"
 
 ##
 # Update Menu script 
@@ -1418,24 +1418,12 @@ if [ $# = 0 ]; then
     menu
 else
     case "$1" in
-    start)
-        start_valheim_server
-        ;;
-    stop)
-        stop_valheim_server
-        ;;
-    restart)
-        restart_valheim_server
-        ;;
-    update)
-        check_apply_server_updates_beta
-        ;;
-    backup)
-        backup_world_data
-        ;;
-    status)
-        display_valheim_server_status
-        ;;
+    start)   start_valheim_server ;;
+    stop)    stop_valheim_server  ;;
+    restart) restart_valheim_server ;;
+    update)  check_apply_server_updates_beta ;;
+    backup)  backup_world_data ;;
+    status)  display_valheim_server_status ;;
     *)
         menu
         ;;
