@@ -1377,7 +1377,7 @@ $(ColorOrange '╚════════════════════�
 menu(){
 #get_current_config
 clear
-$(menu_header)
+${menu_header}
 echo -ne "
 $(ColorOrange '-------------Check for Script Updates-----------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Update Menu Script from GitHub
