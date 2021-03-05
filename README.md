@@ -17,7 +17,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <h3 align="center">ZeroBandwidth's Original Easy Valheim Installer</h3>
+  <h3 align="center">ZeroBandwidth's Original Easy Valheim Server Installer</h3>
 
   <p align="center">
     So easy a Viking can do it!
@@ -78,31 +78,25 @@ Using my DigitalOcean Referral Link:
 [![Thumbnail](https://img.youtube.com/vi/eW6Zi76Qymw/0.jpg)](https://www.youtube.com/watch?v=eW6Zi76Qymw)
 
 
-* Added new EASY to use menu system for new and old users of the script - Enjoy
-* This Menu will also install your Server and do many many other things! Enjoy!
+* New EASY to use menu system to manage your Valheim Dedicated Server - Enjoy
+* This Menu will also install your Valheim on your Linux Server - Enjoy
 * How to use: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/How-to-use-the-Menu-Script
-* Old install process works just fine. (Until Loki Kills it)
 
 I started this to help out the community and I did not think for a moment it would have taken off so quickly.
 Should you need any help troubleshooting your Valheim Server visit me on Twitch or Discord.
 
-* My production server is 6 days solid as of 18FEB2021)
+* My production server is 6 days solid as of (18FEB2021)
 * In game time is 430+ days |* Zero issues, zero crashes, zero cases of corrupted data. 
 
-* If you wish to Tip: https://www.patreon.com/zerobandwidth (funds go back into research and development costs - add those sweet juicy giveaways) 
+* If you wish to Tip: https://www.patreon.com/zerobandwidth 
 
 * Twitch Channel: https://www.twitch.tv/zerobandwidth | * Discord for Tech Support https://discord.gg/ejgQUfc
-
-
-
 
 ### Built With
 
 * [BASH](https://www.gnu.org/software/bash/)
 * [UBUNTU](https://ubuntu.com/)
 * [SteamCMD](https://developer.valvesoftware.com/wiki/SteamCMD)
-
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -138,9 +132,8 @@ To get a local copy up and running follow these simple example steps.
 
 * SSH into your newly Created VM
   ```sh
-  From your home computer, connect to your Ubuntu VM via SSH
-  Using putty or another terminal is recommended
-  If you can connect via Putty/Terminal, then you have setup firewall rules correctly
+  From your home computer, connect to your Ubuntu VM via SSH using putty or another method. (Putty is recommended)
+  If you can connect via Putty/Terminal, then you have setup at least one firewall rule setup correctly and later you can just added the required ports for Valheim.
   ```
 * Minimal Requirements:
   ```sh
@@ -148,14 +141,14 @@ To get a local copy up and running follow these simple example steps.
   You might be able to get it work with less but its a dice roll with any Cloud Services.  
   Also, once your world starts becoming explored and you start building stuff... You will wish you had the minimal requirements.
   Think about this like a Minecraft Server.... Your database will grow as you continue to play.
-  Your need for CPU and RAM resources will continue to grow.
+  Therefore the need for additional CPU and RAM resources will grow.
   ```
 1. Verify GIT and Net Tools is installed
 =
 ```sh
-sudo apt-get install -y git net-tools
+sudo apt install -y git net-tools
 ```
-2. Change directory to OPT for installation script
+2. Change directory to OPT for installation script (Advance User do what you wish)
 =
 ```sh
 cd /opt
@@ -168,14 +161,14 @@ git clone https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
 4. Change directory to Dedicated_Valheim_Server_Script
 =
 ```sh
-cd Dedicated_Valheim_Server_Script/
+cd Dedicated_Valheim_Server_Script
 ```
 5. Give the script to execution permissions
 =
 ```sh
 sudo chmod +x menu.sh
 ```
-6. Launch the Menu System (first time installing must be as root, use sudo -i to switch | unless you know what you are doing)
+6. Launch the Menu System (Please run this as root first or a true user account with sudo permissions | DONT USER sudo -u use sudo -i)
 =
 ```sh
 ./menu.sh
@@ -190,7 +183,7 @@ sudo chmod +x menu.sh
 
 ![Confirm Install](https://user-images.githubusercontent.com/16698453/108992559-bf826600-7699-11eb-947a-1f2f24dfedd9.PNG?raw=true "Confirm Valheim Server")
 
-9. Accept Default Action on Resolv Update. 
+9. Accept Default Action on Resolv Update. (Advanced users do what you wish)
 
 ![Accept Default](https://user-images.githubusercontent.com/16698453/108992560-c01afc80-7699-11eb-82d8-8b80c71832f5.PNG?raw=true "Accept Default")
 
@@ -214,12 +207,12 @@ sudo chmod +x menu.sh
 
 ![Server Configs](https://user-images.githubusercontent.com/16698453/108992573-c1e4c000-7699-11eb-8694-270431fa48d7.PNG?raw=true "Server Configs")
 
-15. That's it! All done! 
+15. That's it for the install! Now you need to setup your firewall rules. 
 
 ![Server Configs](https://user-images.githubusercontent.com/16698453/108993432-d8d7e200-769a-11eb-9a67-b8341d056d2f.PNG?raw=true "Server Configs")
 
-16. Now configure your firewalls to allow the game to connect.
-Allow ports 2456,2457,2458 (TCP/UDP) on your server This might take you a while, if you never done it before. Don't worry, members in my discord and myself can help troubleshoot later =
+16. Now configure your firewalls to allow the game to connect. Click the wiki link listed below. 
+Allow ports 2456,2457,2458 (TCP/UDP) on your server. This might take you a while, if you never done it before. Don't worry, members in my discord and myself can help troubleshoot later
 **(DO NOT OVER LOOK THIS STEP)**
 
 If running in a Cloud Server, please check the WIKI for configuration steps.
@@ -259,9 +252,9 @@ See the [open issues](https://github.com/Nimdy/Dedicated_Valheim_Server_Script/i
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
-2. Create your Feature Branch (`git checkout -b beta`)
+2. Create your Feature Branch (`git checkout -b feature/AmazingIdea`)
 3. Commit your Changes (`git commit -m 'Add some AmazingIdea'`)
-4. Push to the Branch (`git push origin beta`)
+4. Push to the Branch (`git push origin feature/AmazingIdea`)
 5. Open a Pull Request
 
 
@@ -287,17 +280,3 @@ Project Link: [https://github.com/Nimdy/Dedicated_Valheim_Server_Script](https:/
 * [Kurt - Debugging and Testing](#)
 * [LachlanMaco - Backup and Restore Functions](https://github.com/LachlanMac)
 * [beko - Correct KillSignal for Valheim Server](#)
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links 
-[contributors-shield]: #
-[contributors-url]: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/graphs/contributors
-[forks-shield]: #
-[forks-url]: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/network/members
-[stars-shield]: #
-[stars-url]: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/stargazers
-[issues-shield]: #
-[issues-url]: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/issues
-[product-screenshot]: images/screenshot.png-->
