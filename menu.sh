@@ -953,26 +953,26 @@ ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir ${valheimI
 EOF
 if [ "$valheimVanilla" = "1" ]; then
    echo "Setting Server for Valheim Vanilla"
-   {
-   echo 'ExecStart=${valheimInstallPath}/start_valheim.sh'
-   echo 'ExecReload=/bin/kill -s HUP \$MAINPID'
-   echo 'KillSignal=SIGINT'
-   echo 'WorkingDirectory=${valheimInstallPath}'
-   echo 'LimitNOFILE=100000'
-   echo '[Install]'
-   echo 'WantedBy=multi-user.target'
-   } >> start_valheim.sh
+cat >> /lib/systemd/system/valheimserver.service <s<EOF 
+ExecStart=${valheimInstallPath}/start_valheim.sh
+ExecReload=/bin/kill -s HUP \$MAINPID
+KillSignal=SIGINT
+WorkingDirectory=${valheimInstallPath}
+LimitNOFILE=100000
+[Install]
+WantedBy=multi-user.target
+EOF
 else 
-   echo "Setting Server for Valheim Modded using Valheim+"
-   {
-   echo 'ExecStart=${valheimInstallPath}/start_game_bepinex.sh' >> /lib/systemd/system/valheimserver.service
-   echo 'ExecReload=/bin/kill -s HUP \$MAINPID'
-   echo 'KillSignal=SIGINT'
-   echo 'WorkingDirectory=${valheimInstallPath}'
-   echo 'LimitNOFILE=100000'
-   echo '[Install]'
-   echo 'WantedBy=multi-user.target'
-   } >> start_game_bepinex.sh
+   echo "Setting Server for Mods using Valheim+"
+cat >> /lib/systemd/system/valheimserver.service <s<EOF   
+ExecStart=${valheimInstallPath}/start_game_bepinex.sh
+ExecReload=/bin/kill -s HUP \$MAINPID
+KillSignal=SIGINT
+WorkingDirectory=${valheimInstallPath}
+LimitNOFILE=100000
+[Install]
+WantedBy=multi-user.target
+EOF
 fi
 tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
