@@ -1216,7 +1216,7 @@ do
 	;;
 	esac
 done
-"${PWD}/${executable_name}" -name "$server_name" -password "$server_password" -port "$server_port" -world "$server_world" -public "$server_public"
+"${PWD}/${executable_name}" -name ${server_name} -password ${server_password} -port ${server_port} -world ${server_world} -public ${server_public}
 EOF
 }
 
