@@ -32,7 +32,7 @@ backupPath=/home/steam/backups
 #Seriously! The menu system will switch this on and off.
 #Dont even look at it... dont even think about making that a 0
 #Set valheim to operate in vanilla mode and not with Valheim+ Mods
-export valheimVanilla=1
+export valheimVanilla=0
 
 # Set Menu Version for menu display
 mversion="2.0-Lofn"
@@ -951,10 +951,9 @@ User=steam
 Group=steam
 ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
 EOF
-if [ "$valheimVanilla" = "1" ]; then
+if [ "$valheimVanilla" = "0" ]; then
    echo "Setting Server for Valheim Vanilla"
 cat >> /lib/systemd/system/valheimserver.service <<EOF 
-this is vanilla
 ExecStart=${valheimInstallPath}/start_valheim.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
@@ -966,7 +965,6 @@ EOF
 else 
    echo "Setting Server for Mods using Valheim+"
 cat >> /lib/systemd/system/valheimserver.service <<EOF   
-this is v+ enabled
 ExecStart=${valheimInstallPath}/start_game_bepinex.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
@@ -1006,6 +1004,7 @@ function valheim_plus_enable() {
 clear
     echo ""
     echo "Valheim+ Enable"
+    $valheimVanilla="1"
     set_valheim_server_vanillaOrPlus_operations
     echo "Coming Soon"
     echo ""
