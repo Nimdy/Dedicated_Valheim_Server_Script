@@ -953,7 +953,7 @@ ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir ${valheimI
 EOF
 if [ "$valheimVanilla" = "1" ]; then
    echo "Setting Server for Valheim Vanilla"
-cat >> /lib/systemd/system/valheimserver.service <s<EOF 
+cat >> /lib/systemd/system/valheimserver.service <<EOF 
 ExecStart=${valheimInstallPath}/start_valheim.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
@@ -964,7 +964,7 @@ WantedBy=multi-user.target
 EOF
 else 
    echo "Setting Server for Mods using Valheim+"
-cat >> /lib/systemd/system/valheimserver.service <s<EOF   
+cat >> /lib/systemd/system/valheimserver.service <<EOF   
 ExecStart=${valheimInstallPath}/start_game_bepinex.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
