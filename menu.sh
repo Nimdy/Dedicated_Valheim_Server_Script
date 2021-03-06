@@ -987,7 +987,13 @@ clear
     echo "Checking for older Valheim+ Package files and removing"
     [ -e UnixServer.zip ] && rm UnixServer.zip
     echo "Downloading Latest Valheim+ UnixServer.zip from Official Github"
-    wget https://github.com/valheimPlus/ValheimPlus/releases/download/0.9.3/UnixServer.zip
+    curl -s https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest \
+    | grep "browser_download_url.*UnixServer\.zip" \
+    | cut -d ":" -f 2,3 | tr -d \" \
+    | wget -P ${valheimInstallPath} -qi - 
+    sleep 1
+    echo "Stamping Current Verison for historics"
+    curl -L https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest | grep '"tag_name":' | cut -d'"' -f4 > localValheimPlusVersion
     echo "Unpacking zip file"
     unzip -o UnixServer.zip
     echo "Removing old bepinex config"
