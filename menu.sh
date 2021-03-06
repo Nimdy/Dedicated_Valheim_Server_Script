@@ -694,7 +694,7 @@ function stop_valheim_server() {
     clear
     echo ""
     echo -ne "
-$(ColorOrange '--------------------Stop Valheim Server---------------------')
+$(ColorOrange '--------------------Stop Valheim Services-------------------')
 $(ColorRed '------------------------------------------------------------')"
 echo ""
 tput setaf 2; echo "You are about to STOP the Valheim Server" ; tput setaf 9; 
@@ -722,7 +722,7 @@ function start_valheim_server() {
     clear
     echo ""
     echo -ne "
-$(ColorOrange '-------------------Start Valheim Server---------------------')
+$(ColorOrange '-------------------Start Valheim Services-------------------')
 $(ColorRed '------------------------------------------------------------')"
 echo ""
 tput setaf 2; echo "You are about to START the Valheim Server" ; tput setaf 9;
@@ -750,7 +750,7 @@ function restart_valheim_server() {
     clear
     echo ""
     echo -ne "
-$(ColorOrange '------------------Restart Valheim Server--------------------')
+$(ColorOrange '-----------------Restart Valheim Services-------------------')
 $(ColorRed '------------------------------------------------------------')"
 echo ""
 tput setaf 2; echo "You are about to RESTART the Valheim Server" ; tput setaf 9; 
@@ -1029,34 +1029,7 @@ clear
     echo "Valheim+ is now disabled, Vanilla mode Active"
     echo ""
 }
-function valheim_plus_start() {
-clear
-    echo ""
-    echo "Valheim+ Starting"
-    echo "Coming Soon"
-    echo ""
-}
-function valheim_plus_stop() {
-clear
-    echo ""
-    echo "Valheim+ Stopping"
-    echo "Coming Soon"
-    echo ""
-}
-function valheim_plus_restart() {
-clear
-    echo ""
-    echo "Valheim+ Restarting"
-    echo "Coming Soon"
-    echo ""
-}
-function valheim_plus_status() {
-clear
-    echo "Scripting As Fast as I can"
-    echo "Valheim+ Status"
-    echo "Coming Soon"
-    echo ""
-}
+
 function valheim_plus_update() {
 clear
     echo "Scripting As Fast as I can"
@@ -1301,10 +1274,10 @@ $(ColorPurple 'Choose an option:') "
 		1) install_valheim_plus ; mods_menu ;;
 		2) valheim_plus_enable ; mods_menu ;;
 		3) valheim_plus_disble ; mods_menu ;;
-		4) valheim_plus_start ; mods_menu ;;
-		5) valheim_plus_stop ; mods_menu ;;
-		6) valheim_plus_restart ; mods_menu ;;
-		7) valheim_plus_status ; mods_menu ;;
+		4) start_valheim_server ; mods_menu ;;
+		5) stop_valheim_server ; mods_menu ;;
+		6) restart_valheim_server ; mods_menu ;;
+		7) display_valheim_server_status ; mods_menu ;;
 		8) valheim_plus_update ; mods_menu ;;
 		9) valheim_mods_options ; mods_menu ;;
 		10) remove_mod_valheim ; mods_menu ;;
