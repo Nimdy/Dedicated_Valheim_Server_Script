@@ -961,7 +961,7 @@ if [ $valheimVanilla == 1]; then
    echo 'LimitNOFILE=100000'
    echo '[Install]'
    echo 'WantedBy=multi-user.target'
-   } >> start_game_bepinex.sh
+   } >> start_valheim.sh
 else 
    {
    echo 'ExecStart=${valheimInstallPath}/start_game_bepinex.sh' >> lib/systemd/system/valheimserver.service
