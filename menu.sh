@@ -1663,7 +1663,7 @@ get_current_config
 display_public_status_on_or_off
 echo -ne "
 $(ColorPurple '╔════════════════════Valheim+═══════════════════╗')
-$(ColorPurple '║~~~~~~~~~~~~~~~~~~-Njord Menu-~~~~~~~~~~~~~~~~~║')
+$(ColorPurple '║~~~~~~~~~~~~~~~~~~')$(ColorLightGreen '-Njord Menu-')$(ColorPurple '~~~~~~~~~~~~~~~~~║')
 $(ColorPurple '╠═══════════════════════════════════════════════╝')
 $(ColorLightGreen '║ Welcome to Valheim+ Intergrated Menu System')
 $(ColorLightGreen '║ Valheim+ Suport: https://discord.gg/AmH6Va97GT')
