@@ -950,7 +950,7 @@ User=steam
 Group=steam
 ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
 EOF
-if [ "$valheimVanilla" = "1"]; then
+if [[ "$valheimVanilla" = "1"]]; then
    echo "Setting Server for Valheim Vanilla"
    {
    echo 'ExecStart=${valheimInstallPath}/start_valheim.sh'
