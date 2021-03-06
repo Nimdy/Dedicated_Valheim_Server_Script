@@ -1629,7 +1629,7 @@ get_current_config
 display_public_status_on_or_off
 echo -ne "
 $(ColorOrange '╔═══════════════════════════════════════════════╗')
-$(ColorOrange '║~~~~~~~~~~~~~~~~~~-Njord Menu-~~~~~~~~~~~~~~~~~║')
+$(ColorOrange '║~~~~~~~~~~~~~~~~~~')$(ColorPurple '-Njord Menu-')$(ColorOrange '~~~~~~~~~~~~~~~~~║')
 $(ColorOrange '╠═══════════════════════════════════════════════╝')
 $(ColorOrange '║ Welcome Viking! Do not forget about your bees')
 $(ColorOrange '║ Visit our discord: https://discord.gg/ejgQUfc')
