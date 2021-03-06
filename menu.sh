@@ -935,7 +935,7 @@ tput setaf 1; echo "Building systemctl instructions for Valheim" ; tput setaf 9;
 sleep 1
 # Add new Valheim Server Service
 # Thanks @QuadeHale
-cat > /lib/systemd/system/valheimserver.service <<EOF
+cat <<EOF > /lib/systemd/system/valheimserver.service 
 [Unit]
 Description=Valheim Server
 Wants=network-online.target
@@ -1100,7 +1100,8 @@ function other_mods() {
 
 
 function build_start_server_bepinex_configuration_file() {
-cat > ${valheimInstallPath}/serverSetup.txt <<EOF
+
+cat <<EOF > ${valheimInstallPath}/serverSetup.txt
 #!/bin/sh
 # BepInEx running script
 #
