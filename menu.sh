@@ -1285,6 +1285,30 @@ $(ColorPurple 'Choose an option:') "
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; mods_menu ;;
         esac
 }
+
+# Check ValheimPlus Github Latest for menu display
+function check_valheim_plus_repo() {
+
+latestValPlus=$(curl --connect-timeout 10 -s https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
+echo $latestValPlus
+}
+
+
+
+# Check Local ValheimPlus Build for menu display
+function check_local_valheim_plus_build() {
+localValheimPlusVer=${valheimInstallPath}/localValheimPlusVersion
+   if [[ -e $localValheimPlusVer ]] ; then
+    localValheimPlusBuild=$(grep ${localValheimPlusVer})
+        echo $localValheimPlusBuild
+    else 
+        echo "No Data";
+  fi
+}
+
+
+
+
 #######################################################################################################################################################
 ###############################################################FINISH VALHEIM MOD SECTION##############################################################
 #######################################################################################################################################################
@@ -1641,7 +1665,12 @@ $(ColorPurple '╠════════════════════�
 $(ColorPurple '║ Welcome Viking! Do not forget about your bees')
 $(ColorPurple '║ Visit our discord: https://discord.gg/ejgQUfc')
 $(ColorPurple '║ Beware Loki hides within this script')
-$(ColorPurple '║') 
+$(ColorPurple '╚═══════════════════════════════════════════════')
+$(ColorPurple '║') Valheim Official Build:" $(check_valheim_plus_repo)
+echo -ne "
+$(ColorPurple '║') Valheim Server Build:" $(check_local_valheim_plus_build)
+echo -ne "
+$(ColorPurple '╚═══════════════════════════════════════════════')
 $(ColorPurple '║') Valheim Official Build:" $(check_official_valheim_release_build)
 echo -ne "
 $(ColorPurple '║') Valheim Server Build:" $(check_local_valheim_build)
