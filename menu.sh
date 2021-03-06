@@ -1031,14 +1031,14 @@ clear
 }
 
 function valheim_plus_update() {
+check_valheim_plus_repo
 clear
     echo "Scripting As Fast as I can"
     echo "Valheim+ Update"
     vpLocalCheck=$(cat ${valheimInstallPath}/localValheimPlusVersion)
     echo $vpLocalCheck
-    vpLatestRepo='0.9.4'
-    echo $vpLatestRepo
-    if [[ $vpLatestRepo == $vpLocalCheck ]]; then
+    echo $latestValPlus
+    if [[ $latestValPlus == $vpLocalCheck ]]; then
        echo ""
        echo "No update found"
        echo ""
