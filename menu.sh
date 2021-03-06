@@ -1006,14 +1006,20 @@ clear
     echo "Valheim+ Enable"
     valheimVanilla=2
     set_valheim_server_vanillaOrPlus_operations
-    echo "Coming Soon"
+    sleep 1
+    systemctl daemon-reload
+    echo "Valheim+ is now enabled and Active"
     echo ""
 }
 function valheim_plus_disable() {
 clear
     echo ""
     echo "Valheim+ Disable"
-    echo "Coming Soon"
+    valheimVanilla=1
+    set_valheim_server_vanillaOrPlus_operations
+    sleep 1
+    systemctl daemon-reload
+    echo "Valheim+ is now disabled, Vanilla mode Active"
     echo ""
 }
 function valheim_plus_start() {
