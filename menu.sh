@@ -1661,7 +1661,6 @@ $(ColorPurple '╚════════════════════�
 ########################################################################
 menu(){
 #get_current_config
-clear
 menu_header
 echo -ne "
 $(ColorOrange '-------------Check for Script Updates-----------')
