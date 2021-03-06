@@ -995,7 +995,7 @@ clear
     build_start_server_bepinex_configuration_file
     echo "Setting steam ownership to Directories, Folders and Files"
     chown steam:steam -Rf /home/steam/*
-    chmod +x start_game_bepinex.sh
+    chmod +x start_server_bepinex.sh
     echo ""
     echo "Who wants to get their Viking mod on HUH!"
     echo "Let's GO!!!!"
