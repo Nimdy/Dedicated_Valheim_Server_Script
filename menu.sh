@@ -1054,10 +1054,11 @@ function valheim_plus_update() {
 clear
     echo "Scripting As Fast as I can"
     echo "Valheim+ Update"
-    #valheimplus_type=UnixServer.zip
-    #$vplusdl=(curl -s https://api.github.com/valheimPlus/ValheimPlus/releases/latest | jq -r ".assets[] | select(.name | test(\"${valheimplus_type}\")) | .browser_download_url")
-    #wget ${vplusdl}
-    #do stuff duh
+    curl -s https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest \
+    | grep "browser_download_url.*UnixServer\.zip" \
+    | cut -d ":" -f 2,3 | tr -d \" \
+    | wget -P ${valheimInstallPath} -qi - 
+    
     echo ""
 }
 function valheim_mod_options() {
