@@ -139,7 +139,6 @@ function script_check_update() {
         git checkout "$BRANCH"
         git pull --force
 	echo " Updating"
-      	clear
 	chmod +x menu.sh
         exec "$SCRIPTNAME" "${ARGS[@]}"
 
