@@ -1681,7 +1681,7 @@ $(ColorOrange '-')$(ColorGreen ' 5)') Check and Apply Valheim Server Update
 $(ColorOrange '-----Edit start_valehim.sh Configuration--------')
 $(ColorOrange '-')$(ColorGreen ' 6)') Display or Edit Valheim Config File
 $(ColorOrange '------------------Valheim+ Menu-----------------')
-$(ColorOrange '-')$(ColorGreen ' 7)') Valiheim+
+$(ColorOrange '-')$(ColorGreen ' 7)') Valheim+
 $(ColorOrange '------------------------------------------------')
 $(ColorGreen ' 0)') Exit
 $(ColorOrange '------------------------------------------------')
