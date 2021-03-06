@@ -965,7 +965,7 @@ EOF
 else 
    echo "Setting Server for Mods using Valheim+"
 cat >> /lib/systemd/system/valheimserver.service <<EOF   
-ExecStart=${valheimInstallPath}/start_game_bepinex.sh
+ExecStart=nohup ${valheimInstallPath}/start_game_bepinex.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
 WorkingDirectory=${valheimInstallPath}
