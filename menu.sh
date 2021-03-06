@@ -1004,7 +1004,7 @@ function valheim_plus_enable() {
 clear
     echo ""
     echo "Valheim+ Enable"
-    $valheimVanilla=2
+    valheimVanilla=2
     set_valheim_server_vanillaOrPlus_operations
     echo "Coming Soon"
     echo ""
