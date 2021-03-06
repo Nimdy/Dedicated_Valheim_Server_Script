@@ -1299,7 +1299,7 @@ echo $latestValPlus
 function check_local_valheim_plus_build() {
 localValheimPlusVer=${valheimInstallPath}/localValheimPlusVersion
    if [[ -e $localValheimPlusVer ]] ; then
-    localValheimPlusBuild=$(grep ${localValheimPlusVer})
+    localValheimPlusBuild=$(cat ${localValheimPlusVer})
         echo $localValheimPlusBuild
     else 
         echo "No Data";
