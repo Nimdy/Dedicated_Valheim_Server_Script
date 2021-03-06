@@ -990,7 +990,7 @@ clear
     touch testdrop.txt
     wget https://github.com/valheimPlus/ValheimPlus/releases/download/0.9.3/UnixServer.zip
     echo "Unpacking zip file"
-    unzip -o -UnixServer.zip
+    unzip -o UnixServer.zip
     echo "Remove all bepinex config"
     [ ! -e start_game_bepinex.sh ] && rm start_game_bepinex.sh
     echo "Building Start Configuration File for Modded Server"
