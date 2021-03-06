@@ -1662,18 +1662,20 @@ echo -ne "
 $(ColorPurple '╔════════════════════Valheim+═══════════════════╗')
 $(ColorPurple '║~~~~~~~~~~~~~~~~~~-Njord Menu-~~~~~~~~~~~~~~~~~║')
 $(ColorPurple '╠═══════════════════════════════════════════════╝')
-$(ColorPurple '║ Welcome Viking! Do not forget about your bees')
-$(ColorPurple '║ Visit our discord: https://discord.gg/ejgQUfc')
+$(ColorPurple '║ Welcome to Valheim+ Intergrated Menu System')
+$(ColorPurple '║ Valheim+ Suport: https://discord.gg/AmH6Va97GT')
 $(ColorPurple '║ Beware Loki hides within this script')
 $(ColorPurple '╚═══════════════════════════════════════════════')
-$(ColorPurple '║') Valheim Official Build:" $(check_valheim_plus_repo)
+$(ColorPurple '║') ValheimPlus Official Build:" $(check_valheim_plus_repo)
 echo -ne "
-$(ColorPurple '║') Valheim Server Build:" $(check_local_valheim_plus_build)
+$(ColorPurple '║') ValheimPlus Server Build:" $(check_local_valheim_plus_build)
 echo -ne "
 $(ColorPurple '╚═══════════════════════════════════════════════')
 $(ColorPurple '║') Valheim Official Build:" $(check_official_valheim_release_build)
 echo -ne "
 $(ColorPurple '║') Valheim Server Build:" $(check_local_valheim_build)
+echo -ne "
+$(ColorPurple '╚═══════════════════════════════════════════════')"
 echo -ne "
 $(ColorPurple '║') Server Name: ${currentDisplayName}
 $(ColorPurple '║') $(are_you_connected)
@@ -1687,7 +1689,8 @@ $(ColorPurple '║') Public Listing:" $publicON $publicOFF
 echo -ne "
 $(ColorPurple '║') Current Menu Release: $(check_menu_script_repo)
 $(ColorPurple '║') Local Installed Menu: ${mversion}
-$(ColorPurple '║') Happy Gaming - ZeroBandwidth
+$(ColorPurple '║') Happy Gaming - ZeroBandwidth 
+$(ColorPurple '║') Visit our discord: https://discord.gg/ejgQUfc
 $(ColorPurple '╚═══════════════════════════════════════════════')"
 }
 
