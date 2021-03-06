@@ -1662,11 +1662,11 @@ function menu_header_vplus_enable() {
 get_current_config
 display_public_status_on_or_off
 echo -ne "
-$(ColorPurple '╔════════════════════Valheim+═══════════════════╗')
+$(ColorPurple '╔════════════════════')$(ColorOrange 'Valheim+')$(ColorPurple '═══════════════════╗')
 $(ColorPurple '║~~~~~~~~~~~~~~~~~~')$(ColorLightGreen '-Njord Menu-')$(ColorPurple '~~~~~~~~~~~~~~~~~║')
 $(ColorPurple '╠═══════════════════════════════════════════════╝')
-$(ColorLightGreen '║ Welcome to Valheim+ Intergrated Menu System')
-$(ColorLightGreen '║ Valheim+ Suport: https://discord.gg/AmH6Va97GT')
+$(ColorPurple '║')$(ColorLightGreen ' Welcome to Valheim+ Intergrated Menu System')
+$(ColorPurple '║')$(ColorLightGreen ' Valheim+ Suport: https://discord.gg/AmH6Va97GT')
 $(ColorPurple '║ Beware Loki hides within this script')
 $(ColorPurple '╠═══════════════════════════════════════════════')
 $(ColorPurple '║') ValheimPlus Official Build:" $(check_valheim_plus_repo)
