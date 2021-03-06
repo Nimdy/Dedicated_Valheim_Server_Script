@@ -385,9 +385,6 @@ tput setaf 1; echo "Deleting old check log script if exist" ; tput setaf 9;
 tput setaf 1; echo "Setting execute permissions on start_valheim.sh" ; tput setaf 9;
 chmod +x ${valheimInstallPath}/start_valheim.sh
 tput setaf 2; echo "Done" ; tput setaf 9;
-tput setaf 1; echo "Setting execute permissions on check_log.sh" ; tput setaf 9; 
-chmod +x /home/steam/check_log.sh
-tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 #build systemctl configurations for execution of processes for Valheim Server
 tput setaf 1; echo "Deleting old configuration if file exist" ; tput setaf 9; 
