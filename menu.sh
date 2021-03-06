@@ -1635,9 +1635,12 @@ $(ColorOrange '║ Welcome Viking! Do not forget about your bees')
 $(ColorOrange '║ Visit our discord: https://discord.gg/ejgQUfc')
 $(ColorOrange '║ Beware Loki hides within this script')
 $(ColorOrange '║') 
+$(ColorOrange '╠═══════════════════════════════════════════════')
 $(ColorOrange '║') Valheim Official Build:" $(check_official_valheim_release_build)
 echo -ne "
 $(ColorOrange '║') Valheim Server Build:" $(check_local_valheim_build)
+echo -ne "
+$(ColorOrange '╚═══════════════════════════════════════════════')"
 echo -ne "
 $(ColorOrange '║') Server Name: ${currentDisplayName}
 $(ColorOrange '║') $(are_you_connected)
@@ -1665,12 +1668,12 @@ $(ColorPurple '╠════════════════════�
 $(ColorPurple '║ Welcome to Valheim+ Intergrated Menu System')
 $(ColorPurple '║ Valheim+ Suport: https://discord.gg/AmH6Va97GT')
 $(ColorPurple '║ Beware Loki hides within this script')
-$(ColorPurple '╚═══════════════════════════════════════════════')
+$(ColorPurple '╠═══════════════════════════════════════════════')
 $(ColorPurple '║') ValheimPlus Official Build:" $(check_valheim_plus_repo)
 echo -ne "
 $(ColorPurple '║') ValheimPlus Server Build:" $(check_local_valheim_plus_build)
 echo -ne "
-$(ColorPurple '╚═══════════════════════════════════════════════')
+$(ColorPurple '╠═══════════════════════════════════════════════')
 $(ColorPurple '║') Valheim Official Build:" $(check_official_valheim_release_build)
 echo -ne "
 $(ColorPurple '║') Valheim Server Build:" $(check_local_valheim_build)
