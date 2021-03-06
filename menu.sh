@@ -995,7 +995,7 @@ clear
     echo "Remove all bepinex config"
     [ ! -e start_game_bepinex.sh ] && rm start_game_bepinex.sh
     echo "Building Start Configuration File for Modded Server"
-    echo $build_start_server_bepinex_configuration_file
+    echo ${build_start_server_bepinex_configuration_file}
     echo "Setting steam ownership to Directories, Folders and Files"
     chown steam:steam -Rf /home/steam/*
 
