@@ -986,7 +986,7 @@ clear
     cd $valheimInstallPath
     pwd
     echo "Checking for older Valheim+ Package files and removing"
-    [ ! -e UnixServer.zip ] && rm UnixServer.zip
+    [ -e UnixServer.zip ] && rm UnixServer.zip
     echo "Downloading Latest Valheim+ UnixServer.zip from Official Github"
     touch testdrop.txt
     wget https://github.com/valheimPlus/ValheimPlus/releases/download/0.9.3/UnixServer.zip
@@ -1101,7 +1101,7 @@ function other_mods() {
 
 
 function build_start_server_bepinex_configuration_file() {
-
+[ -e serverSetup.txt ] && rm serverSetup.txt
 cat >> ${valheimInstallPath}/serverSetup.txt <<EOF
 #!/bin/sh
 # BepInEx running script
@@ -1121,11 +1121,11 @@ executable_name="valheim_server.x86_64"
 # EDIT THIS: Valheim server parameters
 # Can be overriden by script parameters named exactly like the ones for the Valheim executable
 # (e.g. ./start_server_bepinex.sh -name "MyValheimPlusServer" -password "somethingsafe" -port 2456 -world "myworld" -public 1)
-server_name=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' start_valheim.sh)
-server_port=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' start_valheim.sh)
-server_world=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' start_valheim.sh)
-server_password=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' start_valheim.sh)
-server_public=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' start_valheim.sh)
+server_name="$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' start_valheim.sh)"
+server_port="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' start_valheim.sh)"
+server_world="$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' start_valheim.sh)"
+server_password="$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' start_valheim.sh)"
+server_public="$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' start_valheim.sh)"
 
 # The rest is automatically handled by BepInEx for Valheim+
 
