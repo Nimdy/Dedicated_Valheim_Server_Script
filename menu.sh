@@ -983,27 +983,28 @@ clear
     echo ""
     echo "Changing into Valheim Install Directory"
     cd $valheimInstallPath
-    pwd
     echo "Checking for older Valheim+ Package files and removing"
     [ -e UnixServer.zip ] && rm UnixServer.zip
     echo "Downloading Latest Valheim+ UnixServer.zip from Official Github"
-    touch testdrop.txt
     wget https://github.com/valheimPlus/ValheimPlus/releases/download/0.9.3/UnixServer.zip
     echo "Unpacking zip file"
     unzip -o UnixServer.zip
-    echo "Remove all bepinex config"
+    echo "Removing old bepinex config"
     [ ! -e start_game_bepinex.sh ] && rm start_game_bepinex.sh
-    echo "Building Start Configuration File for Modded Server"
+    echo "Building Start Configuration File for Modded Server with bepinex filled information"
     build_start_server_bepinex_configuration_file
     echo "Setting steam ownership to Directories, Folders and Files"
     chown steam:steam -Rf /home/steam/*
-
+    chmod +x start_game_bepinex.sh
     echo ""
+    echo "Who wants to get their Viking mod on HUH!"
+    echo "Let's GO!!!!"
 }
 function valheim_plus_enable() {
 clear
     echo ""
     echo "Valheim+ Enable"
+    set_valheim_server_vanillaOrPlus_operations
     echo "Coming Soon"
     echo ""
 }
