@@ -1061,13 +1061,30 @@ function valheim_plus_update() {
 clear
     echo "Scripting As Fast as I can"
     echo "Valheim+ Update"
-    curl -s https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest \
-    | grep "browser_download_url.*UnixServer\.zip" \
-    | cut -d ":" -f 2,3 | tr -d \" \
-    | wget -P ${valheimInstallPath} -qi - 
-    
-    echo ""
+    vpLocalCheck=$(cat ${valheimInstallPath}/localValheimPlusVersion)
+    echo $vpLocalCheck
+    $vpLatestRepo="0.9.5"
+    if [[ $vpLatestRepo == $vpLocalCheck ]]; then
+       echo ""
+       echo "No update found"
+       echo ""
+       else
+          echo "Update found!"
+	  echo "Do you wish to continue?"
+	   read -p "Please confirm:" confirmValPlusUpdate
+	  if [ "$confirmValPlusUpdate" == "y" ]; then
+	    echo "Making quick backup of valheim_plus.cfg"
+	    cp ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg "${backupPath}/valheim_plus.cfg.old-$(date +"%m-%d-%y-%r")"
+	    echo "Grabbing Latest from Valheim Plus and Installing!"
+            #install_valheim_plus
+	      else
+            echo "Canceled the upgrading of Valheim Plus - because Loki sucks"
+            sleep 2
+          fi
+	  
+     fi
 }
+
 function valheim_mod_options() {
 clear
     echo "Scripting As Fast as I can"
