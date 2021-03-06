@@ -952,6 +952,7 @@ Group=steam
 ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
 EOF
 if [ $valheimVanilla == 1]; then
+   echo "Setting Server for Valheim Vanilla"
    {
    echo 'ExecStart=${valheimInstallPath}/start_valheim.sh'
    echo 'ExecStart=${valheimInstallPath}/start_game_bepinex.sh' 
@@ -963,6 +964,7 @@ if [ $valheimVanilla == 1]; then
    echo 'WantedBy=multi-user.target'
    } >> start_valheim.sh
 else 
+   echo "Setting Server for Valheim Modded using Valheim+"
    {
    echo 'ExecStart=${valheimInstallPath}/start_game_bepinex.sh' >> lib/systemd/system/valheimserver.service
    echo 'ExecReload=/bin/kill -s HUP \$MAINPID'
