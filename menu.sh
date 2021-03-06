@@ -1063,7 +1063,7 @@ clear
     echo "Valheim+ Update"
     vpLocalCheck=$(cat ${valheimInstallPath}/localValheimPlusVersion)
     echo $vpLocalCheck
-    $vpLatestRepo="0.9.5"
+    $vpLatestRepo='0.9.5'
     if [[ $vpLatestRepo == $vpLocalCheck ]]; then
        echo ""
        echo "No update found"
