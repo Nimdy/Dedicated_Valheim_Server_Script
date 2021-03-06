@@ -993,7 +993,7 @@ clear
     | wget -P ${valheimInstallPath} -qi - 
     sleep 1
     echo "Stamping Current Verison for historics"
-    curl -L https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest | grep '"tag_name":' | cut -d'"' -f4 > localValheimPlusVersion
+    curl -sL https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest | grep '"tag_name":' | cut -d'"' -f4 > localValheimPlusVersion
     echo "Unpacking zip file"
     unzip -o UnixServer.zip
     echo "Removing old bepinex config"
