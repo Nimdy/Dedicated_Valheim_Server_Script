@@ -979,77 +979,77 @@ sleep 1
 function install_valheim_plus() {
 clear
     echo ""
-    echo "Changing into Valheim Install Directory"
+    tput setaf 2; echo "Changing into Valheim Install Directory" ; tput setaf 9; 
     cd $valheimInstallPath
-    echo "Checking for older Valheim+ Package files and removing"
+    tput setaf 2; echo "Checking for older Valheim+ Package files and removing" ; tput setaf 9; 
     [ -e UnixServer.zip ] && rm UnixServer.zip
-    echo "Downloading Latest Valheim+ UnixServer.zip from Official Github"
+    tput setaf 2; echo "Downloading Latest Valheim+ UnixServer.zip from Official Github" ; tput setaf 9; 
     curl -s https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest \
     | grep "browser_download_url.*UnixServer\.zip" \
     | cut -d ":" -f 2,3 | tr -d \" \
     | wget -P ${valheimInstallPath} -qi - 
     sleep 1
-    echo "Stamping Current Verison for historics"
+    tput setaf 2; echo "Stamping Current Verison for historics" ; tput setaf 9; 
     curl -sL https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest | grep '"tag_name":' | cut -d'"' -f4 > localValheimPlusVersion
-    echo "Unpacking zip file"
+    tput setaf 2; echo "Unpacking zip file" ; tput setaf 9; 
     unzip -o UnixServer.zip
-    echo "Removing old bepinex config"
+    tput setaf 2; echo "Removing old bepinex config" ; tput setaf 9; 
     [ ! -e start_game_bepinex.sh ] && rm start_game_bepinex.sh
-    echo "Building Start Configuration File for Modded Server with bepinex filled information"
+    tput setaf 2; echo "Building Start Configuration File for Modded Server with bepinex filled information" ; tput setaf 9; 
     build_start_server_bepinex_configuration_file
-    echo "Setting steam ownership to Directories, Folders and Files"
+    tput setaf 2; echo "Setting steam ownership to Directories, Folders and Files" ; tput setaf 9; 
     chown steam:steam -Rf /home/steam/*
     chmod +x start_server_bepinex.sh
     echo ""
-    echo "Who wants to get their Viking mod on HUH!"
-    echo "Let's GO!!!!"
+    tput setaf 2; echo "Who wants to get their Viking mod on HUH!" ; tput setaf 9; 
+    tput setaf 2; echo "Let's GO!!!!" ; tput setaf 9; 
 }
 function valheim_plus_enable() {
 clear
     echo ""
-    echo "Valheim+ Enable"
+    tput setaf 2; echo "Valheim+ Enable" ; tput setaf 9; 
     valheimVanilla=2
     set_valheim_server_vanillaOrPlus_operations
     sleep 1
     systemctl daemon-reload
-    echo "Valheim+ is now enabled and Active"
+    tput setaf 2; echo "Valheim+ is now enabled and Active" ; tput setaf 9; 
     echo ""
 }
 function valheim_plus_disable() {
 clear
     echo ""
-    echo "Valheim+ Disable"
+    tput setaf 2; echo "Valheim+ Disable" ; tput setaf 9; 
     valheimVanilla=1
     set_valheim_server_vanillaOrPlus_operations
     sleep 1
     systemctl daemon-reload
-    echo "Valheim+ is now disabled, Vanilla mode Active"
+    tput setaf 2; echo "Valheim+ is now disabled, Vanilla mode Active" ; tput setaf 9; 
     echo ""
 }
 
 function valheim_plus_update() {
 check_valheim_plus_repo
 clear
-    echo "Scripting As Fast as I can"
-    echo "Valheim+ Update"
+   tput setaf 2;  echo "Scripting As Fast as I can" ; tput setaf 9; 
+   tput setaf 2;  echo "Valheim+ Update" ; tput setaf 9; 
     vpLocalCheck=$(cat ${valheimInstallPath}/localValheimPlusVersion)
     echo $vpLocalCheck
     echo $latestValPlus
     if [[ $latestValPlus == $vpLocalCheck ]]; then
        echo ""
-       echo "No update found"
+       tput setaf 2; echo "No update found" ; tput setaf 9; 
        echo ""
        else
-          echo "Update found!"
-	  echo "Do you wish to continue?"
+         tput setaf 2;  echo "Update found!" ; tput setaf 9; 
+	 tput setaf 2;  echo "Do you wish to continue?" ; tput setaf 9; 
 	   read -p "Please confirm:" confirmValPlusUpdate
 	  if [ "$confirmValPlusUpdate" == "y" ]; then
-	    echo "Making quick backup of valheim_plus.cfg"
+	    tput setaf 2; echo "Making quick backup of valheim_plus.cfg" ; tput setaf 9; 
 	    cp ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg "${backupPath}/valheim_plus.cfg.old-$(date +"%m-%d-%y-%r")"
-	    echo "Grabbing Latest from Valheim Plus and Installing!"
+	   tput setaf 2; echo "Grabbing Latest from Valheim Plus and Installing!" ; tput setaf 9; 
             #install_valheim_plus
 	      else
-            echo "Canceled the upgrading of Valheim Plus - because Loki sucks"
+            echo "Canceled the upgrading of Valheim Plus - because Loki sucks" ; tput setaf 9; 
             sleep 2
           fi
 	  
