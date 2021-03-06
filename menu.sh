@@ -1101,7 +1101,6 @@ function other_mods() {
 
 
 function build_start_server_bepinex_configuration_file() {
-[ -e serverSetup.txt ] && rm serverSetup.txt
 cat >> ${valheimInstallPath}/serverSetup.txt <<EOF
 #!/bin/sh
 # BepInEx running script
