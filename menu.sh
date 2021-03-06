@@ -989,9 +989,9 @@ clear
     [ ! -e $UnixServer.zip ] && rm UnixServer.zip
     echo "Downloading Latest Valheim+ UnixServer.zip from Official Github"
     touch testdrop.txt
-    #wget https://github.com/valheimPlus/ValheimPlus/releases/download/0.9.3/UnixServer.zip
+    wget https://github.com/valheimPlus/ValheimPlus/releases/download/0.9.3/UnixServer.zip
     echo "Unpacking zip file"
-    #unzip -o -q UnixServer.zip
+    unzip -o -UnixServer.zip
     echo "Setting steam ownership to Directories, Folders and Files"
     chown steam:steam -Rf /home/steam/*
     echo "Building Start Configuration File for Modded Server"
