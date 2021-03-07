@@ -1056,7 +1056,7 @@ clear
      fi
 }
 
-function valheim_mod_options() {
+function valheimplus_mod_options() {
 clear
     nano ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg
 }
@@ -1271,7 +1271,7 @@ $(ColorPurple 'Choose an option:') "
 		6) restart_valheim_server ; mods_menu ;;
 		7) display_valheim_server_status ; mods_menu ;;
 		8) valheim_plus_update ; mods_menu ;;
-		9) valheim_mods_options ; mods_menu ;;
+		9) valheimplus_mod_options ; mods_menu ;;
 		10) bepinex_mod_options ; mods_menu ;;
 		   0) menu ; menu ;;
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; mods_menu ;;
