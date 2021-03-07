@@ -1059,11 +1059,41 @@ clear
 function valheimplus_mod_options() {
 clear
     nano ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg
+    echo ""
+    echo "If you made changes, Valheim Services need to be restarted to take effect"
+    echo "Do you wish to restart Valheim Services now?"
+     read -p "Please confirm:" confirmRestart
+#if y, then continue, else cancel
+        if [ "$confirmRestart" == "y" ]; then
+    echo ""
+    echo "Restarting Valheim Server Services"
+    sudo systemctl restart valheimserver.service
+    echo ""
+    else
+    echo "Canceled Restarting of Valheim Server Service - because Loki sucks"
+    sleep 3
+    clear
+fi
 }
 
 function bepinex_mod_options() {
 clear
     nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
+    echo ""
+    echo "If you made changes, Valheim Services need to be restarted to take effect"
+    echo "Do you wish to restart Valheim Services now?"
+     read -p "Please confirm:" confirmRestart
+#if y, then continue, else cancel
+        if [ "$confirmRestart" == "y" ]; then
+    echo ""
+    echo "Restarting Valheim Server Services"
+    sudo systemctl restart valheimserver.service
+    echo ""
+    else
+    echo "Canceled Restarting of Valheim Server Service - because Loki sucks"
+    sleep 3
+    clear
+fi
 }
 ########################################################################
 ######################START MOD SECTION AREAS###########################
