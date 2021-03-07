@@ -1646,6 +1646,19 @@ ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"Internet: $tecreset Connec
 
 }
 
+function are_mods_enabled() {
+modstrue=$( cat /lib/systemd/system/valheimserver.service | grep bepinex)
+var2="ExecStart=/home/steam/valheimserver/start_server_bepinex.sh"
+if [ $modstrue = $var2 ]; then
+        echo "Enabled"
+else
+        echo "Disable"
+fi
+
+}
+
+
+
 function menu_header() {
 get_current_config
 display_public_status_on_or_off
@@ -1656,7 +1669,7 @@ $(ColorOrange '╠════════════════════�
 $(ColorOrange '║ Welcome Viking! Do not forget about your bees')
 $(ColorOrange '║ Visit our discord: https://discord.gg/ejgQUfc')
 $(ColorOrange '║ Beware Loki hides within this script')
-$(ColorOrange '║') 
+$(ColorOrange '║ Mods:')$(ColorPurple '${modstrue}')
 $(ColorOrange '╠═══════════════════════════════════════════════')
 $(ColorOrange '║') Current Menu Release:" $(check_menu_script_repo)
 echo -ne "
