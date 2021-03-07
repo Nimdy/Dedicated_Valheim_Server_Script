@@ -1295,7 +1295,7 @@ $(ColorPurple 'Choose an option:') "
         case $a in
 		1) install_valheim_plus ; mods_menu ;;
 		2) valheim_plus_enable ; mods_menu ;;
-		3) valheim_plus_disble ; mods_menu ;;
+		3) valheim_plus_disable ; mods_menu ;;
 		4) start_valheim_server ; mods_menu ;;
 		5) stop_valheim_server ; mods_menu ;;
 		6) restart_valheim_server ; mods_menu ;;
