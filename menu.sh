@@ -1058,49 +1058,44 @@ clear
 
 function valheim_mod_options() {
 clear
-    echo "Scripting As Fast as I can"
-    echo "Valheim+ Mod Options"
-    echo "Coming Soon"
-    echo ""
+    nano ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg
 }
-function remove_mod_valheim() {
+
+function bepinex_mod_options() {
 clear
-    echo ""
-    echo "Deleting Valheim+ Mods from server"
-    echo "Coming Soon"
-    echo ""
+    nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
 }
 ########################################################################
 ######################START MOD SECTION AREAS###########################
 ########################################################################
-function server_mods() {
-    clear
-    echo "Scripting As Fast as I can"
-    echo "Server Related Mods"
-    echo "Coming Soon"
-    echo ""
-}
-function player_mods() {
-    clear
-    echo "Scripting As Fast as I can"
-    echo "Player Related Mods"
-    echo "Coming Soon"
-    echo ""
-}
-function building_mods() {
-    clear
-    echo "Scripting As Fast as I can"
-    echo "Building Related Mods"
-    echo "Coming Soon"
-    echo ""
-}
-function other_mods() {
-    clear
-    echo "Scripting As Fast as I can"
-    echo "Other Related Mods"
-    echo "Coming Soon"
-    echo ""
-}
+#function server_mods() {
+#    clear
+#    echo "Scripting As Fast as I can"
+#    echo "Server Related Mods"
+#    echo "Coming Soon"
+#    echo ""
+#}
+#function player_mods() {
+#    clear
+#    echo "Scripting As Fast as I can"
+#    echo "Player Related Mods"
+#    echo "Coming Soon"
+#    echo ""
+#}
+#function building_mods() {
+#    clear
+#    echo "Scripting As Fast as I can"
+#    echo "Building Related Mods"
+#    echo "Coming Soon"
+#    echo ""
+#}
+#function other_mods() {
+#    clear
+#    echo "Scripting As Fast as I can"
+#    echo "Other Related Mods"
+#    echo "Coming Soon"
+#    echo ""
+#}
 
 
 function build_start_server_bepinex_configuration_file() {
@@ -1220,31 +1215,32 @@ EOF
 ########################################################################
 ######################END MOD SECTION AREAS###########################
 ########################################################################
-function valheim_mods_options(){
-echo ""
-menu_header_vplus_enable
-echo -ne "
-$(ColorRed '--------NOT ADDED YET BUILDING FRAME WORK--------')
-$(ColorCyan '--------------Valheim+ Mod Menu-----------------')
-$(ColorCyan '-')$(ColorGreen ' 1)') Server Mods
-$(ColorCyan '-')$(ColorGreen ' 2)') Player Mods
-$(ColorCyan '-')$(ColorGreen ' 3)') Building Mods
-$(ColorCyan '-')$(ColorGreen ' 4)') Other Mods
-$(ColorCyan '------------------------------------------------')
-$(ColorCyan '-')$(ColorGreen ' 0)') Go to Valheim Mod Main Menu
-$(ColorCyan '-')$(ColorGreen ' 00)') Go to Main Menu
-$(ColorPurple 'Choose an option:') "
-        read a
-        case $a in
-		1) server_mods ; valheim_mods_options ;;
-		2) player_mods ; valheim_mods_options ;;
-		3) building_mods ; valheim_mods_options ;;
-		4) other_mods ; valheim_mods_options ;;
-		   0) mods_menu ; menu ;;
-		   00) menu ; menu ;;
-		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; valheim_mods_options ;;
-        esac
-}
+#function valheim_mods_options(){
+#echo ""
+#menu_header_vplus_enable
+#echo -ne "
+#$(ColorRed '--------NOT ADDED YET BUILDING FRAME WORK--------')
+#$(ColorCyan '--------------Valheim+ Mod Menu-----------------')
+#$(ColorCyan '-')$(ColorGreen ' 1)') Server Mods
+#$(ColorCyan '-')$(ColorGreen ' 2)') Player Mods
+#$(ColorCyan '-')$(ColorGreen ' 3)') Building Mods
+#$(ColorCyan '-')$(ColorGreen ' 4)') Other Mods
+#$(ColorCyan '------------------------------------------------')
+#$(ColorCyan '-')$(ColorGreen ' 0)') Go to Valheim Mod Main Menu
+#$(ColorCyan '-')$(ColorGreen ' 00)') Go to Main Menu
+#$(ColorPurple 'Choose an option:') "
+#        read a
+#        case $a in
+#		1) server_mods ; valheim_mods_options ;;
+#		2) player_mods ; valheim_mods_options ;;
+#		3) building_mods ; valheim_mods_options ;;
+#		4) other_mods ; valheim_mods_options ;;
+#		   0) mods_menu ; menu ;;
+#		   00) menu ; menu ;;
+#		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; valheim_mods_options ;;
+#        esac
+#}
+
 function mods_menu(){
 echo ""
 menu_header_vplus_enable
@@ -1259,10 +1255,9 @@ $(ColorCyan '-')$(ColorGreen ' 5)') Stop Valheim+ Service
 $(ColorCyan '-')$(ColorGreen ' 6)') Restart Valheim+ Service
 $(ColorCyan '-')$(ColorGreen ' 7)') Status Valheim+ Service 
 $(ColorCyan '-')$(ColorGreen ' 8)') Update Valheim+ File System
-$(ColorCyan '--------------Valheim+ Mod Menu-----------------')
-$(ColorCyan '-')$(ColorGreen ' 9)') Valheim+ Mods Options
-$(ColorCyan '------------------------------------------------')
-$(ColorCyan '-')$(ColorGreen ' 10)') Remove Valheim Mods 
+$(ColorCyan '------Mod/Plugin Configuration File Editor------')
+$(ColorCyan '-')$(ColorGreen ' 9)') Valheim+ Mod Option Editor
+$(ColorCyan '-')$(ColorGreen ' 10)') BepInEx Mod Option Editor
 $(ColorCyan '------------------------------------------------')
 $(ColorCyan '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorPurple 'Choose an option:') "
@@ -1277,7 +1272,7 @@ $(ColorPurple 'Choose an option:') "
 		7) display_valheim_server_status ; mods_menu ;;
 		8) valheim_plus_update ; mods_menu ;;
 		9) valheim_mods_options ; mods_menu ;;
-		10) remove_mod_valheim ; mods_menu ;;
+		10) bepinex_mod_options ; mods_menu ;;
 		   0) menu ; menu ;;
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; mods_menu ;;
         esac
