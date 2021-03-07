@@ -1670,7 +1670,7 @@ $(ColorOrange '║ Welcome Viking! Do not forget about your bees')
 $(ColorOrange '║ Visit our discord: https://discord.gg/ejgQUfc')
 $(ColorOrange '║ Beware Loki hides within this script')
 $(ColorOrange '╠═══════════════════════════════════════════════')
-$(ColorOrange '║ Mods:') ${modstrue}
+$(ColorOrange '║ Mods:') $(are_mods_enabled)
 $(ColorOrange '╠═══════════════════════════════════════════════')
 $(ColorOrange '║') Current Menu Release:" $(check_menu_script_repo)
 echo -ne "
@@ -1708,7 +1708,7 @@ $(ColorPurple '║')$(ColorLightGreen ' Welcome to Valheim+ Intergrated Menu Sys
 $(ColorPurple '║')$(ColorLightGreen ' Valheim+ Support: https://discord.gg/AmH6Va97GT')
 $(ColorPurple '║ Beware Loki hides within this script')
 $(ColorPurple '╠═══════════════════════════════════════════════')
-$(ColorPurple '║ Mods:') ${modstrue}  
+$(ColorPurple '║ Mods:') $(are_mods_enabled)
 $(ColorPurple '╠═══════════════════════════════════════════════')
 $(ColorPurple '║') ValheimPlus Official Build:" $(check_valheim_plus_repo)
 echo -ne "
