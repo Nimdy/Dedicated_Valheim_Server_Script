@@ -9,10 +9,6 @@ echo "$(tput setaf 4)-------------------------------------------------------"
 [[ "$EUID" -eq 0 ]] || exec sudo "$0" "$@"
 
 # MAIN BRANCH MENU
-#  THIS IS STILL A WORK IN PROGRESS BUT ALL THE FUNCTIONS WORK
-#  I NEED TO JUST CLEAN IT UP AND FORMAT BETTER
-#  PLEASE LET ME KNOW ABOUT ISSUES
-#  UPDATE THE MENU BEFORE YOU USE IT 
 # If Frankenstein was a bash script
 # Please help improve this script
 # Easy Valheim Server Menu super duper easy
@@ -31,36 +27,6 @@ backupPath=/home/steam/backups
 # Set Menu Version for menu display
 mversion="2.0-Lofn"
 
-##
-# Update Menu script 
-##
-
-##
-# Admin Tools:
-# -Backup World: Manual backups of .db and .fwl files
-# -Restore World: Manual restore of .db and .fwl files
-# -Stop Valheim Server: Stops the Valheim Service
-# -Start Valheim Server: Starts the Valheim Service
-# -Restart Valheim Server: Restarts the Valheim Service (stop/start)
-# -Status Valheim Server: Displays the current status of the Valheim Server Service
-# -Check and Apply Valheim Server Update: Reaches out to to Steam with steamcmd and looks for official updates. If found applies them and restarts Valheim services
-# -Edit Valheim Configuration File from menu
-# -Fresh Valheim Server: Installs Valheim server from official Steam repo. 
-##
-
-##
-# Tech Support Tools
-#Display Valheim Config File
-#Display Valheim Server Service
-#Display World Data Folder
-#Display System Info
-#Display Network Info
-#Display Connected Players History
-##
-
-##
-# Adding Valheim Mod Support
-##
 
 ########################################################################
 #############################Set COLOR VARS#############################
@@ -82,12 +48,8 @@ CLEAR='\e[0m'
 ##
 # Color Functions
 ##
-ColorRed(){
-	echo -ne $RED$1$CLEAR
-}
-ColorGreen(){
-	echo -ne $GREEN$1$CLEAR
-}
+ColorRed(){ echo -ne $RED$1$CLEAR }
+ColorGreen(){echo -ne $GREEN$1$CLEAR}
 ColorOrange(){
 	echo -ne $ORANGE$1$CLEAR
 }
