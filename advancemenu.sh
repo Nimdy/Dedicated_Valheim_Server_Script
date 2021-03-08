@@ -1663,7 +1663,7 @@ function menu_header() {
 get_current_config
 display_public_status_on_or_off
 echo -ne "
-$(ColorOrange '╔═══════════════════════════════════════════════╗')
+$(ColorOrange '╔═══════════════')$(ColorGreen 'Advance Menu System')$(ColorOrange '═════════════╗')
 $(ColorOrange '║~~~~~~~~~~~~~~~~~~')$(ColorPurple '-Njord Menu-')$(ColorOrange '~~~~~~~~~~~~~~~~~║')
 $(ColorOrange '╠═══════════════════════════════════════════════╝')
 $(ColorOrange '║ Welcome Viking! Do not forget about your bees')
