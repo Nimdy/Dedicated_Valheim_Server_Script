@@ -1297,7 +1297,7 @@ $(ColorCyan '-')$(ColorGreen ' 8)') Update Valheim+ File System
 $(ColorCyan '------Mod/Plugin Configuration File Editor------')
 $(ColorCyan 'Editor uses nano, services require restart if')
 $(ColorCyan 'any changes are made. You will be prompted')
-$(ColorCyan 'Make your changes, Save: CTRL+o Exit: CTRL+x')
+$(ColorCyan 'Common Commands: Save: CTRL+o enter Exit: CTRL+x')
 $(ColorCyan '-')$(ColorGreen ' 9)') Valheim+ Mod Option Editor
 $(ColorCyan '-')$(ColorGreen ' 10)') BepInEx Mod Option Editor
 $(ColorCyan '------------------------------------------------')
