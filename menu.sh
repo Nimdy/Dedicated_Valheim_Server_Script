@@ -29,7 +29,7 @@ backupPath=/home/steam/backups
 ###############################################################
 
 # Set Menu Version for menu display
-mversion="1.9.1-Fenrir"
+mversion="2.0-Lofn"
 
 ##
 # Update Menu script 
