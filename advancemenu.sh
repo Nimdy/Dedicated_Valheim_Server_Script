@@ -8,11 +8,6 @@ echo "$(tput setaf 4)-------------------------------------------------------"
 #    ###################################################### 
 [[ "$EUID" -eq 0 ]] || exec sudo "$0" "$@"
 
-# MAIN BRANCH MENU
-#  THIS IS STILL A WORK IN PROGRESS BUT ALL THE FUNCTIONS WORK
-#  I NEED TO JUST CLEAN IT UP AND FORMAT BETTER
-#  PLEASE LET ME KNOW ABOUT ISSUES
-#  UPDATE THE MENU BEFORE YOU USE IT 
 # If Frankenstein was a bash script
 # Please help improve this script
 # Easy Valheim Server Menu super duper easy
@@ -38,34 +33,8 @@ export valheimVanilla=1
 mversion="2.0-Lofn"
 
 ##
-# Update Menu script 
-##
-
-##
-# Admin Tools:
-# -Backup World: Manual backups of .db and .fwl files
-# -Restore World: Manual restore of .db and .fwl files
-# -Stop Valheim Server: Stops the Valheim Service
-# -Start Valheim Server: Starts the Valheim Service
-# -Restart Valheim Server: Restarts the Valheim Service (stop/start)
-# -Status Valheim Server: Displays the current status of the Valheim Server Service
-# -Check and Apply Valheim Server Update: Reaches out to to Steam with steamcmd and looks for official updates. If found applies them and restarts Valheim services
-# -Edit Valheim Configuration File from menu
-# -Fresh Valheim Server: Installs Valheim server from official Steam repo. 
-##
-
-##
-# Tech Support Tools
-#Display Valheim Config File
-#Display Valheim Server Service
-#Display World Data Folder
-#Display System Info
-#Display Network Info
-#Display Connected Players History
-##
-
-##
-# Adding Valheim Mod Support
+# Our WIKI has pretty much answered every question and if not we will add yours
+# https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki
 ##
 
 ########################################################################
@@ -1295,9 +1264,11 @@ $(ColorCyan '-')$(ColorGreen ' 6)') Restart Valheim+ Service
 $(ColorCyan '-')$(ColorGreen ' 7)') Status Valheim+ Service 
 $(ColorCyan '-')$(ColorGreen ' 8)') Update Valheim+ File System
 $(ColorCyan '------Mod/Plugin Configuration File Editor------')
+$(ColorCyan 'Mods require Server and Client File Installation')
 $(ColorCyan 'Editor uses nano, services require restart if')
 $(ColorCyan 'any changes are made. You will be prompted')
 $(ColorCyan 'Common Commands: Save: CTRL+o enter Exit: CTRL+x')
+$(ColorCyan 'Exit without saving: CTRL+x')
 $(ColorCyan '-')$(ColorGreen ' 9)') Valheim+ Mod Option Editor
 $(ColorCyan '-')$(ColorGreen ' 10)') BepInEx Mod Option Editor
 $(ColorCyan '------------------------------------------------')
