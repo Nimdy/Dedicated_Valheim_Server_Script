@@ -231,6 +231,10 @@ If running in a Cloud Server, please check the WIKI for configuration steps.
 
 https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/How-to-use-the-Menu-Script
 
+For Valheim+ Mod Support Visit there page:
+
+https://github.com/valheimPlus/ValheimPlus/issues
+
 
 * Did this help you?  Please star it!
 * Do you want to add to this? Please fork it!
