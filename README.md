@@ -274,6 +274,7 @@ Project Link: [https://github.com/Nimdy/Dedicated_Valheim_Server_Script](https:/
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
+* [All the Patreons of course because are all awesome!!](#)
 * [GeekHead on YouTube](https://www.youtube.com/user/DesertMoose7)
 * [Nicolas-Martin for Variable Assignment](https://github.com/nicolas-martin)
 * [madmozg - Pointing out my Typos](https://github.com/madmozg)
