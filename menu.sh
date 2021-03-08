@@ -28,14 +28,8 @@ worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
 backupPath=/home/steam/backups
 ###############################################################
 
-#Required for initial install of Valheim. DONT TOUCH THIS!!
-#Seriously! The menu system will switch this on and off.
-#Dont even look at it... dont even think about making that a 0
-#Set valheim to operate in vanilla mode and not with Valheim+ Mods
-export valheimVanilla=1
-
 # Set Menu Version for menu display
-mversion="2.0-Lofn"
+mversion="1.9.1-Fenrir"
 
 ##
 # Update Menu script 
@@ -131,16 +125,19 @@ BRANCH=$(git rev-parse --abbrev-ref HEAD)
 UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name @{upstream})
 
 function script_check_update() {
-clear
 #Look I know this is not pretty like Loki's face but it works!
     git fetch
       [ -n "$(git diff --name-only "$UPSTREAM" "$SCRIPTFILE")" ] && {
       echo "BY THORS HAMMER take a peek inside Valhalla!!"
+      sleep 1
         git pull --force
 	git stash
         git checkout "$BRANCH"
         git pull --force
 	echo " Updating"
+      	sleep 1
+	#remove for testing... pathing not required?
+       #cd /opt/Dedicated_Valheim_server_Script/
 	chmod +x menu.sh
         exec "$SCRIPTNAME" "${ARGS[@]}"
 
@@ -179,9 +176,9 @@ echo ""
     tput setaf 2; echo "Done" ; tput setaf 9;
     sleep 1
     
-#check for updates and upgrade the system auto yes WTF is curl not installed by default... come on man!
-    tput setaf 1; echo "Install Git, Locate, Curl, Unzip and Net-Tools" ; tput setaf 9;
-    apt install git mlocate net-tools unzip curl -y
+#check for updates and upgrade the system auto yes
+    tput setaf 1; echo "Install Git, Locate, curl and Net-Tools" ; tput setaf 9;
+    apt install git mlocate net-tools curl -y
     tput setaf 2; echo "Done" ; tput setaf 9;
     sleep 1
     
@@ -384,6 +381,9 @@ tput setaf 1; echo "Deleting old check log script if exist" ; tput setaf 9;
 #set execute permissions
 tput setaf 1; echo "Setting execute permissions on start_valheim.sh" ; tput setaf 9;
 chmod +x ${valheimInstallPath}/start_valheim.sh
+tput setaf 2; echo "Done" ; tput setaf 9;
+tput setaf 1; echo "Setting execute permissions on check_log.sh" ; tput setaf 9; 
+chmod +x /home/steam/check_log.sh
 tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 #build systemctl configurations for execution of processes for Valheim Server
@@ -691,7 +691,7 @@ function stop_valheim_server() {
     clear
     echo ""
     echo -ne "
-$(ColorOrange '--------------------Stop Valheim Services-------------------')
+$(ColorOrange '--------------------Stop Valheim Server---------------------')
 $(ColorRed '------------------------------------------------------------')"
 echo ""
 tput setaf 2; echo "You are about to STOP the Valheim Server" ; tput setaf 9; 
@@ -719,7 +719,7 @@ function start_valheim_server() {
     clear
     echo ""
     echo -ne "
-$(ColorOrange '-------------------Start Valheim Services-------------------')
+$(ColorOrange '-------------------Start Valheim Server---------------------')
 $(ColorRed '------------------------------------------------------------')"
 echo ""
 tput setaf 2; echo "You are about to START the Valheim Server" ; tput setaf 9;
@@ -747,7 +747,7 @@ function restart_valheim_server() {
     clear
     echo ""
     echo -ne "
-$(ColorOrange '-----------------Restart Valheim Services-------------------')
+$(ColorOrange '------------------Restart Valheim Server--------------------')
 $(ColorRed '------------------------------------------------------------')"
 echo ""
 tput setaf 2; echo "You are about to RESTART the Valheim Server" ; tput setaf 9; 
@@ -917,423 +917,122 @@ $(ColorPurple 'Choose an option:') "
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; admin_tools_menu ;;
         esac
 }
-#######################################################################################################################################################
-#########################################################START VALHEIM PLUS SECTION####################################################################
-#######################################################################################################################################################
-
-
-function set_valheim_server_vanillaOrPlus_operations() {
-
-#build systemctl configurations for execution of processes for Valheim Server
-tput setaf 1; echo "Deleting old configuration if file exist" ; tput setaf 9; 
-tput setaf 1; echo "Building systemctl instructions for Valheim" ; tput setaf 9; 
-# remove old Valheim Server Service
-[ -e /etc/systemd/system/valheimserver.service ] && rm /etc/systemd/system/valheimserver.service
-# remove past Valheim Server Service
-[ -e /lib/systemd/system/valheimserver.service ] && rm /lib/systemd/system/valheimserver.service
-sleep 1
-# Add new Valheim Server Service
-# Thanks @QuadeHale
-cat <<EOF > /lib/systemd/system/valheimserver.service 
-[Unit]
-Description=Valheim Server
-Wants=network-online.target
-After=syslog.target network.target nss-lookup.target network-online.target
-[Service]
-Type=simple
-Restart=on-failure
-RestartSec=5
-StartLimitInterval=60s
-StartLimitBurst=3
-User=steam
-Group=steam
-ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
-EOF
-if [ "$valheimVanilla" == "1" ]; then
-   echo "Setting Server for Valheim Vanilla"
-cat >> /lib/systemd/system/valheimserver.service <<EOF 
-ExecStart=${valheimInstallPath}/start_valheim.sh
-ExecReload=/bin/kill -s HUP \$MAINPID
-KillSignal=SIGINT
-WorkingDirectory=${valheimInstallPath}
-LimitNOFILE=100000
-[Install]
-WantedBy=multi-user.target
-EOF
-else 
-   echo "Setting Server for Mods using Valheim+"
-cat >> /lib/systemd/system/valheimserver.service <<EOF   
-ExecStart=${valheimInstallPath}/start_server_bepinex.sh
-ExecReload=/bin/kill -s HUP \$MAINPID
-KillSignal=SIGINT
-WorkingDirectory=${valheimInstallPath}
-LimitNOFILE=100000
-[Install]
-WantedBy=multi-user.target
-EOF
-fi
-tput setaf 2; echo "Done" ; tput setaf 9;
-sleep 1
-}
-
-function install_valheim_plus() {
+########################################################################
+#######################START VALHEIM MOD SECTION########################
+########################################################################
+function install_mod_valheim() {
 clear
     echo ""
-    tput setaf 2; echo "Changing into Valheim Install Directory" ; tput setaf 9; 
-    cd $valheimInstallPath
-    tput setaf 2; echo "Checking for older Valheim+ Package files and removing" ; tput setaf 9; 
-    [ -e UnixServer.zip ] && rm UnixServer.zip
-    tput setaf 2; echo "Downloading Latest Valheim+ UnixServer.zip from Official Github" ; tput setaf 9; 
-    curl -s https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest \
-    | grep "browser_download_url.*UnixServer\.zip" \
-    | cut -d ":" -f 2,3 | tr -d \" \
-    | wget -P ${valheimInstallPath} -qi - 
-    sleep 1
-    tput setaf 2; echo "Stamping Current Verison for historics" ; tput setaf 9; 
-    curl -sL https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest | grep '"tag_name":' | cut -d'"' -f4 > localValheimPlusVersion
-    tput setaf 2; echo "Unpacking zip file" ; tput setaf 9; 
-    unzip -o UnixServer.zip
-    tput setaf 2; echo "Removing old bepinex config" ; tput setaf 9; 
-    [ ! -e start_game_bepinex.sh ] && rm start_game_bepinex.sh
-    tput setaf 2; echo "Building Start Configuration File for Modded Server with bepinex filled information" ; tput setaf 9; 
-    build_start_server_bepinex_configuration_file
-    tput setaf 2; echo "Setting steam ownership to Directories, Folders and Files" ; tput setaf 9; 
-    chown steam:steam -Rf /home/steam/*
-    chmod +x start_server_bepinex.sh
-    echo ""
-    tput setaf 2; echo "Who wants to get their Viking mod on HUH!" ; tput setaf 9; 
-    tput setaf 2; echo "Let's GO!!!!" ; tput setaf 9; 
-}
-function valheim_plus_enable() {
-clear
-    echo ""
-    tput setaf 2; echo "Valheim+ Enable" ; tput setaf 9; 
-    valheimVanilla=2
-    set_valheim_server_vanillaOrPlus_operations
-    sleep 1
-    systemctl daemon-reload
-    tput setaf 2; echo "Valheim+ is now enabled and Active" ; tput setaf 9; 
+    echo "Install Valheim Mods"
+    echo "Coming Soon"
     echo ""
 }
-function valheim_plus_disable() {
+function remove_mod_valheim() {
 clear
     echo ""
-    tput setaf 2; echo "Valheim+ Disable" ; tput setaf 9; 
-    valheimVanilla=1
-    set_valheim_server_vanillaOrPlus_operations
-    sleep 1
-    systemctl daemon-reload
-    tput setaf 2; echo "Valheim+ is now disabled, Vanilla mode Active" ; tput setaf 9; 
+    echo "Remove Valheim Mods"
+    echo "Coming Soon"
     echo ""
 }
-
-function valheim_plus_update() {
-check_valheim_plus_repo
+function update_valheim_mods() {
 clear
-   tput setaf 2;  echo "Scripting As Fast as I can" ; tput setaf 9; 
-   tput setaf 2;  echo "Valheim+ Update" ; tput setaf 9; 
-    vpLocalCheck=$(cat ${valheimInstallPath}/localValheimPlusVersion)
-    echo $vpLocalCheck
-    echo $latestValPlus
-    if [[ $latestValPlus == $vpLocalCheck ]]; then
-       echo ""
-       tput setaf 2; echo "No update found" ; tput setaf 9; 
-       echo ""
-       else
-         tput setaf 2;  echo "Update found!" ; tput setaf 9; 
-	 tput setaf 2;  echo "Do you wish to continue?" ; tput setaf 9; 
-	   read -p "Please confirm:" confirmValPlusUpdate
-	  if [ "$confirmValPlusUpdate" == "y" ]; then
-	    tput setaf 2; echo "Making quick backup of valheim_plus.cfg" ; tput setaf 9; 
-	    cp ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg "${backupPath}/valheim_plus.cfg.old-$(date +"%m-%d-%y-%r")"
-	   tput setaf 2; echo "Grabbing Latest from Valheim Plus and Installing!" ; tput setaf 9; 
-            #install_valheim_plus
-	      else
-            echo "Canceled the upgrading of Valheim Plus - because Loki sucks" ; tput setaf 9; 
-            sleep 2
-          fi
-	  
-     fi
+    echo ""
+    echo "Update Valheim Mods"
+    echo "Coming Soon"
+    echo ""
 }
-
-function valheimplus_mod_options() {
+function valheim_mod_options() {
 clear
-    nano ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg
     echo ""
-    echo "If you made changes, Valheim Services need to be restarted to take effect"
-    echo "Do you wish to restart Valheim Services now?"
-     read -p "Please confirm:" confirmRestart
-#if y, then continue, else cancel
-        if [ "$confirmRestart" == "y" ]; then
+    echo "Valheim Mod Options"
+    echo "Coming Soon"
     echo ""
-    echo "Restarting Valheim Server Services"
-    sudo systemctl restart valheimserver.service
-    echo ""
-    else
-    echo "Canceled Restarting of Valheim Server Service - because Loki sucks"
-    sleep 3
-    clear
-fi
-}
-
-function bepinex_mod_options() {
-clear
-    nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
-    echo ""
-    echo "If you made changes, Valheim Services need to be restarted to take effect"
-    echo "Do you wish to restart Valheim Services now?"
-     read -p "Please confirm:" confirmRestart
-#if y, then continue, else cancel
-        if [ "$confirmRestart" == "y" ]; then
-    echo ""
-    echo "Restarting Valheim Server Services"
-    sudo systemctl restart valheimserver.service
-    echo ""
-    else
-    echo "Canceled Restarting of Valheim Server Service - because Loki sucks"
-    sleep 3
-    clear
-fi
 }
 ########################################################################
 ######################START MOD SECTION AREAS###########################
 ########################################################################
-#function server_mods() {
-#    clear
-#    echo "Scripting As Fast as I can"
-#    echo "Server Related Mods"
-#    echo "Coming Soon"
-#    echo ""
-#}
-#function player_mods() {
-#    clear
-#    echo "Scripting As Fast as I can"
-#    echo "Player Related Mods"
-#    echo "Coming Soon"
-#    echo ""
-#}
-#function building_mods() {
-#    clear
-#    echo "Scripting As Fast as I can"
-#    echo "Building Related Mods"
-#    echo "Coming Soon"
-#    echo ""
-#}
-#function other_mods() {
-#    clear
-#    echo "Scripting As Fast as I can"
-#    echo "Other Related Mods"
-#    echo "Coming Soon"
-#    echo ""
-#}
-
-
-function build_start_server_bepinex_configuration_file() {
-  cat > ${valheimInstallPath}/start_server_bepinex.sh <<'EOF'
-#!/bin/sh
-# BepInEx running script
-#
-# This script is used to run a Unity game with BepInEx enabled.
-#
-# Usage: Configure the script below and simply run this script when you want to run your game modded.
-
-# -------- SETTINGS --------
-# ---- EDIT AS NEEDED ------
-
-# EDIT THIS: The name of the executable to run
-# LINUX: This is the name of the Unity game executable [preconfigured]
-# MACOS: This is the name of the game app folder, including the .app suffix [must provide if needed]
-executable_name="valheim_server.x86_64"
-
-# EDIT THIS: Valheim server parameters
-# Can be overriden by script parameters named exactly like the ones for the Valheim executable
-# (e.g. ./start_server_bepinex.sh -name "MyValheimPlusServer" -password "somethingsafe" -port 2456 -world "myworld" -public 1)
-server_name="$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' start_valheim.sh)"
-server_port="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' start_valheim.sh)"
-server_world="$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' start_valheim.sh)"
-server_password="$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' start_valheim.sh)"
-server_public="$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' start_valheim.sh)"
-
-# The rest is automatically handled by BepInEx for Valheim+
-
-# Whether or not to enable Doorstop. Valid values: TRUE or FALSE
-export DOORSTOP_ENABLE=TRUE
-# What .NET assembly to execute. Valid value is a path to a .NET DLL that mono can execute.
-export DOORSTOP_INVOKE_DLL_PATH="${PWD}/BepInEx/core/BepInEx.Preloader.dll"
-# Which folder should be put in front of the Unity dll loading path
-export DOORSTOP_CORLIB_OVERRIDE_PATH=./unstripped_corlib
-# ----- DO NOT EDIT FROM THIS LINE FORWARD  ------
-# ----- (unless you know what you're doing) ------
-if [ ! -x "$1" -a ! -x "$executable_name" ]; then
-	echo "Please open start_server_bepinex.sh in a text editor and provide the correct executable."
-	exit 1
-fi
-doorstop_libs="${PWD}/doorstop_libs"
-arch=""
-executable_path=""
-lib_postfix=""
-os_type=`uname -s`
-case $os_type in
-	Linux*)
-		executable_path="${PWD}/${executable_name}"
-		lib_postfix="so"
-		;;
-	Darwin*)
-		executable_name=`basename "${executable_name}" .app`
-		real_executable_name=`defaults read "${PWD}/${executable_name}.app/Contents/Info" CFBundleExecutable`
-		executable_path="${PWD}/${executable_name}.app/Contents/MacOS/${real_executable_name}"
-		lib_postfix="dylib"
-		;;
-	*)
-		echo "Cannot identify OS (got $(uname -s))!"
-		echo "Please create an issue at https://github.com/BepInEx/BepInEx/issues."
-		exit 1
-		;;
-esac
-executable_type=`LD_PRELOAD="" file -b "${executable_path}"`;
-case $executable_type in
-	*64-bit*)
-		arch="x64"
-		;;
-	*32-bit*|*i386*)
-		arch="x86"
-		;;
-	*)
-		echo "Cannot identify executable type (got ${executable_type})!"
-		echo "Please create an issue at https://github.com/BepInEx/BepInEx/issues."
-		exit 1
-		;;
-esac
-doorstop_libname=libdoorstop_${arch}.${lib_postfix}
-export LD_LIBRARY_PATH="${doorstop_libs}":${LD_LIBRARY_PATH}
-export LD_PRELOAD=$doorstop_libname:$LD_PRELOAD
-export DYLD_LIBRARY_PATH="${doorstop_libs}"
-export DYLD_INSERT_LIBRARIES="${doorstop_libs}/$doorstop_libname"
-export templdpath=$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=./linux64:$LD_LIBRARY_PATH
-export SteamAppId=892970
-for arg in "$@"
-do
-	case $arg in
-	-name)
-	server_name=$2
-	shift 2
-	;;
-	-password)
-	server_password=$2
-	shift 2
-	;;
-	-port)
-	server_port=$2
-	shift 2
-	;;
-	-world)
-	server_world=$2
-	shift 2
-	;;
-	-public)
-	server_public=$2
-	shift 2
-	;;
-	esac
-done
-"${PWD}/${executable_name}" -name ${server_name} -password ${server_password} -port ${server_port} -world ${server_world} -public ${server_public}
-EOF
+function server_mods() {
+    clear
+    echo ""
+    echo "Server Related Mods"
+    echo "Coming Soon"
+    echo ""
 }
-
-
+function player_mods() {
+    clear
+    echo ""
+    echo "Player Related Mods"
+    echo "Coming Soon"
+    echo ""
+}
+function building_mods() {
+    clear
+    echo ""
+    echo "Building Related Mods"
+    echo "Coming Soon"
+    echo ""
+}
+function other_mods() {
+    clear
+    echo ""
+    echo "Other Related Mods"
+    echo "Coming Soon"
+    echo ""
+}
 ########################################################################
 ######################END MOD SECTION AREAS###########################
 ########################################################################
-#function valheim_mods_options(){
-#echo ""
-#menu_header_vplus_enable
-#echo -ne "
-#$(ColorRed '--------NOT ADDED YET BUILDING FRAME WORK--------')
-#$(ColorCyan '--------------Valheim+ Mod Menu-----------------')
-#$(ColorCyan '-')$(ColorGreen ' 1)') Server Mods
-#$(ColorCyan '-')$(ColorGreen ' 2)') Player Mods
-#$(ColorCyan '-')$(ColorGreen ' 3)') Building Mods
-#$(ColorCyan '-')$(ColorGreen ' 4)') Other Mods
-#$(ColorCyan '------------------------------------------------')
-#$(ColorCyan '-')$(ColorGreen ' 0)') Go to Valheim Mod Main Menu
-#$(ColorCyan '-')$(ColorGreen ' 00)') Go to Main Menu
-#$(ColorPurple 'Choose an option:') "
-#        read a
-#        case $a in
-#		1) server_mods ; valheim_mods_options ;;
-#		2) player_mods ; valheim_mods_options ;;
-#		3) building_mods ; valheim_mods_options ;;
-#		4) other_mods ; valheim_mods_options ;;
-#		   0) mods_menu ; menu ;;
-#		   00) menu ; menu ;;
-#		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; valheim_mods_options ;;
-#        esac
-#}
-
+function valheim_mods_options(){
+echo ""
+menu_header
+echo -ne "
+$(ColorRed '-------NOT ADDED YET BUILDING FRAME WORK---------')
+$(ColorCyan '---------------------Valheim Mod Menu----------------------')
+$(ColorCyan '-')$(ColorGreen ' 1)') Server Mods
+$(ColorCyan '-')$(ColorGreen ' 2)') Player Mods
+$(ColorCyan '-')$(ColorGreen ' 3)') Building Mods
+$(ColorCyan '-')$(ColorGreen ' 4)') Other Mods
+$(ColorCyan '------------------------------------------------------------')
+$(ColorCyan '-')$(ColorGreen ' 0)') Go to Valheim Mod Main Menu
+$(ColorCyan '-')$(ColorGreen ' 00)') Go to Main Menu
+$(ColorPurple 'Choose an option:') "
+        read a
+        case $a in
+		1) server_mods ; valheim_mods_options ;;
+		2) player_mods ; valheim_mods_options ;;
+		3) building_mods ; valheim_mods_options ;;
+		4) other_mods ; valheim_mods_options ;;
+		   0) mods_menu ; menu ;;
+		   00) menu ; menu ;;
+		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; valheim_mods_options ;;
+        esac
+}
 function mods_menu(){
 echo ""
-menu_header_vplus_enable
+menu_header
 echo -ne "
-$(ColorCyan '-------Valheim+ Mod Install Remove Update-------')
+$(ColorCyan '---------------Valheim Mod Install Remove Update---------------')
 $(ColorCyan '-')$(ColorGreen ' 1)') Install Valheim Mods 
-$(ColorCyan '--------------SUPER FREAKING BETA---------------')
-$(ColorCyan '-')$(ColorGreen ' 2)') Enable Valheim+ on Server
-$(ColorCyan '-')$(ColorGreen ' 3)') Disable Valheim+ on Server
-$(ColorCyan '-')$(ColorGreen ' 4)') Start Valheim+ Service 
-$(ColorCyan '-')$(ColorGreen ' 5)') Stop Valheim+ Service
-$(ColorCyan '-')$(ColorGreen ' 6)') Restart Valheim+ Service
-$(ColorCyan '-')$(ColorGreen ' 7)') Status Valheim+ Service 
-$(ColorCyan '-')$(ColorGreen ' 8)') Update Valheim+ File System
-$(ColorCyan '------Mod/Plugin Configuration File Editor------')
-$(ColorCyan '-')$(ColorGreen ' 9)') Valheim+ Mod Option Editor
-$(ColorCyan '-')$(ColorGreen ' 10)') BepInEx Mod Option Editor
-$(ColorCyan '------------------------------------------------')
+$(ColorCyan '-')$(ColorGreen ' 2)') Remove Valheim Mods 
+$(ColorCyan '-')$(ColorGreen ' 3)') Update Valheim Mods 
+$(ColorCyan '---------------------Valheim Mod Menu----------------------')
+$(ColorCyan '-')$(ColorGreen ' 4)') Valheim Mods Options
+$(ColorCyan '------------------------------------------------------------')
 $(ColorCyan '-')$(ColorGreen ' 0)') Go to Main Menu
 $(ColorPurple 'Choose an option:') "
         read a
         case $a in
-		1) install_valheim_plus ; mods_menu ;;
-		2) valheim_plus_enable ; mods_menu ;;
-		3) valheim_plus_disable ; mods_menu ;;
-		4) start_valheim_server ; mods_menu ;;
-		5) stop_valheim_server ; mods_menu ;;
-		6) restart_valheim_server ; mods_menu ;;
-		7) display_valheim_server_status ; mods_menu ;;
-		8) valheim_plus_update ; mods_menu ;;
-		9) valheimplus_mod_options ; mods_menu ;;
-		10) bepinex_mod_options ; mods_menu ;;
+		1) install_mod_valheim ; mods_menu ;;
+		2) remove_mod_valheim ; mods_menu ;;
+		3) update_valheim_mods ; mods_menu ;;
+		4) valheim_mods_options ; mods_menu ;;
 		   0) menu ; menu ;;
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; mods_menu ;;
         esac
 }
-
-# Check ValheimPlus Github Latest for menu display
-function check_valheim_plus_repo() {
-
-latestValPlus=$(curl --connect-timeout 10 -s https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
-echo $latestValPlus
-}
-
-
-
-# Check Local ValheimPlus Build for menu display
-function check_local_valheim_plus_build() {
-localValheimPlusVer=${valheimInstallPath}/localValheimPlusVersion
-   if [[ -e $localValheimPlusVer ]] ; then
-    localValheimPlusBuild=$(cat ${localValheimPlusVer})
-        echo $localValheimPlusBuild
-    else 
-        echo "No Data";
-  fi
-}
-
-
-
-
-#######################################################################################################################################################
-###############################################################FINISH VALHEIM MOD SECTION##############################################################
-#######################################################################################################################################################
+########################################################################
+#######################FINISH VALHEIM MOD SECTION#######################
+########################################################################
 
 ########################################################################
 ##################START CHANGE VALHEIM START CONFIG#####################
@@ -1558,19 +1257,19 @@ function admin_valheim_config_edit(){
 echo ""
 menu_header
 echo -ne "
-$(ColorOrange '-------Change Valheim Startup Config File-------')
+$(ColorOrange '------------Change Valheim Startup Config File--------------')
 $(ColorOrange '-')$(ColorGreen ' 1)') Display Current Start Vahleim Config
 $(ColorOrange '-')$(ColorGreen ' 2)') Change Public Display Name
 $(ColorOrange '-')$(ColorGreen ' 3)') Change Default Server Port
 $(ColorOrange '-')$(ColorGreen ' 4)') Change Local World Name
 $(ColorOrange '-')$(ColorGreen ' 5)') Change Server Access Password
-$(ColorOrange '------------------------------------------------')
+$(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 6)') Enable Public Listing (Restarts Valheim without asking)
 $(ColorOrange '-')$(ColorGreen ' 7)') Disable Public Listing (Restarts Valehim without asking)
-$(ColorOrange '------------------------------------------------')
+$(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') Go to Admin Tools Menu
 $(ColorOrange '-')$(ColorGreen ' 00)') Go to Main Menu
-$(ColorOrange '------------------------------------------------')
+$(ColorOrange '------------------------------------------------------------')
 $(ColorPurple 'Choose an option:') "
         read a
         case $a in
@@ -1646,42 +1345,20 @@ ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"Internet: $tecreset Connec
 
 }
 
-function are_mods_enabled() {
-modstrue=$( cat /lib/systemd/system/valheimserver.service | grep bepinex)
-var2="ExecStart=/home/steam/valheimserver/start_server_bepinex.sh"
-if [[ $modstrue == $var2 ]]; then
-        echo "Enabled"
-else
-        echo "Disable"
-fi
-
-}
-
-
-
 function menu_header() {
 get_current_config
 display_public_status_on_or_off
 echo -ne "
 $(ColorOrange '╔═══════════════════════════════════════════════╗')
-$(ColorOrange '║~~~~~~~~~~~~~~~~~~')$(ColorPurple '-Njord Menu-')$(ColorOrange '~~~~~~~~~~~~~~~~~║')
+$(ColorOrange '║~~~~~~~~~~~~~~~~~~-Njord Menu-~~~~~~~~~~~~~~~~~║')
 $(ColorOrange '╠═══════════════════════════════════════════════╝')
 $(ColorOrange '║ Welcome Viking! Do not forget about your bees')
 $(ColorOrange '║ Visit our discord: https://discord.gg/ejgQUfc')
 $(ColorOrange '║ Beware Loki hides within this script')
-$(ColorOrange '╠═══════════════════════════════════════════════')
-$(ColorOrange '║ Mods:') $(are_mods_enabled)
-$(ColorOrange '╠═══════════════════════════════════════════════')
-$(ColorOrange '║') Current Menu Release:" $(check_menu_script_repo)
-echo -ne "
-$(ColorOrange '║') Local Installed Menu:" ${mversion}
-echo -ne "
-$(ColorOrange '╠═══════════════════════════════════════════════')
+$(ColorOrange '║') 
 $(ColorOrange '║') Valheim Official Build:" $(check_official_valheim_release_build)
 echo -ne "
 $(ColorOrange '║') Valheim Server Build:" $(check_local_valheim_build)
-echo -ne "
-$(ColorOrange '╚═══════════════════════════════════════════════')"
 echo -ne "
 $(ColorOrange '║') Server Name: ${currentDisplayName}
 $(ColorOrange '║') $(are_you_connected)
@@ -1693,49 +1370,10 @@ $(ColorOrange '║') Your Server Port:" ${currentPort}
 echo -ne "
 $(ColorOrange '║') Public Listing:" $publicON $publicOFF
 echo -ne "
+$(ColorOrange '║') Current Menu Release: $(check_menu_script_repo)
+$(ColorOrange '║') Local Installed Menu: ${mversion}
 $(ColorOrange '║') Happy Gaming - ZeroBandwidth
 $(ColorOrange '╚═══════════════════════════════════════════════')"
-}
-
-function menu_header_vplus_enable() {
-get_current_config
-display_public_status_on_or_off
-echo -ne "
-$(ColorPurple '╔════════════════════')$(ColorOrange 'Valheim+')$(ColorPurple '═══════════════════╗')
-$(ColorPurple '║~~~~~~~~~~~~~~~~~~')$(ColorLightGreen '-Njord Menu-')$(ColorPurple '~~~~~~~~~~~~~~~~~║')
-$(ColorPurple '╠═══════════════════════════════════════════════╝')
-$(ColorPurple '║')$(ColorLightGreen ' Welcome to Valheim+ Intergrated Menu System')
-$(ColorPurple '║')$(ColorLightGreen ' Valheim+ Support: https://discord.gg/AmH6Va97GT')
-$(ColorPurple '║ Beware Loki hides within this script')
-$(ColorPurple '╠═══════════════════════════════════════════════')
-$(ColorPurple '║ Mods:') $(are_mods_enabled)
-$(ColorPurple '╠═══════════════════════════════════════════════')
-$(ColorPurple '║') ValheimPlus Official Build:" $(check_valheim_plus_repo)
-echo -ne "
-$(ColorPurple '║') ValheimPlus Server Build:" $(check_local_valheim_plus_build)
-echo -ne "
-$(ColorPurple '╠═══════════════════════════════════════════════')
-$(ColorPurple '║') Valheim Official Build:" $(check_official_valheim_release_build)
-echo -ne "
-$(ColorPurple '║') Valheim Server Build:" $(check_local_valheim_build)
-echo -ne "
-$(ColorPurple '╚═══════════════════════════════════════════════')"
-echo -ne "
-$(ColorPurple '║') Server Name: ${currentDisplayName}
-$(ColorPurple '║') $(are_you_connected)
-$(ColorPurple '║')" $(display_public_IP)
-echo -ne "
-$(ColorPurple '║')" $(display_local_IP)
-echo -ne "
-$(ColorPurple '║') Your Server Port:" ${currentPort}
-echo -ne "
-$(ColorPurple '║') Public Listing:" $publicON $publicOFF
-echo -ne "
-$(ColorPurple '║') Current Menu Release: $(check_menu_script_repo)
-$(ColorPurple '║') Local Installed Menu: ${mversion}
-$(ColorPurple '║') Happy Gaming - ZeroBandwidth 
-$(ColorPurple '║') Visit our discord: https://discord.gg/ejgQUfc
-$(ColorPurple '╚═══════════════════════════════════════════════')"
 }
 
 ########################################################################
@@ -1743,6 +1381,7 @@ $(ColorPurple '╚════════════════════�
 ########################################################################
 menu(){
 #get_current_config
+clear
 menu_header
 echo -ne "
 $(ColorOrange '-------------Check for Script Updates-----------')
@@ -1755,8 +1394,8 @@ $(ColorOrange '---------Official Valheim Server Update---------')
 $(ColorOrange '-')$(ColorGreen ' 5)') Check and Apply Valheim Server Update
 $(ColorOrange '-----Edit start_valehim.sh Configuration--------')
 $(ColorOrange '-')$(ColorGreen ' 6)') Display or Edit Valheim Config File
-$(ColorOrange '------------------Valheim+ Menu-----------------')
-$(ColorOrange '-')$(ColorGreen ' 7)') Valheim+
+$(ColorOrange '--------------------Mods Menu-------------------')
+$(ColorOrange '-')$(ColorGreen ' 7)') Coming Soon
 $(ColorOrange '------------------------------------------------')
 $(ColorGreen ' 0)') Exit
 $(ColorOrange '------------------------------------------------')
