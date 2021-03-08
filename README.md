@@ -17,7 +17,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/16698453/110112516-24347380-7db2-11eb-8333-182f9f95af03.PNG" />
+    <img src="https://user-images.githubusercontent.com/16698453/110365923-e8b1d780-8045-11eb-85e4-3b4aca17d4c4.png" />
   <h3 align="center">Njord Menu</h3>
 
   <p align="center">
@@ -172,7 +172,12 @@ sudo chmod +x menu.sh
 6. Launch the Menu System (Please run this as root first or a true user account with sudo permissions | DONT USER sudo -u use sudo -i)
 =
 ```sh
+To play Valheim without Mods
 ./menu.sh
+```
+```sh
+To play Valheim with Valheim+ or other mods(other mod types outside Valheim+ needs testers)
+./advancemenu.sh
 ```
 ![Main Menu](https://user-images.githubusercontent.com/16698453/108992554-be513900-7699-11eb-9bc1-877f7db072e8.PNG?raw=true "Main Menu")
 
