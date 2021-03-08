@@ -1263,7 +1263,7 @@ menu_header_vplus_enable
 echo -ne "
 $(ColorCyan '-------Valheim+ Mod Install Remove Update-------')
 $(ColorCyan '-')$(ColorGreen ' 1)') Install Valheim Mods 
-$(ColorCyan '--------------SUPER FREAKING BETA---------------')
+$(ColorCyan '--------------Valheim+ Management---------------')
 $(ColorCyan '-')$(ColorGreen ' 2)') Enable Valheim+ on Server
 $(ColorCyan '-')$(ColorGreen ' 3)') Disable Valheim+ on Server
 $(ColorCyan '-')$(ColorGreen ' 4)') Start Valheim+ Service 
