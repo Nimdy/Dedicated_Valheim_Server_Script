@@ -917,122 +917,6 @@ $(ColorPurple 'Choose an option:') "
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; admin_tools_menu ;;
         esac
 }
-########################################################################
-#######################START VALHEIM MOD SECTION########################
-########################################################################
-function install_mod_valheim() {
-clear
-    echo ""
-    echo "Install Valheim Mods"
-    echo "Coming Soon"
-    echo ""
-}
-function remove_mod_valheim() {
-clear
-    echo ""
-    echo "Remove Valheim Mods"
-    echo "Coming Soon"
-    echo ""
-}
-function update_valheim_mods() {
-clear
-    echo ""
-    echo "Update Valheim Mods"
-    echo "Coming Soon"
-    echo ""
-}
-function valheim_mod_options() {
-clear
-    echo ""
-    echo "Valheim Mod Options"
-    echo "Coming Soon"
-    echo ""
-}
-########################################################################
-######################START MOD SECTION AREAS###########################
-########################################################################
-function server_mods() {
-    clear
-    echo ""
-    echo "Server Related Mods"
-    echo "Coming Soon"
-    echo ""
-}
-function player_mods() {
-    clear
-    echo ""
-    echo "Player Related Mods"
-    echo "Coming Soon"
-    echo ""
-}
-function building_mods() {
-    clear
-    echo ""
-    echo "Building Related Mods"
-    echo "Coming Soon"
-    echo ""
-}
-function other_mods() {
-    clear
-    echo ""
-    echo "Other Related Mods"
-    echo "Coming Soon"
-    echo ""
-}
-########################################################################
-######################END MOD SECTION AREAS###########################
-########################################################################
-function valheim_mods_options(){
-echo ""
-menu_header
-echo -ne "
-$(ColorRed '-------NOT ADDED YET BUILDING FRAME WORK---------')
-$(ColorCyan '---------------------Valheim Mod Menu----------------------')
-$(ColorCyan '-')$(ColorGreen ' 1)') Server Mods
-$(ColorCyan '-')$(ColorGreen ' 2)') Player Mods
-$(ColorCyan '-')$(ColorGreen ' 3)') Building Mods
-$(ColorCyan '-')$(ColorGreen ' 4)') Other Mods
-$(ColorCyan '------------------------------------------------------------')
-$(ColorCyan '-')$(ColorGreen ' 0)') Go to Valheim Mod Main Menu
-$(ColorCyan '-')$(ColorGreen ' 00)') Go to Main Menu
-$(ColorPurple 'Choose an option:') "
-        read a
-        case $a in
-		1) server_mods ; valheim_mods_options ;;
-		2) player_mods ; valheim_mods_options ;;
-		3) building_mods ; valheim_mods_options ;;
-		4) other_mods ; valheim_mods_options ;;
-		   0) mods_menu ; menu ;;
-		   00) menu ; menu ;;
-		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; valheim_mods_options ;;
-        esac
-}
-function mods_menu(){
-echo ""
-menu_header
-echo -ne "
-$(ColorCyan '---------------Valheim Mod Install Remove Update---------------')
-$(ColorCyan '-')$(ColorGreen ' 1)') Install Valheim Mods 
-$(ColorCyan '-')$(ColorGreen ' 2)') Remove Valheim Mods 
-$(ColorCyan '-')$(ColorGreen ' 3)') Update Valheim Mods 
-$(ColorCyan '---------------------Valheim Mod Menu----------------------')
-$(ColorCyan '-')$(ColorGreen ' 4)') Valheim Mods Options
-$(ColorCyan '------------------------------------------------------------')
-$(ColorCyan '-')$(ColorGreen ' 0)') Go to Main Menu
-$(ColorPurple 'Choose an option:') "
-        read a
-        case $a in
-		1) install_mod_valheim ; mods_menu ;;
-		2) remove_mod_valheim ; mods_menu ;;
-		3) update_valheim_mods ; mods_menu ;;
-		4) valheim_mods_options ; mods_menu ;;
-		   0) menu ; menu ;;
-		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; mods_menu ;;
-        esac
-}
-########################################################################
-#######################FINISH VALHEIM MOD SECTION#######################
-########################################################################
 
 ########################################################################
 ##################START CHANGE VALHEIM START CONFIG#####################
@@ -1394,8 +1278,8 @@ $(ColorOrange '---------Official Valheim Server Update---------')
 $(ColorOrange '-')$(ColorGreen ' 5)') Check and Apply Valheim Server Update
 $(ColorOrange '-----Edit start_valehim.sh Configuration--------')
 $(ColorOrange '-')$(ColorGreen ' 6)') Display or Edit Valheim Config File
-$(ColorOrange '--------------------Mods Menu-------------------')
-$(ColorOrange '-')$(ColorGreen ' 7)') Coming Soon
+$(ColorOrange '--------------------You want Mods?-------------------')
+$(ColorOrange '-')$(ColorGreen '') You must use the advance menu launcher
 $(ColorOrange '------------------------------------------------')
 $(ColorGreen ' 0)') Exit
 $(ColorOrange '------------------------------------------------')
@@ -1408,7 +1292,6 @@ $(ColorPurple 'Choose an option:') "
 		4) server_install_menu ; menu ;;
 		5) confirm_check_apply_server_updates ; menu ;;	
 	        6) admin_valheim_config_edit ; menu ;;
-		7) mods_menu ; menu ;;
 		    0) exit 0 ;;
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
         esac
