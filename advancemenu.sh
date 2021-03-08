@@ -984,6 +984,7 @@ clear
     set_valheim_server_vanillaOrPlus_operations
     sleep 1
     systemctl daemon-reload
+    systemctl restart valheimserver.service
     tput setaf 2; echo "Valheim+ is now enabled and Active" ; tput setaf 9; 
     echo ""
 }
