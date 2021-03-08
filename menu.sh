@@ -1278,7 +1278,7 @@ $(ColorOrange '---------Official Valheim Server Update---------')
 $(ColorOrange '-')$(ColorGreen ' 5)') Check and Apply Valheim Server Update
 $(ColorOrange '-----Edit start_valehim.sh Configuration--------')
 $(ColorOrange '-')$(ColorGreen ' 6)') Display or Edit Valheim Config File
-$(ColorOrange '--------------------You want Mods?-------------------')
+$(ColorOrange '-----------------You want Mods?-----------------')
 $(ColorOrange '-')$(ColorGreen '') You must use the advance menu launcher
 $(ColorOrange '------------------------------------------------')
 $(ColorGreen ' 0)') Exit
