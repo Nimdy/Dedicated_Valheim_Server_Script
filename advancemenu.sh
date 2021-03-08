@@ -142,6 +142,7 @@ clear
         git pull --force
 	echo " Updating"
 	chmod +x menu.sh
+	chmod +x advancemenu.sh
         exec "$SCRIPTNAME" "${ARGS[@]}"
 
         # Now exit this old instance
