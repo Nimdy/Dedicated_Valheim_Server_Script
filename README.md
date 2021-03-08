@@ -17,7 +17,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/16698453/110112516-24347380-7db2-11eb-8333-182f9f95af03.PNG" />
+    <img src="https://user-images.githubusercontent.com/16698453/110365691-9bce0100-8045-11eb-8117-1743581ac269.png" />
   <h3 align="center">Njord Menu</h3>
 
   <p align="center">
