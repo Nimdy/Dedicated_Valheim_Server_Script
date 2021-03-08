@@ -48,8 +48,12 @@ CLEAR='\e[0m'
 ##
 # Color Functions
 ##
-ColorRed(){ echo -ne $RED$1$CLEAR }
-ColorGreen(){echo -ne $GREEN$1$CLEAR}
+ColorRed(){ 
+        echo -ne $RED$1$CLEAR 
+}
+ColorGreen(){
+         echo -ne $GREEN$1$CLEAR
+}
 ColorOrange(){
 	echo -ne $ORANGE$1$CLEAR
 }
