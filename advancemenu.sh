@@ -1061,9 +1061,12 @@ function valheimplus_mod_options() {
 clear
     nano ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg
     echo ""
-    echo "If you made changes, Valheim Services need to be restarted to take effect"
-    echo "Do you wish to restart Valheim Services now?"
-     read -p "Please confirm:" confirmRestart
+    tput setaf 2; echo "-------------------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 2;  echo "If you made changes, Valheim Services need to be restarted to take effect" ; tput setaf 9; 
+    tput setaf 2;  echo "Do you wish to restart Valheim Services now?" ; tput setaf 9; 
+    tput setaf 2; echo "-------------------------------------------------------------------------" ; tput setaf 9;
+    echo ""
+     read -p "Please confirm: (y=Yes, n=No and press enter)" confirmRestart
 #if y, then continue, else cancel
         if [ "$confirmRestart" == "y" ]; then
     echo ""
@@ -1072,7 +1075,7 @@ clear
     echo ""
     else
     echo "Canceled Restarting of Valheim Server Service - because Loki sucks"
-    sleep 3
+    sleep 2
     clear
 fi
 }
@@ -1081,9 +1084,12 @@ function bepinex_mod_options() {
 clear
     nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
     echo ""
+    tput setaf 2; echo "-------------------------------------------------------------------------" ; tput setaf 9;
     echo "If you made changes, Valheim Services need to be restarted to take effect"
     echo "Do you wish to restart Valheim Services now?"
-     read -p "Please confirm:" confirmRestart
+    tput setaf 2; echo "-------------------------------------------------------------------------" ; tput setaf 9;
+    echo ""
+     read -p "Please confirm: (y=Yes, n=No and press enter)" confirmRestart
 #if y, then continue, else cancel
         if [ "$confirmRestart" == "y" ]; then
     echo ""
@@ -1092,7 +1098,7 @@ clear
     echo ""
     else
     echo "Canceled Restarting of Valheim Server Service - because Loki sucks"
-    sleep 3
+    sleep 2
     clear
 fi
 }
@@ -1287,6 +1293,9 @@ $(ColorCyan '-')$(ColorGreen ' 6)') Restart Valheim+ Service
 $(ColorCyan '-')$(ColorGreen ' 7)') Status Valheim+ Service 
 $(ColorCyan '-')$(ColorGreen ' 8)') Update Valheim+ File System
 $(ColorCyan '------Mod/Plugin Configuration File Editor------')
+$(ColorCyan 'Editor uses nano, services require restart if')
+$(ColorCyan 'any changes are made. You will be prompted')
+$(ColorCyan 'Make your changes, Save: CTRL+o Exit: CTRL+x')
 $(ColorCyan '-')$(ColorGreen ' 9)') Valheim+ Mod Option Editor
 $(ColorCyan '-')$(ColorGreen ' 10)') BepInEx Mod Option Editor
 $(ColorCyan '------------------------------------------------')
