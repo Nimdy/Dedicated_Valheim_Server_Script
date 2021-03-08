@@ -25,7 +25,7 @@ backupPath=/home/steam/backups
 
 #Required for initial install of Valheim. DONT TOUCH THIS!!
 #Seriously! The menu system will switch this on and off.
-#Dont even look at it.... dont even think about making that a 0
+#Dont even look at it... dont even think about making that a 0
 #Set valheim to operate in vanilla mode and not with Valheim+ Mods
 export valheimVanilla=1
 
@@ -984,6 +984,7 @@ clear
     set_valheim_server_vanillaOrPlus_operations
     sleep 1
     systemctl daemon-reload
+    systemctl restart valheimserver.service
     tput setaf 2; echo "Valheim+ is now enabled and Active" ; tput setaf 9; 
     echo ""
 }
