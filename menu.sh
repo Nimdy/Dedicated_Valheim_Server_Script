@@ -1173,8 +1173,8 @@ echo $latestScript
 }
 
 function display_public_status_on_or_off() {
-get_current_config
-    if [[ $currentPublicSet == 1 ]]; then 
+currentPortCheck=$(perl -n -e '/\-public "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+    if [[ $currentPortCheck == 1 ]]; then 
       publicON=$(echo "On")
     else
       publicOFF=$(echo "Off")
@@ -1221,7 +1221,7 @@ $(ColorOrange '║')" $(display_local_IP)
 echo -ne "
 $(ColorOrange '║') Your Server Port:" ${currentPort}
 echo -ne "
-$(ColorOrange '║') Public Listing:" $publicON $publicOFF
+$(ColorOrange '║') Public Listing:" $(display_public_status_on_or_off)
 echo -ne "
 $(ColorOrange '║') Current Menu Release: $(check_menu_script_repo)
 $(ColorOrange '║') Local Installed Menu: ${mversion}
