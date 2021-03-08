@@ -116,7 +116,7 @@ To get a local copy up and running follow these simple example steps.
   ```
 * Ubuntu Install
   ```sh
-  Ubuntu 20.04 LTS (tested 10 FEB 2021)
+  Ubuntu 18.04 LTS 64bit and Ubuntu 20.04 LTS (tested 10 FEB 2021)
   ```
 * Putty 64bit for Windows User
   ```sh
@@ -172,7 +172,12 @@ sudo chmod +x menu.sh
 6. Launch the Menu System (Please run this as root first or a true user account with sudo permissions | DONT USER sudo -u use sudo -i)
 =
 ```sh
+To play Valheim without Mods
 ./menu.sh
+```
+```sh
+To play Valheim with Valheim+ or other mods(other mod types outside Valheim+ needs testers)
+./advancemenu.sh
 ```
 ![Main Menu](https://user-images.githubusercontent.com/16698453/108992554-be513900-7699-11eb-9bc1-877f7db072e8.PNG?raw=true "Main Menu")
 
@@ -274,6 +279,7 @@ Project Link: [https://github.com/Nimdy/Dedicated_Valheim_Server_Script](https:/
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
+* [All the Patreons of course because are all awesome!!](#)
 * [GeekHead on YouTube](https://www.youtube.com/user/DesertMoose7)
 * [Nicolas-Martin for Variable Assignment](https://github.com/nicolas-martin)
 * [madmozg - Pointing out my Typos](https://github.com/madmozg)
