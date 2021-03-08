@@ -984,7 +984,10 @@ clear
     set_valheim_server_vanillaOrPlus_operations
     sleep 1
     systemctl daemon-reload
+    sleep 1
+    echo "Restarting Valheim Services, so changes can be applied"
     systemctl restart valheimserver.service
+    sleep 1
     tput setaf 2; echo "Valheim+ is now enabled and Active" ; tput setaf 9; 
     echo ""
 }
@@ -996,6 +999,10 @@ clear
     set_valheim_server_vanillaOrPlus_operations
     sleep 1
     systemctl daemon-reload
+    sleep 1
+    echo "Restarting Valheim Services, so changes can be applied"
+    systemctl restart valheimserver.service
+    sleep 1    
     tput setaf 2; echo "Valheim+ is now disabled, Vanilla mode Active" ; tput setaf 9; 
     echo ""
 }
