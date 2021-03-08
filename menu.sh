@@ -105,6 +105,9 @@ function script_check_update() {
 	#remove for testing... pathing not required?
        #cd /opt/Dedicated_Valheim_server_Script/
 	chmod +x menu.sh
+	sleep 1
+	chmod +x advancemenu.sh
+	sleep 1
         exec "$SCRIPTNAME" "${ARGS[@]}"
 
         # Now exit this old instance
