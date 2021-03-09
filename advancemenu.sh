@@ -30,7 +30,7 @@ backupPath=/home/steam/backups
 export valheimVanilla=1
 
 # Set Menu Version for menu display
-mversion="2.0-Lofn"
+mversion="2.0.1-Lofn"
 
 ##
 # Our WIKI has pretty much answered every question and if not we will add yours
