@@ -268,6 +268,19 @@ echo ""
     tput setaf 2; echo "Password not accepted - Too Short, Special Characters" ; tput setaf 9;
     tput setaf 2; echo "I swear to LOKI, you better NOT use Special Characters" ; tput setaf 9;
     done
+        # Take user input for Sow Server Public
+    echo ""
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "---------------------Public Server Shown--------------------" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 1;  echo "Do you want your Server Shown Publicly" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 2;  echo "Show Server in Public List: 1 " ; tput setaf 9;
+    tput setaf 1;  echo "Play Server on LAN or Not Listed Publicly: 0" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+    echo ""
+      read -p "Set Public to 1 or 0: " publicList
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     echo ""
 cat >> /home/steam/serverSetup.txt <<EOF
 Here is the information you entered
@@ -277,6 +290,7 @@ nonroot steam password:  $userpassword
 Public Server Name:      $displayname
 Local World Name:        $worldname
 Valheim Server Password: $password
+Show Public: $publicList
 ---------------------------------------------------------------
 Each time this is ran, the past info will be added to each line
 ---------------------------------------------------------------
@@ -290,7 +304,8 @@ tput setaf 2; echo "------------------------------------------------------------
 tput setaf 2; echo "nonroot steam password:  $userpassword " ; tput setaf 9;
 tput setaf 2; echo "Public Server Name:      $displayname " ; tput setaf 9;
 tput setaf 2; echo "Local World Name:        $worldname " ; tput setaf 9;
-tput setaf 2; echo "Valheim Server Password: $password " ; tput setaf 9;
+tput setaf 2; echo "Valheim Server Password: $password " ; tput setaf 9; 
+tput setaf 2; echo "Show Public Server: $publicList " ; tput setaf 9; 
 tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
 echo ""
 sleep 5
@@ -339,7 +354,7 @@ export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${displayname}" -port "2456" -nographics -batchmode -world "${worldname}" -password "${password}" -public "1"
+./valheim_server.x86_64 -name "${displayname}" -port "2456" -nographics -batchmode -world "${worldname}" -password "${password}" -public "${publicList}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
 tput setaf 2; echo "Done" ; tput setaf 9;
