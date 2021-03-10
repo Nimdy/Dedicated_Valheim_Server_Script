@@ -30,7 +30,7 @@ backupPath=/home/steam/backups
 export valheimVanilla=1
 
 # Set Menu Version for menu display
-mversion="2.0.1-Lofn"
+mversion="2.0.2-Lofn"
 
 ##
 # Our WIKI has pretty much answered every question and if not we will add yours
@@ -476,7 +476,10 @@ function backup_world_data() {
 	  #stop valheim server
          tput setaf 1; echo "Stopping Valheim Server for clean backups" ; tput setaf 9;
          systemctl stop valheimserver.service
-         tput setaf 1; echo "Stopped" ; tput setaf 9;
+         tput setaf 2; echo "Valheim Services successfully Stopped" ; tput setaf 9;
+	 tput setaf 2; echo "Waiting for 10 seconds for Valheim to finish off loading RAM to world data files" ; tput setaf 9;
+         #give it a few
+         sleep 10
 	 tput setaf 1; echo "Making tar file of world data" ; tput setaf 9;
          tar czf $backupPath/valheim-backup-$TODAY.tgz $worldpath/*
 	 tput setaf 2; echo "Process complete!" ; tput setaf 9;
@@ -535,8 +538,9 @@ $(ColorGreen 'Press y (for yes) or n (for no)') "
         tput setaf 1; echo "Stopping Valheim Server" ; tput setaf 9;
         systemctl stop valheimserver.service
         tput setaf 2; echo "Valheim Services successfully Stopped" ; tput setaf 9;
+	tput setaf 2; echo "Waiting for 10 seconds for Valheim to finish off loading RAM to world data files" ; tput setaf 9;
  #give it a few
-        sleep 5
+        sleep 10
  #copy backup to worlds folder
         tput setaf 2; echo "Copying ${backups[$selectedIndex-1]} to ${worldpath}/" ; tput setaf 9;
         cp ${backups[$selectedIndex-1]} ${worldpath}/
