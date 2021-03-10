@@ -181,7 +181,7 @@ To play Valheim without Mods
 To play Valheim with Valheim+ or other mods(other mod types outside Valheim+ needs testers)
 ./advancemenu.sh
 ```
-![Main Menu](https://user-images.githubusercontent.com/16698453/108992554-be513900-7699-11eb-9bc1-877f7db072e8.PNG?raw=true "Main Menu")
+![Main Menu](https://user-images.githubusercontent.com/16698453/110656976-bf698680-81c0-11eb-890d-6bf09c9b1eb1.PNG?raw=true "Main Menu")
 
 7. Select Option 4 - Install Valheim Server
 
