@@ -159,7 +159,7 @@ cd /opt
 3. Download Easy Installer from Github - Nimdy (Zero Bandwidth)
 =
 ```sh
-git clone https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
+sudo git clone https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
 ```
 4. Change directory to Dedicated_Valheim_Server_Script
 =
