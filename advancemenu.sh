@@ -1740,7 +1740,7 @@ $(ColorPurple '║')" $(display_local_IP)
 echo -ne "
 $(ColorPurple '║') Your Server Port:" ${currentPort}
 echo -ne "
-$(ColorPurple '║') Public Listing:" $publicON $publicOFF
+$(ColorPurple '║') Public Listing:" $(display_public_status_on_or_off)
 echo -ne "
 $(ColorPurple '║') Current Menu Release: $(check_menu_script_repo)
 $(ColorPurple '║') Local Installed Menu: ${mversion}
