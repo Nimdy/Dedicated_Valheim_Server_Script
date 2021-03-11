@@ -1,6 +1,6 @@
 ---
 name: Tech Support
-about: Request Tech Support for issues non-script related
+about: Request Tech Support for issues non-script related issues
 title: "[TECH SUPPORT}"
 labels: NON-SCRIPT Related, Tech Support Request
 assignees: ''
