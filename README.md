@@ -124,7 +124,7 @@ To get a local copy up and running follow these simple example steps.
   ```sh
   https://www.chiark.greenend.org.uk/~sgtatham/putty/
   ```
-* WinSCP 64bit for Windows User
+* WinSCP 64bit for Windows Users who wish to transfer world files from one machine to another.
   ```sh
   https://winscp.net/eng/download.php
   ```
