@@ -171,7 +171,7 @@ cd Dedicated_Valheim_Server_Script
 ```sh
 sudo chmod +x menu.sh
 ```
-6. Launch the Menu System (Please run this as root first or a true user account with sudo permissions | DONT USER sudo -u use sudo -i)
+6. Launch the Menu System (Please run this as root first or a true user account with sudo permissions | DONT USE sudo -u | use sudo -i )
 =
 ```sh
 To play Valheim without Mods
