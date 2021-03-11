@@ -1710,7 +1710,6 @@ $(ColorOrange '╚════════════════════�
 
 function menu_header_vplus_enable() {
 get_current_config
-display_public_status_on_or_off
 echo -ne "
 $(ColorPurple '╔════════════════════')$(ColorOrange 'Valheim+')$(ColorPurple '═══════════════════╗')
 $(ColorPurple '║~~~~~~~~~~~~~~~~~~')$(ColorLightGreen '-Njord Menu-')$(ColorPurple '~~~~~~~~~~~~~~~~~║')
