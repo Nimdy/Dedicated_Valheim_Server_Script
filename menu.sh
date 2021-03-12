@@ -278,16 +278,7 @@ echo ""
       read -p "$PUBLIC_ENABLED_DISABLE_INPUT" publicList
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     echo ""
-echo "$DRAW60" >> /home/steam/serverSetup.txt
-echo $CREDS_DISPLAY_CREDS_PRINT_OUT_STEAM_PASSWORD $userpassword >> /home/steam/serverSetup.txt
-echo $CREDS_DISPLAY_CREDS_PRINT_OUT_SERVER_NAME $displayname >> /home/steam/serverSetup.txt
-echo $CREDS_DISPLAY_CREDS_PRINT_OUT_WORLD_NAME $worldname >> /home/steam/serverSetup.txt
-echo $CREDS_DISPLAY_CREDS_PRINT_OUT_ACCESS_PASS $password >> /home/steam/serverSetup.txt
-echo $CREDS_DISPLAY_CREDS_PRINT_OUT_SHOW_PUBLIC $publicList >> /home/steam/serverSetup.txt
-echo "$DRAW60" >> /home/steam/serverSetup.txt
-sleep 1
-chown steam:steam /home/steam/serverSetup.txt
-clear
+
 
 echo "$CREDS_DISPLAY_CREDS_PRINT_OUT_HEADER"
 tput setaf 2; echo "$DRAW60" ; tput setaf 9;
@@ -302,7 +293,9 @@ sleep 5
 
 #install steamcmd and libsd12-2
 tput setaf 1; echo "$INSTALL_STEAMCMD_LIBSD12" ; tput setaf 9;
-echo msttcorefonts msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+steam='steam steam/question select "I AGREE" | sudo debconf-set-selections'
+echo $steam
+echo steam steam/license note '' | sudo debconf-set-selections
 apt install steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386 -y
 tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 sleep 1
@@ -315,6 +308,16 @@ cp /etc/skel/.bashrc /home/steam/.bashrc
 cp /etc/skel/.profile /home/steam/.profile
 tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 sleep 1
+echo "$DRAW60" >> /home/steam/serverSetup.txt
+echo $CREDS_DISPLAY_CREDS_PRINT_OUT_STEAM_PASSWORD $userpassword >> /home/steam/serverSetup.txt
+echo $CREDS_DISPLAY_CREDS_PRINT_OUT_SERVER_NAME $displayname >> /home/steam/serverSetup.txt
+echo $CREDS_DISPLAY_CREDS_PRINT_OUT_WORLD_NAME $worldname >> /home/steam/serverSetup.txt
+echo $CREDS_DISPLAY_CREDS_PRINT_OUT_ACCESS_PASS $password >> /home/steam/serverSetup.txt
+echo $CREDS_DISPLAY_CREDS_PRINT_OUT_SHOW_PUBLIC $publicList >> /home/steam/serverSetup.txt
+echo "$DRAW60" >> /home/steam/serverSetup.txt
+sleep 1
+chown steam:steam /home/steam/serverSetup.txt
+clear
 #build symbolic link for steamcmd
 tput setaf 1; echo "$INSTALL_BUILD_SYM_LINK_STEAMCMD" ; tput setaf 9;
 ln -s /usr/games/steamcmd /home/steam/steamcmd
