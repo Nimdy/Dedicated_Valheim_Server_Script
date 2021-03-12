@@ -851,42 +851,6 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 		    *)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; tech_support ;;
         esac
 }
-########################################################################
-########################Sub Admin Menu System###########################
-########################################################################
-admin_tools_menu(){
-menu_header
-echo ""
-echo -ne "
-$(ColorOrange ''"$FUNCTION_ADMIN_TOOLS_MENU_HEADER"'')
-$(ColorOrange '-')$(ColorGreen ' 1)') $FUNCTION_ADMIN_TOOLS_MENU_BACKUP
-$(ColorOrange '-')$(ColorGreen ' 2)') $FUNCTION_ADMIN_TOOLS_MENU_RESTORE
-$(ColorOrange ''"$FUNCTION_ADMIN_TOOLS_MENU_TOOLS_HEADER"'')
-$(ColorOrange '-')$(ColorGreen ' 3)') $FUNCTION_ADMIN_TOOLS_MENU_STOP_SERVICE
-$(ColorOrange '-')$(ColorGreen ' 4)') $FUNCTION_ADMIN_TOOLS_MENU_START_SERVICE
-$(ColorOrange '-')$(ColorGreen ' 5)') $FUNCTION_ADMIN_TOOLS_MENU_RESTART_SERVICE
-$(ColorOrange '-')$(ColorGreen ' 6)') $FUNCTION_ADMIN_TOOLS_MENU_STATUS_SERVICE
-$(ColorOrange ''"$FUNCTION_ADMIN_TOOLS_MENU_UPDATE_HEADER"'')
-$(ColorOrange '-')$(ColorGreen ' 7)') $FUNCTION_ADMIN_TOOLS_MENU_CHECK_VALHEIM_UPDATES
-$(ColorOrange ''"$FUNCTION_ADMIN_TOOLS_MENU_EDIT_CONFIG_HEADER"'')
-$(ColorOrange '-')$(ColorGreen ' 8)') $FUNCTION_ADMIN_TOOLS_MENU_DISPLAY_EDIT_VALHEIM_CONFIG
-$(ColorOrange ''"$DRAW60"'')
-$(ColorOrange '-')$(ColorGreen ' 0)') $RETURN_MAIN_MENU
-$(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
-        read a
-        case $a in
-		1) backup_world_data ; admin_tools_menu ;;
-		2) restore_world_data ; admin_tools_menu ;;
-		3) stop_valheim_server ; admin_tools_menu ;;
-		4) start_valheim_server ; admin_tools_menu ;;
-		5) restart_valheim_server ; admin_tools_menu ;;
-		6) display_valheim_server_status ; admin_tools_menu ;;
-		7) confirm_check_apply_server_updates ; admin_tools_menu ;;
-		8) admin_valheim_config_edit ; admin_tools_menu ;;		
-		   0) menu ; menu ;;
-		    *)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; admin_tools_menu ;;
-        esac
-}
 
 ########################################################################
 ##################START CHANGE VALHEIM START CONFIG#####################
@@ -1215,8 +1179,13 @@ $(ColorOrange '-')$(ColorGreen ' 9)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_CHANGE_AC
 $(ColorOrange '-')$(ColorGreen ' 10)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_ENABLE_PUBLIC_LISTING
 $(ColorOrange '-')$(ColorGreen ' 11)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_DISABLE_PUBLIC_LISTING
 $(ColorOrange ''"$DRAW60"'')
-$(ColorOrange '-')$(ColorGreen ' 12)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_BACKUP_WORLD_DATA
-$(ColorOrange '-')$(ColorGreen ' 13)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_RESTORE_WORLD_DATA
+$(ColorOrange '-')$(ColorGreen ' 12)') $FUNCTION_ADMIN_TOOLS_MENU_STOP_SERVICE
+$(ColorOrange '-')$(ColorGreen ' 13)') $FUNCTION_ADMIN_TOOLS_MENU_START_SERVICE
+$(ColorOrange '-')$(ColorGreen ' 14)') $FUNCTION_ADMIN_TOOLS_MENU_RESTART_SERVICE
+$(ColorOrange '-')$(ColorGreen ' 15)') $FUNCTION_ADMIN_TOOLS_MENU_STATUS_SERVICE
+$(ColorOrange ''"$DRAW60"'')
+$(ColorOrange '-')$(ColorGreen ' 16)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_BACKUP_WORLD_DATA
+$(ColorOrange '-')$(ColorGreen ' 17)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_RESTORE_WORLD_DATA
 $(ColorOrange ''"$FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_HEADER"'')
 $(ColorOrange '-')$(ColorGreen '') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG
 $(ColorOrange ''"$DRAW60"'')
@@ -1234,10 +1203,14 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 	        7) change_default_server_port ; menu ;;		
 	        8) change_local_world_name ; menu ;;
 	        9) change_server_access_password ; menu ;;
-		10) write_public_on_config_and_restar ; menu ;;
+		10) write_public_on_config_and_restart ; menu ;;
 		11) write_public_off_config_and_restart ; menu ;;
-		12) backup_world_data ; menu ;;
-		13) restore_world_data ; menu ;;
+	        12) stop_valheim_server ; admin_tools_menu ;;
+		13) start_valheim_server ; admin_tools_menu ;;
+		14) restart_valheim_server ; admin_tools_menu ;;
+		15) display_valheim_server_status ; admin_tools_menu ;;
+		16) backup_world_data ; menu ;;
+		17) restore_world_data ; menu ;;
                    0) exit 0 ;;
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
         esac
