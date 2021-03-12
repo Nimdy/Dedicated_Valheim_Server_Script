@@ -1197,7 +1197,6 @@ $(ColorOrange '╚════════════════════�
 #######################Display Main Menu System#########################
 ########################################################################
 menu(){
-clear
 menu_header
 echo -ne "
 $(ColorOrange ' '"$FUNCTION_MAIN_MENU_CHECK_SCRIPT_UPDATES_HEADER"' ')
