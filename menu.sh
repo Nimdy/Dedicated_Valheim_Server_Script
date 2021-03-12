@@ -302,8 +302,7 @@ sleep 5
 
 #install steamcmd and libsd12-2
 tput setaf 1; echo "$INSTALL_STEAMCMD_LIBSD12" ; tput setaf 9;
-echo steam steam/question select "I AGREE" | sudo debconf-set-selections
-echo steam steam/license note '' | sudo debconf-set-selections
+echo msttcorefonts msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 apt install steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386 -y
 tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 sleep 1
