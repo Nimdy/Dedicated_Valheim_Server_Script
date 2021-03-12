@@ -421,12 +421,12 @@ tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 # Start server
 tput setaf 1; echo "By Thors Hammer we are Starting the Valheim Server" ; tput setaf 9; 
-systemctl start valheimserver
+systemctl start valheimserver.service
 tput setaf 2; echo "Done" ; tput setaf 9; 
 sleep 1
 # Enable server on restarts
 tput setaf 1; echo "Enabling Valheim Server on start or after reboots" ; tput setaf 9; 
-systemctl enable valheimserver
+systemctl enable valheimserver.service
 tput setaf 2; echo "Done" ; tput setaf 9; 
 sleep 2
 clear
