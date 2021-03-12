@@ -1205,10 +1205,10 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 	        9) change_server_access_password ; menu ;;
 		10) write_public_on_config_and_restart ; menu ;;
 		11) write_public_off_config_and_restart ; menu ;;
-	        12) stop_valheim_server ; admin_tools_menu ;;
-		13) start_valheim_server ; admin_tools_menu ;;
-		14) restart_valheim_server ; admin_tools_menu ;;
-		15) display_valheim_server_status ; admin_tools_menu ;;
+	        12) stop_valheim_server ; menu ;;
+		13) start_valheim_server ; menu ;;
+		14) restart_valheim_server ; menu ;;
+		15) display_valheim_server_status ; menu ;;
 		16) backup_world_data ; menu ;;
 		17) restore_world_data ; menu ;;
                    0) exit 0 ;;
