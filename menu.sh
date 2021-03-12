@@ -403,12 +403,12 @@ tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 sleep 1
 # Start server
 tput setaf 1; echo "$INSTALL_BUILD_START_VALHEIM_SERVICE" ; tput setaf 9; 
-systemctl start valheimserver
+systemctl start valheimserver.services
 tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9; 
 sleep 1
 # Enable server on restarts
 tput setaf 1; echo "$INSTALL_BUILD_ENABLE_VALHEIM_SERVICE" ; tput setaf 9; 
-systemctl enable valheimserver
+systemctl enable valheimserver.services
 tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9; 
 sleep 2
 clear
