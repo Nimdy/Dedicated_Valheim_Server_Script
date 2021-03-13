@@ -1804,7 +1804,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 		15) display_valheim_server_status ; menu ;;
 		16) backup_world_data ; menu ;;
 		17) restore_world_data ; menu ;;
-		18) menu_header_vplus_enable ; menu ;;
+		18) menu_header_vplus_enable ; mods_menu ;;
                    0) exit 0 ;;
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
         esac
