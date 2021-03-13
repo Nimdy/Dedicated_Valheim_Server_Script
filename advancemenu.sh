@@ -1752,35 +1752,57 @@ $(ColorPurple '╚════════════════════�
 #######################Display Main Menu System#########################
 ########################################################################
 menu(){
-#get_current_config
 menu_header
 echo -ne "
-$(ColorOrange '-------------Check for Script Updates-----------')
-$(ColorOrange '-')$(ColorGreen ' 1)') Update Menu Script from GitHub
-$(ColorOrange '--------------Valheim Server Commands-----------')
-$(ColorOrange '-')$(ColorGreen ' 2)') Server Admin Tools 
-$(ColorOrange '-')$(ColorGreen ' 3)') Tech Support Tools
-$(ColorOrange '-')$(ColorGreen ' 4)') Install Valheim Server
-$(ColorOrange '---------Official Valheim Server Update---------')
-$(ColorOrange '-')$(ColorGreen ' 5)') Check and Apply Valheim Server Update
-$(ColorOrange '-----Edit start_valehim.sh Configuration--------')
-$(ColorOrange '-')$(ColorGreen ' 6)') Display or Edit Valheim Config File
-$(ColorOrange '------------------Valheim+ Menu-----------------')
-$(ColorOrange '-')$(ColorGreen ' 7)') Valheim+
-$(ColorOrange '------------------------------------------------')
-$(ColorGreen ' 0)') Exit
-$(ColorOrange '------------------------------------------------')
-$(ColorPurple 'Choose an option:') "
+$(ColorOrange ' '"$FUNCTION_MAIN_MENU_CHECK_SCRIPT_UPDATES_HEADER"' ')
+$(ColorOrange '-')$(ColorGreen ' 1)') $FUNCTION_MAIN_MENU_UPDATE_NJORD_MENU
+$(ColorOrange ''"$FUNCTION_MAIN_MENU_SERVER_COMMANDS_HEADER"'')
+$(ColorOrange '-')$(ColorGreen ' 2)') $FUNCTION_MAIN_MENU_TECH_MENU
+$(ColorOrange '-')$(ColorGreen ' 3)') $FUNCTION_MAIN_MENU_INSTALL_VALHEIM
+$(ColorOrange ''"$FUNCTION_MAIN_MENU_OFFICAL_VALHEIM_HEADER"'')
+$(ColorOrange '-')$(ColorGreen ' 4)') $FUNCTION_MAIN_MENU_CHECK_APPLY_VALHEIM_UPDATES
+$(ColorOrange ''"$FUNCTION_MAIN_MENU_EDIT_VALHEIM_CONFIG_HEADER"'')
+$(ColorOrange '-')$(ColorGreen ' 5)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_DISPLAY_CONFIG
+$(ColorOrange '-')$(ColorGreen ' 6)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_CHANGE_PUBLIC_NAME
+$(ColorOrange '-')$(ColorGreen ' 7)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_CHANGE_SERVER_PORT
+$(ColorOrange '-')$(ColorGreen ' 8)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_CHANGE_WORLD_NAME
+$(ColorOrange '-')$(ColorGreen ' 9)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_CHANGE_ACCESS_PASS
+$(ColorOrange '-')$(ColorGreen ' 10)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_ENABLE_PUBLIC_LISTING
+$(ColorOrange '-')$(ColorGreen ' 11)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_DISABLE_PUBLIC_LISTING
+$(ColorOrange ''"$DRAW60"'')
+$(ColorOrange '-')$(ColorGreen ' 12)') $FUNCTION_ADMIN_TOOLS_MENU_STOP_SERVICE
+$(ColorOrange '-')$(ColorGreen ' 13)') $FUNCTION_ADMIN_TOOLS_MENU_START_SERVICE
+$(ColorOrange '-')$(ColorGreen ' 14)') $FUNCTION_ADMIN_TOOLS_MENU_RESTART_SERVICE
+$(ColorOrange '-')$(ColorGreen ' 15)') $FUNCTION_ADMIN_TOOLS_MENU_STATUS_SERVICE
+$(ColorOrange ''"$DRAW60"'')
+$(ColorOrange '-')$(ColorGreen ' 16)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_BACKUP_WORLD_DATA
+$(ColorOrange '-')$(ColorGreen ' 17)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_RESTORE_WORLD_DATA
+$(ColorOrange ''"$FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_HEADER"'')
+$(ColorOrange '-')$(ColorGreen '') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG
+$(ColorOrange ''"$DRAW60"'')
+$(ColorGreen ' 0)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_EXIT
+$(ColorOrange ''"$DRAW60"'')
+$(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
         read a
         case $a in
 	        1) script_check_update ; menu ;;
-		2) admin_tools_menu ; menu ;;
-		3) tech_support ; menu ;;
-		4) server_install_menu ; menu ;;
-		5) confirm_check_apply_server_updates ; menu ;;	
-	        6) admin_valheim_config_edit ; menu ;;
-		7) mods_menu ; menu ;;
-		    0) exit 0 ;;
+		2) tech_support ; menu ;;
+		3) server_install_menu ; menu ;;
+		4) confirm_check_apply_server_updates ; menu ;;	
+	        5) display_full_config ; menu ;;
+	        6) change_public_display_name ; menu ;;
+	        7) change_default_server_port ; menu ;;		
+	        8) change_local_world_name ; menu ;;
+	        9) change_server_access_password ; menu ;;
+		10) write_public_on_config_and_restart ; menu ;;
+		11) write_public_off_config_and_restart ; menu ;;
+	        12) stop_valheim_server ; menu ;;
+		13) start_valheim_server ; menu ;;
+		14) restart_valheim_server ; menu ;;
+		15) display_valheim_server_status ; menu ;;
+		16) backup_world_data ; menu ;;
+		17) restore_world_data ; menu ;;
+                   0) exit 0 ;;
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
         esac
 }
