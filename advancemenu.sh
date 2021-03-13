@@ -1051,6 +1051,9 @@ clear
 	    cp ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg ${backupPath}/valheim_plus.cfg.old-$(date +"%m-%d-%y-%r")
 	   tput setaf 2; echo "Grabbing Latest from Valheim Plus and Installing!" ; tput setaf 9; 
             install_valheim_plus
+	    sleep 2
+	    tput setaf 2; echo "Restarting Services to apply updates" ; tput setaf 9; 
+	    restart_valheim_server
 	      else
             echo "Canceled the upgrading of Valheim Plus - because Loki sucks" ; tput setaf 9; 
             sleep 2
