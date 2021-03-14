@@ -1048,8 +1048,11 @@ clear
 	   read -p "Please confirm:" confirmValPlusUpdate
 	  if [ "$confirmValPlusUpdate" == "y" ]; then
 	    tput setaf 2; echo "Making quick backup of valheim_plus.cfg" ; tput setaf 9; 
+	    dldir=$backupPath
+	    [ ! -d "$dldir" ] && mkdir -p "$dldir"
+            sleep 1
 	    cp ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg ${backupPath}/valheim_plus.cfg.old-$(date +"%m-%d-%y-%r")
-	   tput setaf 2; echo "Grabbing Latest from Valheim Plus and Installing!" ; tput setaf 9; 
+	    tput setaf 2; echo "Grabbing Latest from Valheim Plus and Installing!" ; tput setaf 9; 
             install_valheim_plus
 	    sleep 2
 	    tput setaf 2; echo "Restarting Services to apply updates" ; tput setaf 9; 
@@ -1254,34 +1257,6 @@ EOF
 }
 
 
-########################################################################
-######################END MOD SECTION AREAS###########################
-########################################################################
-#function valheim_mods_options(){
-#echo ""
-#menu_header_vplus_enable
-#echo -ne "
-#$(ColorRed '--------NOT ADDED YET BUILDING FRAME WORK--------')
-#$(ColorCyan '--------------Valheim+ Mod Menu-----------------')
-#$(ColorCyan '-')$(ColorGreen ' 1)') Server Mods
-#$(ColorCyan '-')$(ColorGreen ' 2)') Player Mods
-#$(ColorCyan '-')$(ColorGreen ' 3)') Building Mods
-#$(ColorCyan '-')$(ColorGreen ' 4)') Other Mods
-#$(ColorCyan '------------------------------------------------')
-#$(ColorCyan '-')$(ColorGreen ' 0)') Go to Valheim Mod Main Menu
-#$(ColorCyan '-')$(ColorGreen ' 00)') Go to Main Menu
-#$(ColorPurple 'Choose an option:') "
-#        read a
-#        case $a in
-#		1) server_mods ; valheim_mods_options ;;
-#		2) player_mods ; valheim_mods_options ;;
-#		3) building_mods ; valheim_mods_options ;;
-#		4) other_mods ; valheim_mods_options ;;
-#		   0) mods_menu ; menu ;;
-#		   00) menu ; menu ;;
-#		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; valheim_mods_options ;;
-#        esac
-#}
 
 function mods_menu(){
 echo ""
