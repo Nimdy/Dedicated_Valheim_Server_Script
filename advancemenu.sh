@@ -1629,7 +1629,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 		2) tech_support ; menu ;;
 		3) server_install_menu ; menu ;;
 		4) confirm_check_apply_server_updates ; menu ;;	
-	        5) display_full_config ; menu ;;
+	        5) display_start_valheim ; menu ;;
 	        6) change_public_display_name ; menu ;;
 	        7) change_default_server_port ; menu ;;		
 	        8) change_local_world_name ; menu ;;
