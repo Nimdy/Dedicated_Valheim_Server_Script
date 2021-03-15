@@ -30,7 +30,7 @@ backupPath=/home/steam/backups
 ###############################################################
 
 # Set Menu Version for menu display
-mversion="2.1-Lofn"
+mversion="2.1.5-Lofn"
 #Do not touch this... ever....never...ever.ever.never...thanks
 export valheimVanilla=1
 
