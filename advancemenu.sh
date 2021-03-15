@@ -1030,7 +1030,7 @@ function change_server_access_password() {
         tput setaf 2; echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_GOOD" ; tput setaf 9;
         tput setaf 1; echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_BAD" ; tput setaf 9;
         tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-        read -p "${FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_ENTER_NEW}" setCurrentPassword
+        read -p "$(FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_ENTER_NEW)" setCurrentPassword
         tput setaf 2; echo "$DRAW60" ; tput setaf 9;
         [[ ${#setCurrentPassword} -ge 5 && "$setCurrentPassword" == *[[:lower:]]*5 && "$setCurrentPassword" == *[[:upper:]]* && "$setCurrentPassword" =~ ^[[:alnum:]]+$ ]] && break
         tput setaf 2; echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_ERROR_MSG" ; tput setaf 9;
