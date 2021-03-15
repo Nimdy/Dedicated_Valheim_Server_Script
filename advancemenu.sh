@@ -1263,37 +1263,7 @@ clear
     clear
 fi
 }
-########################################################################
-######################START MOD SECTION AREAS###########################
-########################################################################
-#function server_mods() {
-#    clear
-#    echo "Scripting As Fast as I can"
-#    echo "Server Related Mods"
-#    echo "Coming Soon"
-#    echo ""
-#}
-#function player_mods() {
-#    clear
-#    echo "Scripting As Fast as I can"
-#    echo "Player Related Mods"
-#    echo "Coming Soon"
-#    echo ""
-#}
-#function building_mods() {
-#    clear
-#    echo "Scripting As Fast as I can"
-#    echo "Building Related Mods"
-#    echo "Coming Soon"
-#    echo ""
-#}
-#function other_mods() {
-#    clear
-#    echo "Scripting As Fast as I can"
-#    echo "Other Related Mods"
-#    echo "Coming Soon"
-#    echo ""
-#}
+
 function build_start_server_bepinex_configuration_file() {
   cat > ${valheimInstallPath}/start_server_bepinex.sh <<'EOF'
 #!/bin/sh
@@ -1401,6 +1371,7 @@ done
 "${PWD}/${executable_name}" -name ${server_name} -password ${server_password} -port ${server_port} -world ${server_world} -public ${server_public}
 EOF
 }
+
 function mods_menu(){
 echo ""
 menu_header_vplus_enable
@@ -1442,11 +1413,13 @@ $(ColorPurple 'Choose an option:') "
 		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; mods_menu ;;
         esac
 }
+
 # Check ValheimPlus Github Latest for menu display
 function check_valheim_plus_repo() {
 latestValPlus=$(curl --connect-timeout 10 -s https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
 echo $latestValPlus
 }
+
 # Check Local ValheimPlus Build for menu display
 function check_local_valheim_plus_build() {
 localValheimPlusVer=${valheimInstallPath}/localValheimPlusVersion
@@ -1457,6 +1430,7 @@ localValheimPlusVer=${valheimInstallPath}/localValheimPlusVersion
         echo "No Data";
   fi
 }
+
 #######################################################################################################################################################
 ###############################################################FINISH VALHEIM MOD SECTION##############################################################
 #######################################################################################################################################################
@@ -1540,34 +1514,34 @@ echo -ne "
 $(ColorOrange '╔═══════════════')$(ColorGreen 'Advance Menu System')$(ColorOrange '═════════════╗')
 $(ColorOrange '║~~~~~~~~~~~~~~~~~~')$(ColorPurple '-Njord Menu-')$(ColorOrange '~~~~~~~~~~~~~~~~~║')
 $(ColorOrange '╠═══════════════════════════════════════════════╝')
-$(ColorOrange '║ Welcome Viking! Do not forget about your bees')
-$(ColorOrange '║ Visit our discord: https://discord.gg/ejgQUfc')
-$(ColorOrange '║ Beware Loki hides within this script')
+$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO"'')
+$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_1"'')
+$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_2"'')
 $(ColorOrange '╠═══════════════════════════════════════════════')
 $(ColorOrange '║ Mods:') $(are_mods_enabled)
 $(ColorOrange '╠═══════════════════════════════════════════════')
-$(ColorOrange '║') Current Menu Release:" $(check_menu_script_repo)
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_CURRENT_NJORD_RELEASE " $(check_menu_script_repo)
 echo -ne "
-$(ColorOrange '║') Local Installed Menu:" ${mversion}
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_NJORD_VERSION " ${mversion} 
 echo -ne "
 $(ColorOrange '╠═══════════════════════════════════════════════')
-$(ColorOrange '║') Valheim Official Build:" $(check_official_valheim_release_build)
+$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_OFFICIAL_BUILD"'')" $(check_official_valheim_release_build)
 echo -ne "
-$(ColorOrange '║') Valheim Server Build:" $(check_local_valheim_build)
+$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"  $(check_local_valheim_build)
 echo -ne "
 $(ColorOrange '╚═══════════════════════════════════════════════')"
 echo -ne "
-$(ColorOrange '║') Server Name: ${currentDisplayName}
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
 $(ColorOrange '║') $(are_you_connected)
 $(ColorOrange '║')" $(display_public_IP)
 echo -ne "
 $(ColorOrange '║')" $(display_local_IP)
 echo -ne "
-$(ColorOrange '║') Your Server Port:" ${currentPort}
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
 echo -ne "
-$(ColorOrange '║') Public Listing:" $(display_public_status_on_or_off)
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 echo -ne "
-$(ColorOrange '║') Happy Gaming - ZeroBandwidth
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_GG_ZEROBANDWIDTH
 $(ColorOrange '╚═══════════════════════════════════════════════')"
 }
 
@@ -1579,7 +1553,7 @@ $(ColorPurple '║~~~~~~~~~~~~~~~~~~')$(ColorLightGreen '-Njord Menu-')$(ColorPu
 $(ColorPurple '╠═══════════════════════════════════════════════╝')
 $(ColorPurple '║')$(ColorLightGreen ' Welcome to Valheim+ Intergrated Menu System')
 $(ColorPurple '║')$(ColorLightGreen ' Valheim+ Support: https://discord.gg/AmH6Va97GT')
-$(ColorPurple '║ Beware Loki hides within this script')
+$(ColorPurple '║ '"$FUNCTION_HEADER_MENU_INFO_2"'')
 $(ColorPurple '╠═══════════════════════════════════════════════')
 $(ColorPurple '║ Mods:') $(are_mods_enabled)
 $(ColorPurple '╠═══════════════════════════════════════════════')
@@ -1588,26 +1562,26 @@ echo -ne "
 $(ColorPurple '║') ValheimPlus Server Build:" $(check_local_valheim_plus_build)
 echo -ne "
 $(ColorPurple '╠═══════════════════════════════════════════════')
-$(ColorPurple '║') Valheim Official Build:" $(check_official_valheim_release_build)
+$(ColorPurple '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_OFFICIAL_BUILD"'')" $(check_official_valheim_release_build)
 echo -ne "
-$(ColorPurple '║') Valheim Server Build:" $(check_local_valheim_build)
+$(ColorPurple '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"        $(check_local_valheim_build)
 echo -ne "
 $(ColorPurple '╚═══════════════════════════════════════════════')"
 echo -ne "
-$(ColorPurple '║') Server Name: ${currentDisplayName}
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
 $(ColorPurple '║') $(are_you_connected)
 $(ColorPurple '║')" $(display_public_IP)
 echo -ne "
 $(ColorPurple '║')" $(display_local_IP)
 echo -ne "
-$(ColorPurple '║') Your Server Port:" ${currentPort}
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
 echo -ne "
-$(ColorPurple '║') Public Listing:" $(display_public_status_on_or_off)
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 echo -ne "
-$(ColorPurple '║') Current Menu Release: $(check_menu_script_repo)
-$(ColorPurple '║') Local Installed Menu: ${mversion}
-$(ColorPurple '║') Happy Gaming - ZeroBandwidth 
-$(ColorPurple '║') Visit our discord: https://discord.gg/ejgQUfc
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_CURRENT_NJORD_RELEASE $(check_menu_script_repo)
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_NJORD_VERSION ${mversion}
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_GG_ZEROBANDWIDTH
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_1
 $(ColorPurple '╚═══════════════════════════════════════════════')"
 }
 
