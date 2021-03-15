@@ -1224,20 +1224,20 @@ function valheimplus_mod_options() {
 clear
     nano ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg
     echo ""
-    tput setaf 2; echo "-------------------------------------------------------------------------" ; tput setaf 9;
-    tput setaf 2;  echo "If you made changes, Valheim Services need to be restarted to take effect" ; tput setaf 9; 
-    tput setaf 2;  echo "Do you wish to restart Valheim Services now?" ; tput setaf 9; 
-    tput setaf 2; echo "-------------------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "$DRAW80" ; tput setaf 9;
+    tput setaf 2;  echo "$FUNCTION_VALHEIM_PLUS_EDIT_VPLUS_CONFIG_SAVE_RESTART" ; tput setaf 9; 
+    tput setaf 2;  echo "$FUNCTION_VALHEIM_PLUS_EDIT_VPLUS_CONFIG_SAVE_RESTART_1" ; tput setaf 9; 
+    tput setaf 2; echo "$DRAW80" ; tput setaf 9;
     echo ""
-     read -p "Please confirm: (y=Yes, n=No and press enter)" confirmRestart
+     read -p "$PLEASE_CONFIRM" confirmRestart
 #if y, then continue, else cancel
         if [ "$confirmRestart" == "y" ]; then
     echo ""
-    echo "Restarting Valheim Server Services"
+    echo "$FUNCTION_VALHEIM_PLUS_EDIT_VPLUS_RESTART_SERVICES"
     sudo systemctl restart valheimserver.service
     echo ""
     else
-    echo "Canceled Restarting of Valheim Server Service - because Loki sucks"
+    echo "$FUNCTION_VALHEIM_PLUS_EDIT_VPLUS_CANCEL"
     sleep 2
     clear
 fi
@@ -1246,20 +1246,20 @@ function bepinex_mod_options() {
 clear
     nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
     echo ""
-    tput setaf 2; echo "-------------------------------------------------------------------------" ; tput setaf 9;
-    echo "If you made changes, Valheim Services need to be restarted to take effect"
-    echo "Do you wish to restart Valheim Services now?"
-    tput setaf 2; echo "-------------------------------------------------------------------------" ; tput setaf 9;
+    tput setaf 2; echo "$DRAW80" ; tput setaf 9;
+    echo "$FUNCTION_VALHEIM_PLUS_EDIT_BEPINEX_CONFIG_RESTART"
+    echo "$FUNCTION_VALHEIM_PLUS_EDIT_BEPINEX_CONFIG_RESTART_1"
+    tput setaf 2; echo "$DRAW80" ; tput setaf 9;
     echo ""
-     read -p "Please confirm: (y=Yes, n=No and press enter)" confirmRestart
+     read -p "$PLEASE_CONFIRM" confirmRestart
 #if y, then continue, else cancel
         if [ "$confirmRestart" == "y" ]; then
     echo ""
-    echo "Restarting Valheim Server Services"
+    echo "$FUNCTION_VALHEIM_PLUS_EDIT_BEPINEX_RESTART_SERVICE_INFO"
     sudo systemctl restart valheimserver.service
     echo ""
     else
-    echo "Canceled Restarting of Valheim Server Service - because Loki sucks"
+    echo "$FUNCTION_VALHEIM_PLUS_EDIT_BEPINEX_CANCEL"
     sleep 2
     clear
 fi
