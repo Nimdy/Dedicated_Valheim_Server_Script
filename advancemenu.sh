@@ -1207,7 +1207,8 @@ clear
 	    dldir=$backupPath
 	    [ ! -d "$dldir" ] && mkdir -p "$dldir"
             sleep 1
-	    cp ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg ${backupPath}/valheim_plus.cfg.old-$(date +"%m-%d-%y-%r")
+	    TODAYMK="$(date +%Y-%m-%d-%T)"
+	    cp ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg ${backupPath}/valheim_plus-$TODAYMK.cfg
 	    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_UPDATE_DOWNLOADING_VPLUS" ; tput setaf 9; 
             install_valheim_plus
 	    sleep 2
