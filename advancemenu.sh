@@ -1077,8 +1077,8 @@ function display_full_config() {
 #######################################################################################################################################################
 function set_valheim_server_vanillaOrPlus_operations() {
 #build systemctl configurations for execution of processes for Valheim Server
-tput setaf 1; echo "Deleting old configuration if file exist" ; tput setaf 9; 
-tput setaf 1; echo "Building systemctl instructions for Valheim" ; tput setaf 9; 
+tput setaf 1; echo "$FUNCTION_VALHEIM_PLUS_BUILD_CONFIG_INFO" ; tput setaf 9; 
+tput setaf 1; echo "$FUNCTION_VALHEIM_PLUS_BUILD_CONFIG_INFO_1" ; tput setaf 9; 
 # remove old Valheim Server Service
 [ -e /etc/systemd/system/valheimserver.service ] && rm /etc/systemd/system/valheimserver.service
 # remove past Valheim Server Service
@@ -1102,7 +1102,7 @@ Group=steam
 ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
 EOF
 if [ "$valheimVanilla" == "1" ]; then
-   echo "Setting Server for Valheim Vanilla"
+   echo "$FUNCTION_VALHEIM_PLUS_BUILD_CONFIG_SET_VANILLA"
 cat >> /lib/systemd/system/valheimserver.service <<EOF 
 ExecStart=${valheimInstallPath}/start_valheim.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
@@ -1113,7 +1113,7 @@ LimitNOFILE=100000
 WantedBy=multi-user.target
 EOF
 else 
-   echo "Setting Server for Mods using Valheim+"
+   echo "$FUNCTION_VALHEIM_PLUS_BUILD_CONFIG_SET_PLUS"
 cat >> /lib/systemd/system/valheimserver.service <<EOF   
 ExecStart=${valheimInstallPath}/start_server_bepinex.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
@@ -1127,93 +1127,94 @@ fi
 tput setaf 2; echo "Done" ; tput setaf 9;
 sleep 1
 }
+
 function install_valheim_plus() {
 clear
     echo ""
-    tput setaf 2; echo "Changing into Valheim Install Directory" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CHANGING_DIR" ; tput setaf 9; 
     cd $valheimInstallPath
-    tput setaf 2; echo "Checking for older Valheim+ Package files and removing" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CHECKING_OLD_INSTALL" ; tput setaf 9; 
     [ -e UnixServer.zip ] && rm UnixServer.zip
-    tput setaf 2; echo "Downloading Latest Valheim+ UnixServer.zip from Official Github" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_DOWNLOADING_VALHEIM_PLUS_FROM_REPO" ; tput setaf 9; 
     curl -s https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest \
     | grep "browser_download_url.*UnixServer\.zip" \
     | cut -d ":" -f 2,3 | tr -d \" \
     | wget -P ${valheimInstallPath} -qi - 
     sleep 1
-    tput setaf 2; echo "Stamping Current Verison for historics" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CREATING_VER_STAMP" ; tput setaf 9; 
     curl -sL https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest | grep '"tag_name":' | cut -d'"' -f4 > localValheimPlusVersion
-    tput setaf 2; echo "Unpacking zip file" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_UNPACKING_FILES" ; tput setaf 9; 
     unzip -o UnixServer.zip
-    tput setaf 2; echo "Removing old bepinex config" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_REMOVING_OLD_BEPINEX_CONFIG" ; tput setaf 9; 
     [ ! -e start_game_bepinex.sh ] && rm start_game_bepinex.sh
-    tput setaf 2; echo "Building Start Configuration File for Modded Server with bepinex filled information" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_BUILDING_NEW_BEPINEX_CONFIG" ; tput setaf 9; 
     build_start_server_bepinex_configuration_file
-    tput setaf 2; echo "Setting steam ownership to Directories, Folders and Files" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_SETTING_STEAM_OWNERSHIP" ; tput setaf 9; 
     chown steam:steam -Rf /home/steam/*
     chmod +x start_server_bepinex.sh
     echo ""
-    tput setaf 2; echo "Who wants to get their Viking mod on HUH!" ; tput setaf 9; 
-    tput setaf 2; echo "Let's GO!!!!" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_GET_THEIR_VIKING_ON" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_LETS_GO" ; tput setaf 9; 
 }
 function valheim_plus_enable() {
 clear
     echo ""
-    tput setaf 2; echo "Valheim+ Enable" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_ENABLE" ; tput setaf 9; 
     valheimVanilla=2
     set_valheim_server_vanillaOrPlus_operations
     sleep 1
     systemctl daemon-reload
     sleep 1
-    echo "Restarting Valheim Services, so changes can be applied"
+    echo "$FUNCTION_VALHEIM_PLUS_RESTARTING"
     systemctl restart valheimserver.service
     sleep 1
-    tput setaf 2; echo "Valheim+ is now enabled and Active" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_ENABLED_ACTIVE" ; tput setaf 9; 
     echo ""
 }
 function valheim_plus_disable() {
 clear
     echo ""
-    tput setaf 2; echo "Valheim+ Disable" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_DISABLE" ; tput setaf 9; 
     valheimVanilla=1
     set_valheim_server_vanillaOrPlus_operations
     sleep 1
     systemctl daemon-reload
     sleep 1
-    echo "Restarting Valheim Services, so changes can be applied"
+    echo "$FUNCTION_VALHEIM_PLUS_DISABLE_RESTARTING"
     systemctl restart valheimserver.service
     sleep 1    
-    tput setaf 2; echo "Valheim+ is now disabled, Vanilla mode Active" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_DISABLE_INFO" ; tput setaf 9; 
     echo ""
 }
+
 function valheim_plus_update() {
 check_valheim_plus_repo
 clear
-   tput setaf 2;  echo "Scripting As Fast as I can" ; tput setaf 9; 
-   tput setaf 2;  echo "Valheim+ Update" ; tput setaf 9; 
+    tput setaf 2;  echo "$FUNCTION_VALHEIM_PLUS_UPDATE_INFO" ; tput setaf 9; 
     vpLocalCheck=$(cat ${valheimInstallPath}/localValheimPlusVersion)
     echo $vpLocalCheck
     echo $latestValPlus
     if [[ $latestValPlus == $vpLocalCheck ]]; then
        echo ""
-       tput setaf 2; echo "No update found" ; tput setaf 9; 
+       tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_UPDATE_NO_UPDATE_FOUND" ; tput setaf 9; 
        echo ""
        else
-         tput setaf 2;  echo "Update found!" ; tput setaf 9; 
-	 tput setaf 2;  echo "Do you wish to continue?" ; tput setaf 9; 
-	   read -p "Please confirm:" confirmValPlusUpdate
+         tput setaf 2;  echo "$FUNCTION_VALHEIM_PLUS_UPDATE_UPDATE_FOUND" ; tput setaf 9; 
+	 tput setaf 2;  echo "$FUNCTION_VALHEIM_PLUS_UPDATE_CONTINUE" ; tput setaf 9; 
+	   read -p "$PLEASE_CONFIRM" confirmValPlusUpdate
 	  if [ "$confirmValPlusUpdate" == "y" ]; then
-	    tput setaf 2; echo "Making quick backup of valheim_plus.cfg" ; tput setaf 9; 
+	    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_UPDATE_BACKING_UP_VPLUS_CONFIG" ; tput setaf 9; 
 	    dldir=$backupPath
 	    [ ! -d "$dldir" ] && mkdir -p "$dldir"
             sleep 1
 	    cp ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg ${backupPath}/valheim_plus.cfg.old-$(date +"%m-%d-%y-%r")
-	    tput setaf 2; echo "Grabbing Latest from Valheim Plus and Installing!" ; tput setaf 9; 
+	    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_UPDATE_DOWNLOADING_VPLUS" ; tput setaf 9; 
             install_valheim_plus
 	    sleep 2
-	    tput setaf 2; echo "Restarting Services to apply updates" ; tput setaf 9; 
+	    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_UPDATE_RESTARTING_SERVICES" ; tput setaf 9; 
 	    restart_valheim_server
 	      else
-            echo "Canceled the upgrading of Valheim Plus - because Loki sucks" ; tput setaf 9; 
+            echo "$FUNCTION_VALHEIM_PLUS_UPDATE_CANCELED" ; tput setaf 9; 
             sleep 2
           fi
 	  
