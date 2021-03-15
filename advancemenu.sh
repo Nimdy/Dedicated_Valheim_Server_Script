@@ -1377,27 +1377,28 @@ function mods_menu(){
 echo ""
 menu_header_vplus_enable
 echo -ne "
-$(ColorCyan '-------Valheim+ Mod Install Remove Update-------')
-$(ColorCyan '-')$(ColorGreen ' 1)') Install Valheim Mods 
-$(ColorCyan '--------------Valheim+ Management---------------')
-$(ColorCyan '-')$(ColorGreen ' 2)') Enable Valheim+ on Server
-$(ColorCyan '-')$(ColorGreen ' 3)') Disable Valheim+ on Server
-$(ColorCyan '-')$(ColorGreen ' 4)') Start Valheim+ Service 
-$(ColorCyan '-')$(ColorGreen ' 5)') Stop Valheim+ Service
-$(ColorCyan '-')$(ColorGreen ' 6)') Restart Valheim+ Service
-$(ColorCyan '-')$(ColorGreen ' 7)') Status Valheim+ Service 
-$(ColorCyan '-')$(ColorGreen ' 8)') Update Valheim+ File System
-$(ColorCyan '------Mod/Plugin Configuration File Editor------')
-$(ColorCyan 'Mods require Server and Client File Installation')
-$(ColorCyan 'Editor uses nano, services require restart if')
-$(ColorCyan 'any changes are made. You will be prompted')
-$(ColorCyan 'Common Commands: Save: CTRL+o enter Exit: CTRL+x')
-$(ColorCyan 'Exit without saving: CTRL+x')
-$(ColorCyan '-')$(ColorGreen ' 9)') Valheim+ Mod Option Editor
-$(ColorCyan '-')$(ColorGreen ' 10)') BepInEx Mod Option Editor
+$(ColorCyan '--------------'"$FUNCTION_VALHEIM_PLUS_MENU_HEADER"'--------------')
+$(ColorCyan '-')$(ColorGreen ' 1)') $FUNCTION_VALHEIM_PLUS_MENU_INSTALL
+$(ColorCyan '---------------'"$FUNCTION_VALHEIM_PLUS_MENU_ADMIN_HEADER"'--------------')
+$(ColorCyan '-')$(ColorGreen ' 2)') $FUNCTION_VALHEIM_PLUS_MENU_ENABLE
+$(ColorCyan '-')$(ColorGreen ' 3)') $FUNCTION_VALHEIM_PLUS_MENU_DISABLE
+$(ColorCyan '-')$(ColorGreen ' 4)') $FUNCTION_VALHEIM_PLUS_MENU_START
+$(ColorCyan '-')$(ColorGreen ' 5)') $FUNCTION_VALHEIM_PLUS_MENU_STOP
+$(ColorCyan '-')$(ColorGreen ' 6)') $FUNCTION_VALHEIM_PLUS_MENU_RESTART
+$(ColorCyan '-')$(ColorGreen ' 7)') $FUNCTION_VALHEIM_PLUS_MENU_STATUS
+$(ColorCyan '-')$(ColorGreen ' 8)') $FUNCTION_VALHEIM_PLUS_MENU_UPDATE
+$(ColorCyan '------'"$FUNCTION_VALHEIM_PLUS_MENU_MOD_PLUGIN_HEADER"'------')
+'"$FUNCTION_HEADER_MENU_INFO"''
+$(ColorCyan ''"$FUNCTION_VALHEIM_PLUS_MENU_MOD_INFO"'')
+$(ColorCyan ''"$FUNCTION_VALHEIM_PLUS_MENU_MOD_INFO_1"'')
+$(ColorCyan ''"$FUNCTION_VALHEIM_PLUS_MENU_MOD_INFO_2"'')
+$(ColorCyan ''"$FUNCTION_VALHEIM_PLUS_MENU_MOD_INFO_3"'')
+$(ColorCyan ''"$FUNCTION_VALHEIM_PLUS_MENU_MOD_INFO_4"'')
+$(ColorCyan '-')$(ColorGreen ' 9)') $FUNCTION_VALHEIM_PLUS_MENU_VPLUS_CONFIG_EDIT
+$(ColorCyan '-')$(ColorGreen ' 10)') $FUNCTION_VALHEIM_PLUS_MENU_BEPINEX_CONFIG_EDIT
 $(ColorCyan '------------------------------------------------')
-$(ColorCyan '-')$(ColorGreen ' 0)') Go to Main Menu
-$(ColorPurple 'Choose an option:') "
+$(ColorCyan '-')$(ColorGreen ' 0)') $FUNCTION_VALHEIM_PLUS_MENU_RETURN_MAIN
+$(ColorPurple ''"$CHOOSE_MENU_OPTION"'')"
         read a
         case $a in
 		1) install_valheim_plus ; mods_menu ;;
@@ -1411,7 +1412,7 @@ $(ColorPurple 'Choose an option:') "
 		9) valheimplus_mod_options ; mods_menu ;;
 		10) bepinex_mod_options ; mods_menu ;;
 		   0) menu ; menu ;;
-		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; mods_menu ;;
+		    *)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; mods_menu ;;
         esac
 }
 
@@ -1428,7 +1429,7 @@ localValheimPlusVer=${valheimInstallPath}/localValheimPlusVersion
     localValheimPlusBuild=$(cat ${localValheimPlusVer})
         echo $localValheimPlusBuild
     else 
-        echo "No Data";
+        echo "$NO_DATA";
   fi
 }
 
@@ -1642,7 +1643,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 		17) restore_world_data ; menu ;;
 		18) mods_menu ; mods_menu ;;
                    0) exit 0 ;;
-		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
+		    *)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; menu ;;
         esac
 }
 # Call the menu function or the shortcut called in arg
