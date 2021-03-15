@@ -1030,9 +1030,9 @@ function change_server_access_password() {
         tput setaf 2; echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_GOOD" ; tput setaf 9;
         tput setaf 1; echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_BAD" ; tput setaf 9;
         tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-        read -p "Change Password" setCurrentPassword
-        tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-        [[ ${#setCurrentPassword} -ge 5 && "$setCurrentPassword" == *[[:lower:]]*5 && "$setCurrentPassword" == *[[:upper:]]* && "$setCurrentPassword" =~ ^[[:alnum:]]+$ ]] && break
+        read -p "Enter Password to Enter your Valheim Server: " setCurrentPassword
+        tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+        [[ ${#setCurrentPassword} -ge 5 && "$setCurrentPassword" == *[[:lower:]]* && "$setCurrentPassword" == *[[:upper:]]* && "$setCurrentPassword" =~ ^[[:alnum:]]+$ ]] && break
         tput setaf 2; echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_ERROR_MSG" ; tput setaf 9;
         tput setaf 2; echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_ERROR_MSG_1" ; tput setaf 9;
     done
