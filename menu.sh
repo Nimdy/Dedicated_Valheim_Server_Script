@@ -10,7 +10,7 @@
 
 #Current Options: DE=German, EN=English, FR=French, SP=Spanish"
 
-LANGUAGE=$setLANG
+LANGUAGE=EN
 source lang/$LANGUAGE.conf
 
 
