@@ -17,7 +17,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/16698453/111273695-683a3a80-8634-11eb-9dc3-afc41072f431.png" />
+    <img src="https://user-images.githubusercontent.com/16698453/111274563-6f157d00-8635-11eb-8ac0-4fe5db10b031.png" />
   <h3 align="center">Njord Menu 2.1-Lofn Updated: 13-MAR-2021</h3>
 
   <p align="center">
