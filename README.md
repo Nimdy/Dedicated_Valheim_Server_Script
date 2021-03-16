@@ -165,7 +165,7 @@ cd Dedicated_Valheim_Server_Script
 sudo chmod +x menu.sh
 sudo chmod +x advancemenu.sh
 ```
-6. Set your preferred language
+6. Set your preferred language by editing the menu.sh or advancemenu.sh. (If English, skip this step)
 =
 ```sh
 nano menu.sh
@@ -179,11 +179,9 @@ nano advancemenu.sh
 LANGUAGE=EN
 source lang/$LANGUAGE.conf
 ```
-Make your selected language, if you want something other than English.
-Save: CTRL+o enter Exit: CTRL+x
-Exit without saving: CTRL+x
-
-
+* Make your selected language, if you want something other than English.
+* Save: CTRL+o enter Exit: CTRL+x
+* Exit without saving: CTRL+x
 
 7. Launch the Menu System (Please run this as root first or a true user account with sudo permissions | DONT USE sudo -u | use sudo -i )
 =
