@@ -242,7 +242,7 @@ Here is the complete walk through using DigitalOcean Services.
 
 _For more examples, please refer to the [Documentation](https://www.youtube.com/watch?v=0YPLf7Bw5W4)_
 
-[![Thumbnail](https://img.youtube.com/vi/eW6Zi76Qymw/0.jpg)](https://www.youtube.com/watch?v=eW6Zi76Qymw)
+[![Thumbnail](https://img.youtube.com/vi/668c4d7TQ3Y/0.jpg)](https://youtu.be/668c4d7TQ3Y)
 
 <!-- ROADMAP -->
 ## Roadmap
