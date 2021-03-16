@@ -17,7 +17,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/16698453/111036469-9f83ce00-841f-11eb-8774-9da1918f299d.png" />
+    <img src="https://user-images.githubusercontent.com/16698453/111274563-6f157d00-8635-11eb-8ac0-4fe5db10b031.png" />
   <h3 align="center">Njord Menu 2.1-Lofn Updated: 13-MAR-2021</h3>
 
   <p align="center">
@@ -38,12 +38,11 @@
   </p>
 </p>
 
-Using my DigitalOcean Referral Link:
-* Unsure you want a dedicated server?
-* Using my code gives you 100USD credit for 60 days on DigitalOcean :smile:
-* This is a great way to test your Valheim server without a commitment!
-* I pay for the 40USD a month 4CPU and 8GB RAM Droplet Server
-* My Referral Link https://m.do.co/c/9d2217a2725c
+
+## Server Hosting Provided By DigitalOcean
+* https://m.do.co/c/9d2217a2725c
+* Use my link and get 100 USD Server Credits from me,  over the next 60 Days!
+* Free Credits without hacks... 
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -81,19 +80,15 @@ Using my DigitalOcean Referral Link:
 
 * New EASY to use menu system to manage your Valheim Dedicated Server - Enjoy
 * This Menu will also install your Valheim on your Linux Server - Enjoy
-* How to use: https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/How-to-use-the-Menu-Script
 
-I started this to help out the community and I did not think for a moment it would have taken off so quickly.
-Should you need any help troubleshooting your Valheim Server visit me on Twitch or Discord.
-
-* My production server is 6 days solid as of (18FEB2021)
-* In game time is 430+ days |* Zero issues, zero crashes, zero cases of corrupted data. 
+* My production server is 30 days solid as of (18FEB2021)
+* In game time is 890+ days |* Zero issues, zero crashes, zero cases of corrupted data. 
 
 * If you wish to Tip: https://www.patreon.com/zerobandwidth 
 * ETH: 0x691922a6b7d4005392Fb48A626B9ad17f68D66A5
 * VET: 0x6a2e7c13606e07d57664821a0d9920da75719c01
 
-* Twitch Channel: https://www.twitch.tv/zerobandwidth | * Discord for Tech Support https://discord.gg/ejgQUfc
+## Discord for Tech Support https://discord.gg/ejgQUfc
 
 ### Built With
 
@@ -130,9 +125,6 @@ To get a local copy up and running follow these simple example steps.
   ```
 ### Installation
 
-* Many have asked for it and now here it is!!!
-* I can not make this any easier. 
-
 * SSH into your newly Created VM
   ```sh
   From your home computer, connect to your Ubuntu VM via SSH using putty or another method. (Putty is recommended)
@@ -141,6 +133,7 @@ To get a local copy up and running follow these simple example steps.
 * Minimal Requirements:
   ```sh
   2CPU and 4GB RAM
+  
   You might be able to get it work with less but its a dice roll with any Cloud Services.  
   Also, once your world starts becoming explored and you start building stuff... You will wish you had the minimal requirements.
   Think about this like a Minecraft Server.... Your database will grow as you continue to play.
@@ -170,6 +163,7 @@ cd Dedicated_Valheim_Server_Script
 =
 ```sh
 sudo chmod +x menu.sh
+sudo chmod +x advancemenu.sh
 ```
 6. Launch the Menu System (Please run this as root first or a true user account with sudo permissions | DONT USE sudo -u | use sudo -i )
 =
@@ -178,7 +172,7 @@ To play Valheim without Mods
 ./menu.sh
 ```
 ```sh
-To play Valheim with Valheim+ or other mods(other mod types outside Valheim+ needs testers)
+To play Valheim vanilla or with mods provided by Valheim+ (other mods might work too, need testers)
 ./advancemenu.sh
 ```
 ![Main Menu](https://user-images.githubusercontent.com/16698453/110656976-bf698680-81c0-11eb-890d-6bf09c9b1eb1.PNG?raw=true "Main Menu")
@@ -248,7 +242,7 @@ Here is the complete walk through using DigitalOcean Services.
 
 _For more examples, please refer to the [Documentation](https://www.youtube.com/watch?v=0YPLf7Bw5W4)_
 
-[![Thumbnail](https://img.youtube.com/vi/eW6Zi76Qymw/0.jpg)](https://www.youtube.com/watch?v=eW6Zi76Qymw)
+[![Thumbnail](https://img.youtube.com/vi/668c4d7TQ3Y/0.jpg)](https://youtu.be/668c4d7TQ3Y)
 
 <!-- ROADMAP -->
 ## Roadmap
