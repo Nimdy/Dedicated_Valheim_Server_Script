@@ -39,8 +39,8 @@
 </p>
 
 
-* * Server Hosting Provided By DigitalOcean
-* https://m.do.co/c/9d2217a2725c​
+## Server Hosting Provided By DigitalOcean
+* https://m.do.co/c/9d2217a2725c
 * Use my link and get 100 USD Server Credits from me,  over the next 60 Days!
 * Free Credits without hacks... 
 
