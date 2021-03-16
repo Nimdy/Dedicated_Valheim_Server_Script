@@ -1,5 +1,16 @@
 #!/bin/bash
-LANGUAGE=EN
+# Thank you for using the menu script, this started out as just me and blew up quickly.
+# If Frankenstein was a bash script, this is what you would get, so please help me improve it.
+# Feel free to use and change this as you wish just not for profit. 
+# If you need anything, please visit our Discord Server: https://discord.gg/ejgQUfc
+# GLHF
+
+
+
+
+#Current Options: EN=English, FR=French, SP=Spanish"
+
+LANGUAGE=$setLANG
 source lang/$LANGUAGE.conf
 
 
@@ -7,17 +18,12 @@ source lang/$LANGUAGE.conf
 #    #######################################################
 echo "$(tput setaf 4)"$DRAW60""
 echo "$(tput setaf 0)$(tput setab 7)"$CHECKSUDO"$(tput sgr 0)"
-echo "$(tput setaf 0)$(tput setab 7)"CHECKSUDO1"$(tput sgr 0)"    
+echo "$(tput setaf 0)$(tput setab 7)"$CHECKSUDO1"$(tput sgr 0)"    
 echo "$(tput setaf 4)"$DRAW60""
 #    ###################################################### 
 [[ "$EUID" -eq 0 ]] || exec sudo "$0" "$@"
 
 
-# MAIN BRANCH MENU
-# If Frankenstein was a bash script
-# Please help improve this script
-# Easy Valheim Server Menu super duper easy
-# Open to other commands that should be used... 
 clear
 ###############################################################
 #Only change this if you know what you are doing
