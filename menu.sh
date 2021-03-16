@@ -1,6 +1,22 @@
 #!/bin/bash
-LANGUAGE=EN
+
+
+clear
+while true; do
+        tput setaf 2; echo "---------------------------------------------" ; tput setaf 9;
+        echo "Please set your preferred language"
+        echo "Current Options: EN=English, FR=French, SP=Spanish"
+        tput setaf 2; echo "---------------------------------------------" ; tput setaf 9;
+        echo ""
+        read -p "Selection: " setLANG
+        [[ "$setLANG" == "EN" && "$setLANG" == *[[:upper:]]* || "$setLANG" == "FR" && "$setLANG" == *[[:upper:]]* ||  "$setLANG" == "SP" && "$setLANG" == *[[:upper:]]* ]] && break
+        tput setaf 2; echo "try again" ; tput setaf 9;
+    done
+
+LANGUAGE=$setLANG
 source lang/$LANGUAGE.conf
+
+
 
 
 # Sanity Check
