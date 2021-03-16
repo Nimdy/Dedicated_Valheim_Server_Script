@@ -38,12 +38,10 @@
   </p>
 </p>
 
-Using my DigitalOcean Referral Link:
-* Unsure you want a dedicated server?
-* Using my code gives you 100USD credit for 60 days on DigitalOcean :smile:
-* This is a great way to test your Valheim server without a commitment!
-* I pay for the 40USD a month 4CPU and 8GB RAM Droplet Server
-* My Referral Link https://m.do.co/c/9d2217a2725c
+
+►Server Hosting Provided By DigitalOcean
+https://m.do.co/c/9d2217a2725c​
+Get 100 USD Server Credits from me,  over the next 60 Days!
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
