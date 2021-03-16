@@ -14,7 +14,6 @@ LANGUAGE=EN
 source lang/$LANGUAGE.conf
 
 
-
 # Sanity Check
 #    #######################################################
 echo "$(tput setaf 4)"$DRAW60""
