@@ -223,7 +223,7 @@ echo ""
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     echo ""
       read -p "$PUBLIC_SERVER_ENTER_NAME" displayname
-    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     echo ""
     clear
 # Take user input for Valheim Server World Database Generation
@@ -240,7 +240,7 @@ echo ""
 	tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 	echo ""
         read -p "$WORLD_SET_WORLD_NAME_VAR" worldname
-	tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+	tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
             [[ ${#worldname} -ge 4 && "$worldname" =~ ^[[:alnum:]]+$ ]] && break
         tput setaf 2; echo "$WORLD_SET_ERROR" ; tput setaf 9; 
 	tput setaf 2; echo "$WORLD_SET_ERROR_1" ; tput setaf 9; 
@@ -266,7 +266,7 @@ echo ""
     tput setaf 1; echo "$SERVER_ACCESS_BAD_EXAMPLE" ; tput setaf 9;
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     read -p "$SERVER_ACCESS_ENTER_PASSWORD" password
-    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
         [[ ${#password} -ge 5 && "$password" == *[[:lower:]]* && "$password" == *[[:upper:]]* && "$password" =~ ^[[:alnum:]]+$ ]] && break
     tput setaf 2; echo "$SERVER_ACCESS_PASSWORD_ERROR" ; tput setaf 9;
     tput setaf 2; echo "$SERVER_ACCESS_PASSWORD_ERROR_1" ; tput setaf 9;
@@ -283,7 +283,7 @@ echo ""
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     echo ""
       read -p "$PUBLIC_ENABLED_DISABLE_INPUT" publicList
-    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     echo ""
 
 
