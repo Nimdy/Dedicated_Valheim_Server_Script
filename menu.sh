@@ -350,8 +350,8 @@ tput setaf 1; echo "$INSTALL_BUILD_DELETE_OLD_CONFIGS_1" ; tput setaf 9;
 sleep 1
 cat >> ${valheimInstallPath}/start_valheim.sh <<EOF
 #!/bin/bash
-export templdpath=\$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
+export templdpath="$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="./linux64":"$LD_LIBRARY_PATH"
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: Minimum password length is 5 characters & Password cant be in the server name.
