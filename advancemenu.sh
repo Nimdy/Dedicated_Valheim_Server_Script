@@ -956,7 +956,7 @@ export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: Minimum password length is 5 characters & Password cant be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}"
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port "${setCurrentPort}" -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
    echo "$FUNCTION_WRITE_CONFIG_RESTART_SET_PERMS" ${valheimInstallPath}/start_valheim.sh
@@ -1006,7 +1006,7 @@ function change_public_display_name() {
     echo ""
     tput setaf 1; echo "$FUNCTION_CHANGE_PUBLIC_DISPLAY_NEW_PUBLIC_NAME" ${setCurrentDisplayName} ; tput setaf 9;
     echo ""
-    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     echo ""
     read -p "$PLEASE_CONFIRM" confirmPublicNameChange
     #if y, then continue, else cancel
@@ -1033,7 +1033,7 @@ function change_default_server_port() {
     tput setaf 1; echo "$FUNCTION_CHANGE_DEFAULT_SERVER_PORT_INFO_3" ; tput setaf 9;
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     tput setaf 2; echo "$FUNCTION_CHANGE_DEFAULT_SERVER_PORT_CURRENT ${currentPort} " ; tput setaf 9;
-    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     echo ""
     while true; do
         read -p "$FUNCTION_CHANGE_DEFAULT_SERVER_PORT_EDIT_PORT " setCurrentPort
@@ -1046,7 +1046,7 @@ function change_default_server_port() {
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     tput setaf 5; echo "$FUNCTION_CHANGE_DEFAULT_SERVER_PORT_OLD_PORT" ${currentPort} ; tput setaf 9;
     tput setaf 6; echo "$FUNCTION_CHANGE_DEFAULT_SERVER_PORT_NEW_PORT" ${setCurrentPort} ; tput setaf 9;
-    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     read -p "$PLEASE_CONFIRM" confirmServerPortChange
     echo ""
     #if y, then continue, else cancel
@@ -1082,7 +1082,7 @@ function change_server_access_password() {
     tput setaf 5; echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_CURRENT_WORLD_NAME" ${currentWorldName} ; tput setaf 9;
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     tput setaf 2; echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_CURRENT_PASS ${currentPassword} " ; tput setaf 9;
-    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     while true; do
         tput setaf 1; echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_INFO_RULES" ; tput setaf 9;
         tput setaf 1; echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_INFO_RULES_1" ; tput setaf 9;
