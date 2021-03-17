@@ -40,7 +40,7 @@ backupPath=/home/steam/backups
 ###############################################################
 
 # Set Menu Version for menu display
-mversion="2.1.7-Lofn"
+mversion="2.2-Lofn"
 #Do not touch this... ever....never...ever.ever.never...thanks
 export valheimVanilla=1
 
@@ -227,7 +227,7 @@ echo ""
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     echo ""
       read -p "$PUBLIC_SERVER_ENTER_NAME" displayname
-    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     echo ""
     clear
 # Take user input for Valheim Server World Database Generation
@@ -244,7 +244,7 @@ echo ""
 	tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 	echo ""
         read -p "$WORLD_SET_WORLD_NAME_VAR" worldname
-	tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+	tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
             [[ ${#worldname} -ge 4 && "$worldname" =~ ^[[:alnum:]]+$ ]] && break
         tput setaf 2; echo "$WORLD_SET_ERROR" ; tput setaf 9; 
 	tput setaf 2; echo "$WORLD_SET_ERROR_1" ; tput setaf 9; 
@@ -270,7 +270,7 @@ echo ""
     tput setaf 1; echo "$SERVER_ACCESS_BAD_EXAMPLE" ; tput setaf 9;
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     read -p "$SERVER_ACCESS_ENTER_PASSWORD" password
-    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
         [[ ${#password} -ge 5 && "$password" == *[[:lower:]]* && "$password" == *[[:upper:]]* && "$password" =~ ^[[:alnum:]]+$ ]] && break
     tput setaf 2; echo "$SERVER_ACCESS_PASSWORD_ERROR" ; tput setaf 9;
     tput setaf 2; echo "$SERVER_ACCESS_PASSWORD_ERROR_1" ; tput setaf 9;
@@ -287,7 +287,7 @@ echo ""
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     echo ""
       read -p "$PUBLIC_ENABLED_DISABLE_INPUT" publicList
-    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     echo ""
 
 
@@ -834,6 +834,52 @@ clear
     sudo grep ZDOID /var/log/syslog*
     echo ""
 }
+
+function display_valheim_logs() {
+clear
+    echo ""
+#set new colors outside normal menu options we are using
+#rewrite this later.
+#Full credit to ckbaudio https://github.com/ckbaudio
+magen="$(tput setaf 5)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+red="$(tput setaf 1)"
+cyan="$(tput setaf 6)"
+grey="$(tput setaf 240)"
+def="$(tput sgr0)"
+
+# You can also replace the initial command with:
+# journalctl -f -u valheimserver.service
+# to tail systemd log
+journalctl -f -u valheimserver.service | \
+        grep --line-buffered -v '^(Filename' `# Remove redundant lines` | \
+        grep --line-buffered -v 'Destroying abandoned' | \
+        grep --line-buffered -v 'Disposing socket' | \
+        grep --line-buffered -v 'Closing socket 0' | \
+        grep --line-buffered -v 'k_ESteam' | \
+        grep --line-buffered -v 'k_EResult' | \
+        grep --line-buffered -v 'Steamworks' | \
+        \grep --line-buffered "\S" | \
+        sed -e "s/\s*(Find.*//" \
+        -e 's/\(\.[0-9][0-9][0-9]\)[0-9]*/\1/g' \
+        -e 's/ \{1,\}/ /g' `# Delete lines after this if you only need cleaner logs without colour formatting`\
+        -e "s,\(../../.... ..:..:..:\),${cyan}\1${def}," `# Color formatting`\
+        -e "s,\(World saved.*\),${magen}\1${def}," \
+        -e "s,\(Got session request.*\),${green}\1${def}," \
+        -e "s,\(Got handshake.*\),${green}\1${def}," \
+        -e "s,\(Got character ZDOID from.*\),${green}\1${def}," \
+        -e "s,\(Server: New peer.*\),${green}\1${def}," \
+        -e "s,\(Connections [0-9] ZDOS.*\),${yellow}\1${def}," \
+        -e "s,\(RPC_Disconnect.*\),${red}\1${def}," \
+        -e "s,\(Peer [0-9]*.*wrong password\),${red}\1${def}," \
+        -e "s,\(Closing socket [0-9].*\),${red}\1${def}," \
+        -e "s,\(Unloading.*\),${grey}\1${def}," \
+        -e "s,\(Total:.*\),${grey}\1${def}," \
+
+}
+
+
 ########################################################################
 #####################Sub Tech Support Menu System#######################
 ########################################################################
@@ -848,6 +894,7 @@ $(ColorOrange '-')$(ColorGreen ' 3)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_WOR
 $(ColorOrange '-')$(ColorGreen ' 4)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_SYSTEM_INFO
 $(ColorOrange '-')$(ColorGreen ' 5)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_NETWORK_INFO
 $(ColorOrange '-')$(ColorGreen ' 6)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_CONNECTED_PLAYER_HISTORY
+$(ColorOrange '-')$(ColorGreen ' 7)') Valheim Server Logs (CTRL+C = Exit)
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') "$RETURN_MAIN_MENU"
 $(ColorOrange '------------------------------------------------------------')
@@ -860,6 +907,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 		4) display_system_info ; tech_support ;;
 		5) display_network_info ; tech_support ;;
 	        6) display_player_history ; tech_support ;;
+		7) display_valheim_logs ; tech_support ;;
 		  0) menu ; menu ;;
 		    *)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; tech_support ;;
         esac
@@ -1144,6 +1192,9 @@ sleep 1
 function install_valheim_plus() {
 clear
     echo ""
+    if [ ! -f /usr/bin/unzip ]; then
+    apt install unzip -y
+    fi
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CHANGING_DIR" ; tput setaf 9; 
     cd $valheimInstallPath
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CHECKING_OLD_INSTALL" ; tput setaf 9; 
@@ -1153,6 +1204,7 @@ clear
     | grep "browser_download_url.*UnixServer\.zip" \
     | cut -d ":" -f 2,3 | tr -d \" \
     | wget -P ${valheimInstallPath} -qi - 
+    echo ""
     sleep 1
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CREATING_VER_STAMP" ; tput setaf 9; 
     curl -sL https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest | grep '"tag_name":' | cut -d'"' -f4 > localValheimPlusVersion
@@ -1165,6 +1217,7 @@ clear
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_SETTING_STEAM_OWNERSHIP" ; tput setaf 9; 
     chown steam:steam -Rf /home/steam/*
     chmod +x start_server_bepinex.sh
+    rm UnixServer.zip
     echo ""
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_GET_THEIR_VIKING_ON" ; tput setaf 9; 
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_LETS_GO" ; tput setaf 9; 
@@ -1287,47 +1340,63 @@ function build_start_server_bepinex_configuration_file() {
 # This script is used to run a Unity game with BepInEx enabled.
 #
 # Usage: Configure the script below and simply run this script when you want to run your game modded.
+
 # -------- SETTINGS --------
 # ---- EDIT AS NEEDED ------
+
 # EDIT THIS: The name of the executable to run
 # LINUX: This is the name of the Unity game executable [preconfigured]
 # MACOS: This is the name of the game app folder, including the .app suffix [must provide if needed]
 executable_name="valheim_server.x86_64"
+
 # EDIT THIS: Valheim server parameters
 # Can be overriden by script parameters named exactly like the ones for the Valheim executable
 # (e.g. ./start_server_bepinex.sh -name "MyValheimPlusServer" -password "somethingsafe" -port 2456 -world "myworld" -public 1)
+
 server_name="$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' start_valheim.sh)"
+server_password="$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' start_valheim.sh)"
 server_port="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' start_valheim.sh)"
 server_world="$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' start_valheim.sh)"
-server_password="$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' start_valheim.sh)"
 server_public="$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' start_valheim.sh)"
+
 # The rest is automatically handled by BepInEx for Valheim+
+
+# Set base path of start_server_bepinex.sh location
+export VALHEIM_PLUS_SCRIPT="$(readlink -f "$0")"
+export VALHEIM_PLUS_PATH="$(dirname "$VALHEIM_PLUS_SCRIPT")"
+
 # Whether or not to enable Doorstop. Valid values: TRUE or FALSE
 export DOORSTOP_ENABLE=TRUE
+
 # What .NET assembly to execute. Valid value is a path to a .NET DLL that mono can execute.
-export DOORSTOP_INVOKE_DLL_PATH="${PWD}/BepInEx/core/BepInEx.Preloader.dll"
+export DOORSTOP_INVOKE_DLL_PATH="${VALHEIM_PLUS_PATH}/BepInEx/core/BepInEx.Preloader.dll"
+
 # Which folder should be put in front of the Unity dll loading path
-export DOORSTOP_CORLIB_OVERRIDE_PATH=./unstripped_corlib
+export DOORSTOP_CORLIB_OVERRIDE_PATH="${VALHEIM_PLUS_PATH}/unstripped_corlib"
+
 # ----- DO NOT EDIT FROM THIS LINE FORWARD  ------
 # ----- (unless you know what you're doing) ------
-if [ ! -x "$1" -a ! -x "$executable_name" ]; then
+
+if [ ! -x "$1" -a ! -x "${VALHEIM_PLUS_PATH}/$executable_name" ]; then
 	echo "Please open start_server_bepinex.sh in a text editor and provide the correct executable."
 	exit 1
 fi
-doorstop_libs="${PWD}/doorstop_libs"
+
+doorstop_libs="${VALHEIM_PLUS_PATH}/doorstop_libs"
 arch=""
 executable_path=""
 lib_postfix=""
-os_type=`uname -s`
+
+os_type=$(uname -s)
 case $os_type in
 	Linux*)
-		executable_path="${PWD}/${executable_name}"
+		executable_path="${VALHEIM_PLUS_PATH}/${executable_name}"
 		lib_postfix="so"
 		;;
 	Darwin*)
-		executable_name=`basename "${executable_name}" .app`
-		real_executable_name=`defaults read "${PWD}/${executable_name}.app/Contents/Info" CFBundleExecutable`
-		executable_path="${PWD}/${executable_name}.app/Contents/MacOS/${real_executable_name}"
+		executable_name="$(basename "${executable_name}" .app)"
+		real_executable_name="$(defaults read "${VALHEIM_PLUS_PATH}/${executable_name}.app/Contents/Info" CFBundleExecutable)"
+		executable_path="${VALHEIM_PLUS_PATH}/${executable_name}.app/Contents/MacOS/${real_executable_name}"
 		lib_postfix="dylib"
 		;;
 	*)
@@ -1336,7 +1405,9 @@ case $os_type in
 		exit 1
 		;;
 esac
-executable_type=`LD_PRELOAD="" file -b "${executable_path}"`;
+
+executable_type=$(LD_PRELOAD="" file -b "${executable_path}");
+
 case $executable_type in
 	*64-bit*)
 		arch="x64"
@@ -1350,14 +1421,17 @@ case $executable_type in
 		exit 1
 		;;
 esac
+
 doorstop_libname=libdoorstop_${arch}.${lib_postfix}
-export LD_LIBRARY_PATH="${doorstop_libs}":${LD_LIBRARY_PATH}
-export LD_PRELOAD=$doorstop_libname:$LD_PRELOAD
+export LD_LIBRARY_PATH="${doorstop_libs}":"${LD_LIBRARY_PATH}"
+export LD_PRELOAD="$doorstop_libname":"${LD_PRELOAD}"
 export DYLD_LIBRARY_PATH="${doorstop_libs}"
 export DYLD_INSERT_LIBRARIES="${doorstop_libs}/$doorstop_libname"
-export templdpath=$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=./linux64:$LD_LIBRARY_PATH
+
+export templdpath="$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="${VALHEIM_PLUS_PATH}/linux64":"${LD_LIBRARY_PATH}"
 export SteamAppId=892970
+
 for arg in "$@"
 do
 	case $arg in
@@ -1383,7 +1457,10 @@ do
 	;;
 	esac
 done
-"${PWD}/${executable_name}" -name ${server_name} -password ${server_password} -port ${server_port} -world ${server_world} -public ${server_public}
+
+"${VALHEIM_PLUS_PATH}/${executable_name}" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}"
+
+export LD_LIBRARY_PATH=$templdpath
 EOF
 }
 

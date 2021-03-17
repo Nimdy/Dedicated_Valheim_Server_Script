@@ -18,7 +18,7 @@
 <br />
 <p align="center">
     <img src="https://user-images.githubusercontent.com/16698453/111274563-6f157d00-8635-11eb-8ac0-4fe5db10b031.png" />
-  <h3 align="center">Njord Menu 2.1-Lofn Updated: 13-MAR-2021</h3>
+  <h3 align="center">Njord Menu 2.2-Lofn Updated: 17-MAR-2021</h3>
 
   <p align="center">
     So easy a Viking can do it!
@@ -165,23 +165,25 @@ cd Dedicated_Valheim_Server_Script
 sudo chmod +x menu.sh
 sudo chmod +x advancemenu.sh
 ```
-6. Set your preferred language by editing the menu.sh or advancemenu.sh. (If English, skip this step)
+6. Set your preferred language for the menu.sh or advancemenu.sh. (If English, skip this step)
 =
+*No option = English
+*DE = German
+*FR = French
+*SP = Spanish
 ```sh
-nano menu.sh
+./menu (no options required for english)
+./menu DE
+./menu FR
+./menu SP
+```
 or
-nano advancemenu.sh
-```
-
 ```sh
-#Current Options: DE= German, EN=English, FR=French, SP=Spanish"
-
-LANGUAGE=EN
-source lang/$LANGUAGE.conf
+./advancemenu.sh (no options required for english)
+./advancemenu.sh DE
+./advancemenu.sh FR
+./advancemenu.sh SP
 ```
-* Make your selected language, if you want something other than English.
-* Save: CTRL+o enter Exit: CTRL+x
-* Exit without saving: CTRL+x
 
 7. Launch the Menu System (Please run this as root first or a true user account with sudo permissions | DONT USE sudo -u | use sudo -i )
 =
