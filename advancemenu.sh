@@ -1140,6 +1140,9 @@ sleep 1
 function install_valheim_plus() {
 clear
     echo ""
+    if [ ! -f /usr/bin/unzip ]; then
+    apt install unzip -y
+    fi
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CHANGING_DIR" ; tput setaf 9; 
     cd $valheimInstallPath
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CHECKING_OLD_INSTALL" ; tput setaf 9; 
@@ -1149,6 +1152,7 @@ clear
     | grep "browser_download_url.*UnixServer\.zip" \
     | cut -d ":" -f 2,3 | tr -d \" \
     | wget -P ${valheimInstallPath} -qi - 
+    echo ""
     sleep 1
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CREATING_VER_STAMP" ; tput setaf 9; 
     curl -sL https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest | grep '"tag_name":' | cut -d'"' -f4 > localValheimPlusVersion
