@@ -830,6 +830,52 @@ clear
     sudo grep ZDOID /var/log/syslog*
     echo ""
 }
+
+function display_valheim_logs() {
+clear
+    echo ""
+#set new colors outside normal menu options we are using
+#rewrite this later.
+#Full credit to ckbaudio https://github.com/ckbaudio
+magen="$(tput setaf 5)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+red="$(tput setaf 1)"
+cyan="$(tput setaf 6)"
+grey="$(tput setaf 240)"
+def="$(tput sgr0)"
+
+# You can also replace the initial command with:
+# journalctl -f -u valheimserver.service
+# to tail systemd log
+journalctl -f -u valheimserver.service | \
+        grep --line-buffered -v '^(Filename' `# Remove redundant lines` | \
+        grep --line-buffered -v 'Destroying abandoned' | \
+        grep --line-buffered -v 'Disposing socket' | \
+        grep --line-buffered -v 'Closing socket 0' | \
+        grep --line-buffered -v 'k_ESteam' | \
+        grep --line-buffered -v 'k_EResult' | \
+        grep --line-buffered -v 'Steamworks' | \
+        \grep --line-buffered "\S" | \
+        sed -e "s/\s*(Find.*//" \
+        -e 's/\(\.[0-9][0-9][0-9]\)[0-9]*/\1/g' \
+        -e 's/ \{1,\}/ /g' `# Delete lines after this if you only need cleaner logs without colour formatting`\
+        -e "s,\(../../.... ..:..:..:\),${cyan}\1${def}," `# Color formatting`\
+        -e "s,\(World saved.*\),${magen}\1${def}," \
+        -e "s,\(Got session request.*\),${green}\1${def}," \
+        -e "s,\(Got handshake.*\),${green}\1${def}," \
+        -e "s,\(Got character ZDOID from.*\),${green}\1${def}," \
+        -e "s,\(Server: New peer.*\),${green}\1${def}," \
+        -e "s,\(Connections [0-9] ZDOS.*\),${yellow}\1${def}," \
+        -e "s,\(RPC_Disconnect.*\),${red}\1${def}," \
+        -e "s,\(Peer [0-9]*.*wrong password\),${red}\1${def}," \
+        -e "s,\(Closing socket [0-9].*\),${red}\1${def}," \
+        -e "s,\(Unloading.*\),${grey}\1${def}," \
+        -e "s,\(Total:.*\),${grey}\1${def}," \
+
+}
+
+
 ########################################################################
 #####################Sub Tech Support Menu System#######################
 ########################################################################
@@ -844,6 +890,7 @@ $(ColorOrange '-')$(ColorGreen ' 3)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_WOR
 $(ColorOrange '-')$(ColorGreen ' 4)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_SYSTEM_INFO
 $(ColorOrange '-')$(ColorGreen ' 5)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_NETWORK_INFO
 $(ColorOrange '-')$(ColorGreen ' 6)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_CONNECTED_PLAYER_HISTORY
+$(ColorOrange '-')$(ColorGreen ' 7)') Valheim Server Logs (CTRL+C = Exit)
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') "$RETURN_MAIN_MENU"
 $(ColorOrange '------------------------------------------------------------')
@@ -856,6 +903,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 		4) display_system_info ; tech_support ;;
 		5) display_network_info ; tech_support ;;
 	        6) display_player_history ; tech_support ;;
+		7) display_valheim_logs ; tech_support ;;
 		  0) menu ; menu ;;
 		    *)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; tech_support ;;
         esac
