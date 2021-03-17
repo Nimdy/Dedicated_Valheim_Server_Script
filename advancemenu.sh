@@ -9,8 +9,12 @@
 
 
 #Current Options: DE= German, EN=English, FR=French, SP=Spanish"
-
-LANGUAGE=EN
+if [ "$1" == "" ]
+then
+        LANGUAGE=EN
+else
+        LANGUAGE=DE
+fi
 source lang/$LANGUAGE.conf
 
 
