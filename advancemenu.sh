@@ -13,7 +13,7 @@ if [ "$1" == "" ]
 then
         LANGUAGE=EN
 else
-        LANGUAGE=DE
+        LANGUAGE=$1
 fi
 source lang/$LANGUAGE.conf
 
