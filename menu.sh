@@ -350,8 +350,8 @@ tput setaf 1; echo "$INSTALL_BUILD_DELETE_OLD_CONFIGS_1" ; tput setaf 9;
 sleep 1
 cat >> ${valheimInstallPath}/start_valheim.sh <<EOF
 #!/bin/bash
-export templdpath="$LD_LIBRARY_PATH"
-export LD_LIBRARY_PATH="./linux64":"$LD_LIBRARY_PATH"
+export templdpath=\$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: Minimum password length is 5 characters & Password cant be in the server name.
@@ -901,13 +901,13 @@ function write_config_and_restart() {
     sleep 1
     cat > ${valheimInstallPath}/start_valheim.sh <<EOF
 #!/bin/bash
-export templdpath="$LD_LIBRARY_PATH"
-export LD_LIBRARY_PATH="./linux64":"$LD_LIBRARY_PATH"
+export templdpath=\$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
 ./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}"
-export LD_LIBRARY_PATH=$templdpath
+export LD_LIBRARY_PATH=\$templdpath
 EOF
    echo "$FUNCTION_WRITE_CONFIG_RESTART_SET_PERMS" ${valheimInstallPath}/start_valheim.sh
    chown steam:steam ${valheimInstallPath}/start_valheim.sh
