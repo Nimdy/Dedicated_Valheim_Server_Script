@@ -40,7 +40,7 @@ backupPath=/home/steam/backups
 ###############################################################
 
 # Set Menu Version for menu display
-mversion="2.1.7-Lofn"
+mversion="2.1.8-Lofn"
 
 
 ########################################################################
