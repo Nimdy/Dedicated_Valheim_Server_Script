@@ -172,10 +172,10 @@ sudo chmod +x advancemenu.sh
 *FR = French
 *SP = Spanish
 ```sh
-./menu (no options required for english)
-./menu DE
-./menu FR
-./menu SP
+./menu.sh (no options required for english)
+./menu.sh DE
+./menu.sh FR
+./menu.sh SP
 ```
 or
 ```sh
