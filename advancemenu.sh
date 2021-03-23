@@ -283,7 +283,7 @@ echo ""
     tput setaf 1; echo "$PUBLIC_ENABLED_DISABLE_INFO" ; tput setaf 9;
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     tput setaf 2; echo "$PUBLIC_ENABLED_DISABLE_EXAMPLE_SHOW" ; tput setaf 9;
-    tput setaf 1; echo "$PUBLIC_ENABLED_DISABLE_EXAMPLS_LAN_NO_SHOW" ; tput setaf 9;
+    tput setaf 1; echo "$PUBLIC_ENABLED_DISABLE_EXAMPLE_LAN_NO_SHOW" ; tput setaf 9;
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     echo ""
       read -p "$PUBLIC_ENABLED_DISABLE_INPUT" publicList
