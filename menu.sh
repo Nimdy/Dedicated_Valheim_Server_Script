@@ -1090,7 +1090,8 @@ function display_full_config() {
 
 function check_official_valheim_release_build() {
     if [[ -e "/home/steam/steamcmd" ]] ; then
-        find "/home" "/root" -wholename "*/.steam/appcache/appinfo.vdf" | xargs -r rm -f -- &
+        find "/home" "/root" -wholename "*/.steam/appcache/appinfo.vdf" | xargs -r rm -f -- 
+	sleep 7 &
         PID=$!
         i=1
         sp="/-\|"
