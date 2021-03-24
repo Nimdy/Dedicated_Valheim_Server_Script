@@ -853,7 +853,7 @@ def="$(tput sgr0)"
 # You can also replace the initial command with:
 # journalctl -f -u valheimserver.service
 # to tail systemd log
-journalctl -f -u valheimserver.service | \
+cat /var/log/syslog* | \
         grep --line-buffered -v '^(Filename' `# Remove redundant lines` | \
         grep --line-buffered -v 'Destroying abandoned' | \
         grep --line-buffered -v 'Disposing socket' | \
