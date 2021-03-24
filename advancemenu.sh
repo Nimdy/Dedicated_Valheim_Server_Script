@@ -577,51 +577,52 @@ fi
 ########################################################################
 ######################beta updater for Valheim##########################
 ########################################################################
-#function check_apply_server_updates_beta() {
-#    echo ""
-#    echo "Downloading Official Valheim Repo Log Data for comparison only"
-#      repoValheim=$(/home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4)
-#      echo "Official Valheim-: $repoValheim"
-#      localValheim=$(grep buildid ${valheimInstallPath}/steamapps/appmanifest_896660.acf | cut -d'"' -f4)
-#      echo "Local Valheim Ver: $localValheim"
-#      if [ "$repoValheim" == "$localValheim" ]; then
-#        echo "No new Updates found"
-#	sleep 2
-#	else
-#	echo "Update Found kicking process to Odin for updating!"
-#	sleep 2
-#        continue_with_valheim_update_install
-#        echo ""
-#     fi
-#     echo ""
-#}
-
 function check_apply_server_updates_beta() {
     echo ""
-    echo "$FUNCTION_APPLY_SERVER_UPDATES"
-      [ ! -d /opt/valheimtemp ] && mkdir -p /opt/valheimtemp
-      /home/steam/steamcmd +login anonymous +force_install_dir /opt/valheimtemp +app_update 896660 validate +exit
-      sed -e 's/[\t ]//g;/^$/d' /opt/valheimtemp/steamapps/appmanifest_896660.acf > appmanirepo.log
-      repoValheim=$(sed -n '11p' appmanirepo.log)
-      echo "$FUNCTION_APPLY_SERVER_UPDATES_OFFICIAL_VALHEIM_REPO $repoValheim"
-      sed -e 's/[\t ]//g;/^$/d' ${valheimInstallPath}/steamapps/appmanifest_896660.acf > appmanilocal.log
-      localValheim=$(sed -n '11p' appmanilocal.log)
-      echo "$FUNCTION_APPLY_SERVER_UPDATES_OFFICIAL_VALHEIM_LOCAL $localValheim"
+    echo "Downloading Official Valheim Repo Log Data for comparison only"
+      find "/home" "/root" -wholename "*/.steam/appcache/appinfo.vdf" | xargs -r rm -f --
+      repoValheim=$(/home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4)
+      echo "Official Valheim-: $repoValheim"
+      localValheim=$(grep buildid ${valheimInstallPath}/steamapps/appmanifest_896660.acf | cut -d'"' -f4)
+      echo "Local Valheim Ver: $localValheim"
       if [ "$repoValheim" == "$localValheim" ]; then
-        echo "$FUNCTION_APPLY_SERVER_UPDATES_NO"
-        echo "$FUNCTION_APPLY_SERVER_UPDATES_CLEAN_TMP"
-        rm -Rf /opt/valheimtemp
-        rm appmanirepo.log
-        rm appmanilocal.log
-    sleep 2
-    else
-    echo "$FUNCTION_APPLY_SERVER_UPDATES_INFO"
-    sleep 2
+        echo "No new Updates found"
+	sleep 2
+	else
+	echo "Update Found kicking process to Odin for updating!"
+	sleep 2
         continue_with_valheim_update_install
         echo ""
      fi
      echo ""
 }
+
+#function check_apply_server_updates_beta() {
+#    echo ""
+#    echo "$FUNCTION_APPLY_SERVER_UPDATES"
+#      [ ! -d /opt/valheimtemp ] && mkdir -p /opt/valheimtemp
+#      /home/steam/steamcmd +login anonymous +force_install_dir /opt/valheimtemp +app_update 896660 validate +exit
+#      sed -e 's/[\t ]//g;/^$/d' /opt/valheimtemp/steamapps/appmanifest_896660.acf > appmanirepo.log
+#      repoValheim=$(sed -n '11p' appmanirepo.log)
+#      echo "$FUNCTION_APPLY_SERVER_UPDATES_OFFICIAL_VALHEIM_REPO $repoValheim"
+#      sed -e 's/[\t ]//g;/^$/d' ${valheimInstallPath}/steamapps/appmanifest_896660.acf > appmanilocal.log
+#      localValheim=$(sed -n '11p' appmanilocal.log)
+#      echo "$FUNCTION_APPLY_SERVER_UPDATES_OFFICIAL_VALHEIM_LOCAL $localValheim"
+#      if [ "$repoValheim" == "$localValheim" ]; then
+#        echo "$FUNCTION_APPLY_SERVER_UPDATES_NO"
+#        echo "$FUNCTION_APPLY_SERVER_UPDATES_CLEAN_TMP"
+#        rm -Rf /opt/valheimtemp
+#        rm appmanirepo.log
+#        rm appmanilocal.log
+#    sleep 2
+#    else
+#    echo "$FUNCTION_APPLY_SERVER_UPDATES_INFO"
+#    sleep 2
+#        continue_with_valheim_update_install
+#        echo ""
+#     fi
+#     echo ""
+#}
 ########################################################################
 ##############Verify Checking Updates for Valheim Server################
 ########################################################################
