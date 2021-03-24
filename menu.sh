@@ -1090,7 +1090,7 @@ function display_full_config() {
 
 function check_official_valheim_release_build() {
     if [[ -e "/home/steam/steamcmd" ]] ; then
-     [ ! -f /root/.steam/appcache/appinfo.vdf ] && rm /root/.steam/appcache/appinfo.vdf 
+        find "/home" "/root" -wholename "*/.steam/appcache/appinfo.vdf" | xargs -r rm -f --
         currentOfficialRepo=$(/home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4) 
         echo $currentOfficialRepo
     else 
