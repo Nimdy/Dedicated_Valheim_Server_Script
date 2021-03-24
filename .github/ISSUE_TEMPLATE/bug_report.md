@@ -10,6 +10,10 @@ assignees: ''
 **Describe the bug**
 A clear and concise description of what the bug is.
 
+Post your logs:
+cat /var/log/syslog* | grep Info
+
+
 **To Reproduce**
 Steps to reproduce the behavior:
 1. Go to '...'
