@@ -1089,12 +1089,23 @@ function display_full_config() {
 # Check Current Valheim REPO Build for menu display
 
 function check_official_valheim_release_build() {
-    if [[ -e "/home/steam/steamcmd" ]] ; then
-        find "/home" "/root" -wholename "*/.steam/appcache/appinfo.vdf" | xargs -r rm -f -- 
-        currentOfficialRepo=$(/home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4) 
-        echo $currentOfficialRepo
-    else 
-        echo "$NO_DATA";
+if [[ $(find "/home/steam/valheimserver/officialvalheimbuild" -mtime +1 -print) ]]; then
+      echo "Debug: I am here updating"
+      find "/home" "/root" -wholename "*/.steam/appcache/appinfo.vdf" | xargs -r rm -f --
+      currentOfficialRepo=$(/home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4)
+      echo $currentOfficialRepo > /home/steam/valheimserver/officialvalheimbuild
+      chown steam:steam /home/steam/valheimserver/officialvalheimbuild
+      echo $currentOfficialRepo
+elif [ ! -f /home/steam/valheimserver/officialvalheimbuild ]; then
+      currentOfficialRepo=$(/home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4)
+      echo $currentOfficialRepo > /home/steam/valheimserver/officialvalheimbuild
+      chown steam:steam /home/steam/valheimserver/officialvalheimbuild
+      echo $currentOfficialRepo
+elif [ -f /home/steam/valheimserver/officialvalheimbuild ]; then
+      currentOfficialRepo=$(cat /home/steam/valheimserver/officialvalheimbuild)
+      echo $currentOfficialRepo
+else
+      echo "$NO_DATA";
   fi
 }
 
