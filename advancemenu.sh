@@ -1977,7 +1977,7 @@ $(ColorPurple '╚════════════════════�
 function menu_header_bepinex_enable() {
 get_current_config
 echo -ne "
-$(ColorCyan '╔════════════════════')$(ColorOrange 'BepInEx')$(ColorCyan '═══════════════════╗')
+$(ColorCyan '╔═════════════════════')$(ColorOrange 'BepInEx')$(ColorCyan '═══════════════════╗')
 $(ColorCyan '║~~~~~~~~~~~~~~~~~~')$(ColorLightGreen '-Njord Menu-')$(ColorCyan '~~~~~~~~~~~~~~~~~║')
 $(ColorCyan '╠═══════════════════════════════════════════════╝')
 $(ColorCyan '║')$(ColorLightGreen ' Welcome to BepInEx Intergrated Menu System')
