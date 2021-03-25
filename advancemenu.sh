@@ -2011,6 +2011,7 @@ $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
 echo -ne "
 $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 echo -ne "
+$(ColorPurple '╠═══════════════════════════════════════════════')
 $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_CURRENT_NJORD_RELEASE $(check_menu_script_repo)
 $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_NJORD_VERSION ${mversion}
 $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_GG_ZEROBANDWIDTH
@@ -2021,41 +2022,42 @@ $(ColorPurple '╚════════════════════�
 function menu_header_bepinex_enable() {
 get_current_config
 echo -ne "
-$(ColorPurple '╔════════════════════')$(ColorOrange 'BepInEx')$(ColorPurple '═══════════════════╗')
-$(ColorPurple '║~~~~~~~~~~~~~~~~~~')$(ColorLightGreen '-Njord Menu-')$(ColorPurple '~~~~~~~~~~~~~~~~~║')
-$(ColorPurple '╠═══════════════════════════════════════════════╝')
-$(ColorPurple '║')$(ColorLightGreen ' Welcome to BepInEx Intergrated Menu System')
-$(ColorPurple '║')$(ColorLightGreen ' BepInEx Support: https://discord.gg/MpFEDAg')
-$(ColorPurple '║ '"$FUNCTION_HEADER_MENU_INFO_2"'')
-$(ColorPurple '╠═══════════════════════════════════════════════')
-$(ColorPurple '║ Mods:') $(are_mods_enabled)
-$(ColorPurple '╠═══════════════════════════════════════════════')
-$(ColorPurple '║') BepInEx Official Build:" $(check_bepinex_repo)
+$(ColorCyan '╔════════════════════')$(ColorOrange 'BepInEx')$(ColorCyan '═══════════════════╗')
+$(ColorCyan '║~~~~~~~~~~~~~~~~~~')$(ColorLightGreen '-Njord Menu-')$(ColorCyan '~~~~~~~~~~~~~~~~~║')
+$(ColorCyan '╠═══════════════════════════════════════════════╝')
+$(ColorCyan '║')$(ColorLightGreen ' Welcome to BepInEx Intergrated Menu System')
+$(ColorCyan '║')$(ColorLightGreen ' BepInEx Support: https://discord.gg/MpFEDAg')
+$(ColorCyan '║ '"$FUNCTION_HEADER_MENU_INFO_2"'')
+$(ColorCyan '╠═══════════════════════════════════════════════')
+$(ColorCyan '║ Mods:') $(are_mods_enabled)
+$(ColorCyan '╠═══════════════════════════════════════════════')
+$(ColorCyan '║') BepInEx Official Build:" $(check_bepinex_repo)
 echo -ne "
-$(ColorPurple '║') BepInEx Server Build:" $(check_local_bepinex_build)
+$(ColorCyan '║') BepInEx Server Build:" $(check_local_bepinex_build)
 echo -ne "
-$(ColorPurple '╠═══════════════════════════════════════════════')
-$(ColorPurple '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_OFFICIAL_BUILD"'')" $(check_official_valheim_release_build)
+$(ColorCyan '╠═══════════════════════════════════════════════')
+$(ColorCyan '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_OFFICIAL_BUILD"'')" $(check_official_valheim_release_build)
 echo -ne "
-$(ColorPurple '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"        $(check_local_valheim_build)
+$(ColorCyan '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"        $(check_local_valheim_build)
 echo -ne "
-$(ColorPurple '╚═══════════════════════════════════════════════')"
+$(ColorCyan '╚═══════════════════════════════════════════════')"
 echo -ne "
-$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
-$(ColorPurple '║') $(are_you_connected)
-$(ColorPurple '║')" $(display_public_IP)
+$(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
+$(ColorCyan '║') $(are_you_connected)
+$(ColorCyan '║')" $(display_public_IP)
 echo -ne "
-$(ColorPurple '║')" $(display_local_IP)
+$(ColorCyan '║')" $(display_local_IP)
 echo -ne "
-$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
+$(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
 echo -ne "
-$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
+$(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 echo -ne "
-$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_CURRENT_NJORD_RELEASE $(check_menu_script_repo)
-$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_NJORD_VERSION ${mversion}
-$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_GG_ZEROBANDWIDTH
-$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_1
-$(ColorPurple '╚═══════════════════════════════════════════════')"
+$(ColorCyan '╠═══════════════════════════════════════════════')
+$(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_CURRENT_NJORD_RELEASE $(check_menu_script_repo)
+$(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_NJORD_VERSION ${mversion}
+$(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_GG_ZEROBANDWIDTH
+$(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_1
+$(ColorCyan '╚═══════════════════════════════════════════════')"
 }
 
 ########################################################################
@@ -2134,4 +2136,4 @@ else
         menu
         ;;
     esac
-fi 
+fi
