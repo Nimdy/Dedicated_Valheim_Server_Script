@@ -597,32 +597,6 @@ function check_apply_server_updates_beta() {
      echo ""
 }
 
-#function check_apply_server_updates_beta() {
-#    echo ""
-#    echo "$FUNCTION_APPLY_SERVER_UPDATES"
-#      [ ! -d /opt/valheimtemp ] && mkdir -p /opt/valheimtemp
-#      /home/steam/steamcmd +login anonymous +force_install_dir /opt/valheimtemp +app_update 896660 validate +exit
-#      sed -e 's/[\t ]//g;/^$/d' /opt/valheimtemp/steamapps/appmanifest_896660.acf > appmanirepo.log
-#      repoValheim=$(sed -n '11p' appmanirepo.log)
-#      echo "$FUNCTION_APPLY_SERVER_UPDATES_OFFICIAL_VALHEIM_REPO $repoValheim"
-#      sed -e 's/[\t ]//g;/^$/d' ${valheimInstallPath}/steamapps/appmanifest_896660.acf > appmanilocal.log
-#      localValheim=$(sed -n '11p' appmanilocal.log)
-#      echo "$FUNCTION_APPLY_SERVER_UPDATES_OFFICIAL_VALHEIM_LOCAL $localValheim"
-#      if [ "$repoValheim" == "$localValheim" ]; then
-#        echo "$FUNCTION_APPLY_SERVER_UPDATES_NO"
-#        echo "$FUNCTION_APPLY_SERVER_UPDATES_CLEAN_TMP"
-#        rm -Rf /opt/valheimtemp
-#        rm appmanirepo.log
-#        rm appmanilocal.log
-#    sleep 2
-#    else
-#    echo "$FUNCTION_APPLY_SERVER_UPDATES_INFO"
-#    sleep 2
-#        continue_with_valheim_update_install
-#        echo ""
-#     fi
-#     echo ""
-#}
 ########################################################################
 ##############Verify Checking Updates for Valheim Server################
 ########################################################################
@@ -1025,8 +999,40 @@ function change_default_server_port() {
 
 function change_local_world_name() {
     echo ""
-    echo "$FUNCTION_CHANGE_LOCAL_WORLD_NAME_MSG"
+    get_current_config
+    print_current_config
+    set_config_defaults
     echo ""
+    while true; do
+        tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+        tput setaf 2; echo "$WORLD_SET_WORLD_NAME_HEADER" ; tput setaf 9;
+        tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+        tput setaf 1; echo "$WORLD_SET_CHAR_RULES" ; tput setaf 9;
+        tput setaf 1; echo "$WORLD_SET_NO_SPECIAL_CHAR_RULES" ; tput setaf 9;
+	tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+	tput setaf 2; echo "$WORLD_GOOD_EXAMPLE" ; tput setaf 9;
+        tput setaf 1; echo "$WORLD_BAD_EXAMPLE" ; tput setaf 9;
+	tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+        tput setaf 5; echo "$FUNCTION_CHANGE_CURRENT_WORLD_NAME" ${currentWorldName} ; tput setaf 9;
+	echo ""
+        read -p "$WORLD_SET_WORLD_NAME_VAR" setWorldName
+	tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+            [[ ${#setWorldName} -ge 4 && "$setWorldName" =~ ^[[:alnum:]]+$ ]] && break
+        tput setaf 2; echo "$WORLD_SET_ERROR" ; tput setaf 9; 
+	tput setaf 2; echo "$WORLD_SET_ERROR_1" ; tput setaf 9; 
+        done
+        echo ""
+        tput setaf 5; echo "$FUNCTION_CHANGE_CURRENT_WORLD_NAME" ${currentWorldName} ; tput setaf 9;
+        tput setaf 5; echo "$FUNCTION_CHANGE_CURRENT_WORLD_NAME_NEW" ${setCurrentWorldName} ; tput setaf 9;
+        read -p "$PLEASE_CONFIRM" confirmChangeWorldName
+        #if y, then continue, else cancel
+        if [ "$confirmChangeWorldName" == "y" ]; then
+           write_config_and_restart
+        else
+           echo "$FUNCTION_CHANGE_SERVER_WORLD_NAME_CANCEL"
+           sleep 3
+           clear
+     fi
 }
 
 function change_server_access_password() {
