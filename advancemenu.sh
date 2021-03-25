@@ -1797,7 +1797,7 @@ EOF
 }
 
 
-function mods_menu(){
+function bepinex_menu(){
 echo ""
 menu_header_bepinex_enable
 echo -ne "
@@ -1823,15 +1823,15 @@ $(ColorCyan '-')$(ColorGreen ' 0)') $FUNCTION_BEPINEX_MENU_RETURN_MAIN
 $(ColorPurple ''"$CHOOSE_MENU_OPTION"'')"
         read a
         case $a in
-		1) install_valheim_bepinex ; mods_menu ;;
-		2) valheim_bepinex_enable ; mods_menu ;;
-		3) valheim_bepinex_disable ; mods_menu ;;
-		4) start_valheim_server ; mods_menu ;;
-		5) stop_valheim_server ; mods_menu ;;
-		6) restart_valheim_server ; mods_menu ;;
-		7) display_valheim_server_status ; mods_menu ;;
-		8) valheim_bepinex_update ; mods_menu ;;
-		9) bepinex_mod_options ; mods_menu ;;
+		1) install_valheim_bepinex ; bepinex_menu ;;
+		2) valheim_bepinex_enable ; bepinex_menu ;;
+		3) valheim_bepinex_disable ; mbepinex_menu ;;
+		4) start_valheim_server ; mbepinex_menu ;;
+		5) stop_valheim_server ; bepinex_menu ;;
+		6) restart_valheim_server ; bepinex_menu ;;
+		7) display_valheim_server_status ; mbepinex_menu ;;
+		8) valheim_bepinex_update ; bepinex_menu ;;
+		9) bepinex_mod_options ; bepinex_menu ;;
 		   0) menu ; menu ;;
 		    *)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; mods_menu ;;
         esac
@@ -2018,6 +2018,46 @@ $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_1
 $(ColorPurple '╚═══════════════════════════════════════════════')"
 }
 
+function menu_header_bepinex_enable() {
+get_current_config
+echo -ne "
+$(ColorPurple '╔════════════════════')$(ColorOrange 'BepInEx')$(ColorPurple '═══════════════════╗')
+$(ColorPurple '║~~~~~~~~~~~~~~~~~~')$(ColorLightGreen '-Njord Menu-')$(ColorPurple '~~~~~~~~~~~~~~~~~║')
+$(ColorPurple '╠═══════════════════════════════════════════════╝')
+$(ColorPurple '║')$(ColorLightGreen ' Welcome to BepInEx Intergrated Menu System')
+$(ColorPurple '║')$(ColorLightGreen ' BepInEx Support: https://discord.gg/MpFEDAg')
+$(ColorPurple '║ '"$FUNCTION_HEADER_MENU_INFO_2"'')
+$(ColorPurple '╠═══════════════════════════════════════════════')
+$(ColorPurple '║ Mods:') $(are_mods_enabled)
+$(ColorPurple '╠═══════════════════════════════════════════════')
+$(ColorPurple '║') BepInEx Official Build:" $(check_bepinex_repo)
+echo -ne "
+$(ColorPurple '║') BepInEx Server Build:" $(check_local_bepinex_build)
+echo -ne "
+$(ColorPurple '╠═══════════════════════════════════════════════')
+$(ColorPurple '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_OFFICIAL_BUILD"'')" $(check_official_valheim_release_build)
+echo -ne "
+$(ColorPurple '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"        $(check_local_valheim_build)
+echo -ne "
+$(ColorPurple '╚═══════════════════════════════════════════════')"
+echo -ne "
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
+$(ColorPurple '║') $(are_you_connected)
+$(ColorPurple '║')" $(display_public_IP)
+echo -ne "
+$(ColorPurple '║')" $(display_local_IP)
+echo -ne "
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
+echo -ne "
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
+echo -ne "
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_CURRENT_NJORD_RELEASE $(check_menu_script_repo)
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_NJORD_VERSION ${mversion}
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_GG_ZEROBANDWIDTH
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_1
+$(ColorPurple '╚═══════════════════════════════════════════════')"
+}
+
 ########################################################################
 #######################Display Main Menu System#########################
 ########################################################################
@@ -2073,6 +2113,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 		16) backup_world_data ; menu ;;
 		17) restore_world_data ; menu ;;
 		18) mods_menu ; mods_menu ;;
+		19) bepinex_menu ; bepinex_menu ;;
                    0) exit 0 ;;
 		    *)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; menu ;;
         esac
