@@ -1343,6 +1343,7 @@ server_port="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' st
 server_world="$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' start_valheim.sh)"
 server_public="$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' start_valheim.sh)"
 
+
 # The rest is automatically handled by BepInEx for Valheim+
 
 # Set base path of start_server_bepinex.sh location
@@ -1439,11 +1440,14 @@ do
 	server_public=$2
 	shift 2
 	;;
+	-savedir)
+	server_savedir=$2
+	shift 2
+	;;
 	esac
 done
 
 "${VALHEIM_PLUS_PATH}/${executable_name}" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${server_savedir}"
-
 
 export LD_LIBRARY_PATH=$templdpath
 EOF
