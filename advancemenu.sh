@@ -1314,7 +1314,7 @@ fi
 }
 
 function build_start_server_bepinex_configuration_file() {
-  cat > ${valheimInstallPath}/start_server_bepinex.sh <<'EOF'
+cat > ${valheimInstallPath}/start_server_bepinex.sh <<'EOF'
 #!/bin/sh
 # BepInEx running script
 #
