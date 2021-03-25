@@ -1593,7 +1593,8 @@ clear
     echo ""
     sleep 1
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_UNPACKING_FILES" ; tput setaf 9; 
-    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_REMOVING_OLD_BEPINEX_CONFIG" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_REMOVING_OLD_BEPINEX_CONFIG" ; tput setaf 9;
+    cd ${valheimInstallPath}
     [ ! -e start_valw_bepinex.sh ] && rm start_valw_bepinex.sh
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_BUILDING_NEW_BEPINEX_CONFIG" ; tput setaf 9; 
     build_start_server_bepinex_configuration_file
@@ -1693,7 +1694,7 @@ fi
 
 
 function build_start_server_bepinex_configuration_file() {
-  cat > ${valheimInstallPath}/run_bepinex_server.sh <<'EOF'
+  cat > ${valheimInstallPath}/run_valw_bepinex.sh <<'EOF'
 #!/bin/sh
 # BepInEx running script
 #
