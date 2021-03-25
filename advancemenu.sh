@@ -4,18 +4,6 @@
 # Feel free to use and change this as you wish just not for profit. 
 # If you need anything, please visit our Discord Server: https://discord.gg/ejgQUfc
 # GLHF - V/r, Zerobandwidth and Team
-exec 3<> /dev/tcp/${1:-localhost}/80
- 
-printf "GET / HTTP/1.0\r\n" >&3
-printf "Accept: text/html, text/plain\r\n" >&3
-printf "Accept-Language: en\r\n" >&3
-printf "User-Agent: nixCraft_BashScript v.%s\r\n" "${BASH_VERSION}"   >&3
-printf "\r\n" >&3
- 
-while read LINE <&3
-do
-
-
 
 #Current Options: DE= German, EN=English, FR=French, SP=Spanish"
 if [ "$1" == "" ]
@@ -2176,6 +2164,3 @@ else
         ;;
     esac
 fi
-
-echo $LINE
-done
