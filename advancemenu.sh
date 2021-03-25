@@ -1491,7 +1491,372 @@ localValheimPlusVer=${valheimInstallPath}/localValheimPlusVersion
 ###############################################################FINISH VALHEIM MOD SECTION##############################################################
 #######################################################################################################################################################
 
+#######################################################################################################################################################
+######################################################START VALHEIM BEPINEX SECTION####################################################################
+#######################################################################################################################################################
+function set_valheim_server_vanillaOrBepinex_operations() {
+#build systemctl configurations for execution of processes for Valheim Server
+tput setaf 1; echo "$FUNCTION_BEPINEX_BUILD_CONFIG_INFO" ; tput setaf 9; 
+tput setaf 1; echo "$FUNCTION_BEPINEX_BUILD_CONFIG_INFO_1" ; tput setaf 9; 
+# remove old Valheim Server Service
+[ -e /etc/systemd/system/valheimserver.service ] && rm /etc/systemd/system/valheimserver.service
+# remove past Valheim Server Service
+[ -e /lib/systemd/system/valheimserver.service ] && rm /lib/systemd/system/valheimserver.service
+sleep 1
+# Add new Valheim Server Service for BEPINEX
+cat <<EOF > /lib/systemd/system/valheimserver.service 
+[Unit]
+Description=Valheim Server
+Wants=network-online.target
+After=syslog.target network.target nss-lookup.target network-online.target
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+StartLimitInterval=60s
+StartLimitBurst=3
+User=steam
+Group=steam
+ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
+EOF
+if [ "$valheimVanilla" == "1" ]; then
+   echo "$FUNCTION_BEPINEX_BUILD_CONFIG_SET_VANILLA"
+cat >> /lib/systemd/system/valheimserver.service <<EOF 
+ExecStart=${valheimInstallPath}/start_valheim.sh
+ExecReload=/bin/kill -s HUP \$MAINPID
+KillSignal=SIGINT
+WorkingDirectory=${valheimInstallPath}
+LimitNOFILE=100000
+[Install]
+WantedBy=multi-user.target
+EOF
+else 
+   echo "$FUNCTION_BEPINEX_BUILD_CONFIG_SET"
+cat >> /lib/systemd/system/valheimserver.service <<EOF   
+ExecStart=${valheimInstallPath}/run_bepinex.sh
+ExecReload=/bin/kill -s HUP \$MAINPID
+KillSignal=SIGINT
+WorkingDirectory=${valheimInstallPath}
+LimitNOFILE=100000
+[Install]
+WantedBy=multi-user.target
+EOF
+fi
+tput setaf 2; echo "Done" ; tput setaf 9;
+sleep 1
+}
 
+function install_valheim_bepinex() {
+clear
+    echo ""
+    if [ ! -f /usr/bin/unzip ]; then
+    apt install unzip -y
+    fi
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CHANGING_DIR" ; tput setaf 9; 
+    cd $valheimInstallPath
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CHECKING_OLD_INSTALL" ; tput setaf 9; 
+    [ -e UnixServer.zip ] && rm UnixServer.zip
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_DOWNLOADING_BEPINEX_FROM_REPO" ; tput setaf 9; 
+    curl -s https://api.github.com/repos/BepInEx/BepInEx/releases/latest \
+    | grep "browser_download_url.*BepInEx_unix*.zip
+\.zip" \
+    | cut -d ":" -f 2,3 | tr -d \" \
+    | wget -P ${valheimInstallPath} -qi - 
+    echo ""
+    sleep 1
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CREATING_VER_STAMP" ; tput setaf 9; 
+    curl -sL https://api.github.com/repos/BepInEx/BepInEx/releases/latest | grep '"tag_name":' | cut -d'"' -f4 > localBepInExVersion
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_UNPACKING_FILES" ; tput setaf 9; 
+    unzip -o BepInEx_unix*.zip
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_REMOVING_OLD_BEPINEX_CONFIG" ; tput setaf 9; 
+    [ ! -e run_bepinex.sh ] && rm run_bepinex.sh
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_BUILDING_NEW_BEPINEX_CONFIG" ; tput setaf 9; 
+    build_start_server_bepinex_configuration_file
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_SETTING_STEAM_OWNERSHIP" ; tput setaf 9; 
+    chown steam:steam -Rf /home/steam/*
+    chmod +x run_bepinex.sh
+    rm BepInEx_unix*.zip
+    echo ""
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_GET_THEIR_VIKING_ON" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_LETS_GO" ; tput setaf 9; 
+}
+function valheim_bepinex_enable() {
+clear
+    echo ""
+    tput setaf 2; echo "$FUNCTION_BEPINEX_ENABLE" ; tput setaf 9; 
+    valheimVanilla=2
+    set_valheim_server_vanillaOrBepinex_operations
+    sleep 1
+    systemctl daemon-reload
+    sleep 1
+    echo "$FUNCTION_BEPINEX_RESTARTING"
+    systemctl restart valheimserver.service
+    sleep 1
+    tput setaf 2; echo "$FUNCTION_BEPINEX_ENABLED_ACTIVE" ; tput setaf 9; 
+    echo ""
+}
+function valheim_bepinex_disable() {
+clear
+    echo ""
+    tput setaf 2; echo "$FUNCTION_BEPINEX_DISABLE" ; tput setaf 9; 
+    valheimVanilla=1
+    set_valheim_server_vanillaOrBepinex_operations
+    sleep 1
+    systemctl daemon-reload
+    sleep 1
+    echo "$FUNCTION_BEPINEX_DISABLE_RESTARTING"
+    systemctl restart valheimserver.service
+    sleep 1    
+    tput setaf 2; echo "$FUNCTION_BEPINEX_DISABLE_INFO" ; tput setaf 9; 
+    echo ""
+}
+
+function valheim_bepinex_update() {
+check_valheim_plus_repo
+clear
+    tput setaf 2;  echo "$FUNCTION_BEPINEX_UPDATE_INFO" ; tput setaf 9; 
+    vpLocalCheck=$(cat ${valheimInstallPath}/localValheimBepinexVersion)
+    echo $vpLocalCheck
+    echo $latestValBepinex
+    if [[ $latestValBepinex == $vpLocalCheck ]]; then
+       echo ""
+       tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_NO_UPDATE_FOUND" ; tput setaf 9; 
+       echo ""
+       else
+         tput setaf 2;  echo "$FUNCTION_BEPINEX_UPDATE_UPDATE_FOUND" ; tput setaf 9; 
+	 tput setaf 2;  echo "$FUNCTION_BEPINEX_UPDATE_CONTINUE" ; tput setaf 9; 
+	   read -p "$PLEASE_CONFIRM" confirmValBepinexUpdate
+	  if [ "$confirmValBepinexUpdate" == "y" ]; then
+	    tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_BACKING_UP_BEPINEX_CONFIG" ; tput setaf 9; 
+	    dldir=$backupPath
+	    [ ! -d "$dldir" ] && mkdir -p "$dldir"
+            sleep 1
+	    TODAYMK="$(date +%Y-%m-%d-%T)"
+	    cp ${valheimInstallPath}/BepInEx/config/BepInEx.cfg ${backupPath}/BepInEx.cfg-$TODAYMK.cfg
+	    tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_DOWNLOADING_BEPINEX" ; tput setaf 9; 
+            install_valheim_bepinex
+	    sleep 2
+	    tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_RESTARTING_SERVICES" ; tput setaf 9; 
+	    restart_valheim_server
+	      else
+            echo "$FUNCTION_BEPINEX_UPDATE_CANCELED" ; tput setaf 9; 
+            sleep 2
+          fi
+	  
+     fi
+}
+function bepinex_mod_options() {
+clear
+    nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
+    echo ""
+    tput setaf 2; echo "$DRAW80" ; tput setaf 9;
+    tput setaf 2;  echo "$FUNCTION_BEPINEX_EDIT_BEPINEX_CONFIG_SAVE_RESTART" ; tput setaf 9; 
+    tput setaf 2;  echo "$FUNCTION_BEPINEX_EDIT_BEPINEX_CONFIG_SAVE_RESTART_1" ; tput setaf 9; 
+    tput setaf 2; echo "$DRAW80" ; tput setaf 9;
+    echo ""
+     read -p "$PLEASE_CONFIRM" confirmRestart
+#if y, then continue, else cancel
+        if [ "$confirmRestart" == "y" ]; then
+    echo ""
+    echo "$FUNCTION_BEPINEX_EDIT_BEPINEX_RESTART_SERVICES"
+    sudo systemctl restart valheimserver.service
+    echo ""
+    else
+    echo "$FUNCTION_BEPINEX_EDIT_BEPINEX_CANCEL"
+    sleep 2
+    clear
+fi
+}
+function bepinex_mod_options() {
+clear
+    nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
+    echo ""
+    tput setaf 2; echo "$DRAW80" ; tput setaf 9;
+    echo "$FUNCTION_BEPINEX_EDIT_BEPINEX_CONFIG_RESTART"
+    echo "$FUNCTION_BEPINEX_EDIT_BEPINEX_CONFIG_RESTART_1"
+    tput setaf 2; echo "$DRAW80" ; tput setaf 9;
+    echo ""
+     read -p "$PLEASE_CONFIRM" confirmRestart
+#if y, then continue, else cancel
+        if [ "$confirmRestart" == "y" ]; then
+    echo ""
+    echo "$FUNCTION_BEPINEX_EDIT_BEPINEX_RESTART_SERVICE_INFO"
+    sudo systemctl restart valheimserver.service
+    echo ""
+    else
+    echo "$FUNCTION_BEPINEX_EDIT_BEPINEX_CANCEL"
+    sleep 2
+    clear
+fi
+}
+
+function build_start_server_bepinex_configuration_file() {
+  cat > ${valheimInstallPath}/run_bepinex.sh <<'EOF'
+#!/bin/sh
+# BepInEx running script
+#
+# This script is used to run a Unity game with BepInEx enabled.
+#
+# Usage: Configure the script below and simply run this script when you want to run your game modded.
+
+# -------- SETTINGS --------
+# ---- EDIT AS NEEDED ------
+
+# EDIT THIS: The name of the executable to run
+# LINUX: This is the name of the Unity game executable 
+# MACOS: This is the name of the game app folder, including the .app suffix
+executable_name=""
+
+# The rest is automatically handled by BepInEx
+
+# Whether or not to enable Doorstop. Valid values: TRUE or FALSE
+export DOORSTOP_ENABLE=TRUE
+
+# What .NET assembly to execute. Valid value is a path to a .NET DLL that mono can execute.
+export DOORSTOP_INVOKE_DLL_PATH="${PWD}/BepInEx/core/BepInEx.Preloader.dll"
+
+# ----- DO NOT EDIT FROM THIS LINE FORWARD  ------
+# ----- (unless you know what you're doing) ------
+
+if [ ! -x "$1" -a ! -x "$executable_name" ]; then
+    echo "Please open run.sh in a text editor and configure executable name."
+    exit 1
+fi
+
+doorstop_libs="${PWD}/doorstop_libs"
+arch=""
+executable_path=""
+lib_postfix=""
+
+os_type=`uname -s`
+case $os_type in
+    Linux*)
+        executable_path="${PWD}/${executable_name}"
+        lib_postfix="so"
+        ;;
+    Darwin*)
+        executable_name=`basename "${executable_name}" .app`
+        real_executable_name=`defaults read "${PWD}/${executable_name}.app/Contents/Info" CFBundleExecutable`
+        executable_path="${PWD}/${executable_name}.app/Contents/MacOS/${real_executable_name}"
+        lib_postfix="dylib"
+        ;;
+    *)
+        echo "Cannot identify OS (got $(uname -s))!"
+        echo "Please create an issue at https://github.com/BepInEx/BepInEx/issues."
+        exit 1
+        ;;
+esac
+
+# Special case: if there is an arg, use that as executable path
+# Linux: arg is path to the executable
+# MacOS: arg is path to the .app folder which we need to resolve to the exectuable
+if [ -n "$1" ]; then
+    case $os_type in
+        Linux*)
+            executable_path="$1"
+            ;;
+        Darwin*)
+            # Special case: allow to specify path to the executable within .app
+            full_path_part=`echo "$1" | grep "\.app/Contents/MacOS"`
+            if [ -z "$full_path_part" ]; then
+                executable_name=`basename "$1" .app`
+                real_executable_name=`defaults read "$1/Contents/Info" CFBundleExecutable`
+                executable_path="$1/Contents/MacOS/${real_executable_name}"
+            else
+                executable_path="$1"
+            fi
+            ;;
+    esac
+fi
+
+executable_type=`LD_PRELOAD="" file -b "${executable_path}"`;
+
+case $executable_type in
+    *64-bit*)
+        arch="x64"
+        ;;
+    *32-bit*|*i386*)
+        arch="x86"
+        ;;
+    *)
+        echo "Cannot identify executable type (got ${executable_type})!"
+        echo "Please create an issue at https://github.com/BepInEx/BepInEx/issues."
+        exit 1
+        ;;
+esac
+
+doorstop_libname=libdoorstop_${arch}.${lib_postfix}
+export LD_LIBRARY_PATH="${doorstop_libs}":${LD_LIBRARY_PATH}
+export LD_PRELOAD=$doorstop_libname:$LD_PRELOAD
+export DYLD_LIBRARY_PATH="${doorstop_libs}"
+export DYLD_INSERT_LIBRARIES="${doorstop_libs}/$doorstop_libname"
+
+"${executable_path}"
+EOF
+
+}
+
+
+function mods_menu(){
+echo ""
+menu_header_bepinex_enable
+echo -ne "
+$(ColorCyan '--------------'"$FUNCTION_BEPINEX_MENU_HEADER"'--------------')
+$(ColorCyan '-')$(ColorGreen ' 1)') $FUNCTION_BEPINEX_MENU_INSTALL
+$(ColorCyan '---------------'"$FUNCTION_BEPINEX_MENU_ADMIN_HEADER"'--------------')
+$(ColorCyan '-')$(ColorGreen ' 2)') $FUNCTION_BEPINEX_MENU_ENABLE
+$(ColorCyan '-')$(ColorGreen ' 3)') $FUNCTION_BEPINEX_MENU_DISABLE
+$(ColorCyan '-')$(ColorGreen ' 4)') $FUNCTION_BEPINEX_MENU_START
+$(ColorCyan '-')$(ColorGreen ' 5)') $FUNCTION_BEPINEX_MENU_STOP
+$(ColorCyan '-')$(ColorGreen ' 6)') $FUNCTION_BEPINEX_MENU_RESTART
+$(ColorCyan '-')$(ColorGreen ' 7)') $FUNCTION_BEPINEX_MENU_STATUS
+$(ColorCyan '-')$(ColorGreen ' 8)') $FUNCTION_BEPINEX_MENU_UPDATE
+$(ColorCyan '------'"$FUNCTION_BEPINEX_MENU_MOD_PLUGIN_HEADER"'------')
+$(ColorCyan ''"$FUNCTION_BEPINEX_MENU_MOD_INFO"'')
+$(ColorCyan ''"$FUNCTION_BEPINEX_MENU_MOD_INFO_1"'')
+$(ColorCyan ''"$FUNCTION_BEPINEX_MENU_MOD_INFO_2"'')
+$(ColorCyan ''"$FUNCTION_BEPINEX_MENU_MOD_INFO_3"'')
+$(ColorCyan ''"$FUNCTION_BEPINEX_MENU_MOD_INFO_4"'')
+$(ColorCyan '-')$(ColorGreen ' 9)') $FUNCTION_BEPINEX_MENU_BEPINEX_CONFIG_EDIT
+$(ColorCyan '------------------------------------------------')
+$(ColorCyan '-')$(ColorGreen ' 0)') $FUNCTION_BEPINEX_MENU_RETURN_MAIN
+$(ColorPurple ''"$CHOOSE_MENU_OPTION"'')"
+        read a
+        case $a in
+		1) install_valheim_bepinex ; mods_menu ;;
+		2) valheim_bepinex_enable ; mods_menu ;;
+		3) valheim_bepinex_disable ; mods_menu ;;
+		4) start_valheim_server ; mods_menu ;;
+		5) stop_valheim_server ; mods_menu ;;
+		6) restart_valheim_server ; mods_menu ;;
+		7) display_valheim_server_status ; mods_menu ;;
+		8) valheim_bepinex_update ; mods_menu ;;
+		9) bepinex_mod_options ; mods_menu ;;
+		   0) menu ; menu ;;
+		    *)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; mods_menu ;;
+        esac
+}
+
+# Check bepinex Github Latest for menu display
+function check_valheim_bepinex_repo() {
+latestBepinex=$(curl --connect-timeout 10 -s https://api.github.com/repos/BepInEx/BepInEx/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
+echo $latestBepinex
+}
+
+# Check Local Bepinex Build for menu display
+function check_local_valheim_bepinex_build() {
+localValheimBepinexVer=${valheimInstallPath}/localValheimBepinexVersion
+   if [[ -e $localValheimBepinexVer ]] ; then
+    localValheimBepinexBuild=$(cat ${localValheimBepinexVer})
+        echo $localValheimBepinexBuild
+    else 
+        echo "$NO_DATA";
+  fi
+}
+
+#######################################################################################################################################################
+###############################################################FINISH BEPINEX MOD SECTION##############################################################
+#######################################################################################################################################################
 
 ########################################################################
 ##########################MENUS STATUS VARIBLES#########################
