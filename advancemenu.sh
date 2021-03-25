@@ -1550,7 +1550,7 @@ EOF
 else 
    echo "$FUNCTION_BEPINEX_BUILD_CONFIG_SET"
 cat >> /lib/systemd/system/valheimserver.service <<EOF   
-ExecStart=${valheimInstallPath}/run_bepinex.sh
+ExecStart=${valheimInstallPath}/run_bepinex_server.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
 WorkingDirectory=${valheimInstallPath}
@@ -1579,19 +1579,12 @@ clear
     mv index.html bepinex.zip
     unzip -o bepinex.zip
     cp -Rf BepInExPack_Valheim/* /home/steam/valheimserver/
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CREATING_VER_STAMP" ; tput setaf 9; 
     cat manifest.json | grep version | cut -d'"' -f4 > ${valheimInstallPath}/localValheimBepinexVersion
     rm -rf $PWD
     echo ""
     sleep 1
-
-    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CREATING_VER_STAMP" ; tput setaf 9; 
-    curl https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2 > officialBepInEx
-    curl -sL https://api.github.com/repos/BepInEx/BepInEx/releases/latest | grep '"tag_name":' | cut -d'"' -f4 > localValheimBepinexVersion
-   
-   #FUCKING DO IT COMEIONG!!!
-   
-   
-   tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_UNPACKING_FILES" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_UNPACKING_FILES" ; tput setaf 9; 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_REMOVING_OLD_BEPINEX_CONFIG" ; tput setaf 9; 
     [ ! -e start_sbepinex.sh ] && rm start_sbepinex.sh
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_BUILDING_NEW_BEPINEX_CONFIG" ; tput setaf 9; 
@@ -1599,7 +1592,7 @@ clear
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_SETTING_STEAM_OWNERSHIP" ; tput setaf 9; 
     chown steam:steam -Rf /home/steam/*
     chmod +x start_sbepinex.sh
-    rm bepinex.zip
+    rm sbepinex.zip
     echo ""
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_GET_THEIR_VIKING_ON" ; tput setaf 9; 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_LETS_GO" ; tput setaf 9; 
@@ -1637,18 +1630,16 @@ clear
 }
 
 function valheim_bepinex_update() {
-check_valheim_plus_repo
 clear
     tput setaf 2;  echo "$FUNCTION_BEPINEX_UPDATE_INFO" ; tput setaf 9; 
-    vpLocalCheck=$(cat ${valheimInstallPath}/localValheimBepinexVersion)
-    echo $vpLocalCheck
-    echo $latestValBepinex
-    if [[ $latestValBepinex == $vpLocalCheck ]]; then
-       echo ""
-       tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_NO_UPDATE_FOUND" ; tput setaf 9; 
-       echo ""
-       else
-         tput setaf 2;  echo "$FUNCTION_BEPINEX_UPDATE_UPDATE_FOUND" ; tput setaf 9; 
+    officialBepInEx=$(curl -sL https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2) 
+    localBepInEx=$(cat ${valheimInstallPath}/localValheimBepinexVersion)    
+    echo $officialBepInEx
+    echo $localBepInEx
+    if [[ $officialBepInEx == $localBepInEx ]]; then
+    tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_NO_UPDATE_FOUND" ; tput setaf 9; 
+    else
+    tput setaf 2;  echo "$FUNCTION_BEPINEX_UPDATE_UPDATE_FOUND" ; tput setaf 9; 
 	 tput setaf 2;  echo "$FUNCTION_BEPINEX_UPDATE_CONTINUE" ; tput setaf 9; 
 	   read -p "$PLEASE_CONFIRM" confirmValBepinexUpdate
 	  if [ "$confirmValBepinexUpdate" == "y" ]; then
@@ -1667,7 +1658,6 @@ clear
             echo "$FUNCTION_BEPINEX_UPDATE_CANCELED" ; tput setaf 9; 
             sleep 2
           fi
-	  
      fi
 }
 
@@ -1696,7 +1686,7 @@ fi
 
 
 function build_start_server_bepinex_configuration_file() {
-  cat > ${valheimInstallPath}/run_bepinex.sh <<'EOF'
+  cat > ${valheimInstallPath}/run_bepinex_server.sh <<'EOF'
 #!/bin/sh
 # BepInEx running script
 #
@@ -1712,7 +1702,7 @@ function build_start_server_bepinex_configuration_file() {
 # MACOS: This is the name of the game app folder, including the .app suffix
 executable_name="valheim_server.x86_64"
 
-#importing server parms to BepInEx
+#importing server parms to BepInExStartup
 server_name="$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' start_valheim.sh)"
 server_password="$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' start_valheim.sh)"
 server_port="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' start_valheim.sh)"
@@ -1808,6 +1798,25 @@ export DYLD_INSERT_LIBRARIES="${doorstop_libs}/$doorstop_libname"
 EOF
 }
 
+# Check bepinex Github Latest for menu display
+#curl -s https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2 > officialBepInEx
+function check_bepinex_repo() {
+latestBepinex=$(curl -s https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2)
+echo $latestBepinex
+}
+
+
+# Check Local Bepinex Build for menu display
+function check_local_bepinex_build() {
+localValheimBepinexVer=${valheimInstallPath}/localValheimBepinexVersion
+   if [[ -e $localValheimBepinexVer ]] ; then
+    localValheimBepinexBuild=$(cat ${localValheimBepinexVer})
+        echo $localValheimBepinexBuild
+    else 
+        echo "$NO_DATA";
+  fi
+}
+
 
 function bepinex_menu(){
 echo ""
@@ -1849,24 +1858,6 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'')"
         esac
 }
 
-# Check bepinex Github Latest for menu display
-#curl -s https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2 > officialBepInEx
-function check_bepinex_repo() {
-latestBepinex=$(curl -s https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2)
-echo $latestBepinex
-}
-
-
-# Check Local Bepinex Build for menu display
-function check_local_bepinex_build() {
-localValheimBepinexVer=${valheimInstallPath}/localValheimBepinexVersion
-   if [[ -e $localValheimBepinexVer ]] ; then
-    localValheimBepinexBuild=$(cat ${localValheimBepinexVer})
-        echo $localValheimBepinexBuild
-    else 
-        echo "$NO_DATA";
-  fi
-}
 
 #######################################################################################################################################################
 ###############################################################FINISH BEPINEX MOD SECTION##############################################################
@@ -1944,16 +1935,15 @@ ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"$INTERNET_MSG $tecreset $I
 function are_mods_enabled() {
 modstrue=$( cat /lib/systemd/system/valheimserver.service | grep bepinex)
 var2="ExecStart=/home/steam/valheimserver/start_server_bepinex.sh"
-if [[ $modstrue == $var2 ]]; then
+var3="ExecStart=/home/steam/valheimserver/run_bepinex_server.sh"
+
+if [[ $modstrue == $var2 ]] || [[ $modstrue == $var3 ]]; then
         echo "Enabled"
 else
         echo "Disable"
 fi
 
 }
-
-
-
 
 function menu_header() {
 get_current_config
