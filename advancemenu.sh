@@ -1597,7 +1597,7 @@ clear
     cd ${valheimInstallPath}
     [ ! -e start_valw_bepinex.sh ] && rm start_valw_bepinex.sh
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_BUILDING_NEW_BEPINEX_CONFIG" ; tput setaf 9; 
-    build_start_server_bepinex_configuration_file
+    build_valw_bepinex_configuration_file
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_SETTING_STEAM_OWNERSHIP" ; tput setaf 9; 
     chown steam:steam -Rf /home/steam/*
     chmod +x start_valw_bepinex.sh
@@ -1693,7 +1693,7 @@ fi
 }
 
 
-function build_start_server_bepinex_configuration_file() {
+function build_valw_bepinex_configuration_file() {
   cat > ${valheimInstallPath}/start_valw_bepinex.sh <<'EOF'
 #!/bin/sh
 # BepInEx running script
