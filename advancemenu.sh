@@ -1995,7 +1995,7 @@ $(ColorCyan '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_OFFICIAL_BUILD"'')" $(chec
 echo -ne "
 $(ColorCyan '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"        $(check_local_valheim_build)
 echo -ne "
-$(ColorCyan '╚═══════════════════════════════════════════════')"
+$(ColorCyan '╠═══════════════════════════════════════════════')"
 echo -ne "
 $(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
 $(ColorCyan '║') $(are_you_connected)
