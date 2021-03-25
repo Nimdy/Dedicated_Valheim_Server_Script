@@ -1705,7 +1705,7 @@ function build_start_server_bepinex_configuration_file() {
 # EDIT THIS: The name of the executable to run
 # LINUX: This is the name of the Unity game executable 
 # MACOS: This is the name of the game app folder, including the .app suffix
-executable_name=""
+executable_name="valheim_server.x86_64"
 
 # The rest is automatically handled by BepInEx
 
