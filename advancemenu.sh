@@ -1882,9 +1882,10 @@ ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"$INTERNET_MSG $tecreset $I
 function are_mods_enabled() {
 modstrue=$( cat /lib/systemd/system/valheimserver.service | grep bepinex)
 var2="ExecStart=/home/steam/valheimserver/start_server_bepinex.sh"
-var3="ExecStart=/home/steam/valheimserver/run_valw_bepinex.sh"
+var3="ExecStart=/home/steam/valheimserver/start_valw_bepinex.sh"
 
-if [[ $modstrue == $var2 || $modstrue == $var3 ]]; then
+if [[ $modstrue == $var2 ]] || [[ $modstrue == $var3 ]]; then
+
         echo "Enabled"
 else
         echo "Disable"
