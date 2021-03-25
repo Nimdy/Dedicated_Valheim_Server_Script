@@ -1838,7 +1838,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'')"
 }
 
 # Check bepinex Github Latest for menu display
-function check_valheim_bepinex_repo() {
+function check_bepinex_repo() {
 latestBepinex=$(curl --connect-timeout 10 -s https://api.github.com/repos/BepInEx/BepInEx/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
 echo $latestBepinex
 }
