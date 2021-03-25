@@ -1570,29 +1570,36 @@ clear
     apt install unzip -y
     fi
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CHANGING_DIR" ; tput setaf 9; 
-    cd $valheimInstallPath
+    cd /opt
+    mkdir bepinexdl
+    cd bepinexdl
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CHECKING_OLD_INSTALL" ; tput setaf 9; 
-    [ -e *BepInEx_unix*.zip ] && rm *BepInEx_unix*.zip
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_DOWNLOADING_BEPINEX_FROM_REPO" ; tput setaf 9; 
-    curl -s https://api.github.com/repos/BepInEx/BepInEx/releases/latest \
-    | grep "browser_download_url.*BepInEx_unix*.zip
-\.zip" \
-    | cut -d ":" -f 2,3 | tr -d \" \
-    | wget -P ${valheimInstallPath} -qi - 
+    wget https://valheim.thunderstore.io/package/download/denikson/BepInExPack_Valheim/5.4.900/
+    mv index.html bepinex.zip
+    unzip -o bepinex.zip
+    cp -Rf BepInExPack_Valheim/* /home/steam/valheimserver/
+    cat manifest.json | grep version | cut -d'"' -f4 > ${valheimInstallPath}/localValheimBepinexVersion
+    rm -rf $PWD
     echo ""
     sleep 1
+
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CREATING_VER_STAMP" ; tput setaf 9; 
-    curl -sL https://api.github.com/repos/BepInEx/BepInEx/releases/latest | grep '"tag_name":' | cut -d'"' -f4 > localBepInExVersion
-    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_UNPACKING_FILES" ; tput setaf 9; 
-    unzip -o BepInEx_unix*.zip
+    curl https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2 > officialBepInEx
+    curl -sL https://api.github.com/repos/BepInEx/BepInEx/releases/latest | grep '"tag_name":' | cut -d'"' -f4 > localValheimBepinexVersion
+   
+   #FUCKING DO IT COMEIONG!!!
+   
+   
+   tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_UNPACKING_FILES" ; tput setaf 9; 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_REMOVING_OLD_BEPINEX_CONFIG" ; tput setaf 9; 
-    [ ! -e run_bepinex.sh ] && rm run_bepinex.sh
+    [ ! -e start_sbepinex.sh ] && rm start_sbepinex.sh
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_BUILDING_NEW_BEPINEX_CONFIG" ; tput setaf 9; 
     build_start_server_bepinex_configuration_file
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_SETTING_STEAM_OWNERSHIP" ; tput setaf 9; 
     chown steam:steam -Rf /home/steam/*
-    chmod +x run_bepinex.sh
-    rm BepInEx_unix*.zip
+    chmod +x start_sbepinex.sh
+    rm bepinex.zip
     echo ""
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_GET_THEIR_VIKING_ON" ; tput setaf 9; 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_LETS_GO" ; tput setaf 9; 
@@ -1687,28 +1694,6 @@ clear
 fi
 }
 
-function bepinex_mod_options() {
-clear
-    nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
-    echo ""
-    tput setaf 2; echo "$DRAW80" ; tput setaf 9;
-    echo "$FUNCTION_BEPINEX_EDIT_BEPINEX_CONFIG_RESTART"
-    echo "$FUNCTION_BEPINEX_EDIT_BEPINEX_CONFIG_RESTART_1"
-    tput setaf 2; echo "$DRAW80" ; tput setaf 9;
-    echo ""
-     read -p "$PLEASE_CONFIRM" confirmRestart
-#if y, then continue, else cancel
-        if [ "$confirmRestart" == "y" ]; then
-    echo ""
-    echo "$FUNCTION_BEPINEX_EDIT_BEPINEX_RESTART_SERVICE_INFO"
-    sudo systemctl restart valheimserver.service
-    echo ""
-    else
-    echo "$FUNCTION_BEPINEX_EDIT_BEPINEX_CANCEL"
-    sleep 2
-    clear
-fi
-}
 
 function build_start_server_bepinex_configuration_file() {
   cat > ${valheimInstallPath}/run_bepinex.sh <<'EOF'
@@ -1865,10 +1850,12 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'')"
 }
 
 # Check bepinex Github Latest for menu display
+#curl -s https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2 > officialBepInEx
 function check_bepinex_repo() {
-latestBepinex=$(curl --connect-timeout 10 -s https://api.github.com/repos/BepInEx/BepInEx/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
+latestBepinex=$(curl -s https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2)
 echo $latestBepinex
 }
+
 
 # Check Local Bepinex Build for menu display
 function check_local_bepinex_build() {
