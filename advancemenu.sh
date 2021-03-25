@@ -1793,11 +1793,11 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'')"
         case $a in
 		1) install_valheim_bepinex ; bepinex_menu ;;
 		2) valheim_bepinex_enable ; bepinex_menu ;;
-		3) valheim_bepinex_disable ; mbepinex_menu ;;
-		4) start_valheim_server ; mbepinex_menu ;;
+		3) valheim_bepinex_disable ; bepinex_menu ;;
+		4) start_valheim_server ; bepinex_menu ;;
 		5) stop_valheim_server ; bepinex_menu ;;
 		6) restart_valheim_server ; bepinex_menu ;;
-		7) display_valheim_server_status ; mbepinex_menu ;;
+		7) display_valheim_server_status ; bepinex_menu ;;
 		8) valheim_bepinex_update ; bepinex_menu ;;
 		9) bepinex_mod_options ; bepinex_menu ;;
 		   0) menu ; menu ;;
