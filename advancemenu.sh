@@ -1330,6 +1330,9 @@ function build_start_server_bepinex_configuration_file() {
 # MACOS: This is the name of the game app folder, including the .app suffix [must provide if needed]
 executable_name="valheim_server.x86_64"
 
+
+server_savedir="$HOME/.config/unity3d/IronGate/Valheim"
+
 # EDIT THIS: Valheim server parameters
 # Can be overriden by script parameters named exactly like the ones for the Valheim executable
 # (e.g. ./start_server_bepinex.sh -name "MyValheimPlusServer" -password "somethingsafe" -port 2456 -world "myworld" -public 1)
@@ -1439,7 +1442,8 @@ do
 	esac
 done
 
-"${VALHEIM_PLUS_PATH}/${executable_name}" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}"
+"${VALHEIM_PLUS_PATH}/${executable_name}" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${server_savedir}"
+
 
 export LD_LIBRARY_PATH=$templdpath
 EOF
