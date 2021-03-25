@@ -1555,7 +1555,7 @@ clear
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CHANGING_DIR" ; tput setaf 9; 
     cd $valheimInstallPath
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CHECKING_OLD_INSTALL" ; tput setaf 9; 
-    [ -e UnixServer.zip ] && rm UnixServer.zip
+    [ -e *BepInEx_unix*.zip ] && rm *BepInEx_unix*.zip
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_DOWNLOADING_BEPINEX_FROM_REPO" ; tput setaf 9; 
     curl -s https://api.github.com/repos/BepInEx/BepInEx/releases/latest \
     | grep "browser_download_url.*BepInEx_unix*.zip
