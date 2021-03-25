@@ -1558,7 +1558,7 @@ EOF
 else 
    echo "$FUNCTION_BEPINEX_BUILD_CONFIG_SET"
 cat >> /lib/systemd/system/valheimserver.service <<EOF   
-ExecStart=${valheimInstallPath}/run_bepinex_server.sh
+ExecStart=${valheimInstallPath}/start_valw_bepinex.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
 WorkingDirectory=${valheimInstallPath}
@@ -1586,7 +1586,7 @@ clear
     wget https://valheim.thunderstore.io/package/download/denikson/BepInExPack_Valheim/5.4.900/
     mv index.html bepinex.zip
     unzip -o bepinex.zip
-    cp -Rf BepInExPack_Valheim/* /home/steam/valheimserver/
+    cp -a BepInExPack_Valheim/. ${valheimInstallPath}
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CREATING_VER_STAMP" ; tput setaf 9; 
     cat manifest.json | grep version | cut -d'"' -f4 > ${valheimInstallPath}/localValheimBepinexVersion
     rm -rf $PWD
@@ -1594,13 +1594,12 @@ clear
     sleep 1
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_UNPACKING_FILES" ; tput setaf 9; 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_REMOVING_OLD_BEPINEX_CONFIG" ; tput setaf 9; 
-    [ ! -e start_sbepinex.sh ] && rm start_sbepinex.sh
+    [ ! -e start_valw_bepinex.sh ] && rm start_valw_bepinex.sh
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_BUILDING_NEW_BEPINEX_CONFIG" ; tput setaf 9; 
     build_start_server_bepinex_configuration_file
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_SETTING_STEAM_OWNERSHIP" ; tput setaf 9; 
     chown steam:steam -Rf /home/steam/*
-    chmod +x start_sbepinex.sh
-    rm sbepinex.zip
+    chmod +x start_valw_bepinex.sh
     echo ""
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_GET_THEIR_VIKING_ON" ; tput setaf 9; 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_LETS_GO" ; tput setaf 9; 
@@ -1706,11 +1705,10 @@ function build_start_server_bepinex_configuration_file() {
 # ---- EDIT AS NEEDED ------
 
 # EDIT THIS: The name of the executable to run
-# LINUX: This is the name of the Unity game executable 
+# LINUX: This is the name of the Unity game executable
 # MACOS: This is the name of the game app folder, including the .app suffix
-executable_name="valheim_server.x86_64"
 
-#importing server parms to BepInExStartup
+#importing server parms to BepInEx
 server_name="$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' start_valheim.sh)"
 server_password="$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' start_valheim.sh)"
 server_port="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' start_valheim.sh)"
@@ -1720,89 +1718,29 @@ server_public="$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' start_valh
 # The rest is automatically handled by BepInEx
 
 # Whether or not to enable Doorstop. Valid values: TRUE or FALSE
+
+#!/bin/sh
+# BepInEx-specific settings
+# NOTE: Do not edit unless you know what you are doing!
+####
 export DOORSTOP_ENABLE=TRUE
+export DOORSTOP_INVOKE_DLL_PATH=./BepInEx/core/BepInEx.Preloader.dll
+export DOORSTOP_CORLIB_OVERRIDE_PATH=./unstripped_corlib
 
-# What .NET assembly to execute. Valid value is a path to a .NET DLL that mono can execute.
-export DOORSTOP_INVOKE_DLL_PATH="${PWD}/BepInEx/core/BepInEx.Preloader.dll"
+export LD_LIBRARY_PATH="./doorstop_libs:$LD_LIBRARY_PATH"
+export LD_PRELOAD="libdoorstop_x64.so:$LD_PRELOAD"
+####
 
-# ----- DO NOT EDIT FROM THIS LINE FORWARD  ------
-# ----- (unless you know what you're doing) ------
 
-if [ ! -x "$1" -a ! -x "$executable_name" ]; then
-    echo "Please open run.sh in a text editor and configure executable name."
-    exit 1
-fi
+export LD_LIBRARY_PATH="./linux64:$LD_LIBRARY_PATH"
+export SteamAppId=892970
 
-doorstop_libs="${PWD}/doorstop_libs"
-arch=""
-executable_path=""
-lib_postfix=""
+echo "Starting server PRESS CTRL-C to exit"
 
-os_type=`uname -s`
-case $os_type in
-    Linux*)
-        executable_path="${PWD}/${executable_name}"
-        lib_postfix="so"
-        ;;
-    Darwin*)
-        executable_name=`basename "${executable_name}" .app`
-        real_executable_name=`defaults read "${PWD}/${executable_name}.app/Contents/Info" CFBundleExecutable`
-        executable_path="${PWD}/${executable_name}.app/Contents/MacOS/${real_executable_name}"
-        lib_postfix="dylib"
-        ;;
-    *)
-        echo "Cannot identify OS (got $(uname -s))!"
-        echo "Please create an issue at https://github.com/BepInEx/BepInEx/issues."
-        exit 1
-        ;;
-esac
-
-# Special case: if there is an arg, use that as executable path
-# Linux: arg is path to the executable
-# MacOS: arg is path to the .app folder which we need to resolve to the exectuable
-if [ -n "$1" ]; then
-    case $os_type in
-        Linux*)
-            executable_path="$1"
-            ;;
-        Darwin*)
-            # Special case: allow to specify path to the executable within .app
-            full_path_part=`echo "$1" | grep "\.app/Contents/MacOS"`
-            if [ -z "$full_path_part" ]; then
-                executable_name=`basename "$1" .app`
-                real_executable_name=`defaults read "$1/Contents/Info" CFBundleExecutable`
-                executable_path="$1/Contents/MacOS/${real_executable_name}"
-            else
-                executable_path="$1"
-            fi
-            ;;
-    esac
-fi
-
-executable_type=`LD_PRELOAD="" file -b "${executable_path}"`;
-
-case $executable_type in
-    *64-bit*)
-        arch="x64"
-        ;;
-    *32-bit*|*i386*)
-        arch="x86"
-        ;;
-    *)
-        echo "Cannot identify executable type (got ${executable_type})!"
-        echo "Please create an issue at https://github.com/BepInEx/BepInEx/issues."
-        exit 1
-        ;;
-esac
-
-doorstop_libname=libdoorstop_${arch}.${lib_postfix}
-export LD_LIBRARY_PATH="${doorstop_libs}":${LD_LIBRARY_PATH}
-export LD_PRELOAD=$doorstop_libname:$LD_PRELOAD
-export DYLD_LIBRARY_PATH="${doorstop_libs}"
-export DYLD_INSERT_LIBRARIES="${doorstop_libs}/$doorstop_libname"
-
-"$PWD/${executable_name}" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}"
-
+# Tip: Make a local copy of this script to avoid it being overwritten by steam.
+# NOTE: Minimum password length is 5 characters & Password cant be in the server name.
+# NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
+exec ./valheim_server.x86_64 -name "${server_name}" -port "${server_port}" -world "${server_world}" -password "${server_password}" -public "${server_public}"
 EOF
 }
 
