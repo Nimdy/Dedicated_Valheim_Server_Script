@@ -1674,19 +1674,19 @@ clear
     nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
     echo ""
     tput setaf 2; echo "$DRAW80" ; tput setaf 9;
-    tput setaf 2;  echo "$FUNCTION_BEPINEX_EDIT_BEPINEX_CONFIG_SAVE_RESTART" ; tput setaf 9; 
-    tput setaf 2;  echo "$FUNCTION_BEPINEX_EDIT_BEPINEX_CONFIG_SAVE_RESTART_1" ; tput setaf 9; 
+    tput setaf 2;  echo "$FUNCTION_BEPINEX_EDIT_CONFIG_SAVE_RESTART" ; tput setaf 9; 
+    tput setaf 2;  echo "$FUNCTION_BEPINEX_EDIT_CONFIG_SAVE_RESTART_1" ; tput setaf 9; 
     tput setaf 2; echo "$DRAW80" ; tput setaf 9;
     echo ""
      read -p "$PLEASE_CONFIRM" confirmRestart
 #if y, then continue, else cancel
         if [ "$confirmRestart" == "y" ]; then
     echo ""
-    echo "$FUNCTION_BEPINEX_EDIT_BEPINEX_RESTART_SERVICES"
+    echo "$FUNCTION_BEPINEX_EDIT_RESTART_SERVICES"
     sudo systemctl restart valheimserver.service
     echo ""
     else
-    echo "$FUNCTION_BEPINEX_EDIT_BEPINEX_CANCEL"
+    echo "$FUNCTION_BEPINEX_EDIT_CANCEL"
     sleep 2
     clear
 fi
