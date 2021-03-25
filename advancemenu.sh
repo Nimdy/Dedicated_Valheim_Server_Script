@@ -42,6 +42,7 @@ backupPath=/home/steam/backups
 # Set Menu Version for menu display
 mversion="2.3-Lofn"
 #Do not touch this... ever....never...ever.ever.never...thanks
+#Used to toggle Valheim Vanilla, ValheimPLus or BepInEx configuration building
 export valheimVanilla=1
 
 ########################################################################
