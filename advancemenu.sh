@@ -1844,7 +1844,7 @@ echo $latestBepinex
 }
 
 # Check Local Bepinex Build for menu display
-function check_local_valheim_bepinex_build() {
+function check_local_bepinex_build() {
 localValheimBepinexVer=${valheimInstallPath}/localValheimBepinexVersion
    if [[ -e $localValheimBepinexVer ]] ; then
     localValheimBepinexBuild=$(cat ${localValheimBepinexVer})
