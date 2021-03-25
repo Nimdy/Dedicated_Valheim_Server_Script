@@ -1917,7 +1917,7 @@ $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_OFFICIAL_BUILD"'')" $(ch
 echo -ne "
 $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"  $(check_local_valheim_build)
 echo -ne "
-$(ColorOrange '╚═══════════════════════════════════════════════')"
+$(ColorOrange '╠═══════════════════════════════════════════════')"
 echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
 $(ColorOrange '║') $(are_you_connected)
