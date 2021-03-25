@@ -130,9 +130,6 @@ function script_check_update() {
    echo "$GIT_ECHO_NO_UPDATES"
 }
 
-
-
-
 ########################################################################
 ########################Install Valheim Server##########################
 ########################################################################
@@ -290,7 +287,6 @@ echo ""
     tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     echo ""
 
-
 echo "$CREDS_DISPLAY_CREDS_PRINT_OUT_HEADER"
 tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 tput setaf 2; echo "$CREDS_DISPLAY_CREDS_PRINT_OUT_STEAM_PASSWORD $userpassword " ; tput setaf 9;
@@ -433,6 +429,7 @@ echo ""
         echo "$INSTALL_BUILD_CANCEL"
 fi
 }
+
 ########################################################################
 ###################Backup World DB and FWL Files########################
 ########################################################################
@@ -485,6 +482,7 @@ function backup_world_data() {
    tput setaf 3; echo "$BACKUP_WORLD_PROCESS_CANCELED" ; tput setaf 9;
  fi
 }
+
 ########################################################################
 ##################Restore World Files DB and FWL########################
 ########################################################################
@@ -574,6 +572,7 @@ else
     clear
 fi
 }
+
 ########################################################################
 ######################beta updater for Valheim##########################
 ########################################################################
@@ -622,6 +621,7 @@ $(ColorRed '------------------------------------------------------------')"
     esac
 done
 }
+
 ########################################################################
 ###############Display Valheim Start Configuration######################
 ########################################################################
@@ -631,6 +631,7 @@ function display_start_valheim() {
     sudo cat ${valheimInstallPath}/start_valheim.sh
     echo ""
 }
+
 ########################################################################
 ###############Display Valheim World Data Folder########################
 ########################################################################
@@ -640,6 +641,7 @@ function display_world_data_folder() {
     sudo ls -lisa $worldpath
     echo ""
 }
+
 ########################################################################
 ######################Stop Valheim Server Service#######################
 ########################################################################
@@ -668,6 +670,7 @@ echo ""
     clear
 fi
 }
+
 ########################################################################
 ###################Start Valheim Server Service#########################
 ########################################################################
@@ -696,6 +699,7 @@ echo ""
     clear
 fi
 }
+
 ########################################################################
 ####################Restart Valheim Server Service######################
 ########################################################################
@@ -723,6 +727,7 @@ tput setaf 2; echo "$FUNCTION_RESTART_VALHEIM_SERVICE_SERVICE_RESTART" ; tput se
     clear
 fi
 }
+
 ########################################################################
 #####################Display Valheim Server Status######################
 ########################################################################
@@ -732,6 +737,7 @@ function display_valheim_server_status() {
     sudo systemctl status --no-pager -l valheimserver.service
     echo ""
 }
+
 ########################################################################
 ##############Display Valheim Vanilla Configuration File################
 ########################################################################
@@ -741,6 +747,7 @@ function display_start_valheim() {
     sudo cat ${valheimInstallPath}/start_valheim.sh
     echo ""
 }
+
 ########################################################################
 #######################Sub Server Menu System###########################
 ########################################################################
@@ -760,6 +767,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 		    *)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; server_install_menu ;;
         esac
 }
+
 ########################################################################
 #########################Print System INFOS#############################
 ########################################################################
@@ -791,6 +799,7 @@ echo ""
     echo -e "$DRAW80"
 echo ""
 }
+
 ########################################################################
 #############################PRINT NETWORK INFO#########################
 ########################################################################
@@ -800,6 +809,7 @@ clear
     sudo netstat -atunp | grep valheim
     echo ""
 }
+
 ########################################################################
 ################Display History of Connected Players####################
 ########################################################################
@@ -816,7 +826,6 @@ clear
 cat /var/log/syslog* | grep Info
  
 }
-
 
 ########################################################################
 #####################Sub Tech Support Menu System#######################
@@ -1015,9 +1024,9 @@ function change_local_world_name() {
 	tput setaf 2; echo "$DRAW60" ; tput setaf 9;
         tput setaf 5; echo "$FUNCTION_CHANGE_CURRENT_WORLD_NAME" ${currentWorldName} ; tput setaf 9;
 	echo ""
-        read -p "$WORLD_SET_WORLD_NAME_VAR" setWorldName
+        read -p "$WORLD_SET_WORLD_NAME_VAR" setCurrentWorldName
 	tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
-            [[ ${#setWorldName} -ge 4 && "$setWorldName" =~ ^[[:alnum:]]+$ ]] && break
+            [[ ${#setCurrentWorldName} -ge 4 && "$setCurrentWorldName" =~ ^[[:alnum:]]+$ ]] && break
         tput setaf 2; echo "$WORLD_SET_ERROR" ; tput setaf 9; 
 	tput setaf 2; echo "$WORLD_SET_ERROR_1" ; tput setaf 9; 
         done
@@ -1086,6 +1095,7 @@ function write_public_on_config_and_restart() {
     setCurrentPublicSet=1
     write_config_and_restart
 }
+
 function write_public_off_config_and_restart() {
     get_current_config
     set_config_defaults
@@ -1101,7 +1111,6 @@ function display_full_config() {
 ########################################################################
 ####################END CHANGE VALHEIM START CONFIG#####################
 ########################################################################
-
 
 #######################################################################################################################################################
 #########################################################START VALHEIM PLUS SECTION####################################################################
@@ -1192,6 +1201,7 @@ clear
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_GET_THEIR_VIKING_ON" ; tput setaf 9; 
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_LETS_GO" ; tput setaf 9; 
 }
+
 function valheim_plus_enable() {
 clear
     echo ""
@@ -1207,6 +1217,7 @@ clear
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_ENABLED_ACTIVE" ; tput setaf 9; 
     echo ""
 }
+
 function valheim_plus_disable() {
 clear
     echo ""
@@ -1257,6 +1268,7 @@ clear
 	  
      fi
 }
+
 function valheimplus_mod_options() {
 clear
     nano ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg
@@ -1279,6 +1291,7 @@ clear
     clear
 fi
 }
+
 function bepinex_mod_options() {
 clear
     nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
@@ -1601,6 +1614,7 @@ clear
     tput setaf 2; echo "$FUNCTION_BEPINEX_ENABLED_ACTIVE" ; tput setaf 9; 
     echo ""
 }
+
 function valheim_bepinex_disable() {
 clear
     echo ""
@@ -1651,6 +1665,7 @@ clear
 	  
      fi
 }
+
 function bepinex_mod_options() {
 clear
     nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
@@ -1673,6 +1688,7 @@ clear
     clear
 fi
 }
+
 function bepinex_mod_options() {
 clear
     nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
@@ -1712,6 +1728,13 @@ function build_start_server_bepinex_configuration_file() {
 # LINUX: This is the name of the Unity game executable 
 # MACOS: This is the name of the game app folder, including the .app suffix
 executable_name="valheim_server.x86_64"
+
+#importing server parms to BepInEx
+server_name="$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' start_valheim.sh)"
+server_password="$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' start_valheim.sh)"
+server_port="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' start_valheim.sh)"
+server_world="$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' start_valheim.sh)"
+server_public="$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' start_valheim.sh)"
 
 # The rest is automatically handled by BepInEx
 
@@ -1797,9 +1820,9 @@ export LD_PRELOAD=$doorstop_libname:$LD_PRELOAD
 export DYLD_LIBRARY_PATH="${doorstop_libs}"
 export DYLD_INSERT_LIBRARIES="${doorstop_libs}/$doorstop_libname"
 
-"${executable_path}"
-EOF
+"${executable_name}" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}"
 
+EOF
 }
 
 
