@@ -18,7 +18,7 @@
 <br />
 <p align="center">
     <img src="https://user-images.githubusercontent.com/16698453/112525212-f0d97900-8da0-11eb-955c-44dd4e48643e.png" />
-  <h3 align="center">Njord Menu 2.2-Lofn Updated: 23-MAR-2021</h3>
+  <h3 align="center">Njord Menu 2.3-Lofn Updated: 25-MAR-2021</h3>
 
   <p align="center">
     So easy a Viking can do it!
