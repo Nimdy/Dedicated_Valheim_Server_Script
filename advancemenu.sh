@@ -1816,7 +1816,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'')"
 # Check Current Valheim REPO Build for menu display
 
 function check_official_valheim_release_build() {
-if [[ $(find "/home/steam/valheimserver/officialvalheimbuild" -mtime +1 -print) ]]; then
+if [[ $(find "/home/steam/valheimserver/officialvalheimbuild" -mmin +59 -print) ]]; then
       echo "Debug: I am here updating"
       find "/home" "/root" -wholename "*/.steam/appcache/appinfo.vdf" | xargs -r rm -f --
       currentOfficialRepo=$(/home/steam/steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4)
