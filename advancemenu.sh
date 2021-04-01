@@ -913,20 +913,6 @@ EOF
    echo ""
 }
 
-function write_public_on_config_and_restart() {
-    get_current_config
-    print_current_config
-    set_config_defaults
-    write_public_on_config_and_restart
-}
-
-function write_public_off_config_and_restart() {
-    get_current_config
-    print_current_config
-    set_config_defaults
-    write_config_and_restart
-}
-
 function change_public_display_name() {
     get_current_config
     print_current_config
