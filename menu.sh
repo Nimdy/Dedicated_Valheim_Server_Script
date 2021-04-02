@@ -1129,7 +1129,11 @@ echo -e '\E[32m'"$EXTERNAL_IP $whateverzerowantstocalthis "$externalip ; tput se
 function display_local_IP() {
 internalip=$(hostname -I)
 echo -e '\E[32m'"$INTERNAL_IP $mymommyboughtmeaputerforchristmas "$internalip ; tput setaf 9;
+}
 
+function server_status(){
+server_status=$(systemctl is-active valheimserver.service)
+echo -e  '\E[32m'"$server_status "$serverstatus ; tput setaf 9;
 }
 
 function are_you_connected() {
@@ -1151,6 +1155,8 @@ echo -ne "
 $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"        $(check_local_valheim_build)
 echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_status)
+echo -ne " 
 $(ColorOrange '║') $(are_you_connected)
 $(ColorOrange '║')" $(display_public_IP)
 echo -ne "
