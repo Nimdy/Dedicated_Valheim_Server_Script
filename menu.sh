@@ -1136,6 +1136,11 @@ server_status=$(systemctl is-active valheimserver.service)
 echo -e  '\E[32m'"$server_status "$serverstatus ; tput setaf 9;
 }
 
+function server_status(){
+server_status=$(systemctl is-active valheimserver.service)
+echo -e  '\E[32m'"$server_status "$serverstatus ; tput setaf 9;
+}
+
 function are_you_connected() {
 ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"$INTERNET_MSG $tecreset $INTERNET_MSG_CONNECTED" || echo -e '\E[32m'"$INTERNET_MSG $tecreset $INTERNET_MSG_DISCONNECTED"
 
