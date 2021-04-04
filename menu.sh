@@ -1141,6 +1141,11 @@ server_status=$(systemctl is-active valheimserver.service)
 echo -e  '\E[32m'"$server_status "$serverstatus ; tput setaf 9;
 }
 
+function ufw_status(){
+ufw_status=$(ufw status)
+echo -e '\E[32m'"$ufw_status "$ufwfluf ; tput setaf 9;
+}
+
 function are_you_connected() {
 ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"$INTERNET_MSG $tecreset $INTERNET_MSG_CONNECTED" || echo -e '\E[32m'"$INTERNET_MSG $tecreset $INTERNET_MSG_DISCONNECTED"
 
@@ -1168,6 +1173,8 @@ echo -ne "
 $(ColorOrange '║')" $(display_local_IP)
 echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
+echo -ne "
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(ufw_status)
 echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 echo -ne "
