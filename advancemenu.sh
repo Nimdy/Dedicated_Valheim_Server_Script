@@ -157,7 +157,7 @@ echo ""
     
 #check for updates and upgrade the system auto yes WTF is curl not installed by default... come on man!
     tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES" ; tput setaf 9;
-    apt install git mlocate net-tools unzip curl -y
+    apt install git mlocate net-tools unzip curl ufw -y
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1
     
@@ -949,6 +949,7 @@ function change_public_display_name() {
         clear
     fi
 }
+
     
 function change_default_server_port() {
     get_current_config
@@ -1073,6 +1074,23 @@ function change_server_access_password() {
     fi
 }
 
+function uni_firewall_config() {
+    ufw default deny incoming
+    ufw default allow outgoing
+    ufw allow ssh
+    ufw allow ftp
+    ufw allow 2456:2458/tcp
+    ufw allow 2456:2458/udp
+}
+
+function uni_firewall_enable_disable() {
+    if  ["$ufwconfirm" == "y" ]; then
+        ufw enable
+    else
+        ufw disable
+    fi
+}
+    
 function write_public_on_config_and_restart() {
     get_current_config
     set_config_defaults
@@ -1861,12 +1879,12 @@ echo -e '\E[32m'"$INTERNAL_IP $mymommyboughtmeaputerforchristmas "$internalip ; 
 
 function server_status(){
 server_status=$(systemctl is-active valheimserver.service)
-echo -e  '\E[32m'"$server_status "$serverstatus ; tput setaf 9;
+echo -e  '\E[32m'"$server_status "
 }
 
 function ufw_status(){
 ufw_status=$(ufw status)
-echo -e '\E[32m'"$ufw_status "$ufwfluf ; tput setaf 9;
+echo -e '\E[32m'"$ufw_status "
 }
 
 function are_you_connected() {
