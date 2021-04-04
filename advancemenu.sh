@@ -1568,8 +1568,9 @@ clear
     mkdir bepinexdl
     cd bepinexdl
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CHECKING_OLD_INSTALL" ; tput setaf 9; 
-    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_DOWNLOADING_BEPINEX_FROM_REPO" ; tput setaf 9; 
-    wget https://valheim.thunderstore.io/package/download/denikson/BepInExPack_Valheim/5.4.900/
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_DOWNLOADING_BEPINEX_FROM_REPO" ; tput setaf 9;
+    officialBepInEx=$(curl -sL https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2) 
+    wget https://valheim.thunderstore.io/package/download/denikson/BepInExPack_Valheim/${officialBepInEx}/
     mv index.html bepinex.zip
     unzip -o bepinex.zip
     cp -a BepInExPack_Valheim/. ${valheimInstallPath}
@@ -1864,6 +1865,11 @@ server_status=$(systemctl is-active valheimserver.service)
 echo -e  '\E[32m'"$server_status "$serverstatus ; tput setaf 9;
 }
 
+function ufw_status(){
+ufw_status=$(ufw status)
+echo -e '\E[32m'"$ufw_status "$ufwfluf ; tput setaf 9;
+}
+
 function are_you_connected() {
 ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"$INTERNET_MSG $tecreset $INTERNET_MSG_CONNECTED" || echo -e '\E[32m'"$INTERNET_MSG $tecreset $INTERNET_MSG_DISCONNECTED"
 
@@ -1919,6 +1925,8 @@ $(ColorOrange '║')" $(display_local_IP)
 echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
 echo -ne "
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(ufw_status)
+echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_GG_ZEROBANDWIDTH
@@ -1949,12 +1957,16 @@ echo -ne "
 $(ColorPurple '╠═══════════════════════════════════════════════')"
 echo -ne "
 $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE " $(server_status)
+echo -ne " 
 $(ColorPurple '║') $(are_you_connected)
 $(ColorPurple '║')" $(display_public_IP)
 echo -ne "
 $(ColorPurple '║')" $(display_local_IP)
 echo -ne "
 $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
+echo -ne "
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(ufw_status)
 echo -ne "
 $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 echo -ne "
@@ -1990,12 +2002,16 @@ echo -ne "
 $(ColorCyan '╠═══════════════════════════════════════════════')"
 echo -ne "
 $(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
+$(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE " $(server_status)
+echo -ne " 
 $(ColorCyan '║') $(are_you_connected)
 $(ColorCyan '║')" $(display_public_IP)
 echo -ne "
 $(ColorCyan '║')" $(display_local_IP)
 echo -ne "
 $(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
+echo -ne "
+$(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(ufw_status)
 echo -ne "
 $(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 echo -ne "
