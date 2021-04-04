@@ -1568,8 +1568,9 @@ clear
     mkdir bepinexdl
     cd bepinexdl
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CHECKING_OLD_INSTALL" ; tput setaf 9; 
-    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_DOWNLOADING_BEPINEX_FROM_REPO" ; tput setaf 9; 
-    wget https://valheim.thunderstore.io/package/download/denikson/BepInExPack_Valheim/5.4.900/
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_DOWNLOADING_BEPINEX_FROM_REPO" ; tput setaf 9;
+    officialBepInEx=$(curl -sL https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2) 
+    wget https://valheim.thunderstore.io/package/download/denikson/BepInExPack_Valheim/${officialBepInEx}/
     mv index.html bepinex.zip
     unzip -o bepinex.zip
     cp -a BepInExPack_Valheim/. ${valheimInstallPath}
