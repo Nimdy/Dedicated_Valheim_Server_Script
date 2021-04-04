@@ -1138,7 +1138,7 @@ echo -e  '\E[32m'"$server_status "
 }
 
 function ufw_status(){
-ufw_status=$(ufw status)
+ufw_status=$(systemctl is-active ufw)
 echo -e '\E[32m'"$ufw_status "
 }
 
