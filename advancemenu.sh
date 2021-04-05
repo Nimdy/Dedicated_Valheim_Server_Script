@@ -1940,8 +1940,7 @@ $(ColorPurple '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"       
 echo -ne "
 $(ColorPurple '╠═══════════════════════════════════════════════')"
 echo -ne "
-$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
-$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE " $(server_status)
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME " ${currentDisplayName}
 echo -ne " 
 $(ColorPurple '║') $(are_you_connected)
 $(ColorPurple '║')" $(display_public_IP)
@@ -1949,8 +1948,6 @@ echo -ne "
 $(ColorPurple '║')" $(display_local_IP)
 echo -ne "
 $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
-echo -ne "
-$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(ufw_status)
 echo -ne "
 $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 echo -ne "
