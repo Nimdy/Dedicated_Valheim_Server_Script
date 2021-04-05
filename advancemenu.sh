@@ -1985,8 +1985,7 @@ $(ColorCyan '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"        $
 echo -ne "
 $(ColorCyan '╠═══════════════════════════════════════════════')"
 echo -ne "
-$(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
-$(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE " $(server_status)
+$(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME" ${currentDisplayName}
 echo -ne " 
 $(ColorCyan '║') $(are_you_connected)
 $(ColorCyan '║')" $(display_public_IP)
@@ -1994,8 +1993,6 @@ echo -ne "
 $(ColorCyan '║')" $(display_local_IP)
 echo -ne "
 $(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
-echo -ne "
-$(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(ufw_status)
 echo -ne "
 $(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 echo -ne "
