@@ -1834,7 +1834,6 @@ localValheimAppmanifest=${valheimInstallPath}/steamapps/appmanifest_896660.acf
 }
 
 function check_menu_script_repo() {
-
 latestScript=$(curl --connect-timeout 10 -s https://api.github.com/repos/Nimdy/Dedicated_Valheim_Server_Script/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
 echo $latestScript
 }
@@ -1848,7 +1847,6 @@ currentPortCheck=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valhei
   fi
 }
 
-
 function display_public_IP() {
 externalip=$(curl -s ipecho.net/plain;echo)
 echo -e '\E[32m'"$EXTERNAL_IP $whateverzerowantstocalthis "$externalip ; tput setaf 9;
@@ -1857,29 +1855,16 @@ echo -e '\E[32m'"$EXTERNAL_IP $whateverzerowantstocalthis "$externalip ; tput se
 function display_local_IP() {
 internalip=$(hostname -I)
 echo -e '\E[32m'"$INTERNAL_IP $mymommyboughtmeaputerforchristmas "$internalip ; tput setaf 9;
-
-}
-
-function server_status(){
-server_status=$(systemctl is-active valheimserver.service)
-echo -e  '\E[32m'"$server_status "$serverstatus ; tput setaf 9;
-}
-
-function ufw_status(){
-ufw_status=$(ufw status)
-echo -e '\E[32m'"$ufw_status "$ufwfluf ; tput setaf 9;
 }
 
 function are_you_connected() {
 ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"$INTERNET_MSG $tecreset $INTERNET_MSG_CONNECTED" || echo -e '\E[32m'"$INTERNET_MSG $tecreset $INTERNET_MSG_DISCONNECTED"
-
 }
 
 function are_mods_enabled() {
 modstrue=$( cat /lib/systemd/system/valheimserver.service | grep bepinex)
 var2="ExecStart=/home/steam/valheimserver/start_server_bepinex.sh"
 var3="ExecStart=/home/steam/valheimserver/start_valw_bepinex.sh"
-
 if [[ $modstrue == $var2 ]]; then
         echo "Enabled with ValheimPlus"
 elif
@@ -1888,7 +1873,6 @@ elif
 else
         echo "Disable"
 fi
-
 }
 
 
