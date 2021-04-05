@@ -1138,12 +1138,12 @@ echo -e  '\E[32m'"$server_status "$serverstatus ; tput setaf 9;
 
 function server_status(){
 server_status=$(systemctl is-active valheimserver.service)
-echo -e  '\E[32m'"$server_status "$serverstatus ; tput setaf 9;
+echo -e  '\E[32m'"$server_status "
 }
 
 function ufw_status(){
-ufw_status=$(ufw status)
-echo -e '\E[32m'"$ufw_status "$ufwfluf ; tput setaf 9;
+ufw_status=$(systemctl is-active ufw)
+echo -e '\E[32m'"$ufw_status "
 }
 
 function are_you_connected() {
