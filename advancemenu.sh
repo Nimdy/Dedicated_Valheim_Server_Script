@@ -1990,6 +1990,8 @@ echo -ne "
 $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
 $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE " $(server_status)
 echo -ne " 
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_SUBSTATE" $(server_substate) 
+echo -ne " 
 $(ColorPurple '║') $(are_you_connected)
 $(ColorPurple '║')" $(display_public_IP)
 echo -ne "
@@ -1998,6 +2000,8 @@ echo -ne "
 $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
 echo -ne "
 $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(ufw_status)
+echo -ne "
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW_SUBSTATE" $(ufw_substate) 
 echo -ne "
 $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 echo -ne "
@@ -2035,6 +2039,8 @@ echo -ne "
 $(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
 $(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE " $(server_status)
 echo -ne " 
+$(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_SUBSTATE" $(server_substate) 
+echo -ne " 
 $(ColorCyan '║') $(are_you_connected)
 $(ColorCyan '║')" $(display_public_IP)
 echo -ne "
@@ -2043,6 +2049,8 @@ echo -ne "
 $(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
 echo -ne "
 $(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(ufw_status)
+echo -ne "
+$(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW_SUBSTATE" $(ufw_substate) 
 echo -ne "
 $(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 echo -ne "
