@@ -1879,18 +1879,27 @@ echo -e '\E[32m'"$INTERNAL_IP $mymommyboughtmeaputerforchristmas "$internalip ; 
 }
 
 function server_status(){
-server_status=$(systemctl is-active valheimserver.service)
+server_status=$(systemctl show -p ActiveState --value valheimserver.service)
 echo -e  '\E[32m'"$server_status "
 }
 
+function server_substate(){
+server_substate=$(systemctl show -p SubState --value valheimserver.service)
+echo -e '\E[32m'"$server_substate "
+}
+
 function ufw_status(){
-ufw_status=$(systemctl is-active ufw)
+ufw_status=$(systemctl show -p ActiveState --value ufw)
 echo -e '\E[32m'"$ufw_status "
+}
+
+function ufw_substate(){
+ufw_substate=$(systemctl show -p SubState --value ufw)
+echo -e '\E[32m'"$ufw_substate "
 }
 
 function are_you_connected() {
 ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"$INTERNET_MSG $tecreset $INTERNET_MSG_CONNECTED" || echo -e '\E[32m'"$INTERNET_MSG $tecreset $INTERNET_MSG_DISCONNECTED"
-
 }
 
 function are_mods_enabled() {
@@ -1934,7 +1943,9 @@ echo -ne "
 $(ColorOrange '╠═══════════════════════════════════════════════')"
 echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
-$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_status)
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_status) 
+echo -ne " 
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_SUBSTATE" $(server_substate) 
 echo -ne " 
 $(ColorOrange '║') $(are_you_connected)
 $(ColorOrange '║')" $(display_public_IP)
@@ -1945,6 +1956,8 @@ $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
 echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(ufw_status)
 echo -ne "
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW_SUBSTATE" $(ufw_substate) 
+echo -ne " 
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_GG_ZEROBANDWIDTH
