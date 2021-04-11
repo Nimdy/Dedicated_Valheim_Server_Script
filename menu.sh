@@ -1133,17 +1133,22 @@ echo -e '\E[32m'"$INTERNAL_IP $mymommyboughtmeaputerforchristmas "$internalip ; 
 
 function server_status(){
 server_status=$(systemctl is-active valheimserver.service)
-echo -e  '\E[32m'"$server_status "$serverstatus ; tput setaf 9;
+echo -e  '\E[32m'"$server_status "
 }
 
-function server_status(){
-server_status=$(systemctl is-active valheimserver.service)
-echo -e  '\E[32m'"$server_status "
+function server_substate(){
+server_substate=$(systemctl show -p SubState --value valheimserver.service)
+echo -e '\E[32m'"$server_substate "
 }
 
 function ufw_status(){
 ufw_status=$(systemctl is-active ufw)
 echo -e '\E[32m'"$ufw_status "
+}
+
+function ufw_substate(){
+ufw_substate=$(systemctl show -p SubState --value ufw)
+echo -e '\E[32m'"$ufw_substate "
 }
 
 function are_you_connected() {
@@ -1167,6 +1172,8 @@ echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_status)
 echo -ne " 
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_SUBSTATE" $(server_substate) 
+echo -ne " 
 $(ColorOrange '║') $(are_you_connected)
 $(ColorOrange '║')" $(display_public_IP)
 echo -ne "
@@ -1176,6 +1183,8 @@ $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
 echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(ufw_status)
 echo -ne "
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW_SUBSTATE" $(ufw_substate) 
+echo -ne " 
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_CURRENT_NJORD_RELEASE $(check_menu_script_repo)
