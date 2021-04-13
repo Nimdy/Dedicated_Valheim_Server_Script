@@ -1889,7 +1889,8 @@ echo -e '\E[32m'"$server_substate "
 }
 
 function ufw_status(){
-ufw_status=$(systemctl show -p ActiveState --value ufw)
+ufw_status=$(ufw status | cut -d':' -f2)
+#ufw_status=$(systemctl show -p ActiveState --value ufw)
 echo -e '\E[32m'"$ufw_status "
 }
 
