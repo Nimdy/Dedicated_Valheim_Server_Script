@@ -2134,6 +2134,7 @@ else
     update)  check_apply_server_updates_beta ;;
     backup)  backup_world_data ;;
     status)  display_valheim_server_status ;;
+    install) valheim_server_install ;;
     *)
         menu
         ;;
