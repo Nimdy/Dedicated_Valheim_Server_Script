@@ -22,6 +22,8 @@
 # Future: Adding functionlity to added/delete/backup
 #          additional valheim server services.
 # 
+# Changed: nano to vim. lol
+#
 # Current Options: DE=German, EN=English, FR=French, SP=Spanish"
 
 
@@ -1325,7 +1327,8 @@ clear
 }
 function valheimplus_mod_options() {
 clear
-    nano ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg
+    #nano ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg
+	vi ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg
     echo ""
     tput setaf 2; echo "$DRAW80" ; tput setaf 9;
     tput setaf 2;  echo "$FUNCTION_VALHEIM_PLUS_EDIT_VPLUS_CONFIG_SAVE_RESTART" ; tput setaf 9; 
@@ -1347,7 +1350,8 @@ fi
 }
 function bepinex_mod_options() {
 clear
-    nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
+    # nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
+	vi ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
     echo ""
     tput setaf 2; echo "$DRAW80" ; tput setaf 9;
     echo "$FUNCTION_VALHEIM_PLUS_EDIT_BEPINEX_CONFIG_RESTART"
