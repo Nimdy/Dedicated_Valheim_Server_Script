@@ -26,6 +26,7 @@
 #
 # Future: Adding functionlity to admin addition created valheim server services.
 # 
+# NOTE: Nothing added has been NLS'ed yet.
 # 
 # Current Options: DE=German, EN=English, FR=French, SP=Spanish"
 
@@ -756,7 +757,7 @@ sleep 1
 tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 sleep 1
 
-#build config for start_valheim.sh
+#build config for start_valheim_default.sh
 tput setaf 1; echo "$INSTALL_BUILD_DELETE_OLD_CONFIGS" ; tput setaf 9;  
 tput setaf 1; echo "$INSTALL_BUILD_DELETE_OLD_CONFIGS_1" ; tput setaf 9;
 [ -e ${valheimInstallPath}/start_valheim_${worldname}.sh ] && rm ${valheimInstallPath}/start_valheim_${worldname}.sh
@@ -940,7 +941,7 @@ echo -ne "
 $(ColorRed '------------------------------------------------------------')
 $(ColorGreen ' '"$RESTORE_WORLD_DATA_SHOW_FILE"' '${restorefile}' ?')
 $(ColorGreen ' '"$RESTORE_WORLD_DATA_ARE_YOU_SURE"' ')
-$(ColorOrange ' '"$RESTORE_WORLD_DATA_VALIDATE_DATA_WITH_CONFIG"' '${valheimInstallPath}'/start_valheim.sh')
+$(ColorOrange ' '"$RESTORE_WORLD_DATA_VALIDATE_DATA_WITH_CONFIG"' '${valheimInstallPath}'/start_valheim_default.sh')
 $(ColorOrange ' '"$RESTORE_WORLD_DATA_INFO"' ')
 $(ColorGreen ' '"$RESTORE_WORLD_DATA_CONFIRM_1"' ') "
 #read user input confirmation
@@ -1076,7 +1077,7 @@ done
 function display_start_valheim() {
     clear
     echo ""
-    sudo cat ${valheimInstallPath}/start_valheim.sh
+    sudo cat ${valheimInstallPath}/start_valheim_default.sh
     echo ""
 }
 ########################################################################
@@ -1186,7 +1187,7 @@ function display_valheim_server_status() {
 function display_start_valheim() {
     clear
     echo ""
-    sudo cat ${valheimInstallPath}/start_valheim.sh
+    sudo cat ${valheimInstallPath}/start_valheim_default.sh
     echo ""
 }
 ########################################################################
@@ -1293,11 +1294,11 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 ##################START CHANGE VALHEIM START CONFIG#####################
 ########################################################################
 function get_current_config() {
-    currentDisplayName=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
-    currentPort=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
-    currentWorldName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
-    currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
-    currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+    currentDisplayName=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' ${valheimInstallPath}/start_valheim_default.sh)
+    currentPort=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}/start_valheim_default.sh)
+    currentWorldName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}/start_valheim_default.sh)
+    currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' ${valheimInstallPath}/start_valheim_default.sh)
+    currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/start_valheim_default.sh)
 }
 function print_current_config() {
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_NAME $(tput setaf 2)${currentDisplayName} $(tput setaf 9) "
@@ -1321,7 +1322,7 @@ function set_config_defaults() {
 function write_config_and_restart() {
     tput setaf 1; echo "$FUNCTION_WRITE_CONFIG_RESTART_INFO" ; tput setaf 9;
     sleep 1
-    cat > ${valheimInstallPath}/start_valheim.sh <<EOF
+    cat > ${valheimInstallPath}/start_valheim_default.sh <<EOF
 #!/bin/bash
 export templdpath=\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
@@ -1332,9 +1333,9 @@ export SteamAppId=892970
 ./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
-   echo "$FUNCTION_WRITE_CONFIG_RESTART_SET_PERMS" ${valheimInstallPath}/start_valheim.sh
-   chown steam:steam ${valheimInstallPath}/start_valheim.sh
-   chmod +x ${valheimInstallPath}/start_valheim.sh
+   echo "$FUNCTION_WRITE_CONFIG_RESTART_SET_PERMS" ${valheimInstallPath}/start_valheim_default.sh
+   chown steam:steam ${valheimInstallPath}/start_valheim_default.sh
+   chmod +x ${valheimInstallPath}/start_valheim_default.sh
    echo "$ECHO_DONE"
    echo "$FUNCTION_WRITE_CONFIG_RESTART_SERVICE_INFO"
    sudo systemctl restart valheimserver_default.service
@@ -1522,7 +1523,7 @@ latestScript=$(curl --connect-timeout 10 -s https://api.github.com/repos/Nimdy/D
 echo $latestScript
 }
 function display_public_status_on_or_off() {
-currentPortCheck=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/start_valheim.sh)
+currentPortCheck=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/start_valheim_default.sh)
     if [[ $currentPortCheck == 1 ]]; then 
       echo "$ECHO_ON"
     else
