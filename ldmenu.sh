@@ -144,9 +144,6 @@ function script_check_update() {
    echo "$GIT_ECHO_NO_UPDATES"
 }
 
-
-
-
 ########################################################################
 ########################Install Valheim Server##########################
 ########################################################################
@@ -168,7 +165,6 @@ echo ""
         if [ "$confirmStartInstall" == "y" ]; then
     echo ""
 
-
 #check for updates and upgrade the system auto yes
      tput setaf 1; echo "$CHECK_FOR_UPDATES" ; tput setaf 9;
      if command -v apt-get >/dev/null; then
@@ -186,8 +182,8 @@ echo ""
 # Nimby: check for updates and upgrade the system auto yes 
 #        WTF is curl not installed by default... come on man!
 #
-# LordDumoss (LD): Add yum support  
-# LD: Changed where the steamcmd requied libs are installed.
+# LordDumoss (LD): Add yum support. Might be a better way. But it works. 
+# LD: Changed where the steamcmd required libs are installed.
 #
     tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES" ; tput setaf 9;
      if command -v apt-get >/dev/null; then
@@ -357,7 +353,6 @@ echo ""
     tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
     echo ""
 
-
 echo "$CREDS_DISPLAY_CREDS_PRINT_OUT_HEADER"
 tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 tput setaf 2; echo "$CREDS_DISPLAY_CREDS_PRINT_OUT_STEAM_PASSWORD $userpassword " ; tput setaf 9;
@@ -368,13 +363,6 @@ tput setaf 2; echo "$CREDS_DISPLAY_CREDS_PRINT_OUT_SHOW_PUBLIC $publicList " ; t
 tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 echo ""
 sleep 5
-
-#install steamcmd
-tput setaf 1; echo "$INSTALL_STEAMCMD_LIBSD12" ; tput setaf 9;
-
-
-tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-sleep 1
 
 #EDIT HERE #1
 #build account to run Valheim
@@ -429,7 +417,6 @@ sleep 1
 tput setaf 1; echo "$INSTALL_BUILD_DOWNLOAD_INSTALL_STEAM_VALHEIM" ; tput setaf 9;
 sleep 1
 /home/steam/steamcmd/steamcmd.sh +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
-
 #### Need to add code to veriy firewall system and if enabled.
 #### Below is the line needed for Valheim
 #### These should also be added to as port forwards on your network router.
@@ -451,9 +438,9 @@ sleep 1
 #
 # And you you would need to tell people not only IP but port (if not public).
 # x.x.x.x:port
-
 tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 sleep 1
+
 #build config for start_valheim.sh
 tput setaf 1; echo "$INSTALL_BUILD_DELETE_OLD_CONFIGS" ; tput setaf 9;  
 tput setaf 1; echo "$INSTALL_BUILD_DELETE_OLD_CONFIGS_1" ; tput setaf 9;
