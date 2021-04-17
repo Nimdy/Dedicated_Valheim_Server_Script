@@ -183,13 +183,18 @@ echo ""
      tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
      sleep 1
     
-#check for updates and upgrade the system auto yes WTF is curl not installed by default... come on man!
+# Nimby: check for updates and upgrade the system auto yes 
+#        WTF is curl not installed by default... come on man!
+#
+# LordDumoss (LD): Add yum support  
+# LD: Changed where the steamcmd requied libs are installed.
+#
     tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES" ; tput setaf 9;
      if command -v apt-get >/dev/null; then
           echo "apt-get is used here"
           apt install libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl -y
      elif command -v yum >/dev/null; then
-          echo "yum is used here"
+          echo "yum is used"
          yum install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
      else
           echo "..."
@@ -203,9 +208,10 @@ echo ""
           echo "apt-get is used here"
           apt install software-properties-common
      elif command -v yum >/dev/null; then
-          echo "yum is used here"
-          echo "And nothing to do here."
-     else
+          echo "Nothing to do here on RedHat based Linux system."
+		  # software-properties-common is GOOD option for APT only.
+		  # YUM has a built in version of this type system."
+	 else
           echo "..."
      fi
      tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
@@ -217,8 +223,7 @@ echo ""
           echo "apt-get is used here"
           add-apt-repository -y multiverse
      elif command -v yum >/dev/null; then
-          echo "yum is used here"
-          echo "And nothing to do here."
+          echo "Nothing to do here on RedHat based Linux system. It is included."
      else
           echo "..."
      fi
@@ -231,8 +236,7 @@ echo ""
           echo "apt-get is used here"
           dpkg --add-architecture i386
      elif command -v yum >/dev/null; then
-          echo "yum is used here"
-          echo "And nothing to do here."
+          echo "Nothing to do here on RedHat based Linux system. It is included."
      else
           echo "..."
      fi
