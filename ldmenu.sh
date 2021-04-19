@@ -17,8 +17,7 @@
 ###############################################################################################
 ####
 #### Modifier: Lord/Ranger(Dumoss)
-#### Version: 1.04052021.LD.2.041820212040.Beta
-#### Forked from: Nimby 10-Apr-2021 beta - menu.sh 
+#### Forked from: Njord Menu.ld (beta) Updated: 10-APR-2021
 ####
 #### The main focue of this project to add RH Linux support.
 #### Allow install and control of many Valheim systems running on a single node
@@ -90,7 +89,8 @@ worldname=default
 steamexe=set_steamexe
 ###############################################################
 # Set Menu Version for menu display
-mversion="2.3.3-Lofn"
+mversion="2.3.3-Lofn.beta"
+ldVersion="LD.2.041820211730.Beta"
 ########################################################################
 #############################Set COLOR VARS#############################
 ########################################################################
@@ -1409,6 +1409,7 @@ $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_s
 echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_CURRENT_NJORD_RELEASE $(check_menu_script_repo)
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_NJORD_VERSION ${mversion}
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_LD_VERSION ${ldversion}
 $(ColorOrange '║') 
 $(ColorOrange '║') Session server set to: $worldname
 $(ColorOrange '║') 
