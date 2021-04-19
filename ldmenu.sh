@@ -34,16 +34,9 @@
 # (16-04-2021) Changed: apt/yum install points.
 # (16-04-2021) Changed: the way steamcmd is installed, 
 #     as yum install steamcmd does not work?
-# (16-04-2021) Added: firewall-cmd commands for steamcmd and valheim,
-#    but they are currently for information and commented out *** for now ***. 
-#
-# (16-04-2021) Changed (ALL): "/home/steam/steamcmd +login"
-#      to: "set_steamexe +login"
 #
 # (16-04-2021) Changed: start_valheim.sh to start_valheim_${worldname}.sh
 #          valheimserver.service to valheimserver_default.service
-#
-# (16-04-2021) Added: funtion valheim_server_addanother to server_install_menu
 #
 # (17-04-2021)Added: Functionlity to admin the additional created valheim server services.
 # (17-04-2021)Added: worldname=default  and "/home/steam/worlds.txt"
@@ -53,6 +46,7 @@
 #                       Minor bug fixes.
 #                       NLS completed.
 #                       Linux user verified
+#                       changed how steamcmd is fired off.
 #
 # Working on: Support for firewalld/ufw ports control.
 #
@@ -86,11 +80,10 @@ worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
 backupPath=/home/steam/backups
 #LDADDED
 worldname=default
-steamexe=set_steamexe
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldVersion="LD.2.041820211730.Beta"
+ldVersion="2.041820212300.Beta"
 ########################################################################
 #############################Set COLOR VARS#############################
 ########################################################################
@@ -520,6 +513,12 @@ function valheim_server_install() {
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 		sleep 1
 		
+		set_steamexe
+		echo "........................................"
+		echo $steamexe
+		echo "........................................."
+		
+		
 		#Download Valheim from steam
 		if [ "$newinstall" == "y" ]; then
 			steamcmd_Valheim_download
@@ -548,7 +547,7 @@ function valheim_server_install() {
 		tput setaf 1; echo "$INSTALL_BUILD_DELETE_OLD_CONFIGS_1" ; tput setaf 9;
 		[ -e ${valheimInstallPath}/start_valheim_${worldname}.sh ] && rm ${valheimInstallPath}/start_valheim_${worldname}.sh
 		sleep 1
-		cat >> ${valheimInstallPath}/start_valheim_${worldname}.sh <<EOF
+cat >> ${valheimInstallPath}/start_valheim_${worldname}.sh <<EOF
 #!/bin/bash
 export templdpath=\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
@@ -579,7 +578,7 @@ EOF
 		sleep 1
 		# Add new Valheim Server Service
 		# Thanks @QuadeHale
-		cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF
+cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF
 [Unit]
 Description=Valheim Server
 Wants=network-online.target
@@ -1415,6 +1414,7 @@ $(ColorOrange '║') Session server set to: $worldname
 $(ColorOrange '║') 
 $(ColorOrange '╚═══════════════════════════════════════════════════════════')"
 }
+
 ########################################################################
 #######################Display Main Menu System#########################
 ########################################################################
@@ -1422,7 +1422,6 @@ menu(){
 menu_header
 echo -ne "
 $(ColorOrange ' '"$FUNCTION_MAIN_MENU_CHECK_SCRIPT_UPDATES_HEADER"' ')
-$(ColorOrange '-')$(ColorGreen ' 99)') Change the World server session name.
 $(ColorOrange '-')$(ColorGreen ' 1)') $FUNCTION_MAIN_MENU_UPDATE_NJORD_MENU
 $(ColorOrange ''"$FUNCTION_MAIN_MENU_SERVER_COMMANDS_HEADER"'')
 $(ColorOrange '-')$(ColorGreen ' 2)') $FUNCTION_MAIN_MENU_TECH_MENU
@@ -1448,6 +1447,7 @@ $(ColorOrange '-')$(ColorGreen ' 17)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_RESTORE_
 $(ColorOrange ''"$FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_HEADER"'')
 $(ColorOrange '-')$(ColorGreen '') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG
 $(ColorOrange ''"$DRAW60"'')
+$(ColorOrange '-')$(ColorGreen ' 99)') $FUNCTION_CHANGE_SESSION_CURRENT_WORLDChange the World server session name.
 $(ColorGreen ' 0)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_EXIT
 $(ColorOrange ''"$DRAW60"'')
 $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
