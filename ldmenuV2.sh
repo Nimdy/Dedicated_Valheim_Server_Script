@@ -2103,7 +2103,7 @@ function set_world_server() {
 			read -p "$FUNCTION_SET_WORLD_SERVER_INFO" SeverNameEntered
 		echo ""
  	    worldname=$SeverNameEntered
-    elif [ "$SeverNameEntered" <> "" ] && [ "$request99" = "y" ] then
+	elif [ "$SeverNameEntered" <> "" ] && [ "$request99" = "y" ]; then
 		readarray worldlistarray < /home/steam/worlds.txt  
 		echo "${worldlistarray[@]}"
 			read -p "$FUNCTION_SET_WORLD_SERVER_INFO" SeverNameEntered
