@@ -2097,21 +2097,20 @@ sleep 1
 # LD: Set the world server name.
 # Basic for now. Working on better system.
 function set_world_server() {
-    if [ "$SeverNameEntered" == "" ]; then		
-		readarray worldlistarray < /home/steam/worlds.txt  
-		echo "${worldlistarray[@]}"
+	readarray worldlistarray < /home/steam/worlds.txt  
+	echo "${worldlistarray[@]}"
+	echo ""
+    if ["${worldname}" == ""]; then		
 			read -p "$FUNCTION_SET_WORLD_SERVER_INFO" SeverNameEntered
 		echo ""
- 	    worldname=$SeverNameEntered
-	elif [ "$SeverNameEntered" <> "" ] && [ "$request99" == "y" ]; then
-		readarray worldlistarray < /home/steam/worlds.txt  
-		echo "${worldlistarray[@]}"
+	elif [ "${request99}" = "y" ]; then
 			read -p "$FUNCTION_SET_WORLD_SERVER_INFO" SeverNameEntered
 		echo ""
- 	    worldname=$SeverNameEntered	
 	else
 		echo ""
 	fi
+    worldname=$SeverNameEntered
+	request99="n"
 }
 ########################################################################
 ##########################MENUS STATUS VARIBLES END#####################
