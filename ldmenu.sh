@@ -34,9 +34,16 @@
 # (16-04-2021) Changed: apt/yum install points.
 # (16-04-2021) Changed: the way steamcmd is installed, 
 #     as yum install steamcmd does not work?
+# (16-04-2021) Added: firewall-cmd commands for steamcmd and valheim,
+#    but they are currently for information and commented out *** for now ***. 
+#
+# (16-04-2021) Changed (ALL): "/home/steam/steamcmd +login"
+#      to: "set_steamexe +login"
 #
 # (16-04-2021) Changed: start_valheim.sh to start_valheim_${worldname}.sh
 #          valheimserver.service to valheimserver_default.service
+#
+# (16-04-2021) Added: funtion valheim_server_addanother to server_install_menu
 #
 # (17-04-2021)Added: Functionlity to admin the additional created valheim server services.
 # (17-04-2021)Added: worldname=default  and "/home/steam/worlds.txt"
@@ -46,7 +53,6 @@
 #                       Minor bug fixes.
 #                       NLS completed.
 #                       Linux user verified
-#                       changed how steamcmd is fired off.
 #
 # Working on: Support for firewalld/ufw ports control.
 #
@@ -83,7 +89,7 @@ worldname=default
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldVersion="2.041820212300.Beta"
+ldVersion="2.041820211730.Beta"
 ########################################################################
 #############################Set COLOR VARS#############################
 ########################################################################
@@ -306,6 +312,11 @@ sleep 1
 ##################Download Valheim from steam ##########################
 ########################################################################
 function  steamcmd_Valheim_download () {
+	set_steamexe
+	echo "........................................"
+	echo $steamexe
+	echo "........................................."
+		
 	tput setaf 1; echo "$INSTALL_BUILD_DOWNLOAD_INSTALL_STEAM_VALHEIM" ; tput setaf 9;
 	sleep 1
 	$steamexe +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
@@ -746,6 +757,12 @@ function restore_world_data() {
 #############Install Official Update of Valheim Updates#################
 ########################################################################
 function continue_with_valheim_update_install() {
+
+	set_steamexe
+	echo "........................................"
+	echo $steamexe
+	echo "........................................."
+		
     clear
     echo ""
     echo -ne "
@@ -775,6 +792,10 @@ function continue_with_valheim_update_install() {
 ######################beta updater for Valheim##########################
 ########################################################################
 function check_apply_server_updates_beta() {
+	set_steamexe
+	echo "........................................"
+	echo $steamexe
+	echo "........................................."
     echo ""
     echo "Downloading Official Valheim Repo Log Data for comparison only"
     find "/home" "/root" -wholename "*/.steam/appcache/appinfo.vdf" | xargs -r rm -f --
@@ -1267,6 +1288,7 @@ function display_full_config() {
 ########################################################################
 # Check Current Valheim REPO Build for menu display
 function check_official_valheim_release_build() {
+
 if [[ $(find "/home/steam/valheimserver/officialvalheimbuild" -mmin +59 -print) ]]; then
       find "/home" "/root" -wholename "*/.steam/appcache/appinfo.vdf" | xargs -r rm -f --
       currentOfficialRepo=$($steamexe +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4)
@@ -1376,6 +1398,12 @@ function set_world_server() {
 
 function menu_header() {
 get_current_config
+set_steamexe
+
+echo "........................................"
+echo $steamexe
+echo "........................................."
+
 echo -ne "
 $(ColorOrange '╔══════════════════════════════════════════════════════════╗')
 $(ColorOrange '║~~~~~~~~~~*****~~~~~~~~-Njord Menu-~~~~~~~~~*****~~~~~~~~~║')
