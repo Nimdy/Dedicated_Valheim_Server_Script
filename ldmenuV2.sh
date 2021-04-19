@@ -21,7 +21,7 @@
 ####
 #### The main focue of this project to add RH Linux support.
 #### Allow install and control of many Valheim systems running on a single node
-#### based on worldname. Which is set to "default" on script start.
+#### based on WORLDNAME. Which is set to "default" on script start.
 ####
 #### Valheim servers are now installed under "${worldpath}/${worldname}"
 #### 
@@ -85,6 +85,9 @@ valheimInstallPath=/home/steam/valheimserver
 worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
 #Backup Directory ( Default )
 backupPath=/home/steam/backups
+worldname=""
+request99="n"
+readarray worldlistarray < /home/steam/worlds.txt 
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
@@ -243,12 +246,6 @@ $(ColorRed ''"$DRAW60"'')"
 		echo ""
 		clear
 		
-		if [ "$newinstall" == "y" ]; then
-			# First time install use defaults. 
-			portnumber=2456
-			worldname=default
-			echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_INFO_DEFAULTPORT"
-		else 
 			# Take user input for Valheim Server World Database Generation
 			echo ""
 				while true; 
@@ -271,6 +268,12 @@ $(ColorRed ''"$DRAW60"'')"
 				done
 			clear
 			echo ""
+			
+		if [ "$newinstall" == "y" ]; then
+			# First time install use defaults. 
+			portnumber=2456
+			echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_INFO_DEFAULTPORT"
+		else 
 				# Take user input for Valheim Server port.
 				# Will be adding some port checks during my firewall steps. 
 				echo ""
@@ -2097,19 +2100,20 @@ sleep 1
 # LD: Set the world server name.
 # Basic for now. Working on better system.
 function set_world_server() {
-	readarray worldlistarray < /home/steam/worlds.txt  
+	# readarray worldlistarray < /home/steam/worlds.txt  
 	echo "${worldlistarray[@]}"
 	echo ""
-    if ["${worldname}" == ""]; then		
-			read -p "$FUNCTION_SET_WORLD_SERVER_INFO" SeverNameEntered
+
+    if [ "$worldname" = "" ] ; then		
+			read -p "$FUNCTION_SET_WORLD_SERVER_INFO" ServerNameEntered
 		echo ""
-	elif [ "${request99}" = "y" ]; then
-			read -p "$FUNCTION_SET_WORLD_SERVER_INFO" SeverNameEntered
+	elif [ "$worldname" != "" ] && [ "$request99" == "y" ] ; then
+			read -p "$FUNCTION_SET_WORLD_SERVER_INFO" ServerNameEntered
 		echo ""
 	else
 		echo ""
 	fi
-    worldname=$SeverNameEntered
+    worldname=${ServerNameEntered}
 	request99="n"
 }
 ########################################################################
