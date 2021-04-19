@@ -52,12 +52,10 @@
 # (18-04-2021) Changed: One function to control them all.
 #                       Reorg'ed code.
 #                       Minor bug fixes.
-# 
-# Working: Support for firewalld/ufw ports control.
-#          Minor work on steam Linux user functionality differences between Linux flavour.
-#          Working on NLS'ing my code into standard.
-# 
-# 
+#                       NLS completed.
+#                       Linux user verified
+#
+# Working on: Support for firewalld/ufw ports control.
 #
 # Current Options: DE=German, EN=English, FR=French, SP=Spanish"
 ###############################################################################################

@@ -1,14 +1,29 @@
 #!/bin/bash
-# Thank you for using the menu script, this started out as just me and blew up quickly.
-# If Frankenstein was a bash script, this is what you would get, so please help me improve it.
-# Feel free to use and change this as you wish just not for profit. 
-# If you need anything, please visit our Discord Server: https://discord.gg/ejgQUfc
-# GLHF
-# File name: ldmenu.sh
-# Modifier: Lord/Ranger(Dumoss)
-# Version: 1.04052021.LD.2.04172021130
-# Forked from: Nimby Apr-5-2021 menu.sh 
-# 
+###############################################################################################
+###############################################################################################
+####
+#### From: Zerobandwidth
+####
+#### Thank you for using the menu script, this started out as just me and blew up quickly.
+#### If Frankenstein was a bash script, this is what you would get, so please help me improve it.
+#### Feel free to use and change this as you wish just not for profit. 
+#### If you need anything, please visit our Discord Server: https://discord.gg/ejgQUfc
+#### -- GLHF --
+####
+###############################################################################################
+####
+#### File name: ldmenu.sh
+####
+###############################################################################################
+####
+#### Modifier: Lord/Ranger(Dumoss)
+#### Version: 1.04052021.LD.2.04172021130
+#### Forked: menu.sh 
+#### from: Nimby Apr-5-2021 main branch 
+####
+###############################################################################################
+###############################################################################################
+#
 # Added: Yum functionlality and 
 # Changed: apt/yum install points.
 # Changed: the way steamcmd is installed, 
@@ -24,11 +39,9 @@
 #
 # Added: funtion valheim_server_addanother to server_install_menu
 #
-# Future: Adding functionlity to admin addition created valheim server services.
-# 
-# NOTE: Nothing added has been NLS'ed yet.
-# 
 # Current Options: DE=German, EN=English, FR=French, SP=Spanish"
+###############################################################################################
+###############################################################################################
 
 if [ "$1" == "" ]
 then

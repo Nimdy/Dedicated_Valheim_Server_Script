@@ -1,32 +1,49 @@
 #!/bin/bash
-# Thank you for using the menu script, this started out as just me and blew up quickly.
-# If Frankenstein was a bash script, this is what you would get, so please help me improve it.
-# Feel free to use and change this as you wish just not for profit. 
-# If you need anything, please visit our Discord Server: https://discord.gg/ejgQUfc
-# GLHF - V/r, Zerobandwidth and Team
-# File name: ldadvmenu.sh
-# Modifier: Lord/Ranger(Dumoss)
-# Version: 1.04052021.LD.1
-# Forked from: Nimby Apr-5-2021 advancemenu.sh 
+###############################################################################################
+###############################################################################################
+####
+#### From: Zerobandwidth
+####
+#### Thank you for using the menu script, this started out as just me and blew up quickly.
+#### If Frankenstein was a bash script, this is what you would get, so please help me improve it.
+#### Feel free to use and change this as you wish just not for profit. 
+#### If you need anything, please visit our Discord Server: https://discord.gg/ejgQUfc
+#### -- GLHF --
+####
+###############################################################################################
+####
+#### File name: ldmenuadv.sh
+####
+###############################################################################################
+####
+#### Modifier: Lord/Ranger(Dumoss)
+#### Version: 1.04052021.LD.2.04172021130
+#### Forked: advancemenu.sh 
+#### from: Nimby Apr-5-2021 main branch 
+####
+###############################################################################################
+###############################################################################################
+#
+# Changed: Made to match my changes in the base ld(menu).sh files
 # 
-# Added: Yum functionlality and 
+# Added: Yum functionlality and
 # Changed: apt/yum install points.
-# Changed: the way steamcmd is installed, 
+# Changed: the way steamcmd is installed,
 #     as yum install steamcmd does not work?
 # Added: firewall-cmd commands for steamcmd and valheim,
-#    but they are currently for information and commented out *** for now ***. 
+#    but they are currently for information and commented out *** for now ***.
 #
 # Changed (ALL): "/home/steam/steamcmd +login"
 #      to: "/home/steam/steamcmd/steamcmd.sh +login"
 #
 # Future: Adding functionlity to added/delete/backup
 #          additional valheim server services.
-# 
+#
 # Changed: nano to vim. lol
 #
 # Current Options: DE=German, EN=English, FR=French, SP=Spanish"
-
-
+###############################################################################################
+###############################################################################################
 if [ "$1" == "" ]
 then
         LANGUAGE=EN
