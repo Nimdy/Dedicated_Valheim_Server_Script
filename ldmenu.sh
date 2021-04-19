@@ -49,10 +49,10 @@
 # (17-04-2021)Added: worldname=default  and "/home/steam/worlds.txt"
 # 
 # (18-04-2021) Changed: One function to control them all.
-#                       Reorg'ed code.
-#                       Minor bug fixes.
-#                       NLS completed.
-#                       Linux user verified
+#                       Linux flavor user creation verified
+#
+# (19-04-2021) Changed: Full code review/Re-org to do NLS.
+#                       Minor bug fixes/format issues.
 #
 # Working on: Support for firewalld/ufw ports control.
 #
@@ -89,7 +89,7 @@ worldname=default
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="2.041820211730.Beta"
+ldversion="2.041920211400.Beta"
 ########################################################################
 #############################Set COLOR VARS#############################
 ########################################################################
@@ -162,14 +162,7 @@ echo "1"
 				git pull --force
 				echo "$GIT_ECHO_UPDATING"
 				sleep 1
-				chmod +x menu.sh
-				sleep 1
-				chmod +x advancemenu.sh
-				sleep 1
-				##LDADDED	
-				chmod +x ldmenu.sh
-				sleep 1
-				chmod +x ldmenu_beta.sh
+				chmod +x *menu.sh
 				sleep 1
 				exec "$SCRIPTNAME" "${ARGS[@]}"
         # Now exit this old instance
@@ -177,165 +170,27 @@ echo "1"
     }
    echo "$GIT_ECHO_NO_UPDATES"
 }
-########################################################################
-################# Linux server update - requirement         #############
-########################################################################
-# LordDumoss (LD): Add yum support. Might be a better way. But it works. 
-# LD: Changed where the steamcmd required libs are installed.
-########################################################################
-function linux_server_update() {
-#check for updates and upgrade the system auto yes
-    tput setaf 1; echo "$CHECK_FOR_UPDATES" ; tput setaf 9;
-    if command -v apt-get >/dev/null; then
-        apt update && apt upgrade -y
-    elif command -v yum >/dev/null; then
-        yum clean all && yum update -y && yum upgrade -y
-    else
-        echo "..."
-    fi
-    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-    sleep 1
-	# Nimby: check for updates and upgrade the system auto yes 
-	#        WTF is curl not installed by default... come on man!
-    tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES" ; tput setaf 9;
-    if command -v apt-get >/dev/null; then
-        apt install libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl -y
-    elif command -v yum >/dev/null; then
-        yum install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
-    else
-        echo "..."
-    fi
-    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-    sleep 1
-    #install software-properties-common for add-apt-repository command below
-    tput setaf 1; echo "$INSTALL_SPCP" ; tput setaf 9;
-    if command -v apt-get >/dev/null; then
-        apt install software-properties-common
-    elif command -v yum >/dev/null; then
-        echo "$FUNCTION_YUM_REQUIRED_NO"
-	else
-        echo "..."
-    fi
-    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-    sleep 1
-    #add multiverse repo
-    tput setaf 1; echo "$ADD_MULTIVERSE" ; tput setaf 9;
-    if command -v apt-get >/dev/null; then
-        add-apt-repository -y multiverse
-    elif command -v yum >/dev/null; then
-         echo "$FUNCTION_RHL_REQUIRED_NO"
-    else
-        echo "..."
-    fi
-    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-    sleep 1
-	#add i386 architecture
-    tput setaf 1; echo "$ADD_I386" ; tput setaf 9;
-    if command -v apt-get >/dev/null; then
-        dpkg --add-architecture i386
-    elif command -v yum >/dev/null; then
-        echo "$FUNCTION_RHL_REQUIRED_NO"
-    else
-        echo "..."
-    fi
-    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-    sleep 1
 
-    #update system again
-    tput setaf 1; echo "$CHECK_FOR_UPDATES_AGAIN" ; tput setaf 9;
-    if command -v apt-get >/dev/null; then
-        apt update
-    elif command -v yum >/dev/null; then
-        yum update
-    else
-        echo "..."
-    fi
-    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-    sleep 1
-}
 ########################################################################
-################# Install the steamcmd                     #############
 ########################################################################
-function Install_steamcmd_client() {
-	#install steamcmd
-	tput setaf 1; echo "$INSTALL_STEAMCMD_LIBSD12" ; tput setaf 9;
-	cd /home/steam
-	mkdir steamcmd
-	cd /home/steam/steamcmd
-	wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
-	tar xf steamcmd_linux.tar.gz
-	#### Need to add code to veriy firewall system and if enabled.
-	#### Below is the line needed for steamcmd
-	#### These should also be added to as port forwards on your network router.
-    if command -v ufw >/dev/null; then
-	    echo ""
-		# Need to add ufw commands. 
-    elif command -v firewalld >/dev/null; then
-        systemctl start firewalld
-        systemctl status firewalld
-        firewall-cmd --permanent --zone=public  --add-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
-        firewall-cmd --reload
-	else
-       echo "..."
-    fi
-    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-    sleep 1
-    #build symbolic link for steamcmd
-    #Not needed in my script I do not think ...
-    tput setaf 1; echo "$INSTALL_BUILD_SYM_LINK_STEAMCMD" ; tput setaf 9;
-    if command -v apt-get >/dev/null; then
-	    ln -s /usr/games/steamcmd /home/steam/steamcmd
-		# Leaving in ..
-    else 
-		echo ""
-		# I point to /home/steam/steamcmd/steamcmd.sh for RH Linux systems.
-    fi
-    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-    sleep 1	
-}
+##############MAIN VALHEIM SERVER ADMIN FUNCTIONS START#################
 ########################################################################
-################# set steamcmd exe based on Linux Flavor   #############
 ########################################################################
-function set_steamexe() {
-    tput setaf 1; echo "Setting steam command executable pointer." ; tput setaf 9;
-    if command -v apt-get >/dev/null; then
-	    steamexe=/home/steam/steamcmd
-    elif command -v yum >/dev/null; then
-	    steamexe=/home/steam/steamcmd/steamcmd.sh
-    else
-        echo ""
-    fi
-    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-sleep 1
-}
+
 ########################################################################
-##################Download Valheim from steam ##########################
-########################################################################
-function  steamcmd_Valheim_download () {
-	set_steamexe
-	echo "........................................"
-	echo $steamexe
-	echo "........................................."
-		
-	tput setaf 1; echo "$INSTALL_BUILD_DOWNLOAD_INSTALL_STEAM_VALHEIM" ; tput setaf 9;
-	sleep 1
-	$steamexe +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
-	tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-}
-########################################################################
-########################Install Valheim Server##########################
+#####################Install Valheim Server START#######################
 ########################################################################
 function valheim_server_install() {
     clear
     echo ""
     echo -ne "
-	$(ColorOrange ''"$INSTALLVALSERVER"'')
-	$(ColorRed ''"$DRAW60"'')"
+$(ColorOrange ''"$INSTALLVALSERVER"'')
+$(ColorRed ''"$DRAW60"'')"
 	echo ""
 	tput setaf 2; echo "$CONFIRMVALINSTALL" ; tput setaf 9; 
 	tput setaf 2; echo "$CONFIRMVALINSTALL_1" ; tput setaf 9; 
 	echo -ne "
-	$(ColorRed ''"$DRAW60"'')"
+$(ColorRed ''"$DRAW60"'')"
 	echo ""
 	read -p "$PLEASE_CONFIRM" confirmStartInstall
 	#if y, then continue, else cancel
@@ -388,46 +243,58 @@ function valheim_server_install() {
 		tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
 		echo ""
 		clear
-		# Take user input for Valheim Server World Database Generation
-		echo ""
-			while true; 
-			do
+		
+		if [ "$newinstall" == "y" ]; then
+			# First time install use defaults. 
+			portnumber=2456
+			worldname=default
+			echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_INFO_DEFAULTPORT"
+		else 
+			# Take user input for Valheim Server World Database Generation
+			echo ""
+				while true; 
+				do
+					tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+					tput setaf 2; echo "$WORLD_SET_WORLD_NAME_HEADER" ; tput setaf 9;
+					tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+					tput setaf 1; echo "$WORLD_SET_CHAR_RULES" ; tput setaf 9;
+					tput setaf 1; echo "$WORLD_SET_NO_SPECIAL_CHAR_RULES" ; tput setaf 9;
+					tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+					tput setaf 2; echo "$WORLD_GOOD_EXAMPLE" ; tput setaf 9;
+					tput setaf 1; echo "$WORLD_BAD_EXAMPLE" ; tput setaf 9;
+					tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+					echo ""
+						read -p "$WORLD_SET_WORLD_NAME_VAR" worldname
+					tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+					[[ ${#worldname} -ge 4 && "$worldname" =~ ^[[:alnum:]]+$ ]] && break
+					tput setaf 2; echo "$WORLD_SET_ERROR" ; tput setaf 9; 
+					tput setaf 2; echo "$WORLD_SET_ERROR_1" ; tput setaf 9; 
+				done
+			clear
+			echo ""
+				# Take user input for Valheim Server port.
+				# Will be adding some port checks during my firewall steps. 
+				echo ""
 				tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-				tput setaf 2; echo "$WORLD_SET_WORLD_NAME_HEADER" ; tput setaf 9;
+				tput setaf 2; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_HEADER" ; tput setaf 9;
 				tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-				tput setaf 1; echo "$WORLD_SET_CHAR_RULES" ; tput setaf 9;
-				tput setaf 1; echo "$WORLD_SET_NO_SPECIAL_CHAR_RULES" ; tput setaf 9;
+				tput setaf 1; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_INFO1" ; tput setaf 9;
+				tput setaf 1; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_INFO2" ; tput setaf 9;
 				tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-				tput setaf 2; echo "$WORLD_GOOD_EXAMPLE" ; tput setaf 9;
-				tput setaf 1; echo "$WORLD_BAD_EXAMPLE" ; tput setaf 9;
+				tput setaf 2; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_INFO3" ; tput setaf 9;
+				tput setaf 2; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_INFO4" ; tput setaf 9;
+				tput setaf 1; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_INFO5" ; tput setaf 9;
 				tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 				echo ""
-					read -p "$WORLD_SET_WORLD_NAME_VAR" worldname
+					read -p "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_ENTER" portnumber
 				tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
-				[[ ${#worldname} -ge 4 && "$worldname" =~ ^[[:alnum:]]+$ ]] && break
-				tput setaf 2; echo "$WORLD_SET_ERROR" ; tput setaf 9; 
-				tput setaf 2; echo "$WORLD_SET_ERROR_1" ; tput setaf 9; 
-			done
-		clear
-		echo ""
-		# Take user input for Valheim Server port.
-		# Will be adding some port checks later.
-		echo ""
-		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-		tput setaf 2; echo "New port selection" ; tput setaf 9;
-		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-		tput setaf 1; echo "Please select a new port number that is +3 the default port 2456." ; tput setaf 9;
-		tput setaf 1; echo "As the real default port rangerd used is 2456-2458" ; tput setaf 9;
-		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-		tput setaf 2; echo "Good Example: 2459" ; tput setaf 9;
-		tput setaf 2; echo "Good Example: 2556" ; tput setaf 9;
-		tput setaf 1; echo "Bad Example: 2457" ; tput setaf 9;
-		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-		echo ""
-			read -p "Enter a new port number:" portnumber
-		tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
-		echo ""
-		clear
+				clear		
+				echo ""
+		fi
+		
+		
+		
+		
 		# Take user input for Valheim Server password
 		# Added security for harder passwords
 		echo ""        
@@ -453,6 +320,7 @@ function valheim_server_install() {
 			tput setaf 2; echo "$SERVER_ACCESS_PASSWORD_ERROR" ; tput setaf 9;
 			tput setaf 2; echo "$SERVER_ACCESS_PASSWORD_ERROR_1" ; tput setaf 9;
 		done
+		
 		# Take user input to Show Server Public
 		echo ""
 		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
@@ -525,14 +393,10 @@ function valheim_server_install() {
 		sleep 1
 		
 		set_steamexe
-		echo "........................................"
-		echo $steamexe
-		echo "........................................."
-		
 		
 		#Download Valheim from steam
 		if [ "$newinstall" == "y" ]; then
-			steamcmd_Valheim_download
+			nocheck_valheim_update_install
 		fi
 		
 		
@@ -642,8 +506,131 @@ EOF
 	fi
 }
 ########################################################################
-###################Backup World DB and FWL Files########################
+#####################Install Valheim Server END#########################
 ########################################################################
+
+########################################################################
+############     Linux server update - requirement         #############
+########################################################################
+# LordDumoss (LD): Add yum support. Might be a better way. But it works. 
+# LD: Changed where the steamcmd required libs are installed.
+########################################################################
+function linux_server_update() {
+#check for updates and upgrade the system auto yes
+    tput setaf 1; echo "$CHECK_FOR_UPDATES" ; tput setaf 9;
+    if command -v apt-get >/dev/null; then
+        apt update && apt upgrade -y
+    elif command -v yum >/dev/null; then
+        yum clean all && yum update -y && yum upgrade -y
+    else
+        echo "..."
+    fi
+    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+    sleep 1
+	# Nimby: check for updates and upgrade the system auto yes 
+	#        WTF is curl not installed by default... come on man!
+    tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES" ; tput setaf 9;
+    if command -v apt-get >/dev/null; then
+        apt install libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl -y
+    elif command -v yum >/dev/null; then
+        yum install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
+    else
+        echo "..."
+    fi
+    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+    sleep 1
+    #install software-properties-common for add-apt-repository command below
+    tput setaf 1; echo "$INSTALL_SPCP" ; tput setaf 9;
+    if command -v apt-get >/dev/null; then
+        apt install software-properties-common
+    elif command -v yum >/dev/null; then
+        echo "$FUNCTION_LINUX_SERVER_UPDATE_YUM_REQUIRED_NO"
+	else
+        echo "..."
+    fi
+    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+    sleep 1
+    #add multiverse repo
+    tput setaf 1; echo "$ADD_MULTIVERSE" ; tput setaf 9;
+    if command -v apt-get >/dev/null; then
+        add-apt-repository -y multiverse
+    elif command -v yum >/dev/null; then
+         echo "$FUNCTION_LINUX_SERVER_UPDATE_RHL_REQUIRED_NO"
+    else
+        echo "..."
+    fi
+    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+    sleep 1
+	#add i386 architecture
+    tput setaf 1; echo "$ADD_I386" ; tput setaf 9;
+    if command -v apt-get >/dev/null; then
+        dpkg --add-architecture i386
+    elif command -v yum >/dev/null; then
+        echo "$FUNCTION_LINUX_SERVER_UPDATE_RHL_REQUIRED_NO"
+    else
+        echo "..."
+    fi
+    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+    sleep 1
+
+    #update system again
+    tput setaf 1; echo "$CHECK_FOR_UPDATES_AGAIN" ; tput setaf 9;
+    if command -v apt-get >/dev/null; then
+        apt update
+    elif command -v yum >/dev/null; then
+        yum update
+    else
+        echo "..."
+    fi
+    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+    sleep 1
+}
+########################################################################
+################# LD: Install the steamcmd                 #############
+########################################################################
+function Install_steamcmd_client() {
+	#install steamcmd
+	tput setaf 1; echo "$INSTALL_STEAMCMD_LIBSD12" ; tput setaf 9;
+	cd /home/steam
+	mkdir steamcmd
+	cd /home/steam/steamcmd
+	wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
+	tar xf steamcmd_linux.tar.gz
+	#### Need to add code to veriy firewall system and if enabled.
+	#### Below is the line needed for steamcmd
+	#### These should also be added to as port forwards on your network router.
+    if command -v ufw >/dev/null; then
+	    echo ""
+		# Need to add ufw commands. 
+    elif command -v firewalld >/dev/null; then
+        systemctl start firewalld
+        systemctl status firewalld
+        firewall-cmd --permanent --zone=public  --add-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
+        firewall-cmd --reload
+	else
+       echo "..."
+    fi
+    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+    sleep 1
+    #build symbolic link for steamcmd
+    #Not needed in my script I do not think ...
+    tput setaf 1; echo "$INSTALL_BUILD_SYM_LINK_STEAMCMD" ; tput setaf 9;
+    if command -v apt-get >/dev/null; then
+	    ln -s /usr/games/steamcmd /home/steam/steamcmd
+		# Leaving in ..
+    else 
+		echo ""
+		# I point to /home/steam/steamcmd/steamcmd.sh for RH Linux systems.
+    fi
+    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+    sleep 1	
+}
+
+########################################################################
+##########Backup and Restore World DB and FWL Files START###############
+########################################################################
+
+#Backup World DB and FWL Files
 function backup_world_data() {
     echo ""
     echo ""
@@ -693,9 +680,8 @@ function backup_world_data() {
 		tput setaf 3; echo "$BACKUP_WORLD_PROCESS_CANCELED" ; tput setaf 9;
 	fi
 }
-########################################################################
-##################Restore World Files DB and FWL########################
-########################################################################
+
+# Restore World Files DB and FWL
 # Thanks to GITHUB @LachlanMac and @Kurt
 function restore_world_data() {
 	#init empty array
@@ -722,12 +708,12 @@ function restore_world_data() {
 	#show confirmation message
 	restorefile=$(basename "${backups[$selectedIndex-1]}")
 	echo -ne "
-	$(ColorRed '------------------------------------------------------------')
-	$(ColorGreen ' '"$RESTORE_WORLD_DATA_SHOW_FILE"' '${restorefile}' ?')
-	$(ColorGreen ' '"$RESTORE_WORLD_DATA_ARE_YOU_SURE"' ')
-	$(ColorOrange ' '"$RESTORE_WORLD_DATA_VALIDATE_DATA_WITH_CONFIG"' '${valheimInstallPath}'/start_valheim_${worldname}.sh')
-	$(ColorOrange ' '"$RESTORE_WORLD_DATA_INFO"' ')
-	$(ColorGreen ' '"$RESTORE_WORLD_DATA_CONFIRM_1"' ') "
+$(ColorRed '------------------------------------------------------------')
+$(ColorGreen ' '"$RESTORE_WORLD_DATA_SHOW_FILE"' '${restorefile}' ?')
+$(ColorGreen ' '"$RESTORE_WORLD_DATA_ARE_YOU_SURE"' ')
+$(ColorOrange ' '"$RESTORE_WORLD_DATA_VALIDATE_DATA_WITH_CONFIG"' '${valheimInstallPath}'/start_valheim_${worldname}.sh')
+$(ColorOrange ' '"$RESTORE_WORLD_DATA_INFO"' ')
+$(ColorGreen ' '"$RESTORE_WORLD_DATA_CONFIRM_1"' ') "
 	#read user input confirmation
 		read -p "" confirmBackupRestore
 	#if y, then continue, else cancel
@@ -753,27 +739,39 @@ function restore_world_data() {
 		tput setaf 2; echo "$RESTORE_WORLD_DATA_CANCEL_CUSS_LOKI" ; tput setaf 9;
 	fi
 }
+
+########################################################################
+##########Backup and Restore World DB and FWL Files END#################
+########################################################################
+
+########################################################################
+###############LD: Download Valheim from steam #########################
+########################################################################
+function nocheck_valheim_update_install() {
+	set_steamexe
+
+	tput setaf 1; echo "$INSTALL_BUILD_DOWNLOAD_INSTALL_STEAM_VALHEIM" ; tput setaf 9;
+	sleep 1
+	$steamexe +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
+	tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+}
+
 ########################################################################
 #############Install Official Update of Valheim Updates#################
 ########################################################################
 function continue_with_valheim_update_install() {
-
 	set_steamexe
-	echo "........................................"
-	echo $steamexe
-	echo "........................................."
-		
     clear
     echo ""
     echo -ne "
-	$(ColorOrange ''"$FUNCTION_INSTALL_VALHEIM_UPDATES"'')
-	$(ColorRed ''"$DRAW60"'')"
+$(ColorOrange ''"$FUNCTION_INSTALL_VALHEIM_UPDATES"'')
+$(ColorRed ''"$DRAW60"'')"
 	echo ""
 	tput setaf 2; echo "$FUNCTION_INSTALL_VALHEIM_FOUND" ; tput setaf 9;
 	tput setaf 2; echo "$FUNCTION_INSTALL_VALHEIM_UPDATE_INFO" ; tput setaf 9; 
 	tput setaf 2; echo "$FUNCTION_INSTALL_VALHEIM_UPDATE_CONFIRM" ; tput setaf 9; 
 	echo -ne "
-	$(ColorRed ''"$DRAW60"'')"
+$(ColorRed ''"$DRAW60"'')"
 	echo ""
 	read -p "$PLEASE_CONFIRM" confirmOfficialUpdates
 	#if y, then continue, else cancel
@@ -788,14 +786,13 @@ function continue_with_valheim_update_install() {
 		clear
 	fi
 }
+
+
 ########################################################################
 ######################beta updater for Valheim##########################
 ########################################################################
 function check_apply_server_updates_beta() {
 	set_steamexe
-	echo "........................................"
-	echo $steamexe
-	echo "........................................."
     echo ""
     echo "Downloading Official Valheim Repo Log Data for comparison only"
     find "/home" "/root" -wholename "*/.steam/appcache/appinfo.vdf" | xargs -r rm -f --
@@ -847,18 +844,18 @@ function confirm_check_apply_server_updates() {
 	while true; 
 	do
 		echo -ne "
-		$(ColorRed ''"$DRAW60"'')"
+$(ColorRed ''"$DRAW60"'')"
 		echo ""
 		tput setaf 2; echo "$FUNCTION_CONFIRM_CHECK_APPLY_SERVER_UPDATES_INFO" ; tput setaf 9;
 		tput setaf 2; echo "$FUNCTION_CONFIRM_CHECK_APPLY_SERVER_UPDATES_INFO_1" ; tput setaf 9;
 		tput setaf 2; echo "$FUNCTION_CONFIRM_CHECK_APPLY_SERVER_UPDATES_INFO_2" ; tput setaf 9;
 		tput setaf 2; echo "$PLEASE_CONFIRM" ; tput setaf 9;
 		echo -ne "
-		$(ColorRed '------------------------------------------------------------')"
+$(ColorRed '------------------------------------------------------------')"
 		echo ""
 		tput setaf 2; read -p "$FUNCTION_CONFIRM_CHECK_APPLY_SERVER_UPDATES_CONTINUE" yn ; tput setaf 9; 
 		echo -ne "
-		$(ColorRed '------------------------------------------------------------')"
+$(ColorRed '------------------------------------------------------------')"
 		case $yn in
 			[Yy]* ) check_apply_server_updates_beta; break;;
 			[Nn]* ) break;;
@@ -866,38 +863,24 @@ function confirm_check_apply_server_updates() {
 		esac
 	done
 }
+
+
 ########################################################################
-###############Display Valheim Start Configuration######################
+##############Valheim Server Service CONTROL START######################
 ########################################################################
-function display_start_valheim() {
-    clear
-    echo ""
-    sudo cat ${valheimInstallPath}/start_valheim_${worldname}.sh
-    echo ""
-}
-########################################################################
-###############Display Valheim World Data Folder########################
-########################################################################
-function display_world_data_folder() {
-    clear
-    echo ""
-    sudo ls -lisa $worldpath
-    echo ""
-}
-########################################################################
-######################Stop Valheim Server Service#######################
-########################################################################
+
+# Stop Valheim Server Service
 function stop_valheim_server() {
     clear
     echo ""
     echo -ne "
-	$(ColorOrange ''"$FUNCTION_STOP_VALHEIM_SERVER_SERVICE_HEADER"'')
-	$(ColorRed ''"$DRAW60"'')"
+$(ColorOrange ''"$FUNCTION_STOP_VALHEIM_SERVER_SERVICE_HEADER"'')
+$(ColorRed ''"$DRAW60"'')"
 	echo ""
 	tput setaf 2; echo "$FUNCTION_STOP_VALHEIM_SERVER_SERVICE_INFO" ; tput setaf 9; 
 	tput setaf 2; echo "$FUNCTION_STOP_VALHEIM_SERVER_SERVICE_INFO_1" ; tput setaf 9; 
 	echo -ne "
-	$(ColorRed ''"$DRAW60"'')"
+$(ColorRed ''"$DRAW60"'')"
 	echo ""
 		read -p "$PLEASE_CONFIRM" confirmStop
 	#if y, then continue, else cancel
@@ -912,20 +895,19 @@ function stop_valheim_server() {
 		clear
 	fi
 }
-########################################################################
-###################Start Valheim Server Service#########################
-########################################################################
+
+# Start Valheim Server Service
 function start_valheim_server() {
     clear
     echo ""
     echo -ne "
-	$(ColorOrange ''"$FUNCTION_START_VALHEIM_SERVER_SERVICE_HEADER"'')
-	$(ColorRed ''"$DRAW60"'')"
+$(ColorOrange ''"$FUNCTION_START_VALHEIM_SERVER_SERVICE_HEADER"'')
+$(ColorRed ''"$DRAW60"'')"
 	echo ""
 	tput setaf 2; echo "$FUNCTION_START_VALHEIM_SERVER_SERVICE_INFO" ; tput setaf 9;
 	tput setaf 2; echo "$FUNCTION_START_VALHEIM_SERVER_SERVICE_INFO_1" ; tput setaf 9;
 	echo -ne "
-	$(ColorRed ''"$DRAW60"'')"
+$(ColorRed ''"$DRAW60"'')"
 	echo ""
 		read -p "$PLEASE_CONFIRM" confirmStart
 	#if y, then continue, else cancel
@@ -940,20 +922,19 @@ function start_valheim_server() {
 		clear
 	fi
 }
-########################################################################
-####################Restart Valheim Server Service######################
-########################################################################
+
+# Restart Valheim Server Service
 function restart_valheim_server() {
     clear
     echo ""
     echo -ne "
-	$(ColorOrange ''"$FUNCTION_RESTART_VALHEIM_SERVICE_SERVICE_HEADER"'')
-	$(ColorRed ''"$DRAW60"'')"
+$(ColorOrange ''"$FUNCTION_RESTART_VALHEIM_SERVICE_SERVICE_HEADER"'')
+$(ColorRed ''"$DRAW60"'')"
 	echo ""
 	tput setaf 2; echo "$FUNCTION_RESTART_VALHEIM_SERVICE_SERVICE_INFO" ; tput setaf 9; 
 	tput setaf 2; echo "$FUNCTION_RESTART_VALHEIM_SERVICE_SERVICE_INF0_1" ; tput setaf 9; 
 	echo -ne "
-	$(ColorRed ''"$DRAW60"'')"
+$(ColorRed ''"$DRAW60"'')"
 	echo ""
 		read -p "$PLEASE_CONFIRM" confirmRestart
 	#if y, then continue, else cancel
@@ -967,51 +948,50 @@ function restart_valheim_server() {
 		clear
 	fi
 }
-########################################################################
-#####################Display Valheim Server Status######################
-########################################################################
+
+# Display Valheim Server Status
 function display_valheim_server_status() {
     clear
     echo ""
     sudo systemctl status --no-pager -l valheimserver_${worldname}.service
     echo ""
 }
+
 ########################################################################
-##############Display Valheim Vanilla Configuration File################
+##############Valheim Server Service CONTROL END########################
 ########################################################################
+
+
+########################################################################
+##############Valheim Server Information output START###################
+########################################################################
+
+# Display Valheim Vanilla Configuration File
 function display_start_valheim() {
     clear
     echo ""
     sudo cat ${valheimInstallPath}/start_valheim_${worldname}.sh
     echo ""
 }
-########################################################################
-#######################Sub Server Menu System###########################
-########################################################################
-function server_install_menu() {
-	echo ""
-	echo -ne "
-	$(ColorOrange ''"$FUNCTION_SERVER_INSTALL_MENU_HEADER"'')
-	$(ColorOrange '-')$(ColorGreen '1)') "$FUNCTION_SERVER_INSTALL_MENU_OPT_1."
-	$(ColorOrange '-')$(ColorGreen '2)') "Setup another Valheim server on diff port."
-	$(ColorOrange '-')$(ColorGreen '0)') "$RETURN_MAIN_MENU."
-	$(ColorOrange ''"$DRAW60"'')
-	$(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
-    read a
-    case $a in
-	    1) newinstall="y"
-	       valheim_server_install ; 
-		   server_install_menu ;;
-		2) newinstall="n"
-		   valheim_server_install ; 
-		   server_install_menu ;;
-        0) menu ; menu ;;
-		*)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; server_install_menu ;;
-    esac
+
+
+# Display Valheim Start Configuration
+function display_start_valheim() {
+    clear
+    echo ""
+    sudo cat ${valheimInstallPath}/start_valheim_${worldname}.sh
+    echo ""
 }
-########################################################################
-#########################Print System INFOS#############################
-########################################################################
+
+# Display Valheim World Data Folder
+function display_world_data_folder() {
+    clear
+    echo ""
+    sudo ls -lisa $worldpath
+    echo ""
+}
+
+# Print System INFOS
 function display_system_info() {
 	clear
 	echo ""
@@ -1040,56 +1020,66 @@ function display_system_info() {
     echo -e "$DRAW80"
 	echo ""
 }
-########################################################################
-#############################PRINT NETWORK INFO#########################
-########################################################################
+
+# PRINT NETWORK INFO
 function display_network_info() {
 clear
     echo ""
     sudo netstat -atunp | grep valheim
     echo ""
 }
-########################################################################
-################Display History of Connected Players####################
-########################################################################
+
+# Display History of Connected Players
 function display_player_history() {
 clear
     echo ""
     sudo grep ZDOID /var/log/syslog*
     echo ""
 }
+
+
 ########################################################################
-#####################Sub Tech Support Menu System#######################
+##############Valheim Server Information output END#####################
 ########################################################################
-function tech_support(){
-	menu_header
-	echo ""
-	echo -ne "
-	$(ColorOrange ''"$FUNCTION_VALHEIM_TECH_SUPPORT_HEADER"'')
-	$(ColorOrange '-')$(ColorGreen ' 1)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_CONFIG
-	$(ColorOrange '-')$(ColorGreen ' 2)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_VALHEIM_SERVICE
-	$(ColorOrange '-')$(ColorGreen ' 3)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_WORLD_DATA
-	$(ColorOrange '-')$(ColorGreen ' 4)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_SYSTEM_INFO
-	$(ColorOrange '-')$(ColorGreen ' 5)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_NETWORK_INFO
-	$(ColorOrange '-')$(ColorGreen ' 6)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_CONNECTED_PLAYER_HISTORY
-	$(ColorOrange '------------------------------------------------------------')
-	$(ColorOrange '-')$(ColorGreen ' 0)') "$RETURN_MAIN_MENU"
-	$(ColorOrange '------------------------------------------------------------')
-	$(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
-        read a
-        case $a in
-			1) display_start_valheim ; tech_support ;; 
-			2) display_valheim_server_status ; tech_support ;;
-	        3) display_world_data_folder ; tech_support ;;
-			4) display_system_info ; tech_support ;;
-			5) display_network_info ; tech_support ;;
-	        6) display_player_history ; tech_support ;;
-			0) menu ; menu ;;
-		    *)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; tech_support ;;
-        esac
+
+########################################################################
+############# LD: Firewall section (WIP) START##########################
+########################################################################
+
+function firewall_status(){
+     if command -v ufw >/dev/null; then
+          firewall_status=$(systemctl is-active ufw)
+     elif command -v firewalld >/dev/null; then
+          firewall_status=$(systemctl is-active firewalld)     
+	 else
+       echo "..."
+     fi
+    
+	echo -e '\E[32m'"$firewall_status "
+}
+
+function firewall_substate(){
+     if command -v ufw >/dev/null; then
+          firewall_substate=$(systemctl show -p SubState ufw)
+     elif command -v firewalld >/dev/null; then
+          firewall_substate=$(systemctl show -p SubState firewalld)    
+	 else
+       echo "..."
+     fi
+echo -e '\E[32m'"$firewall_substate "
 }
 ########################################################################
-##################START CHANGE VALHEIM START CONFIG#####################
+############# LD: Firewall section (WIP) END############################
+########################################################################
+
+########################################################################
+########################################################################
+##############MAIN VALHEIM SERVER ADMIN FUNCTIONS END###################
+########################################################################
+########################################################################
+
+########################################################################
+##################CHANGE VALHEIM START CONFIG START#####################
 ########################################################################
 function get_current_config() {
     currentDisplayName=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' ${valheimInstallPath}/start_valheim_${worldname}.sh)
@@ -1281,11 +1271,13 @@ function display_full_config() {
     print_current_config
 }
 ########################################################################
-####################END CHANGE VALHEIM START CONFIG#####################
+####################CHANGE VALHEIM START CONFIG END#####################
 ########################################################################
+
 ########################################################################
-##########################MENUS STATUS VARIBLES#########################
+########################MENUS STATUS VARIBLES START ####################
 ########################################################################
+
 # Check Current Valheim REPO Build for menu display
 function check_official_valheim_release_build() {
 
@@ -1307,6 +1299,7 @@ else
       echo "$NO_DATA";
   fi
 }
+
 # Check Local Valheim Build for menu display
 function check_local_valheim_build() {
 localValheimAppmanifest=${valheimInstallPath}/steamapps/appmanifest_896660.acf
@@ -1317,10 +1310,12 @@ localValheimAppmanifest=${valheimInstallPath}/steamapps/appmanifest_896660.acf
         echo "$NO_DATA";
   fi
 }
+
 function check_menu_script_repo() {
 latestScript=$(curl --connect-timeout 10 -s https://api.github.com/repos/Nimdy/Dedicated_Valheim_Server_Script/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
 echo $latestScript
 }
+
 function display_public_status_on_or_off() {
 currentPortCheck=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/start_valheim_${worldname}.sh)
     if [[ $currentPortCheck == 1 ]]; then 
@@ -1349,41 +1344,35 @@ server_substate=$(systemctl show -p SubState valheimserver_default.service)
 echo -e '\E[32m'"$server_substate "
 }
 
-function firewall_status(){
-
-     if command -v ufw >/dev/null; then
-          firewall_status=$(systemctl is-active ufw)
-     elif command -v firewalld >/dev/null; then
-          firewall_status=$(systemctl is-active firewalld)     
-	 else
-       echo "..."
-     fi
-    
-	echo -e '\E[32m'"$firewall_status "
-}
-
-function firewall_substate(){
-     if command -v ufw >/dev/null; then
-          firewall_substate=$(systemctl show -p SubState ufw)
-     elif command -v firewalld >/dev/null; then
-          firewall_substate=$(systemctl show -p SubState firewalld)    
-	 else
-       echo "..."
-     fi
-echo -e '\E[32m'"$firewall_substate "
-}
-
 function are_you_connected() {
 ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"$INTERNET_MSG $tecreset $INTERNET_MSG_CONNECTED" || echo -e '\E[32m'"$INTERNET_MSG $tecreset $INTERNET_MSG_DISCONNECTED"
 }
 
+# LD: Set steamcmd based on Linux Flavor
+function set_steamexe() {
+    tput setaf 1; echo "$FUNCTION_SET_STEAMEXE_INFO" ; tput setaf 9;
+    if command -v apt-get >/dev/null; then
+	    steamexe=/home/steam/steamcmd
+    elif command -v yum >/dev/null; then
+	    steamexe=/home/steam/steamcmd/steamcmd.sh
+    else
+        echo ""
+    fi
+	echo "........................................."
+    echo $steamexe
+    echo "........................................."
+    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+sleep 1
+}
+
+# LD: Set the world server name.
+# Basic for now. Working on better system.
 function set_world_server() {
-    #Basic for now.
      
 	readarray worldlistarray < /home/steam/worlds.txt  
     echo "${worldlistarray[@]}"
 
-    read -p "Please enter the name of the world to admin: " SeverNameEntered
+    read -p "$FUNCTION_SET_WORLD_SERVER_INFO" SeverNameEntered
     echo ""
 
     if [ "$SeverNameEntered" == "" ]; then
@@ -1395,16 +1384,20 @@ function set_world_server() {
     fi
 	
 }
+########################################################################
+##########################MENUS STATUS VARIBLES END#####################
+########################################################################
 
+########################################################################
+####################### MENU SECTION START       #######################
+########################################################################
+
+# NJORD Header 
 function menu_header() {
-get_current_config
-set_steamexe
-
-echo "........................................"
-echo $steamexe
-echo "........................................."
-
-echo -ne "
+	get_current_config
+	set_steamexe
+	
+	echo -ne "
 $(ColorOrange '╔══════════════════════════════════════════════════════════╗')
 $(ColorOrange '║~~~~~~~~~~*****~~~~~~~~-Njord Menu-~~~~~~~~~*****~~~~~~~~~║')
 $(ColorOrange '╠══════════════════════════════════════════════════════════╝')
@@ -1413,42 +1406,92 @@ $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_1"'')
 $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_2"'')
 $(ColorOrange '║')
 $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_OFFICIAL_BUILD"'')" $(check_official_valheim_release_build)
-echo -ne "
+	echo -ne "
 $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"        $(check_local_valheim_build)
-echo -ne "
+	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_status)
-echo -ne " 
+	echo -ne " 
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_SUBSTATE" $(server_substate)
-echo -ne " 
+	echo -ne " 
 $(ColorOrange '║') $(are_you_connected)
 $(ColorOrange '║')" $(display_public_IP)
-echo -ne "
+	echo -ne "
 $(ColorOrange '║')" $(display_local_IP)
-echo -ne "
+	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
-echo -ne "
+	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(firewall_status)
-echo -ne "
+	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW_SUBSTATE" $(firewall_substate) 
-echo -ne " 
+	echo -ne " 
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
-echo -ne "
+	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_CURRENT_NJORD_RELEASE $(check_menu_script_repo)
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_NJORD_VERSION ${mversion}
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_LD_VERSION ${ldversion}
 $(ColorOrange '║') 
-$(ColorOrange '║') Session server set to: $worldname
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LD_SEVER_SESSION ${worldname}
 $(ColorOrange '║') 
 $(ColorOrange '╚═══════════════════════════════════════════════════════════')"
 }
 
-########################################################################
-#######################Display Main Menu System#########################
-########################################################################
+# Sub Server Menu System
+function server_install_menu() {
+	echo ""
+	echo -ne "
+$(ColorOrange ''"$FUNCTION_SERVER_INSTALL_MENU_HEADER"'')
+$(ColorOrange '-')$(ColorGreen '1)') "$FUNCTION_SERVER_INSTALL_MENU_OPT_1."
+$(ColorOrange '-')$(ColorGreen '2)') "Setup another Valheim server on diff port."
+$(ColorOrange '-')$(ColorGreen '0)') "$RETURN_MAIN_MENU."
+$(ColorOrange ''"$DRAW60"'')
+$(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
+    read a
+    case $a in
+	    1) newinstall="y"
+	       valheim_server_install ; 
+		   server_install_menu ;;
+		2) newinstall="n"
+		   valheim_server_install ; 
+		   server_install_menu ;;
+        0) menu ; menu ;;
+		*)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; server_install_menu ;;
+    esac
+}
+
+# Sub Tech Support Menu System
+function tech_support(){
+	menu_header
+	echo ""
+	echo -ne "
+$(ColorOrange ''"$FUNCTION_VALHEIM_TECH_SUPPORT_HEADER"'')
+$(ColorOrange '-')$(ColorGreen ' 1)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_CONFIG
+$(ColorOrange '-')$(ColorGreen ' 2)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_VALHEIM_SERVICE
+$(ColorOrange '-')$(ColorGreen ' 3)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_WORLD_DATA
+$(ColorOrange '-')$(ColorGreen ' 4)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_SYSTEM_INFO
+$(ColorOrange '-')$(ColorGreen ' 5)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_NETWORK_INFO
+$(ColorOrange '-')$(ColorGreen ' 6)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_CONNECTED_PLAYER_HISTORY
+$(ColorOrange '------------------------------------------------------------')
+$(ColorOrange '-')$(ColorGreen ' 0)') "$RETURN_MAIN_MENU"
+$(ColorOrange '------------------------------------------------------------')
+$(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
+        read a
+        case $a in
+			1) display_start_valheim ; tech_support ;; 
+			2) display_valheim_server_status ; tech_support ;;
+	        3) display_world_data_folder ; tech_support ;;
+			4) display_system_info ; tech_support ;;
+			5) display_network_info ; tech_support ;;
+	        6) display_player_history ; tech_support ;;
+			0) menu ; menu ;;
+		    *)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; tech_support ;;
+        esac
+}
+
+# Display Main Menu System
 menu(){
-menu_header
-echo -ne "
+	menu_header
+	echo -ne "
 $(ColorOrange ' '"$FUNCTION_MAIN_MENU_CHECK_SCRIPT_UPDATES_HEADER"' ')
 $(ColorOrange '-')$(ColorGreen ' 1)') $FUNCTION_MAIN_MENU_UPDATE_NJORD_MENU
 $(ColorOrange ''"$FUNCTION_MAIN_MENU_SERVER_COMMANDS_HEADER"'')
@@ -1475,32 +1518,32 @@ $(ColorOrange '-')$(ColorGreen ' 17)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_RESTORE_
 $(ColorOrange ''"$FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_HEADER"'')
 $(ColorOrange '-')$(ColorGreen '') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG
 $(ColorOrange ''"$DRAW60"'')
-$(ColorOrange '-')$(ColorGreen ' 99)') $FUNCTION_CHANGE_SESSION_CURRENT_WORLDChange the World server session name.
+$(ColorOrange '-')$(ColorGreen ' 99)') $FUNCTION_MAIN_MENU_LD_CHANGE_SESSION_CURRENT_WORLD
 $(ColorGreen ' 0)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_EXIT
 $(ColorOrange ''"$DRAW60"'')
 $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
         read a
         case $a in
-	    1) script_check_update ; menu ;;
-		2) tech_support ; menu ;;
-		3) server_install_menu ; menu ;;
-		4) confirm_check_apply_server_updates ; menu ;;	
-	        5) display_full_config ; menu ;;
-	        6) change_public_display_name ; menu ;;
-	        7) change_default_server_port ; menu ;;		
-	        8) change_local_world_name ; menu ;;
-	        9) change_server_access_password ; menu ;;
-		10) write_public_on_config_and_restart ; menu ;;
-		11) write_public_off_config_and_restart ; menu ;;
-	        12) stop_valheim_server ; menu ;;
-		13) start_valheim_server ; menu ;;
-		14) restart_valheim_server ; menu ;;
-		15) display_valheim_server_status ; menu ;;
-		16) backup_world_data ; menu ;;
-		17) restore_world_data ; menu ;;
-		99) set_world_server ; menu ;;
-        0) exit 0 ;;
-		    *)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
+			1) script_check_update ; menu ;;
+			2) tech_support ; menu ;;
+			3) server_install_menu ; menu ;;
+			4) confirm_check_apply_server_updates ; menu ;;	
+			5) display_full_config ; menu ;;
+			6) change_public_display_name ; menu ;;
+			7) change_default_server_port ; menu ;;		
+			8) change_local_world_name ; menu ;;
+			9) change_server_access_password ; menu ;;
+			10) write_public_on_config_and_restart ; menu ;;
+			11) write_public_off_config_and_restart ; menu ;;
+			12) stop_valheim_server ; menu ;;
+			13) start_valheim_server ; menu ;;
+			14) restart_valheim_server ; menu ;;
+			15) display_valheim_server_status ; menu ;;
+			16) backup_world_data ; menu ;;
+			17) restore_world_data ; menu ;;
+			99) set_world_server ; menu ;;
+			0) exit 0 ;;
+			*)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
         esac
 }
 # Call the menu function or the shortcut called in arg
@@ -1519,3 +1562,6 @@ else
         ;;
     esac
 fi 
+########################################################################
+####################### MENU SECTION END         #######################
+########################################################################
