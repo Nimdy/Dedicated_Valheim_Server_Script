@@ -485,8 +485,7 @@ function valheim_server_install() {
 				cp /etc/skel/.bashrc /home/steam/.bashrc
 				cp /etc/skel/.profile /home/steam/.profile
             elif command -v yum >/dev/null; then
-				useradd -mU -s /bin/bash -G wheel -p $userpassword steam
-				# Need to add group "wheel" for sudo on RH
+				useradd -mU -s /bin/bash -p $userpassword steam
 				# All file from /etc/skel/ are auto copied on RH.
 			else
 				echo ""
