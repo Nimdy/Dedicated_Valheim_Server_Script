@@ -2103,7 +2103,7 @@ function set_world_server() {
 			read -p "$FUNCTION_SET_WORLD_SERVER_INFO" SeverNameEntered
 		echo ""
  	    worldname=$SeverNameEntered
-	elif [ "$SeverNameEntered" <> "" ] && [ "$request99" = "y" ]; then
+	elif [ "$SeverNameEntered" <> "" ] && [ "$request99" == "y" ]; then
 		readarray worldlistarray < /home/steam/worlds.txt  
 		echo "${worldlistarray[@]}"
 			read -p "$FUNCTION_SET_WORLD_SERVER_INFO" SeverNameEntered
@@ -2222,7 +2222,7 @@ $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_2"'')
 $(ColorOrange '║')
 $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_OFFICIAL_BUILD"'')" $(check_official_valheim_release_build)
 	echo -ne "
-$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"        $(check_local_valheim_build)
+$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')" $(check_local_valheim_build)
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_status)
