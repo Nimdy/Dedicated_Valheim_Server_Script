@@ -17,7 +17,7 @@
 ###############################################################################################
 ####
 #### Modifier: Lord/Ranger(Dumoss)
-#### Version: 1.04052021.LD.2.041820211730.Beta
+#### Version: 1.04052021.LD.2.041820212040.Beta
 #### Forked from: Nimby 10-Apr-2021 beta - menu.sh 
 ####
 #### The main focue of this project to add RH Linux support.
