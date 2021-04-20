@@ -63,9 +63,12 @@ valheimInstallPath=/home/steam/valheimserver
 worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
 #Backup Directory ( Default )
 backupPath=/home/steam/backups
-#worldname=""
+#LDadded
+worldname=""
 request99="n"
-readarray -t worldlistarray < /home/steam/worlds.txt 
+freshinstall="n"
+pureserver="n"
+readarray -t worldlistarray < /home/steam/worlds.txt
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
@@ -515,7 +518,7 @@ function linux_server_update() {
 	#        WTF is curl not installed by default... come on man!
     tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
-        apt install libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl -y
+        apt install lib32gcc1 libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl -y
     elif command -v yum >/dev/null; then
         yum install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
     else
@@ -573,38 +576,61 @@ function linux_server_update() {
 ################# LD: Install the steamcmd                 #############
 ########################################################################
 function Install_steamcmd_client() {
+
 	#install steamcmd
 	tput setaf 1; echo "$INSTALL_STEAMCMD_LIBSD12" ; tput setaf 9;
-	cd /home/steam
-	mkdir steamcmd
-	cd /home/steam/steamcmd
-	wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
-	tar xf steamcmd_linux.tar.gz
+	if [ "$pureserver" = "n" ] ; then
+		if command -v apt-get >/dev/null; then
+			echo steam steam/license note '' | debconf-set-selections
+			echo steam steam/question select 'I AGREE' | debconf-set-selections
+			apt install steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386 -y
+			tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+		elif command -v yum >/dev/null; then
+			# ...Still trying to work this one out for OEL7.
+			echo ""
+		else
+			echo ""
+		fi	
+	elif [ "$pureserver" = "y" ] ; then	
+		steamzipfile="/home/steam/steamcmd/steamcmd_linux.tar.gz"
+		cd /home/steam
+		mkdir steamcmd
+		cd /home/steam/steamcmd
+		if [ -fe $steamzipfile ] ; then 
+			rm $steamzipfile
+		fi	
+		if [ "$freshinstall" = "y" ] ; then 
+			rm -rfv /home/steam/steamcmd
+		fi
+		wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
+		tar xf steamcmd_linux.tar.gz
+	fi
+			
 	#### Need to add code to veriy firewall system and if enabled.
 	#### Below is the line needed for steamcmd
 	#### These should also be added to as port forwards on your network router.
-    if command -v ufw >/dev/null; then
-	    echo ""
+	if command -v ufw >/dev/null; then
 		# Need to add ufw commands. 
-    elif command -v firewalld >/dev/null; then
-        systemctl start firewalld
-        systemctl status firewalld
-        firewall-cmd --permanent --zone=public  --add-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
-        firewall-cmd --reload
+		echo ""
+	elif command -v firewalld >/dev/null; then
+		#systemctl start firewalld
+		systemctl status firewalld
+		firewall-cmd --permanent --zone=public  --add-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
+		firewall-cmd --reload
 	else
-       echo "..."
-    fi
+		echo "..."
+	fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1
-    #build symbolic link for steamcmd
-    #Not needed in my script I do not think ...
+    
+	#build symbolic link for steamcmd
     tput setaf 1; echo "$INSTALL_BUILD_SYM_LINK_STEAMCMD" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
 	    ln -s /usr/games/steamcmd /home/steam/steamcmd
-		# Leaving in ..
-    else 
+    elif [ "$pureserver" = "y" ] ; then
+		echo ".... This is a server system!"
+	else
 		echo ""
-		# I point to /home/steam/steamcmd/steamcmd.sh for RH Linux systems.
     fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1	
@@ -2305,7 +2331,10 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 
 # Display Main Menu System
 menu(){
-	set_world_server
+	if "[ ${worldname}" = "" ] ; 
+	then  
+		set_world_server 
+	fi
 	menu_header
 	echo -ne "
 $(ColorOrange ' '"$FUNCTION_MAIN_MENU_CHECK_SCRIPT_UPDATES_HEADER"' ')
