@@ -2331,7 +2331,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 
 # Display Main Menu System
 menu(){
-	if "[ ${worldname}" = "" ] ; 
+	if [ "${worldname}" = "" ] ; 
 	then  
 		set_world_server 
 	fi
