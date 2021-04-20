@@ -20,7 +20,7 @@
 #### Forked from: Njord advancemenu.ld (with beta) Updated: 10-APR-2021
 ####
 #### The main focus of this was to add Linux support for RH yum based systems.
-#### I use OEL7 on a Solaris server box that can handle.
+#### I use OEL7 on a Solaris server box that can handle a lot.
 #### Even thought I am only going to run 3 at most.
 #### 
 #### But this lead to ... 
