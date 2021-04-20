@@ -589,6 +589,7 @@ function check_apply_server_updates_beta() {
 	echo "Update Found kicking process to Odin for updating!"
 	sleep 2
         continue_with_valheim_update_install
+	systemctl restart valheimserver.service
         echo ""
      fi
      echo ""
