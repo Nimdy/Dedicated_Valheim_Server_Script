@@ -578,6 +578,8 @@ function linux_server_update() {
 function Install_steamcmd_client() {
 
 	#install steamcmd
+	# This depends on the Linux flavor and/or whether the graphic client 
+	# side of steamcmd is needed/supported to play games on that system.
 	tput setaf 1; echo "$INSTALL_STEAMCMD_LIBSD12" ; tput setaf 9;
 	if [ "$pureserver" = "n" ] ; then
 		if command -v apt-get >/dev/null; then
@@ -586,12 +588,13 @@ function Install_steamcmd_client() {
 			apt install steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386 -y
 			tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 		elif command -v yum >/dev/null; then
-			# ...Still trying to work this one out for OEL7.
+			# ...Still trying to work this one out for OEL7 based on Fedora.
 			echo ""
 		else
 			echo ""
 		fi	
 	elif [ "$pureserver" = "y" ] ; then	
+	    # So far RH/OEL 7/8 belong here.
 		steamzipfile="/home/steam/steamcmd/steamcmd_linux.tar.gz"
 		cd /home/steam
 		mkdir steamcmd
