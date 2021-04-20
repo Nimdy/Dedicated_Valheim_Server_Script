@@ -12,16 +12,16 @@
 ####
 ###############################################################################################
 ####
-#### File name: ldmenu.sh
+#### File name: ldadvmenu.sh
 ####
 ###############################################################################################
 ####
 #### Modifier: Lord/Ranger(Dumoss)
-#### Forked from: Njord Menu.ld (beta) Updated: 10-APR-2021
+#### Forked from: Njord advancemenu.ld (with beta) Updated: 10-APR-2021
 ####
 #### The main focue of this project to add RH Linux support.
 #### Allow install and control of many Valheim systems running on a single node
-#### based on worldname. Which is set to "default" on script start.
+#### based on WORLDNAME. Which is set to "default" on script start.
 ####
 #### Valheim servers are now installed under "${worldpath}/${worldname}"
 #### 
@@ -41,7 +41,7 @@
 #      to: "set_steamexe +login"
 #
 # (16-04-2021) Changed: start_valheim.sh to start_valheim_${worldname}.sh
-#          valheimserver.service to valheimserver_default.service
+#              valheimserver.service to valheimserver_${worldname}.service
 #
 # (16-04-2021) Added: funtion valheim_server_addanother to server_install_menu
 #
@@ -53,9 +53,13 @@
 #
 # (19-04-2021) Changed: Full code review/Re-org to do NLS.
 #                       Minor bug fixes/format issues.
+#              Added:   Adv menu system.
+#                       set_world_server function improvments.
+#              Added:   For both firewalld and ufw, adds Valheim server port ranges firewall on install/add.
+#                       ufw command needs to be validated.
 #
-# Working on: Support for firewalld/ufw ports control.
-#
+# Future: firewall admin add/delete/deny 
+#               
 # Current Options: DE=German, EN=English, FR=French, SP=Spanish"
 ###############################################################################################
 ###############################################################################################
@@ -84,12 +88,13 @@ valheimInstallPath=/home/steam/valheimserver
 worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
 #Backup Directory ( Default )
 backupPath=/home/steam/backups
-#LDADDED
-worldname=default
+#worldname=""
+request99="n"
+readarray -t worldlistarray < /home/steam/worlds.txt 
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="2.041920211400.Beta"
+ldversion="2.041920212040.Beta"
 ########################################################################
 #############################Set COLOR VARS#############################
 ########################################################################
@@ -244,12 +249,6 @@ $(ColorRed ''"$DRAW60"'')"
 		echo ""
 		clear
 		
-		if [ "$newinstall" == "y" ]; then
-			# First time install use defaults. 
-			portnumber=2456
-			worldname=default
-			echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_INFO_DEFAULTPORT"
-		else 
 			# Take user input for Valheim Server World Database Generation
 			echo ""
 				while true; 
@@ -272,6 +271,12 @@ $(ColorRed ''"$DRAW60"'')"
 				done
 			clear
 			echo ""
+			
+		if [ "$newinstall" == "y" ]; then
+			# First time install use defaults. 
+			portnumber=2456
+			echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_INFO_DEFAULTPORT"
+		else 
 				# Take user input for Valheim Server port.
 				# Will be adding some port checks during my firewall steps. 
 				echo ""
@@ -405,12 +410,16 @@ $(ColorRed ''"$DRAW60"'')"
 		#### These should also be added to as port forwards on your network router.
 		####
 		#
+		minportnumber=${portnumber}
+		maxportnumber=${portnumber}+3
 		if command -v ufw >/dev/null; then
-			echo "Need to add ufw commands" 
+			# ufw allow udp from any to any port $minportnumber-$maxportnumber
+			# The above command needs to be validated.
+			echo ""
 		elif command -v firewalld >/dev/null; then
 			systemctl start firewalld
 			systemctl status firewalld
-			firewall-cmd --permanent --zone=public  --add-port={2456-2458/tcp,2456-2458/udp}
+			firewall-cmd --permanent --zone=public --add-port={$minportnumber-$maxportnumber/tcp,$minportnumber-$maxportnumber/udp}
 			firewall-cmd --reload
 		else
 			echo ""
@@ -1093,7 +1102,7 @@ export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
 
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setworldnameName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}"
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setworldnameName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
    echo "$FUNCTION_WRITE_CONFIG_RESTART_SET_PERMS" ${valheimInstallPath}/start_valheim_${worldname}.sh
@@ -1289,6 +1298,708 @@ function display_full_config() {
 ####################CHANGE VALHEIM START CONFIG END#####################
 ########################################################################
 
+
+#######################################################################################################################################################
+#########################################################START VALHEIM PLUS SECTION####################################################################
+#######################################################################################################################################################
+function set_valheim_server_vanillaOrPlus_operations() {
+#build systemctl configurations for execution of processes for Valheim Server
+tput setaf 1; echo "$FUNCTION_VALHEIM_PLUS_BUILD_CONFIG_INFO" ; tput setaf 9; 
+tput setaf 1; echo "$FUNCTION_VALHEIM_PLUS_BUILD_CONFIG_INFO_1" ; tput setaf 9; 
+# remove old Valheim Server Service
+[ -e /etc/systemd/system/valheimserver_${worldname}.service ] && rm /etc/systemd/system/valheimserver_${worldname}.service
+# remove past Valheim Server Service
+[ -e /lib/systemd/system/valheimserver_${worldname}.service ] && rm /lib/systemd/system/valheimserver_${worldname}.service
+sleep 1
+# Add new Valheim Server Service
+# Thanks @QuadeHale
+cat <<EOF > /lib/systemd/system/valheimserver_${worldname}.service 
+[Unit]
+Description=Valheim Server
+Wants=network-online.target
+After=syslog.target network.target nss-lookup.target network-online.target
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+StartLimitInterval=60s
+StartLimitBurst=3
+User=steam
+Group=steam
+ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
+EOF
+if [ "$valheimVanilla" == "1" ]; then
+   echo "$FUNCTION_VALHEIM_PLUS_BUILD_CONFIG_SET_VANILLA"
+cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF 
+ExecStart=${valheimInstallPath}/start_valheim_${worldname}.sh
+ExecReload=/bin/kill -s HUP \$MAINPID
+KillSignal=SIGINT
+WorkingDirectory=${valheimInstallPath}
+LimitNOFILE=100000
+[Install]
+WantedBy=multi-user.target
+EOF
+else 
+   echo "$FUNCTION_VALHEIM_PLUS_BUILD_CONFIG_SET_PLUS"
+cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF   
+ExecStart=${valheimInstallPath}/start_server_bepinex.sh
+ExecReload=/bin/kill -s HUP \$MAINPID
+KillSignal=SIGINT
+WorkingDirectory=${valheimInstallPath}
+LimitNOFILE=100000
+[Install]
+WantedBy=multi-user.target
+EOF
+fi
+tput setaf 2; echo "Done" ; tput setaf 9;
+sleep 1
+}
+
+function install_valheim_plus() {
+clear
+    echo ""
+    if [ ! -f /usr/bin/unzip ]; then
+    apt install unzip -y
+    fi
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CHANGING_DIR" ; tput setaf 9; 
+    cd $valheimInstallPath
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CHECKING_OLD_INSTALL" ; tput setaf 9; 
+    [ -e UnixServer.zip ] && rm UnixServer.zip
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_DOWNLOADING_VALHEIM_PLUS_FROM_REPO" ; tput setaf 9; 
+    curl -s https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest \
+    | grep "browser_download_url.*UnixServer\.zip" \
+    | cut -d ":" -f 2,3 | tr -d \" \
+    | wget -P ${valheimInstallPath} -qi - 
+    echo ""
+    sleep 1
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CREATING_VER_STAMP" ; tput setaf 9; 
+    curl -sL https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest | grep '"tag_name":' | cut -d'"' -f4 > localValheimPlusVersion
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_UNPACKING_FILES" ; tput setaf 9; 
+    unzip -o UnixServer.zip
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_REMOVING_OLD_BEPINEX_CONFIG" ; tput setaf 9; 
+    [ ! -e start_game_bepinex.sh ] && rm start_game_bepinex.sh
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_BUILDING_NEW_BEPINEX_CONFIG" ; tput setaf 9; 
+    build_start_server_bepinex_configuration_file
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_SETTING_STEAM_OWNERSHIP" ; tput setaf 9; 
+    chown steam:steam -Rf /home/steam/*
+    chmod +x start_server_bepinex.sh
+    rm UnixServer.zip
+    echo ""
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_GET_THEIR_VIKING_ON" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_LETS_GO" ; tput setaf 9; 
+}
+
+function valheim_plus_enable() {
+clear
+    echo ""
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_ENABLE" ; tput setaf 9; 
+    valheimVanilla=2
+    set_valheim_server_vanillaOrPlus_operations
+    sleep 1
+    systemctl daemon-reload
+    sleep 1
+    echo "$FUNCTION_VALHEIM_PLUS_RESTARTING"
+    systemctl restart valheimserver_${worldname}.service
+    sleep 1
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_ENABLED_ACTIVE" ; tput setaf 9; 
+    echo ""
+}
+
+function valheim_plus_disable() {
+clear
+    echo ""
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_DISABLE" ; tput setaf 9; 
+    valheimVanilla=1
+    set_valheim_server_vanillaOrPlus_operations
+    sleep 1
+    systemctl daemon-reload
+    sleep 1
+    echo "$FUNCTION_VALHEIM_PLUS_DISABLE_RESTARTING"
+    systemctl restart valheimserver_${worldname}.service
+    sleep 1    
+    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_DISABLE_INFO" ; tput setaf 9; 
+    echo ""
+}
+
+function valheim_plus_update() {
+check_valheim_plus_repo
+clear
+    tput setaf 2;  echo "$FUNCTION_VALHEIM_PLUS_UPDATE_INFO" ; tput setaf 9; 
+    vpLocalCheck=$(cat ${valheimInstallPath}/localValheimPlusVersion)
+    echo $vpLocalCheck
+    echo $latestValPlus
+    if [[ $latestValPlus == $vpLocalCheck ]]; then
+       echo ""
+       tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_UPDATE_NO_UPDATE_FOUND" ; tput setaf 9; 
+       echo ""
+       else
+         tput setaf 2;  echo "$FUNCTION_VALHEIM_PLUS_UPDATE_UPDATE_FOUND" ; tput setaf 9; 
+	 tput setaf 2;  echo "$FUNCTION_VALHEIM_PLUS_UPDATE_CONTINUE" ; tput setaf 9; 
+	   read -p "$PLEASE_CONFIRM" confirmValPlusUpdate
+	  if [ "$confirmValPlusUpdate" == "y" ]; then
+	    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_UPDATE_BACKING_UP_VPLUS_CONFIG" ; tput setaf 9; 
+	    dldir=$backupPath
+	    [ ! -d "$dldir" ] && mkdir -p "$dldir"
+            sleep 1
+	    TODAYMK="$(date +%Y-%m-%d-%T)"
+	    cp ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg ${backupPath}/valheim_plus-$TODAYMK.cfg
+	    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_UPDATE_DOWNLOADING_VPLUS" ; tput setaf 9; 
+            install_valheim_plus
+	    sleep 2
+	    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_UPDATE_RESTARTING_SERVICES" ; tput setaf 9; 
+	    restart_valheim_server
+	      else
+            echo "$FUNCTION_VALHEIM_PLUS_UPDATE_CANCELED" ; tput setaf 9; 
+            sleep 2
+          fi
+	  
+     fi
+}
+
+function valheimplus_mod_options() {
+clear
+    nano ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg
+    echo ""
+    tput setaf 2; echo "$DRAW80" ; tput setaf 9;
+    tput setaf 2;  echo "$FUNCTION_VALHEIM_PLUS_EDIT_VPLUS_CONFIG_SAVE_RESTART" ; tput setaf 9; 
+    tput setaf 2;  echo "$FUNCTION_VALHEIM_PLUS_EDIT_VPLUS_CONFIG_SAVE_RESTART_1" ; tput setaf 9; 
+    tput setaf 2; echo "$DRAW80" ; tput setaf 9;
+    echo ""
+     read -p "$PLEASE_CONFIRM" confirmRestart
+#if y, then continue, else cancel
+        if [ "$confirmRestart" == "y" ]; then
+    echo ""
+    echo "$FUNCTION_VALHEIM_PLUS_EDIT_VPLUS_RESTART_SERVICES"
+    sudo systemctl restart valheimserver_${worldname}.service
+    echo ""
+    else
+    echo "$FUNCTION_VALHEIM_PLUS_EDIT_VPLUS_CANCEL"
+    sleep 2
+    clear
+fi
+}
+
+function bepinex_mod_options() {
+clear
+    nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
+    echo ""
+    tput setaf 2; echo "$DRAW80" ; tput setaf 9;
+    echo "$FUNCTION_VALHEIM_PLUS_EDIT_BEPINEX_CONFIG_RESTART"
+    echo "$FUNCTION_VALHEIM_PLUS_EDIT_BEPINEX_CONFIG_RESTART_1"
+    tput setaf 2; echo "$DRAW80" ; tput setaf 9;
+    echo ""
+     read -p "$PLEASE_CONFIRM" confirmRestart
+#if y, then continue, else cancel
+        if [ "$confirmRestart" == "y" ]; then
+    echo ""
+    echo "$FUNCTION_VALHEIM_PLUS_EDIT_BEPINEX_RESTART_SERVICE_INFO"
+    sudo systemctl restart valheimserver_${worldname}.service
+    echo ""
+    else
+    echo "$FUNCTION_VALHEIM_PLUS_EDIT_BEPINEX_CANCEL"
+    sleep 2
+    clear
+fi
+}
+
+function build_start_server_bepinex_configuration_file() {
+cat > ${valheimInstallPath}/start_server_bepinex.sh <<'EOF'
+#!/bin/sh
+# BepInEx running script
+#
+# This script is used to run a Unity game with BepInEx enabled.
+#
+# Usage: Configure the script below and simply run this script when you want to run your game modded.
+
+# -------- SETTINGS --------
+# ---- EDIT AS NEEDED ------
+
+# EDIT THIS: The name of the executable to run
+# LINUX: This is the name of the Unity game executable [preconfigured]
+# MACOS: This is the name of the game app folder, including the .app suffix [must provide if needed]
+executable_name="valheim_server.x86_64"
+
+
+server_savedir="$HOME/.config/unity3d/IronGate/Valheim"
+
+# EDIT THIS: Valheim server parameters
+# Can be overriden by script parameters named exactly like the ones for the Valheim executable
+# (e.g. ./start_server_bepinex.sh -name "MyValheimPlusServer" -password "somethingsafe" -port 2456 -world "myworld" -public 1)
+
+server_name="$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' start_valheim_${worldname}.sh)"
+server_password="$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' start_valheim_${worldname}.sh)"
+server_port="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' start_valheim_${worldname}.sh)"
+server_world="$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' start_valheim_${worldname}.sh)"
+server_public="$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' start_valheim_${worldname}.sh)"
+
+
+# The rest is automatically handled by BepInEx for Valheim+
+
+# Set base path of start_server_bepinex.sh location
+export VALHEIM_PLUS_SCRIPT="$(readlink -f "$0")"
+export VALHEIM_PLUS_PATH="$(dirname "$VALHEIM_PLUS_SCRIPT")"
+
+# Whether or not to enable Doorstop. Valid values: TRUE or FALSE
+export DOORSTOP_ENABLE=TRUE
+
+# What .NET assembly to execute. Valid value is a path to a .NET DLL that mono can execute.
+export DOORSTOP_INVOKE_DLL_PATH="${VALHEIM_PLUS_PATH}/BepInEx/core/BepInEx.Preloader.dll"
+
+# Which folder should be put in front of the Unity dll loading path
+export DOORSTOP_CORLIB_OVERRIDE_PATH="${VALHEIM_PLUS_PATH}/unstripped_corlib"
+
+# ----- DO NOT EDIT FROM THIS LINE FORWARD  ------
+# ----- (unless you know what you're doing) ------
+
+if [ ! -x "$1" -a ! -x "${VALHEIM_PLUS_PATH}/$executable_name" ]; then
+	echo "Please open start_server_bepinex.sh in a text editor and provide the correct executable."
+	exit 1
+fi
+
+doorstop_libs="${VALHEIM_PLUS_PATH}/doorstop_libs"
+arch=""
+executable_path=""
+lib_postfix=""
+
+os_type=$(uname -s)
+case $os_type in
+	Linux*)
+		executable_path="${VALHEIM_PLUS_PATH}/${executable_name}"
+		lib_postfix="so"
+		;;
+	Darwin*)
+		executable_name="$(basename "${executable_name}" .app)"
+		real_executable_name="$(defaults read "${VALHEIM_PLUS_PATH}/${executable_name}.app/Contents/Info" CFBundleExecutable)"
+		executable_path="${VALHEIM_PLUS_PATH}/${executable_name}.app/Contents/MacOS/${real_executable_name}"
+		lib_postfix="dylib"
+		;;
+	*)
+		echo "Cannot identify OS (got $(uname -s))!"
+		echo "Please create an issue at https://github.com/BepInEx/BepInEx/issues."
+		exit 1
+		;;
+esac
+
+executable_type=$(LD_PRELOAD="" file -b "${executable_path}");
+
+case $executable_type in
+	*64-bit*)
+		arch="x64"
+		;;
+	*32-bit*|*i386*)
+		arch="x86"
+		;;
+	*)
+		echo "Cannot identify executable type (got ${executable_type})!"
+		echo "Please create an issue at https://github.com/BepInEx/BepInEx/issues."
+		exit 1
+		;;
+esac
+
+doorstop_libname=libdoorstop_${arch}.${lib_postfix}
+export LD_LIBRARY_PATH="${doorstop_libs}":"${LD_LIBRARY_PATH}"
+export LD_PRELOAD="$doorstop_libname":"${LD_PRELOAD}"
+export DYLD_LIBRARY_PATH="${doorstop_libs}"
+export DYLD_INSERT_LIBRARIES="${doorstop_libs}/$doorstop_libname"
+
+export templdpath="$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="${VALHEIM_PLUS_PATH}/linux64":"${LD_LIBRARY_PATH}"
+export SteamAppId=892970
+
+for arg in "$@"
+do
+	case $arg in
+	-name)
+	server_name=$2
+	shift 2
+	;;
+	-password)
+	server_password=$2
+	shift 2
+	;;
+	-port)
+	server_port=$2
+	shift 2
+	;;
+	-world)
+	server_world=$2
+	shift 2
+	;;
+	-public)
+	server_public=$2
+	shift 2
+	;;
+	-savedir)
+	server_savedir=$2
+	shift 2
+	;;
+	esac
+done
+
+"${VALHEIM_PLUS_PATH}/${executable_name}" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${worldpath}/${worldname}"
+
+export LD_LIBRARY_PATH=$templdpath
+EOF
+}
+
+function mods_menu(){
+echo ""
+menu_header_vplus_enable
+echo -ne "
+$(ColorCyan '--------------'"$FUNCTION_VALHEIM_PLUS_MENU_HEADER"'--------------')
+$(ColorCyan '-')$(ColorGreen ' 1)') $FUNCTION_VALHEIM_PLUS_MENU_INSTALL
+$(ColorCyan '---------------'"$FUNCTION_VALHEIM_PLUS_MENU_ADMIN_HEADER"'--------------')
+$(ColorCyan '-')$(ColorGreen ' 2)') $FUNCTION_VALHEIM_PLUS_MENU_ENABLE
+$(ColorCyan '-')$(ColorGreen ' 3)') $FUNCTION_VALHEIM_PLUS_MENU_DISABLE
+$(ColorCyan '-')$(ColorGreen ' 4)') $FUNCTION_VALHEIM_PLUS_MENU_START
+$(ColorCyan '-')$(ColorGreen ' 5)') $FUNCTION_VALHEIM_PLUS_MENU_STOP
+$(ColorCyan '-')$(ColorGreen ' 6)') $FUNCTION_VALHEIM_PLUS_MENU_RESTART
+$(ColorCyan '-')$(ColorGreen ' 7)') $FUNCTION_VALHEIM_PLUS_MENU_STATUS
+$(ColorCyan '-')$(ColorGreen ' 8)') $FUNCTION_VALHEIM_PLUS_MENU_UPDATE
+$(ColorCyan '------'"$FUNCTION_VALHEIM_PLUS_MENU_MOD_PLUGIN_HEADER"'------')
+$(ColorCyan ''"$FUNCTION_VALHEIM_PLUS_MENU_MOD_INFO"'')
+$(ColorCyan ''"$FUNCTION_VALHEIM_PLUS_MENU_MOD_INFO_1"'')
+$(ColorCyan ''"$FUNCTION_VALHEIM_PLUS_MENU_MOD_INFO_2"'')
+$(ColorCyan ''"$FUNCTION_VALHEIM_PLUS_MENU_MOD_INFO_3"'')
+$(ColorCyan ''"$FUNCTION_VALHEIM_PLUS_MENU_MOD_INFO_4"'')
+$(ColorCyan '-')$(ColorGreen ' 9)') $FUNCTION_VALHEIM_PLUS_MENU_VPLUS_CONFIG_EDIT
+$(ColorCyan '-')$(ColorGreen ' 10)') $FUNCTION_VALHEIM_PLUS_MENU_BEPINEX_CONFIG_EDIT
+$(ColorCyan '------------------------------------------------')
+$(ColorCyan '-')$(ColorGreen ' 0)') $FUNCTION_VALHEIM_PLUS_MENU_RETURN_MAIN
+$(ColorPurple ''"$CHOOSE_MENU_OPTION"'')"
+        read a
+        case $a in
+		1) install_valheim_plus ; mods_menu ;;
+		2) valheim_plus_enable ; mods_menu ;;
+		3) valheim_plus_disable ; mods_menu ;;
+		4) start_valheim_server ; mods_menu ;;
+		5) stop_valheim_server ; mods_menu ;;
+		6) restart_valheim_server ; mods_menu ;;
+		7) display_valheim_server_status ; mods_menu ;;
+		8) valheim_plus_update ; mods_menu ;;
+		9) valheimplus_mod_options ; mods_menu ;;
+		10) bepinex_mod_options ; mods_menu ;;
+		   0) menu ; menu ;;
+		    *)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; mods_menu ;;
+        esac
+}
+
+# Check ValheimPlus Github Latest for menu display
+function check_valheim_plus_repo() {
+latestValPlus=$(curl --connect-timeout 10 -s https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
+echo $latestValPlus
+}
+
+# Check Local ValheimPlus Build for menu display
+function check_local_valheim_plus_build() {
+localValheimPlusVer=${valheimInstallPath}/localValheimPlusVersion
+   if [[ -e $localValheimPlusVer ]] ; then
+    localValheimPlusBuild=$(cat ${localValheimPlusVer})
+        echo $localValheimPlusBuild
+    else 
+        echo "$NO_DATA";
+  fi
+}
+
+#######################################################################################################################################################
+###############################################################FINISH VALHEIM MOD SECTION##############################################################
+#######################################################################################################################################################
+
+#######################################################################################################################################################
+######################################################START VALHEIM BEPINEX SECTION####################################################################
+#######################################################################################################################################################
+function set_valheim_server_vanillaOrBepinex_operations() {
+#build systemctl configurations for execution of processes for Valheim Server
+tput setaf 1; echo "$FUNCTION_BEPINEX_BUILD_CONFIG_INFO" ; tput setaf 9; 
+tput setaf 1; echo "$FUNCTION_BEPINEX_BUILD_CONFIG_INFO_1" ; tput setaf 9; 
+# remove old Valheim Server Service
+[ -e /etc/systemd/system/valheimserver_${worldname}.service ] && rm /etc/systemd/system/valheimserver_${worldname}.service
+# remove past Valheim Server Service
+[ -e /lib/systemd/system/valheimserver_${worldname}.service ] && rm /lib/systemd/system/valheimserver_${worldname}.service
+sleep 1
+# Add new Valheim Server Service for BEPINEX
+cat <<EOF > /lib/systemd/system/valheimserver_${worldname}.service 
+[Unit]
+Description=Valheim Server
+Wants=network-online.target
+After=syslog.target network.target nss-lookup.target network-online.target
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+StartLimitInterval=60s
+StartLimitBurst=3
+User=steam
+Group=steam
+ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
+EOF
+if [ "$valheimVanilla" == "1" ]; then
+   echo "$FUNCTION_BEPINEX_BUILD_CONFIG_SET_VANILLA"
+cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF 
+ExecStart=${valheimInstallPath}/start_valheim_${worldname}.sh
+ExecReload=/bin/kill -s HUP \$MAINPID
+KillSignal=SIGINT
+WorkingDirectory=${valheimInstallPath}
+LimitNOFILE=100000
+[Install]
+WantedBy=multi-user.target
+EOF
+else 
+   echo "$FUNCTION_BEPINEX_BUILD_CONFIG_SET"
+cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF   
+ExecStart=${valheimInstallPath}/start_valw_bepinex.sh
+ExecReload=/bin/kill -s HUP \$MAINPID
+KillSignal=SIGINT
+WorkingDirectory=${valheimInstallPath}
+LimitNOFILE=100000
+[Install]
+WantedBy=multi-user.target
+EOF
+fi
+tput setaf 2; echo "Done" ; tput setaf 9;
+sleep 1
+}
+
+function install_valheim_bepinex() {
+clear
+    echo ""
+    if [ ! -f /usr/bin/unzip ]; then
+    apt install unzip -y
+    fi
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CHANGING_DIR" ; tput setaf 9; 
+    cd /opt
+    mkdir bepinexdl
+    cd bepinexdl
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CHECKING_OLD_INSTALL" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_DOWNLOADING_BEPINEX_FROM_REPO" ; tput setaf 9;
+    officialBepInEx=$(curl -sL https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2) 
+    wget https://valheim.thunderstore.io/package/download/denikson/BepInExPack_Valheim/${officialBepInEx}/
+    mv index.html bepinex.zip
+    unzip -o bepinex.zip
+    cp -a BepInExPack_Valheim/. ${valheimInstallPath}
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CREATING_VER_STAMP" ; tput setaf 9; 
+    cat manifest.json | grep version | cut -d'"' -f4 > ${valheimInstallPath}/localValheimBepinexVersion
+    rm -rf $PWD
+    echo ""
+    sleep 1
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_UNPACKING_FILES" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_REMOVING_OLD_BEPINEX_CONFIG" ; tput setaf 9;
+    cd ${valheimInstallPath}
+    [ ! -e start_valw_bepinex.sh ] && rm start_valw_bepinex.sh
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_BUILDING_NEW_BEPINEX_CONFIG" ; tput setaf 9; 
+    build_valw_bepinex_configuration_file
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_SETTING_STEAM_OWNERSHIP" ; tput setaf 9; 
+    chown steam:steam -Rf /home/steam/*
+    chmod +x start_valw_bepinex.sh
+    echo ""
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_GET_THEIR_VIKING_ON" ; tput setaf 9; 
+    tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_LETS_GO" ; tput setaf 9; 
+}
+function valheim_bepinex_enable() {
+clear
+    echo ""
+    tput setaf 2; echo "$FUNCTION_BEPINEX_ENABLE" ; tput setaf 9; 
+    valheimVanilla=2
+    set_valheim_server_vanillaOrBepinex_operations
+    sleep 1
+    systemctl daemon-reload
+    sleep 1
+    echo "$FUNCTION_BEPINEX_RESTARTING"
+    systemctl restart valheimserver_${worldname}.service
+    sleep 1
+    tput setaf 2; echo "$FUNCTION_BEPINEX_ENABLED_ACTIVE" ; tput setaf 9; 
+    echo ""
+}
+
+function valheim_bepinex_disable() {
+clear
+    echo ""
+    tput setaf 2; echo "$FUNCTION_BEPINEX_DISABLE" ; tput setaf 9; 
+    valheimVanilla=1
+    set_valheim_server_vanillaOrBepinex_operations
+    sleep 1
+    systemctl daemon-reload
+    sleep 1
+    echo "$FUNCTION_BEPINEX_DISABLE_RESTARTING"
+    systemctl restart valheimserver_${worldname}.service
+    sleep 1    
+    tput setaf 2; echo "$FUNCTION_BEPINEX_DISABLE_INFO" ; tput setaf 9; 
+    echo ""
+}
+
+function valheim_bepinex_update() {
+clear
+    tput setaf 2;  echo "$FUNCTION_BEPINEX_UPDATE_INFO" ; tput setaf 9; 
+    officialBepInEx=$(curl -sL https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2) 
+    localBepInEx=$(cat ${valheimInstallPath}/localValheimBepinexVersion)    
+    echo $officialBepInEx
+    echo $localBepInEx
+    if [[ $officialBepInEx == $localBepInEx ]]; then
+    tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_NO_UPDATE_FOUND" ; tput setaf 9; 
+    else
+    tput setaf 2;  echo "$FUNCTION_BEPINEX_UPDATE_UPDATE_FOUND" ; tput setaf 9; 
+	 tput setaf 2;  echo "$FUNCTION_BEPINEX_UPDATE_CONTINUE" ; tput setaf 9; 
+	   read -p "$PLEASE_CONFIRM" confirmValBepinexUpdate
+	  if [ "$confirmValBepinexUpdate" == "y" ]; then
+	    tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_BACKING_UP_BEPINEX_CONFIG" ; tput setaf 9; 
+	    dldir=$backupPath
+	    [ ! -d "$dldir" ] && mkdir -p "$dldir"
+            sleep 1
+	    TODAYMK="$(date +%Y-%m-%d-%T)"
+	    cp ${valheimInstallPath}/BepInEx/config/BepInEx.cfg ${backupPath}/BepInEx.cfg-$TODAYMK.cfg
+	    tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_DOWNLOADING_BEPINEX" ; tput setaf 9; 
+            install_valheim_bepinex
+	    sleep 2
+	    tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_RESTARTING_SERVICES" ; tput setaf 9; 
+	    restart_valheim_server
+	      else
+            echo "$FUNCTION_BEPINEX_UPDATE_CANCELED" ; tput setaf 9; 
+            sleep 2
+          fi
+     fi
+}
+
+function bepinex_mod_options() {
+clear
+    nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
+    echo ""
+    tput setaf 2; echo "$DRAW80" ; tput setaf 9;
+    tput setaf 2;  echo "$FUNCTION_BEPINEX_EDIT_CONFIG_SAVE_RESTART" ; tput setaf 9; 
+    tput setaf 2;  echo "$FUNCTION_BEPINEX_EDIT_CONFIG_SAVE_RESTART_1" ; tput setaf 9; 
+    tput setaf 2; echo "$DRAW80" ; tput setaf 9;
+    echo ""
+     read -p "$PLEASE_CONFIRM" confirmRestart
+#if y, then continue, else cancel
+        if [ "$confirmRestart" == "y" ]; then
+    echo ""
+    echo "$FUNCTION_BEPINEX_EDIT_RESTART_SERVICES"
+    sudo systemctl restart valheimserver_${worldname}.service
+    echo ""
+    else
+    echo "$FUNCTION_BEPINEX_EDIT_CANCEL"
+    sleep 2
+    clear
+fi
+}
+
+
+function build_valw_bepinex_configuration_file() {
+  cat > ${valheimInstallPath}/start_valw_bepinex.sh <<'EOF'
+#!/bin/sh
+# BepInEx running script
+#
+# This script is used to run a Unity game with BepInEx enabled.
+#
+# Usage: Configure the script below and simply run this script when you want to run your game modded.
+
+# -------- SETTINGS --------
+# ---- EDIT AS NEEDED ------
+
+# EDIT THIS: The name of the executable to run
+# LINUX: This is the name of the Unity game executable
+# MACOS: This is the name of the game app folder, including the .app suffix
+
+#importing server parms to BepInEx
+server_name="$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' start_valheim_${worldname}.sh)"
+server_password="$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' start_valheim_${worldname}.sh)"
+server_port="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' start_valheim_${worldname}.sh)"
+server_world="$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' start_valheim_${worldname}.sh)"
+server_public="$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' start_valheim_${worldname}.sh)"
+
+# The rest is automatically handled by BepInEx
+
+# Whether or not to enable Doorstop. Valid values: TRUE or FALSE
+
+#!/bin/sh
+# BepInEx-specific settings
+# NOTE: Do not edit unless you know what you are doing!
+####
+export DOORSTOP_ENABLE=TRUE
+export DOORSTOP_INVOKE_DLL_PATH=./BepInEx/core/BepInEx.Preloader.dll
+export DOORSTOP_CORLIB_OVERRIDE_PATH=./unstripped_corlib
+
+export LD_LIBRARY_PATH="./doorstop_libs:$LD_LIBRARY_PATH"
+export LD_PRELOAD="libdoorstop_x64.so:$LD_PRELOAD"
+####
+
+
+export LD_LIBRARY_PATH="./linux64:$LD_LIBRARY_PATH"
+export SteamAppId=892970
+
+echo "Starting server PRESS CTRL-C to exit"
+
+# Tip: Make a local copy of this script to avoid it being overwritten by steam.
+# NOTE: Minimum password length is 5 characters & Password cant be in the server name.
+# NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
+exec ./valheim_server.x86_64 -name "${server_name}" -port "${server_port}" -world "${server_world}" -password "${server_password}" -public "${server_public}"
+EOF
+}
+
+# Check bepinex Github Latest for menu display
+#curl -s https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2 > officialBepInEx
+function check_bepinex_repo() {
+latestBepinex=$(curl -s https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2)
+echo $latestBepinex
+}
+
+
+# Check Local Bepinex Build for menu display
+function check_local_bepinex_build() {
+localValheimBepinexVer=${valheimInstallPath}/localValheimBepinexVersion
+   if [[ -e $localValheimBepinexVer ]] ; then
+    localValheimBepinexBuild=$(cat ${localValheimBepinexVer})
+        echo $localValheimBepinexBuild
+    else 
+        echo "$NO_DATA";
+  fi
+}
+
+
+function bepinex_menu(){
+echo ""
+menu_header_bepinex_enable
+echo -ne "
+$(ColorCyan '--------------'"$FUNCTION_BEPINEX_MENU_HEADER"'--------------')
+$(ColorCyan '-')$(ColorGreen ' 1)') $FUNCTION_BEPINEX_MENU_INSTALL
+$(ColorCyan '---------------'"$FUNCTION_BEPINEX_MENU_ADMIN_HEADER"'--------------')
+$(ColorCyan '-')$(ColorGreen ' 2)') $FUNCTION_BEPINEX_MENU_ENABLE
+$(ColorCyan '-')$(ColorGreen ' 3)') $FUNCTION_BEPINEX_MENU_DISABLE
+$(ColorCyan '-')$(ColorGreen ' 4)') $FUNCTION_BEPINEX_MENU_START
+$(ColorCyan '-')$(ColorGreen ' 5)') $FUNCTION_BEPINEX_MENU_STOP
+$(ColorCyan '-')$(ColorGreen ' 6)') $FUNCTION_BEPINEX_MENU_RESTART
+$(ColorCyan '-')$(ColorGreen ' 7)') $FUNCTION_BEPINEX_MENU_STATUS
+$(ColorCyan '-')$(ColorGreen ' 8)') $FUNCTION_BEPINEX_MENU_UPDATE
+$(ColorCyan '------'"$FUNCTION_BEPINEX_MENU_MOD_PLUGIN_HEADER"'------')
+$(ColorCyan ''"$FUNCTION_BEPINEX_MENU_MOD_INFO"'')
+$(ColorCyan ''"$FUNCTION_BEPINEX_MENU_MOD_INFO_1"'')
+$(ColorCyan ''"$FUNCTION_BEPINEX_MENU_MOD_INFO_2"'')
+$(ColorCyan ''"$FUNCTION_BEPINEX_MENU_MOD_INFO_3"'')
+$(ColorCyan ''"$FUNCTION_BEPINEX_MENU_MOD_INFO_4"'')
+$(ColorCyan '-')$(ColorGreen ' 9)') $FUNCTION_BEPINEX_MENU_BEPINEX_CONFIG_EDIT
+$(ColorCyan '------------------------------------------------')
+$(ColorCyan '-')$(ColorGreen ' 0)') $FUNCTION_BEPINEX_MENU_RETURN_MAIN
+$(ColorPurple ''"$CHOOSE_MENU_OPTION"'')"
+        read a
+        case $a in
+		1) install_valheim_bepinex ; bepinex_menu ;;
+		2) valheim_bepinex_enable ; bepinex_menu ;;
+		3) valheim_bepinex_disable ; bepinex_menu ;;
+		4) start_valheim_server ; bepinex_menu ;;
+		5) stop_valheim_server ; bepinex_menu ;;
+		6) restart_valheim_server ; bepinex_menu ;;
+		7) display_valheim_server_status ; bepinex_menu ;;
+		8) valheim_bepinex_update ; bepinex_menu ;;
+		9) bepinex_mod_options ; bepinex_menu ;;
+		   0) menu ; menu ;;
+		    *)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; mods_menu ;;
+        esac
+}
+
+
+#######################################################################################################################################################
+###############################################################FINISH BEPINEX MOD SECTION##############################################################
+#######################################################################################################################################################
+
 ########################################################################
 ########################MENUS STATUS VARIBLES START ####################
 ########################################################################
@@ -1364,7 +2075,7 @@ ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"$INTERNET_MSG $tecreset $I
 }
 
 function are_mods_enabled() {
-	modstrue=$( cat /lib/systemd/system/valheimserver.service | grep bepinex)
+	modstrue=$( cat /lib/systemd/system/valheimserver_${worldname}.service | grep bepinex)
 	var2="ExecStart=/home/steam/valheimserver/start_server_bepinex.sh"
 	var3="ExecStart=/home/steam/valheimserver/start_valw_bepinex.sh"
 	if [[ $modstrue == $var2 ]]; then
@@ -1394,23 +2105,38 @@ sleep 1
 }
 
 # LD: Set the world server name.
-# Basic for now. Working on better system.
 function set_world_server() {
-     
-	readarray worldlistarray < /home/steam/worlds.txt  
-    echo "${worldlistarray[@]}"
-
-    read -p "$FUNCTION_SET_WORLD_SERVER_INFO" SeverNameEntered
-    echo ""
-
-    if [ "$SeverNameEntered" == "" ]; then
-       worldname=default
-    elif [ "$SeverNameEntered" <> "default" ]; then
-	   worldname=$SeverNameEntered
-	else
-	   worldname=default
-    fi
-	
+	#readarray worldlistarray < /home/steam/worlds.txt
+    if [ "$worldname" = "" ] && [ -n "$worldlistarray" ] && [ "$request99" != "y" ] ; then	
+		worldname=${worldlistarray[0]}
+	elif [ -n "$worldlistarray" ] && [ "$request99" = "y" ] ; then
+		echo "$FUNCTION_SET_WORLD_SERVER_INFO"
+		select world in "${worldlistarray[@]}";
+		do
+			echo "You selected $menu ($REPLY)"
+			echo "World name is ${world}"
+			if [ -n "$REPLY" ] ; then
+				worldname=${world}
+				echo "World menu selection: ${world}"
+				echo "Would session set: ${worldname}"
+				break;
+			else
+				echo "Invalid selection"	
+				echo ""			  
+			fi
+		done	
+		echo ".............................."		
+		echo "Worldname set to: ${worldname}"
+		echo ".............................."		
+	elif [ "$worldname" = "" ] && [ n "$worldlistarray" ] ; then
+		worldname="..."
+		echo "No worlds setup yet?"		
+		echo ""	
+    else 
+		echo ""	
+	fi
+	request99="n"
+	#clear
 }
 ########################################################################
 ##########################MENUS STATUS VARIBLES END#####################
@@ -1424,7 +2150,7 @@ function set_world_server() {
 
 function menu_header_vplus_enable() {
 get_current_config
-		
+set_steamexe
 echo -ne "
 $(ColorPurple '╔════════════════════')$(ColorOrange 'Valheim+')$(ColorPurple '═══════════════════╗')
 $(ColorPurple '║~~~~~~~~~~~~~~~~~~')$(ColorLightGreen '-Njord Menu-')$(ColorPurple '~~~~~~~~~~~~~~~~~║')
@@ -1467,6 +2193,7 @@ $(ColorPurple '╚════════════════════�
 						
 function menu_header_bepinex_enable() {
 get_current_config
+set_steamexe
 echo -ne "
 $(ColorCyan '╔═════════════════════')$(ColorOrange 'BepInEx')$(ColorCyan '═══════════════════╗')
 $(ColorCyan '║~~~~~~~~~~~~~~~~~~')$(ColorLightGreen '-Njord Menu-')$(ColorCyan '~~~~~~~~~~~~~~~~~║')
@@ -1509,8 +2236,7 @@ $(ColorCyan '╚═════════════════════�
 
 function menu_header() {
 	get_current_config
-	set_steamexe
-	
+	set_steamexe	
 	echo -ne "
 $(ColorOrange '╔══════════════════════════════════════════════════════════╗')
 $(ColorOrange '║~~~~~~~~~~*****~~~~~~~~-Njord Menu-~~~~~~~~~*****~~~~~~~~~║')
@@ -1521,7 +2247,7 @@ $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_2"'')
 $(ColorOrange '║')
 $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_OFFICIAL_BUILD"'')" $(check_official_valheim_release_build)
 	echo -ne "
-$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"        $(check_local_valheim_build)
+$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')" $(check_local_valheim_build)
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_status)
@@ -1604,6 +2330,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 
 # Display Main Menu System
 menu(){
+	set_world_server
 	menu_header
 	echo -ne "
 $(ColorOrange ' '"$FUNCTION_MAIN_MENU_CHECK_SCRIPT_UPDATES_HEADER"' ')
@@ -1660,8 +2387,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 			17) restore_world_data ; menu ;;
 			18) mods_menu ; mods_menu ;;
 			19) bepinex_menu ; bepinex_menu ;;			
-			
-			99) set_world_server ; menu ;;
+			99) request99="y" ; set_world_server ; menu ;;
 			0) exit 0 ;;
 			*)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
         esac
