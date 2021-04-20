@@ -55,8 +55,10 @@
 #                       Minor bug fixes/format issues.
 #              Added:   Adv menu system.
 #                       set_world_server function improvments.
+#              Added:   For both firewalld and ufw, adds Valheim server port ranges firewall on install/add.
+#                       ufw command needs to be validated.
 #
-# Working on: Support for firewalld/ufw ports control.
+# Future: firewall admin add/delete/deny 
 #               
 # Current Options: DE=German, EN=English, FR=French, SP=Spanish"
 ###############################################################################################
@@ -92,7 +94,7 @@ readarray -t worldlistarray < /home/steam/worlds.txt
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="2.041920211400.Beta"
+ldversion="2.041920212040.Beta"
 ########################################################################
 #############################Set COLOR VARS#############################
 ########################################################################
@@ -408,12 +410,16 @@ $(ColorRed ''"$DRAW60"'')"
 		#### These should also be added to as port forwards on your network router.
 		####
 		#
+		minportnumber=${portnumber}
+		maxportnumber=${portnumber}+3
 		if command -v ufw >/dev/null; then
-			echo "Need to add ufw commands" 
+			# ufw allow udp from any to any port $minportnumber-$maxportnumber
+			# The above command needs to be validated.
+			echo ""
 		elif command -v firewalld >/dev/null; then
 			systemctl start firewalld
 			systemctl status firewalld
-			firewall-cmd --permanent --zone=public  --add-port={2456-2458/tcp,2456-2458/udp}
+			firewall-cmd --permanent --zone=public --add-port={$minportnumber-$maxportnumber/tcp,$minportnumber-$maxportnumber/udp}
 			firewall-cmd --reload
 		else
 			echo ""
