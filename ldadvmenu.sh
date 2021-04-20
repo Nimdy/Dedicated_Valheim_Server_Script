@@ -19,47 +19,22 @@
 #### Modifier: Lord/Ranger(Dumoss)
 #### Forked from: Njord advancemenu.ld (with beta) Updated: 10-APR-2021
 ####
-#### The main focue of this project to add RH Linux support.
-#### Allow install and control of many Valheim systems running on a single node
-#### based on WORLDNAME. Which is set to "default" on script start.
-####
-#### Valheim servers are now installed under "${worldpath}/${worldname}"
+#### The main focus of this was to add Linux support for RH yum based systems.
+#### I use OEL7 on a Solaris server box that can handle.
+#### Even thought I am only going to run 3 at most.
 #### 
-#### /home/steam/.config/unity3d/IronGate/Valheim/worlds/default
+#### But this lead to ... 
 ####
+#### Allow the handling of many Valheim systems running on a single node.
+#### Based on WORLDNAME -- installed under "${worldpath}/${worldname}"
+#### Using different ports -- Added some simple firewall port add.
+####
+#### I would like to thank Zerobandwidth and Team for putting 
+#### together this wonderfull script.
+#### *** - Dumoss
+#### 
 ###############################################################################################
 ###############################################################################################
-#
-# (16-04-2021) Added: Yum functionlality and 
-# (16-04-2021) Changed: apt/yum install points.
-# (16-04-2021) Changed: the way steamcmd is installed, 
-#     as yum install steamcmd does not work?
-# (16-04-2021) Added: firewall-cmd commands for steamcmd and valheim,
-#    but they are currently for information and commented out *** for now ***. 
-#
-# (16-04-2021) Changed (ALL): "/home/steam/steamcmd +login"
-#      to: "set_steamexe +login"
-#
-# (16-04-2021) Changed: start_valheim.sh to start_valheim_${worldname}.sh
-#              valheimserver.service to valheimserver_${worldname}.service
-#
-# (16-04-2021) Added: funtion valheim_server_addanother to server_install_menu
-#
-# (17-04-2021)Added: Functionlity to admin the additional created valheim server services.
-# (17-04-2021)Added: worldname=default  and "/home/steam/worlds.txt"
-# 
-# (18-04-2021) Changed: One function to control them all.
-#                       Linux flavor user creation verified
-#
-# (19-04-2021) Changed: Full code review/Re-org to do NLS.
-#                       Minor bug fixes/format issues.
-#              Added:   Adv menu system.
-#                       set_world_server function improvments.
-#              Added:   For both firewalld and ufw, adds Valheim server port ranges firewall on install/add.
-#                       ufw command needs to be validated.
-#
-# Future: firewall admin add/delete/deny 
-#               
 # Current Options: DE=German, EN=English, FR=French, SP=Spanish"
 ###############################################################################################
 ###############################################################################################
