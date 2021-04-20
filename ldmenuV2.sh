@@ -53,7 +53,8 @@
 #
 # (19-04-2021) Changed: Full code review/Re-org to do NLS.
 #                       Minor bug fixes/format issues.
-#              Added:   Adv menu. 
+#              Added:   Adv menu system.
+#                       set_world_server function improvments.
 #
 # Working on: Support for firewalld/ufw ports control.
 #               
@@ -85,9 +86,9 @@ valheimInstallPath=/home/steam/valheimserver
 worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
 #Backup Directory ( Default )
 backupPath=/home/steam/backups
-worldname=""
+#worldname=""
 request99="n"
-readarray worldlistarray < /home/steam/worlds.txt 
+readarray -t worldlistarray < /home/steam/worlds.txt 
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
@@ -1095,7 +1096,7 @@ export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
 
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setworldnameName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}"
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setworldnameName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
    echo "$FUNCTION_WRITE_CONFIG_RESTART_SET_PERMS" ${valheimInstallPath}/start_valheim_${worldname}.sh
@@ -1629,7 +1630,7 @@ do
 	esac
 done
 
-"${VALHEIM_PLUS_PATH}/${executable_name}" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${server_savedir}"
+"${VALHEIM_PLUS_PATH}/${executable_name}" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${worldpath}/${worldname}"
 
 export LD_LIBRARY_PATH=$templdpath
 EOF
@@ -2098,23 +2099,38 @@ sleep 1
 }
 
 # LD: Set the world server name.
-# Basic for now. Working on better system.
 function set_world_server() {
-	# readarray worldlistarray < /home/steam/worlds.txt  
-	echo "${worldlistarray[@]}"
-	echo ""
-
-    if [ "$worldname" = "" ] ; then		
-			read -p "$FUNCTION_SET_WORLD_SERVER_INFO" ServerNameEntered
-		echo ""
-	elif [ "$worldname" != "" ] && [ "$request99" == "y" ] ; then
-			read -p "$FUNCTION_SET_WORLD_SERVER_INFO" ServerNameEntered
-		echo ""
-	else
-		echo ""
+	#readarray worldlistarray < /home/steam/worlds.txt
+    if [ "$worldname" = "" ] && [ -n "$worldlistarray" ] && [ "$request99" != "y" ] ; then	
+		worldname=${worldlistarray[0]}
+	elif [ -n "$worldlistarray" ] && [ "$request99" = "y" ] ; then
+		echo "$FUNCTION_SET_WORLD_SERVER_INFO"
+		select world in "${worldlistarray[@]}";
+		do
+			echo "You selected $menu ($REPLY)"
+			echo "World name is ${world}"
+			if [ -n "$REPLY" ] ; then
+				worldname=${world}
+				echo "World menu selection: ${world}"
+				echo "Would session set: ${worldname}"
+				break;
+			else
+				echo "Invalid selection"	
+				echo ""			  
+			fi
+		done	
+		echo ".............................."		
+		echo "Worldname set to: ${worldname}"
+		echo ".............................."		
+	elif [ "$worldname" = "" ] && [ n "$worldlistarray" ] ; then
+		worldname="..."
+		echo "No worlds setup yet?"		
+		echo ""	
+    else 
+		echo ""	
 	fi
-    worldname=${ServerNameEntered}
 	request99="n"
+	#clear
 }
 ########################################################################
 ##########################MENUS STATUS VARIBLES END#####################
