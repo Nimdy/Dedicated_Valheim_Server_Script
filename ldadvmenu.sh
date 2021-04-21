@@ -650,13 +650,10 @@ function Install_steamcmd_client() {
     
 	#build symbolic link for steamcmd
     tput setaf 1; echo "$INSTALL_BUILD_SYM_LINK_STEAMCMD" ; tput setaf 9;
-    if command -v apt-get >/dev/null; then
-	    ln -s /usr/games/steamcmd /home/steam/steamcmd
-    #elif [ "$pureserver" = "y" ] ; then
-	if [ "$VARIANT" = "server" ] ; then
-		echo ".... This is a server system!"
+    if [ "$VARIANT" != "server" ] ; then
+		ln -s /usr/games/steamcmd /home/steam/steamcmd
 	else
-		echo ""
+		echo "This is a pure Linux server."
     fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1	
