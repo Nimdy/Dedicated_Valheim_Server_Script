@@ -2108,12 +2108,16 @@ function are_mods_enabled() {
 # LD: Set steamcmd based on Linux Flavor
 function set_steamexe() {
     tput setaf 1; echo "$FUNCTION_SET_STEAMEXE_INFO" ; tput setaf 9;
-    if command -v apt-get >/dev/null; then
-	    steamexe=/home/steam/steamcmd
-    elif command -v yum >/dev/null; then
+	if [ "$pureserver" = "n" ] ; then
+		if command -v apt-get >/dev/null; then
+			steamexe=/home/steam/steamcmd
+		elif command -v yum >/dev/null; then
+			echo ""
+		else
+			echo ""
+		fi
+	elif [ "$pureserver" = "y" ] ; then
 	    steamexe=/home/steam/steamcmd/steamcmd.sh
-    else
-        echo ""
     fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 sleep 1
