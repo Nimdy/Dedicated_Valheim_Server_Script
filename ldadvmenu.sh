@@ -604,10 +604,12 @@ function Install_steamcmd_client() {
 			####
 			#### But the following did allow the steam rpm to install.
 			#### The main issue was no support for the Vulkan system on Fedora.
-			#### There is this project ... https://github.com/KhronosGroup/Vulkan-Loader/blob/master/BUILD.md
+			#### Still noting installing due to no Vulkan support. 
 			#### As Fedora does not have native compiled Vulkan, to bypass this and install the steam client.
+			#### There is this project ... https://github.com/KhronosGroup/Vulkan-Loader/blob/master/BUILD.md
+			#### I am working trying this now.
 			#
-            yum install steam -y --skip-broken 
+            # yum install steam* -y 
 			#
 			#### Other than Vulkan Wow the dependent LIBs installed			
 			echo ""
