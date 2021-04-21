@@ -593,18 +593,16 @@ function Install_steamcmd_client() {
 			#### But the following did allow the steam rpm to install.
 			#### The main issue was no support for the Vulkan system on Fedora.
 			#### There is this project ... https://github.com/KhronosGroup/Vulkan-Loader/blob/master/BUILD.md
-			#### Here are the Steps. -- Wow the dependent LIB installed.
+			#### As Fedora does not have native compiled Vulkan, to bypass this and install the steam client.
 			#
             # yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
             # yum-config-manager --add-repo=https://negativo17.org/repos/epel-steam.repo
             # yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
             # yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
             # yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-			#### As Fedora does not have native compiled Vulkan, to bypass this and install the steam client.
-			#
             # yum install steam --skip-broken 
 			#
-			#### Other than Vulkan -- Wow the dependent LIBs installed .
+			#### Other than Vulkan Wow the dependent LIBs installed			
 			echo ""
 		else
 			echo ""
