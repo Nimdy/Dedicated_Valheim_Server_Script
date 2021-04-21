@@ -546,10 +546,9 @@ function linux_server_update() {
     if command -v apt-get >/dev/null; then
         add-apt-repository -y multiverse
     elif command -v yum >/dev/null; then
-	    # echo "$FUNCTION_LINUX_SERVER_UPDATE_RHL_REQUIRED_NO"
-		# Finished testing on Fedora (33) Gaming Lab version and worked.
-		# It also worked on my Oracle Linux Server 7. 
-		# But I am still want to use the script to provide server only function as well.
+	    # Need to add the following repos.
+		#### Adding these repos allowed the of steam/vulkan/and other dependances on Oracle Enterprise Linux 7 (RH7/Fedora2+)
+		#### and after the "steam" gui even started :)
         yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
         yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
         yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
@@ -589,8 +588,7 @@ function linux_server_update() {
 function Install_steamcmd_client() {
 
 	#install steamcmd
-	# This depends on the Linux flavor and/or whether the graphic client 
-	# side of steamcmd is needed/supported to play games on that system.
+#### This depends on the Linux flavor and/or whether you need the graphic client or the command line only.
 	tput setaf 1; echo "$INSTALL_STEAMCMD_LIBSD12" ; tput setaf 9;
 	#if [ "$pureserver" = "n" ] ; then
 	if [ "$VARIANT" != "server" ] ; then
@@ -600,18 +598,30 @@ function Install_steamcmd_client() {
 			apt install steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386 -y
 			tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 		elif command -v yum >/dev/null; then
-			#### The following allowed me to install steam on Oracle Enterprise Linux 7 (RH7/Fedora2+)
-			####
-			#### But the following did allow the steam rpm to install.
-			#### The main issue was no support for the Vulkan system on Fedora.
-			#### Still noting installing due to no Vulkan support. 
-			#### As Fedora does not have native compiled Vulkan, to bypass this and install the steam client.
-			#### There is this project ... https://github.com/KhronosGroup/Vulkan-Loader/blob/master/BUILD.md
-			#### I am working trying this now.
-			#
-            # yum install steam* -y 
-			#
-			#### Other than Vulkan Wow the dependent LIBs installed			
+            yum install steam -y 
+#### You might see the following after adding
+#### 
+#### Transaction check error:
+####   file /usr/share/man/man1/pango-view.1.gz from install of pango-1.42.4-4.el7_7.i686 conflicts with file from package pango-1.42.4-4.el7_7.x86_64
+####   file /usr/share/man/man1/gtk-query-immodules-2.0.1.gz from install of gtk2-2.24.31-1.el7.i686 conflicts with file from package gtk2-2.24.31-1.el7.x86_64
+####   ....
+####
+#### This right was causing steam not to install for me. 
+#### The errors are due to the new added repos to my system.
+#### These error happen when the i686(32bit) depent libs are being installed for steam and where the x86_64 bit versions are already installed from another repo.
+####
+#### This took me a bit to find an answer.
+#### But the fix this is easy. 
+####
+#### <ctrl-c> out of menu
+####
+#### Run the following for all listed.
+####
+#### yum reinstall pango.x86_64 gtk2.x86_64 ...
+####
+#### Rerun the menu script.
+####
+
 			echo ""
 		else
 			echo ""
