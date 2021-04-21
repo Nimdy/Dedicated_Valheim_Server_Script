@@ -65,13 +65,8 @@ valheimInstallPath=/home/steam/valheimserver
 worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
 #Backup Directory ( Default )
 backupPath=/home/steam/backups
-
 #LDadded
 readarray -t worldlistarray < /home/steam/worlds.txt
-# Sourcing the the release file to set vars.
-. /etc/os-release
-# pureserver="n"
-# replacing with .. VARIANT
 worldname=""
 request99="n"
 freshinstall="n"
@@ -280,10 +275,7 @@ $(ColorRed ''"$DRAW60"'')"
 				clear		
 				echo ""
 		fi
-		
-		
-		
-		
+
 		# Take user input for Valheim Server password
 		# Added security for harder passwords
 		echo ""        
@@ -589,18 +581,16 @@ function linux_server_update() {
 ########################################################################
 function Install_steamcmd_client() {
 
-	#install steamcmd
+#install steamcmd
 #### This depends on the Linux flavor and/or whether you need the graphic client or the command line only.
 	tput setaf 1; echo "$INSTALL_STEAMCMD_LIBSD12" ; tput setaf 9;
-	#if [ "$pureserver" = "n" ] ; then
-	if [ "$VARIANT" != "server" ] ; then
-		if command -v apt-get >/dev/null; then
-			echo steam steam/license note '' | debconf-set-selections
-			echo steam steam/question select 'I AGREE' | debconf-set-selections
-			apt install steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386 -y
-			tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-		elif command -v yum >/dev/null; then
-            yum install steam -y 
+	if command -v apt-get >/dev/null; then
+		echo steam steam/license note '' | debconf-set-selections
+		echo steam steam/question select 'I AGREE' | debconf-set-selections
+		apt install steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386 -y
+		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+	elif command -v yum >/dev/null; then
+        yum install steam -y 
 #### You might see the following after adding
 #### 
 #### Transaction check error:
@@ -624,13 +614,7 @@ function Install_steamcmd_client() {
 #### Rerun the menu script.
 ####
 
-			echo ""
-		else
-			echo ""
-		fi	
-	#elif [ "$pureserver" = "y" ] ; then	
-	elif [ "$VARIANT" = "server" ] ; then
-	    # BUT if you are only running a server only the following is required.
+	# Because there is 100% no yum steamcmd still need to
 		steamzipfile="/home/steam/steamcmd/steamcmd_linux.tar.gz"
 		cd /home/steam
 		mkdir steamcmd
@@ -661,18 +645,19 @@ function Install_steamcmd_client() {
 	fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1
-    
 	#build symbolic link for steamcmd
+	#Guess it is time to install UBUNTU to see these diffs.
     tput setaf 1; echo "$INSTALL_BUILD_SYM_LINK_STEAMCMD" ; tput setaf 9;
-    if [ "$VARIANT" != "server" ] ; then
-		ln -s /usr/games/steamcmd /home/steam/steamcmd
-	else
-		echo "This is a pure Linux server."
+	if command -v apt-get >/dev/null; then
+        ln -s /usr/games/steamcmd /home/steam/steamcmd
+    elif command -v yum >/dev/null; then
+        ln -s /usr/games/steamcmd /home/steam/steamcmd/linux32/steamcmd
+    else
+		echo ""
     fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1	
 }
-
 ########################################################################
 ##########Backup and Restore World DB and FWL Files START###############
 ########################################################################
@@ -2129,22 +2114,15 @@ function are_mods_enabled() {
 # LD: Set steamcmd based on Linux Flavor
 function set_steamexe() {
     tput setaf 1; echo "$FUNCTION_SET_STEAMEXE_INFO" ; tput setaf 9;
-	#if [ "$pureserver" = "n" ] ; then
-	if [ "$VARIANT" != "server" ] ; then
-	VARIANT
-	
-		if command -v apt-get >/dev/null; then
-			steamexe=/home/steam/steamcmd
-		elif command -v yum >/dev/null; then
-			echo ""
-		else
-			echo ""
-		fi
-	elif [ "$VARIANT" = "server" ] ; then
+	if command -v apt-get >/dev/null; then
+		steamexe=/home/steam/steamcmd
+	elif command -v yum >/dev/null; then
 	    steamexe=/home/steam/steamcmd/steamcmd.sh
-    fi
+	else
+		echo ""
+	fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-sleep 1
+	sleep 1
 }
 
 # LD: Set the world server name.
