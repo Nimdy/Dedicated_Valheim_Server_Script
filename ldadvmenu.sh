@@ -2115,9 +2115,6 @@ function set_steamexe() {
     else
         echo ""
     fi
-	echo "........................................."
-    echo $steamexe
-    echo "........................................."
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 sleep 1
 }
