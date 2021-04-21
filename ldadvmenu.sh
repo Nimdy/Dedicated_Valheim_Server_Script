@@ -547,8 +547,8 @@ function linux_server_update() {
         add-apt-repository -y multiverse
     elif command -v yum >/dev/null; then
 	    # Need to add the following repos.
-		#### Adding these repos allowed the of steam/vulkan/and other dependances on Oracle Enterprise Linux 7 (RH7/Fedora2+)
-		#### and after the "steam" gui even started :)
+		#### Adding these repos allowed steam/vulkan/and the other dependances to install on OEL/RH7/Fedora2+
+		#### I even tested starting the steam gui interface. It started just fine.
         yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
         yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
         yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
@@ -606,11 +606,11 @@ function Install_steamcmd_client() {
 ####   file /usr/share/man/man1/gtk-query-immodules-2.0.1.gz from install of gtk2-2.24.31-1.el7.i686 conflicts with file from package gtk2-2.24.31-1.el7.x86_64
 ####   ....
 ####
-#### This right was causing steam not to install for me. 
+#### This was the issue causing steam not to install for me.
 #### The errors are due to the new added repos to my system.
 #### These error happen when the i686(32bit) depent libs are being installed for steam and where the x86_64 bit versions are already installed from another repo.
 ####
-#### This took me a bit to find an answer.
+#### This took me a bit to find an answer.  
 #### But the fix this is easy. 
 ####
 #### <ctrl-c> out of menu
