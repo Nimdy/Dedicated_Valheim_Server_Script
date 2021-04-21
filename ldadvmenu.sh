@@ -63,12 +63,16 @@ valheimInstallPath=/home/steam/valheimserver
 worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
 #Backup Directory ( Default )
 backupPath=/home/steam/backups
+
 #LDadded
+readarray -t worldlistarray < /home/steam/worlds.txt
+# Sourcing the the release file to set vars.
+. /etc/os-release
+# pureserver="n"
+# replacing with .. VARIANT
 worldname=""
 request99="n"
 freshinstall="n"
-pureserver="n"
-readarray -t worldlistarray < /home/steam/worlds.txt
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
@@ -581,7 +585,8 @@ function Install_steamcmd_client() {
 	# This depends on the Linux flavor and/or whether the graphic client 
 	# side of steamcmd is needed/supported to play games on that system.
 	tput setaf 1; echo "$INSTALL_STEAMCMD_LIBSD12" ; tput setaf 9;
-	if [ "$pureserver" = "n" ] ; then
+	#if [ "$pureserver" = "n" ] ; then
+	if [ "$VARIANT" != "server" ] ; then
 		if command -v apt-get >/dev/null; then
 			echo steam steam/license note '' | debconf-set-selections
 			echo steam steam/question select 'I AGREE' | debconf-set-selections
@@ -607,7 +612,8 @@ function Install_steamcmd_client() {
 		else
 			echo ""
 		fi	
-	elif [ "$pureserver" = "y" ] ; then	
+	#elif [ "$pureserver" = "y" ] ; then	
+	elif [ "$VARIANT" = "server" ] ; then
 	    # BUT if you are only running a server only the following is required.
 		steamzipfile="/home/steam/steamcmd/steamcmd_linux.tar.gz"
 		cd /home/steam
@@ -644,7 +650,8 @@ function Install_steamcmd_client() {
     tput setaf 1; echo "$INSTALL_BUILD_SYM_LINK_STEAMCMD" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
 	    ln -s /usr/games/steamcmd /home/steam/steamcmd
-    elif [ "$pureserver" = "y" ] ; then
+    #elif [ "$pureserver" = "y" ] ; then
+	if [ "$VARIANT" = "server" ] ; then
 		echo ".... This is a server system!"
 	else
 		echo ""
@@ -834,6 +841,7 @@ function check_apply_server_updates_beta() {
 		echo "Update Found kicking process to Odin for updating!"
 		sleep 2
         continue_with_valheim_update_install
+		systemctl restart valheimserver.service
         echo ""
      fi
      echo ""
@@ -2108,7 +2116,10 @@ function are_mods_enabled() {
 # LD: Set steamcmd based on Linux Flavor
 function set_steamexe() {
     tput setaf 1; echo "$FUNCTION_SET_STEAMEXE_INFO" ; tput setaf 9;
-	if [ "$pureserver" = "n" ] ; then
+	#if [ "$pureserver" = "n" ] ; then
+	if [ "$VARIANT" != "server" ] ; then
+	VARIANT
+	
 		if command -v apt-get >/dev/null; then
 			steamexe=/home/steam/steamcmd
 		elif command -v yum >/dev/null; then
@@ -2116,7 +2127,7 @@ function set_steamexe() {
 		else
 			echo ""
 		fi
-	elif [ "$pureserver" = "y" ] ; then
+	elif [ "$VARIANT" = "server" ] ; then
 	    steamexe=/home/steam/steamcmd/steamcmd.sh
     fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
