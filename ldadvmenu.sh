@@ -623,7 +623,7 @@ function Install_steamcmd_client() {
 			rm $steamzipfile
 		fi	
 		if [ "$freshinstall" = "y" ] ; then 
-			rm -rfv /home/steam/steamcmd
+			rm -rfv /home/steam/steamcmd/*
 		fi
 		wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
 		tar xf steamcmd_linux.tar.gz
