@@ -546,7 +546,14 @@ function linux_server_update() {
     if command -v apt-get >/dev/null; then
         add-apt-repository -y multiverse
     elif command -v yum >/dev/null; then
-         echo "$FUNCTION_LINUX_SERVER_UPDATE_RHL_REQUIRED_NO"
+	    # echo "$FUNCTION_LINUX_SERVER_UPDATE_RHL_REQUIRED_NO"
+		# Finished testing on Fedora (33) Gaming Lab version and worked.
+		# It also worked on my Oracle Linux Server 7. 
+		# But I am still want to use the script to provide server only function as well.
+        yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
+        yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
+        yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+        yum-config-manager --add-repo=https://negativo17.org/repos/epel-steam.repo
     else
         echo "..."
     fi
@@ -600,12 +607,7 @@ function Install_steamcmd_client() {
 			#### There is this project ... https://github.com/KhronosGroup/Vulkan-Loader/blob/master/BUILD.md
 			#### As Fedora does not have native compiled Vulkan, to bypass this and install the steam client.
 			#
-            # yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-            # yum-config-manager --add-repo=https://negativo17.org/repos/epel-steam.repo
-            # yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
-            # yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
-            # yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-            # yum install steam --skip-broken 
+            yum install steam -y --skip-broken 
 			#
 			#### Other than Vulkan Wow the dependent LIBs installed			
 			echo ""
