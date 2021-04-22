@@ -81,13 +81,6 @@ freshinstall="n"
 # Set this to delete all files from the 
 # /home/steam/steamcmd directory for clean reinstall steamcmd.
 ###############################################################
-###############################################################
-###############################################################
-# NOTE: No need to change these ever. For code flow only      "
-###############################################################
-worldname=""
-request99="n"
-###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
 ldversion="2.042120211840.Beta"
@@ -524,9 +517,9 @@ function linux_server_update() {
         apt update && apt upgrade -y
 	#elif command -v dnf >/dev/null; then
     elif command -v yum >/dev/null; then
-		if [ "$ID" == "fedora" ] ; then	
+		if [ "$ID" == "fedora" ] || [ "$ID "= "centos" ] || ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] ) ; then				
 			dnf clean all && dnf update -y && dnf upgrade -y
-		elif [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ; then	
+		elif [ ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
 			yum clean all && yum update -y && yum upgrade -y
 		else
 			echo "oops1"
@@ -542,10 +535,13 @@ function linux_server_update() {
     if command -v apt-get >/dev/null; then
         apt install lib32gcc1 libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl -y
     #elif command -v dnf >/dev/null; then
+	# Seams RH went to dnf as well in RHEL8
+	# Might use ID_LIKE="fedora" and VERSION_ID="7.9" instead? But this works.
+	#
     elif command -v yum >/dev/null; then
-		if [ "$ID" == "fedora" ] ; then	
+		if [ "$ID" == "fedora" ] || [ "$ID "= "centos" ] || ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then	
 			dnf install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
-		elif [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ; then	
+		elif [ ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
 			yum install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
 	    else
 			echo "oops3"
@@ -571,13 +567,13 @@ function linux_server_update() {
         add-apt-repository -y multiverse
     elif command -v yum >/dev/null; then
 		#if command -v dnf >/dev/null; then	
-		if [ "$ID" = "fedora" ] ; then
+		if [ "$ID" == "fedora" ] || [ "$ID "= "centos" ] || ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then
 			dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-negativo17.repo  
 			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-multimedia.repo  
 			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-nvidia.repo      
 			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-steam.repo       
-		elif [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ; then	
+		elif [ ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
 			# Need to add the following repos.
 			#### Adding these repos allowed steam/vulkan/and the other dependances to install on OEL/RH7/Fedora2+
 			#### I even tested starting the steam gui interface. It started just fine.
@@ -608,16 +604,15 @@ function linux_server_update() {
     fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1
-
     #update system again
     tput setaf 1; echo "$CHECK_FOR_UPDATES_AGAIN" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
         apt update
     elif command -v yum >/dev/null; then
 		#elif command -v dnf >/dev/null; then
-		if [ "$ID" == "fedora" ] ; then	
+		if [ "$ID" == "fedora" ] || [ "$ID "= "centos" ] || ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then
 			dnf update		
-		elif [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ; then	
+		elif [ ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
 			yum update
 		else
 			echo "oops6"
@@ -629,7 +624,6 @@ function linux_server_update() {
 ################# LD: Install the steamcmd                 #############
 ########################################################################
 function Install_steamcmd_client() {
-
 #install steamcmd
 #### This depends on the Linux flavor and/or whether you need the graphic client or the command line only.
 	tput setaf 1; echo "$INSTALL_STEAMCMD_LIBSD12" ; tput setaf 9;
@@ -642,9 +636,9 @@ function Install_steamcmd_client() {
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 	elif command -v yum >/dev/null; then
 		#if command -v dnf >/dev/null; then
-		if [ "$ID" = "fedora" ] ; then
+		if [ "$ID" == "fedora" ] || [ "$ID "= "centos" ] || ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then
 	    	dnf -y install steam kernel-modules-extra
-		elif [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ; then	
+		elif [ ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
 			yum install steam -y
 		else
 			echo "oops7"			
@@ -1114,6 +1108,9 @@ clear
 ########################################################################
 ############# LD: Firewall section (WIP) START##########################
 ########################################################################
+
+## LD: Going to add disable / enable firewall and then
+## call use them in the start and stop service actions above.
 
 function firewall_status(){
      if command -v ufw >/dev/null; then
