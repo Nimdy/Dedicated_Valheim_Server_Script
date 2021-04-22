@@ -505,6 +505,8 @@ function linux_server_update() {
     tput setaf 1; echo "$CHECK_FOR_UPDATES" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
         apt update && apt upgrade -y
+	elif command -v dnf >/dev/null; then	
+		dnf clean all && dnf update -y && dnf upgrade -y
     elif command -v yum >/dev/null; then
         yum clean all && yum update -y && yum upgrade -y
     else
@@ -517,6 +519,8 @@ function linux_server_update() {
     tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
         apt install lib32gcc1 libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl -y
+    elif command -v dnf >/dev/null; then
+        dnf install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
     elif command -v yum >/dev/null; then
         yum install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
     else
@@ -528,10 +532,9 @@ function linux_server_update() {
     tput setaf 1; echo "$INSTALL_SPCP" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
         apt install software-properties-common
-    elif command -v yum >/dev/null; then
-        echo "$FUNCTION_LINUX_SERVER_UPDATE_YUM_REQUIRED_NO"
+    #elif command -v yum >/dev/null; then
 	else
-        echo "..."
+        echo "$FUNCTION_LINUX_SERVER_UPDATE_YUM_REQUIRED_NO"
     fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1
@@ -540,13 +543,25 @@ function linux_server_update() {
     if command -v apt-get >/dev/null; then
         add-apt-repository -y multiverse
     elif command -v yum >/dev/null; then
-	    # Need to add the following repos.
-		#### Adding these repos allowed steam/vulkan/and the other dependances to install on OEL/RH7/Fedora2+
-		#### I even tested starting the steam gui interface. It started just fine.
-        yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
-        yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
-        yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-        yum-config-manager --add-repo=https://negativo17.org/repos/epel-steam.repo
+		if command -v dnf >/dev/null; then	
+			dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-negativo17.repo  
+			# dnf config-manager --add-repo=https://negativo17.org/repos/fedora-multimedia.repo  
+			# dnf config-manager --add-repo=https://negativo17.org/repos/fedora-nvidia.repo      
+			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-steam.repo       
+		else
+			# Need to add the following repos.
+			#### Adding these repos allowed steam/vulkan/and the other dependances to install on OEL/RH7/Fedora2+
+			#### I even tested starting the steam gui interface. It started just fine.
+			yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
+			yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
+			yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+			yum-config-manager --add-repo=https://negativo17.org/repos/epel-negativo17.repo 
+			# yum-config-manager --add-repo=https://negativo17.org/repos/epel-multimedia.repo
+			# yum-config-manager --add-repo=https://negativo17.org/repos/epel-nvidia.repo     
+			yum-config-manager --add-repo=https://negativo17.org/repos/epel-steam.repo
+		fi
+	
     else
         echo "..."
     fi
@@ -556,10 +571,9 @@ function linux_server_update() {
     tput setaf 1; echo "$ADD_I386" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
         dpkg --add-architecture i386
-    elif command -v yum >/dev/null; then
-        echo "$FUNCTION_LINUX_SERVER_UPDATE_RHL_REQUIRED_NO"
+    #elif command -v yum >/dev/null; then
     else
-        echo "..."
+        echo "$FUNCTION_LINUX_SERVER_UPDATE_RHL_REQUIRED_NO"
     fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1
@@ -568,7 +582,9 @@ function linux_server_update() {
     tput setaf 1; echo "$CHECK_FOR_UPDATES_AGAIN" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
         apt update
-    elif command -v yum >/dev/null; then
+    elif command -v dnf >/dev/null; then
+		dnf update
+	elif command -v yum >/dev/null; then
         yum update
     else
         echo "..."
@@ -590,7 +606,14 @@ function Install_steamcmd_client() {
 		apt install steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386 -y
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 	elif command -v yum >/dev/null; then
-        yum install steam -y 
+		if command -v dnf >/dev/null; then
+	    	dnf -y install steam kernel-modules-extra
+		else	
+			yum install steam -y 
+		fi	
+	fi	
+		
+		
 #### You might see the following after adding
 #### 
 #### Transaction check error:
