@@ -512,14 +512,19 @@ EOF
 ########################################################################
 function linux_server_update() {
 #check for updates and upgrade the system auto yes
+# ID=debian=apt
+# ID=ubuntu=apt
+# ID=FreeBSD=pkg
     tput setaf 1; echo "$CHECK_FOR_UPDATES" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
-        apt update && apt upgrade -y
+	    apt update && apt upgrade -y
+	elif command -v pkg >/dev/null; then
+		echo "Insert command here."    
 	#elif command -v dnf >/dev/null; then
     elif command -v yum >/dev/null; then
-		if [ "$ID" == "fedora" ] || [ "$ID "= "centos" ] || ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] ) ; then				
+		if [ "$ID" == "fedora" ] || ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] ) ; then				
 			dnf clean all && dnf update -y && dnf upgrade -y
-		elif [ ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
+		elif [ ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
 			yum clean all && yum update -y && yum upgrade -y
 		else
 			echo "oops1"
@@ -539,9 +544,9 @@ function linux_server_update() {
 	# Might use ID_LIKE="fedora" and VERSION_ID="7.9" instead? But this works.
 	#
     elif command -v yum >/dev/null; then
-		if [ "$ID" == "fedora" ] || [ "$ID "= "centos" ] || ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then	
+		if [ "$ID" == "fedora" ] || ( [ "$ID "= "centos" ] ||  [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then	
 			dnf install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
-		elif [ ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
+		elif [ ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
 			yum install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
 	    else
 			echo "oops3"
@@ -567,13 +572,13 @@ function linux_server_update() {
         add-apt-repository -y multiverse
     elif command -v yum >/dev/null; then
 		#if command -v dnf >/dev/null; then	
-		if [ "$ID" == "fedora" ] || [ "$ID "= "centos" ] || ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then
+		if [ "$ID" == "fedora" ] || ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then
 			dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-negativo17.repo  
 			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-multimedia.repo  
 			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-nvidia.repo      
 			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-steam.repo       
-		elif [ ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
+		elif [ ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
 			# Need to add the following repos.
 			#### Adding these repos allowed steam/vulkan/and the other dependances to install on OEL/RH7/Fedora2+
 			#### I even tested starting the steam gui interface. It started just fine.
@@ -610,9 +615,9 @@ function linux_server_update() {
         apt update
     elif command -v yum >/dev/null; then
 		#elif command -v dnf >/dev/null; then
-		if [ "$ID" == "fedora" ] || [ "$ID "= "centos" ] || ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then
+		if [ "$ID" == "fedora" ] || ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then
 			dnf update		
-		elif [ ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
+		elif [ ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
 			yum update
 		else
 			echo "oops6"
@@ -629,6 +634,7 @@ function Install_steamcmd_client() {
 	tput setaf 1; echo "$INSTALL_STEAMCMD_LIBSD12" ; tput setaf 9;
 	# ID=debian 
 	# ID=ubuntu
+	# ID=FreeBSD=pkg
 	if command -v apt-get >/dev/null; then
 		echo steam steam/license note '' | debconf-set-selections
 		echo steam steam/question select 'I AGREE' | debconf-set-selections
@@ -636,9 +642,9 @@ function Install_steamcmd_client() {
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 	elif command -v yum >/dev/null; then
 		#if command -v dnf >/dev/null; then
-		if [ "$ID" == "fedora" ] || [ "$ID "= "centos" ] || ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then
+		if [ "$ID" == "fedora" ] || ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then
 	    	dnf -y install steam kernel-modules-extra
-		elif [ ( [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
+		elif [ ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
 			yum install steam -y
 		else
 			echo "oops7"			
