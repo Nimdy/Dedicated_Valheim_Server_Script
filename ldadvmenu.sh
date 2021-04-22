@@ -611,9 +611,6 @@ function Install_steamcmd_client() {
 		else	
 			yum install steam -y 
 		fi	
-	fi	
-		
-		
 #### You might see the following after adding
 #### 
 #### Transaction check error:
@@ -636,7 +633,6 @@ function Install_steamcmd_client() {
 ####
 #### Rerun the menu script.
 ####
-
 	# Because there is 100% no yum steamcmd still need to
 		steamzipfile="/home/steam/steamcmd/steamcmd_linux.tar.gz"
 		cd /home/steam
