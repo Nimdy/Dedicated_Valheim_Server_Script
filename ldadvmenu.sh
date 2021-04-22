@@ -40,6 +40,8 @@
 # Current Options: DE=German, EN=English, FR=French, SP=Spanish"
 ###############################################################################################
 ###############################################################################################
+source ./etc/os-release
+
 if [ "$1" == "" ] 
 then 
 	LANGUAGE=EN
@@ -47,6 +49,10 @@ else
 	LANGUAGE=$1
 fi 
 source lang/$LANGUAGE.conf
+
+if [ -n "$worldlistarray" ]; then
+	readarray -t worldlistarray < /home/steam/worlds.txt
+fi
 #############################################################
 ########################  Santiy Check  #####################
 #############################################################
@@ -58,18 +64,29 @@ echo "$(tput setaf 4)"$DRAW60""
 [[ "$EUID" -eq 0 ]] || exec sudo "$0" "$@"
 clear
 ###############################################################
-#Only change this if you know what you are doing
+################### Default Variables #########################
+###############################################################
+### NOTE: Only change this if you know what you are doing   ###    
+###############################################################
+###############################################################
 #Valheim Server Install location(Default) 
 valheimInstallPath=/home/steam/valheimserver
 #Valheim World Data Path(Default)
 worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
 #Backup Directory ( Default )
 backupPath=/home/steam/backups
-#LDadded
-readarray -t worldlistarray < /home/steam/worlds.txt
+# This option is only for the steamcmd install where it 
+# is not included in a Linux flavor repos
+freshinstall="n"
+# Set this to delete all files from the 
+# /home/steam/steamcmd directory for clean reinstall steamcmd.
+###############################################################
+###############################################################
+###############################################################
+# NOTE: No need to change these ever. For code flow only      "
+###############################################################
 worldname=""
 request99="n"
-freshinstall="n"
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
@@ -553,6 +570,8 @@ function linux_server_update() {
 			# Need to add the following repos.
 			#### Adding these repos allowed steam/vulkan/and the other dependances to install on OEL/RH7/Fedora2+
 			#### I even tested starting the steam gui interface. It started just fine.
+			#### https://negativo17.org/steam/
+			#### Also remember the repos https://rpmfusion.org/keys
 			yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
 			yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
 			yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
@@ -1064,6 +1083,10 @@ clear
     echo ""
 }
 
+#function worldseed(){
+#worldseed=$(cat > /home/steam/.config/unity3d/IronGate/Valheim/worlds/${serverdisplayname}.fwl)
+#echo -e '\E[32m'"$worldseed "
+#}
 
 ########################################################################
 ##############Valheim Server Information output END#####################
@@ -2103,13 +2126,13 @@ echo -e '\E[32m'"$INTERNAL_IP $mymommyboughtmeaputerforchristmas "$internalip ; 
 }
 
 function server_status(){
-server_status=$(systemctl is-active valheimserver_default.service)
+server_status=$(systemctl is-active valheimserver_${worldname}.service)
 echo -e  '\E[32m'"$server_status "
 }
 
 function server_substate(){
 # systemctl option VALUE does not seam valid on RH so I removed. Should stil work.
-server_substate=$(systemctl show -p SubState valheimserver_default.service)
+server_substate=$(systemctl show -p SubState valheimserver_${worldname}.service)
 echo -e '\E[32m'"$server_substate "
 }
 
