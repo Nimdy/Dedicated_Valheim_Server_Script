@@ -519,15 +519,15 @@ function linux_server_update() {
 # ID=FreeBSD=pkg
     tput setaf 1; echo "$CHECK_FOR_UPDATES" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
-	    apt update && apt upgrade -y
+	    sudo apt update && apt upgrade -y
 	elif command -v pkg >/dev/null; then
 		echo "Insert command here."    
 	#elif command -v dnf >/dev/null; then
     elif command -v yum >/dev/null; then
 		if [ "$ID" == "fedora" ] || ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] ) ; then				
-			dnf clean all && dnf update -y && dnf upgrade -y
+			sudo dnf clean all && dnf update -y && dnf upgrade -y
 		elif [ ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
-			yum clean all && yum update -y && yum upgrade -y
+			sudo yum clean all && yum update -y && yum upgrade -y
 		else
 			echo "oops1"
 		fi
@@ -540,16 +540,16 @@ function linux_server_update() {
 	#        WTF is curl not installed by default... come on man!
     tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
-        apt install lib32gcc1 libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl -y
+        sudo apt install lib32gcc1 libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl -y
     #elif command -v dnf >/dev/null; then
 	# Seams RH went to dnf as well in RHEL8
 	# Might use ID_LIKE="fedora" and VERSION_ID="7.9" instead? But this works.
 	#
     elif command -v yum >/dev/null; then
 		if [ "$ID" == "fedora" ] || ( [ "$ID "= "centos" ] ||  [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then	
-			dnf install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
+			sudo dnf install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
 		elif [ ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
-			yum install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
+			sudo yum install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
 	    else
 			echo "oops3"
 		fi
@@ -561,7 +561,7 @@ function linux_server_update() {
     #install software-properties-common for add-apt-repository command below
     tput setaf 1; echo "$INSTALL_SPCP" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
-        apt install software-properties-common
+        sudo apt install software-properties-common
     #elif command -v yum >/dev/null; then
 	else
         echo "$FUNCTION_LINUX_SERVER_UPDATE_YUM_REQUIRED_NO"
@@ -571,7 +571,7 @@ function linux_server_update() {
     #add multiverse repo
     tput setaf 1; echo "$ADD_MULTIVERSE" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
-        add-apt-repository -y multiverse
+        sudo add-apt-repository -y multiverse
     elif command -v yum >/dev/null; then
 		#if command -v dnf >/dev/null; then	
 		# Need to add the following repos.
@@ -580,19 +580,19 @@ function linux_server_update() {
 		#### https://negativo17.org/steam/
 		#### Remeber the repos keys ... https://rpmfusion.org/keys
 		if [ "$ID" == "fedora" ] || ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then
-			dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-negativo17.repo  
-			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-multimedia.repo  
-			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-nvidia.repo      
-			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-steam.repo       
+			sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-negativo17.repo  
+			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-multimedia.repo  
+			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-nvidia.repo      
+			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-steam.repo       
 		elif [ ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
-			yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
-			yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
-			yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-			yum-config-manager --add-repo=https://negativo17.org/repos/epel-negativo17.repo 
-			yum-config-manager --add-repo=https://negativo17.org/repos/epel-multimedia.repo
-			yum-config-manager --add-repo=https://negativo17.org/repos/epel-nvidia.repo     
-			yum-config-manager --add-repo=https://negativo17.org/repos/epel-steam.repo
+			sudo yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
+			sudo yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
+			sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-negativo17.repo 
+			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-multimedia.repo
+			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-nvidia.repo     
+			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-steam.repo
 		else
 			echo "oops5"
 		fi
@@ -604,7 +604,7 @@ function linux_server_update() {
 	#add i386 architecture
     tput setaf 1; echo "$ADD_I386" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
-        dpkg --add-architecture i386
+        sudo dpkg --add-architecture i386
     #elif command -v yum >/dev/null; then
     else
         echo "$FUNCTION_LINUX_SERVER_UPDATE_RHL_REQUIRED_NO"
@@ -614,13 +614,13 @@ function linux_server_update() {
     #update system again
     tput setaf 1; echo "$CHECK_FOR_UPDATES_AGAIN" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
-        apt update
+        sudo apt update
     elif command -v yum >/dev/null; then
 		#elif command -v dnf >/dev/null; then
 		if [ "$ID" == "fedora" ] || ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then
-			dnf update		
+			sudo dnf update		
 		elif [ ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
-			yum update
+			sudo yum update
 		else
 			echo "oops6"
 		fi
@@ -640,14 +640,14 @@ function Install_steamcmd_client() {
 	if command -v apt-get >/dev/null; then
 		echo steam steam/license note '' | debconf-set-selections
 		echo steam steam/question select 'I AGREE' | debconf-set-selections
-		apt install steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386 -y
+		sudo apt install steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386 -y
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 	elif command -v yum >/dev/null; then
 		#if command -v dnf >/dev/null; then
 		if [ "$ID" == "fedora" ] || ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then
-	    	dnf -y install steam kernel-modules-extra
+	    	sudo dnf -y install steam kernel-modules-extra
 		elif [ ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
-			yum install steam -y
+			sudo yum install steam -y
 		else
 			echo "oops7"			
 		fi	
@@ -695,10 +695,10 @@ function Install_steamcmd_client() {
 		# Need to add ufw commands. 
 		echo "WIP Need to add."
 	elif command -v firewalld >/dev/null; then
-		#systemctl start firewalld
-		systemctl status firewalld
-		firewall-cmd --permanent --zone=public  --add-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
-		firewall-cmd --reload
+		#sudo systemctl start firewalld
+		sudo systemctl status firewalld
+		sudo firewall-cmd --permanent --zone=public  --add-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
+		sudo firewall-cmd --reload
 	else
 		echo "..."
 	fi
