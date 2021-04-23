@@ -510,6 +510,8 @@ EOF
 # LordDumoss (LD): Add yum support. Might be a better way. But it works. 
 # LD: Changed where the steamcmd required libs are installed.
 ########################################################################
+# SUDO?
+#########
 function linux_server_update() {
 #check for updates and upgrade the system auto yes
 # ID=debian=apt
@@ -572,6 +574,11 @@ function linux_server_update() {
         add-apt-repository -y multiverse
     elif command -v yum >/dev/null; then
 		#if command -v dnf >/dev/null; then	
+		# Need to add the following repos.
+		#### Adding these repos allowed steam/vulkan/and the other dependances to install on OEL/RH7/Fedora2+
+		#### I even tested starting the steam gui interface. It started just fine.
+		#### https://negativo17.org/steam/
+		#### Remeber the repos keys ... https://rpmfusion.org/keys
 		if [ "$ID" == "fedora" ] || ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}"  = "8" ] )  ; then
 			dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-negativo17.repo  
@@ -579,11 +586,6 @@ function linux_server_update() {
 			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-nvidia.repo      
 			dnf config-manager --add-repo=https://negativo17.org/repos/fedora-steam.repo       
 		elif [ ( [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] ) && [ "${VERSION:1:1}" = "7" ] ] ; then	
-			# Need to add the following repos.
-			#### Adding these repos allowed steam/vulkan/and the other dependances to install on OEL/RH7/Fedora2+
-			#### I even tested starting the steam gui interface. It started just fine.
-			#### https://negativo17.org/steam/
-			#### Also remember the repos https://rpmfusion.org/keys
 			yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
 			yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
 			yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
