@@ -394,16 +394,22 @@ $(ColorRed ''"$DRAW60"'')"
 		#### These should also be added to as port forwards on your network router.
 		####
 		#
-		minportnumber=${portnumber}
-		maxportnumber=${portnumber}+3
 		if command -v ufw >/dev/null; then
 			# ufw allow udp from any to any port $minportnumber-$maxportnumber
 			# The above command needs to be validated.
 			echo ""
+		elif command -v iptables >/dev/null; then
+			# sudo iptables –A INPUT –p upd ––dport ${portnumber},${portnumber}+1,${portnumber}+2) –j ACCEPT
+			#if [ "$ID" == "fedora" ] || [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] )  ; then
+			#	sudo /sbin/service iptables save
+			#else
+			#	sudo /sbin/iptables–save
+			#fi
+			echo ""			
 		elif command -v firewalld >/dev/null; then
-			systemctl start firewalld
+			#systemctl start firewalld
 			systemctl status firewalld
-			firewall-cmd --permanent --zone=public --add-port={$minportnumber-$maxportnumber/tcp,$minportnumber-$maxportnumber/udp}
+			firewall-cmd --permanent --zone=public --add-port={${portnumber}-(${portnumber}+2)/udp}
 			firewall-cmd --reload
 		else
 			echo ""
@@ -1118,11 +1124,14 @@ clear
 ## LD: Going to add disable / enable firewall and then
 ## call use them in the start and stop service actions above.
 
+
 function firewall_status(){
      if command -v ufw >/dev/null; then
           firewall_status=$(systemctl is-active ufw)
      elif command -v firewalld >/dev/null; then
           firewall_status=$(systemctl is-active firewalld)     
+     elif command -v iptables >/dev/null; then
+       echo firewall_status=$(systemctl is-active iptables)
 	 else
        echo "..."
      fi
@@ -1134,12 +1143,21 @@ function firewall_substate(){
      if command -v ufw >/dev/null; then
           firewall_substate=$(systemctl show -p SubState ufw)
      elif command -v firewalld >/dev/null; then
-          firewall_substate=$(systemctl show -p SubState firewalld)    
+          firewall_substate=$(systemctl show -p SubState firewalld)
+     elif command -v iptables >/dev/null; then
+       echo firewall_status=$(systemctl show -p SubState iptables)		  
 	 else
        echo "..."
      fi
 echo -e '\E[32m'"$firewall_substate "
 }
+
+
+#List   #iptables -L OUTPUT -n --line-numbers
+#Delete #iptables -D INPUT 5
+
+#List   #firewall-cmd --list-all 
+#Delete #firewall-cmd --permanent --remove-port=()/tcp
 ########################################################################
 ############# LD: Firewall section (WIP) END############################
 ########################################################################
