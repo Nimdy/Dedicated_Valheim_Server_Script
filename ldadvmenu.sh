@@ -19,21 +19,19 @@
 #### Modifier: Lord/Ranger(Dumoss)
 #### Forked from: Njord advancemenu.ld (with beta) Updated: 10-APR-2021
 ####
-#### The main focus of this was to add Linux support for RH yum based systems.
-#### I use OEL7 on a Solaris server box that can handle a lot.
-#### Even thought I am only going to run 3 at most.
+#### I would like to thank "Dr." Zerobandwidth "Frankenstein"
+#### and the development team of "Igor's" for putting 
+#### this wonderfull "monster" script together. :)
+####
+#### The main focus of this was to add Linux support for 
+#### Fedora-Cento-RHEL-OEL-yum/dnf based systems.
 #### 
-#### But this lead to ... 
+#### To allow control multiple Valheim servers running on a single node
+#### based on WORLDNAME and is installed under "${worldpath}/${worldname}"
 ####
-#### Allow the handling of many Valheim systems running on a single node.
-#### Based on WORLDNAME -- installed under "${worldpath}/${worldname}"
-#### Using different ports -- Added some simple firewall port add.
+#### TO have some simple firewall security control related to these systems. - (WIP)
 ####
-#### I would like to thank Zerobandwidth and Team for putting 
-#### together this wonderfull script.
 #### *** - Dumoss
-#### 
-#### WIP: Back to firewall better control tasks.
 ####
 ###############################################################################################
 ###############################################################################################
