@@ -627,7 +627,7 @@ function linux_server_update() {
 #			sudo yum update
 #		else
 			echo "oops6"
-#		fi
+	fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1
 }
