@@ -605,28 +605,28 @@ function linux_server_update() {
     fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1
-#	#add i386 architecture
-#    tput setaf 1; echo "$ADD_I386" ; tput setaf 9;
-#    if command -v apt-get >/dev/null; then
-#        sudo dpkg --add-architecture i386
-#    #elif command -v yum >/dev/null; then
-#    else
-#        echo "$FUNCTION_LINUX_SERVER_UPDATE_RHL_REQUIRED_NO"
-#    fi
-#    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-#    sleep 1
-#    #update system again
-#    tput setaf 1; echo "$CHECK_FOR_UPDATES_AGAIN" ; tput setaf 9;
-#    if command -v apt-get >/dev/null; then
-#        sudo apt update
-#    elif command -v yum >/dev/null; then
-#		#elif command -v dnf >/dev/null; then
+	#add i386 architecture
+    tput setaf 1; echo "$ADD_I386" ; tput setaf 9;
+    if command -v apt-get >/dev/null; then
+        sudo dpkg --add-architecture i386
+    #elif command -v yum >/dev/null; then
+    else
+        echo "$FUNCTION_LINUX_SERVER_UPDATE_RHL_REQUIRED_NO"
+    fi
+    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+    sleep 1
+    #update system again
+    tput setaf 1; echo "$CHECK_FOR_UPDATES_AGAIN" ; tput setaf 9;
+    if command -v apt-get >/dev/null; then
+        sudo apt update
+    elif command -v yum >/dev/null; then
+		#elif command -v dnf >/dev/null; then
 #		if [ "$ID" == "fedora" ] || [ [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] && [ "${VERSION:1:1}"  = "8" ] ]  ; then
 #			sudo dnf update		
 #		elif [ [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] && [ "${VERSION:1:1}" = "7" ] ] ; then	
 #			sudo yum update
 #		else
-#			echo "oops6"
+			echo "oops6"
 #		fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1
