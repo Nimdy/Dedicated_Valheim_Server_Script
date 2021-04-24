@@ -2233,7 +2233,7 @@ function set_world_server() {
 		echo ".............................."		
 		echo "Worldname set to: ${worldname}"
 		echo ".............................."		
-	elif [ "$worldname" = "" ] && [ n "$worldlistarray" ] ; then
+	elif [ "$worldname" = "" ] && [ -n "$worldlistarray" ] ; then
 		worldname="..."
 		echo "No worlds setup yet?"		
 		echo ""	
