@@ -621,12 +621,13 @@ function linux_server_update() {
         sudo apt update
     elif command -v yum >/dev/null; then
 		#elif command -v dnf >/dev/null; then
-#		if [ "$ID" == "fedora" ] || [ [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] && [ "${VERSION:1:1}"  = "8" ] ]  ; then
-#			sudo dnf update		
-#		elif [ [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] && [ "${VERSION:1:1}" = "7" ] ] ; then	
-#			sudo yum update
-#		else
+		if [ "$ID" == "fedora" ] || [ [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] && [ "${VERSION:1:1}"  = "8" ] ]  ; then
+			sudo dnf update		
+		elif [ [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] && [ "${VERSION:1:1}" = "7" ] ] ; then	
+			sudo yum update
+		else
 			echo "oops6"
+		fi
 	fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1
