@@ -48,9 +48,16 @@ else
 fi 
 source lang/$LANGUAGE.conf
 
-if [ -n "$worldlistarray" ]; then
-	readarray -t worldlistarray < /home/steam/worlds.txt
+fileworldlist=/home/steam/worlds.txt
+
+if [ -f "$fileworldlist" ]; then
+	readarray -t worldlistarray < $fileworldlist
+else 
+   	touch $fileworldlist
+	echo "Default" >> $fileworldlist
+	readarray -t worldlistarray < $fileworldlist
 fi
+
 #############################################################
 ########################  Santiy Check  #####################
 #############################################################
@@ -2211,6 +2218,7 @@ function set_steamexe() {
 }
 
 # LD: Set the world server name.
+1
 function set_world_server() {
 	#readarray worldlistarray < /home/steam/worlds.txt
     if [ "$worldname" = "" ] && [ -n "$worldlistarray" ] && [ "$request99" != "y" ] ; then	
