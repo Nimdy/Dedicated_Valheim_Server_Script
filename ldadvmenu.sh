@@ -76,6 +76,7 @@ backupPath=/home/steam/backups
 # This option is only for the steamcmd install where it 
 # is not included in a Linux flavor repos
 freshinstall="n"
+worldname=""
 # Set this to delete all files from the 
 # /home/steam/steamcmd directory for clean reinstall steamcmd.
 ###############################################################
