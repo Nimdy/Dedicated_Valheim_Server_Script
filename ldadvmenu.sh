@@ -540,26 +540,26 @@ function linux_server_update() {
     fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1
-#	# Nimby: check for updates and upgrade the system auto yes 
-#	#        WTF is curl not installed by default... come on man!
-#    tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES" ; tput setaf 9;
-#    if command -v apt-get >/dev/null; then
-#        sudo apt install lib32gcc1 libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl -y
-#    #elif command -v dnf >/dev/null; then
-#	# Seams RH went to dnf as well in RHEL8
-#	# Might use ID_LIKE="fedora" and VERSION_ID="7.9" instead? But this works.
-#	#
-#    elif command -v yum >/dev/null; then
-#		if [ "$ID" == "fedora" ] || [ [ "$ID "= "centos" ] ||  [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] && [ "${VERSION:1:1}"  = "8" ] ]  ; then	
-#			sudo dnf install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
-#		elif [ [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] && [ "${VERSION:1:1}" = "7" ] ] ; then	
-#			sudo yum install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
-#	    else
-#			echo "oops3"
-#		fi
-#	else 
-#		echo "oops4"
-#    fi
+	# Nimby: check for updates and upgrade the system auto yes 
+	#        WTF is curl not installed by default... come on man!
+    tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES" ; tput setaf 9;
+    if command -v apt-get >/dev/null; then
+        sudo apt install lib32gcc1 libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl -y
+    #elif command -v dnf >/dev/null; then
+	# Seams RH went to dnf as well in RHEL8
+	# Might use ID_LIKE="fedora" and VERSION_ID="7.9" instead? But this works.
+	#
+    elif command -v yum >/dev/null; then
+		if [ "$ID" == "fedora" ] || [ [ "$ID "= "centos" ] ||  [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] && [ "${VERSION:1:1}"  = "8" ] ]  ; then	
+			sudo dnf install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
+		elif [ [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] && [ "${VERSION:1:1}" = "7" ] ] ; then	
+			sudo yum install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
+	    else
+			echo "oops3"
+		fi
+	else 
+		echo "oops4"
+    fi
 #    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 #    sleep 1
 #    #install software-properties-common for add-apt-repository command below
