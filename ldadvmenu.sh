@@ -560,51 +560,51 @@ function linux_server_update() {
 	else 
 		echo "oops4"
     fi
-#    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-#    sleep 1
-#    #install software-properties-common for add-apt-repository command below
-#    tput setaf 1; echo "$INSTALL_SPCP" ; tput setaf 9;
-#    if command -v apt-get >/dev/null; then
-#        sudo apt install software-properties-common
-#    #elif command -v yum >/dev/null; then
-#	else
-#        echo "$FUNCTION_LINUX_SERVER_UPDATE_YUM_REQUIRED_NO"
-#    fi
-#    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-#    sleep 1
-#    #add multiverse repo
-#    tput setaf 1; echo "$ADD_MULTIVERSE" ; tput setaf 9;
-#    if command -v apt-get >/dev/null; then
-#        sudo add-apt-repository -y multiverse
-#    elif command -v yum >/dev/null; then
-#		#if command -v dnf >/dev/null; then	
-#		# Need to add the following repos.
-#		#### Adding these repos allowed steam/vulkan/and the other dependances to install on OEL/RH7/Fedora2+
-#		#### I even tested starting the steam gui interface. It started just fine.
-#		#### https://negativo17.org/steam/
-#		#### Remeber the repos keys ... https://rpmfusion.org/keys
-#		if [ "$ID" == "fedora" ] || [ [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] && [ "${VERSION:1:1}"  = "8" ] ] ; then
-#			sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-#			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-negativo17.repo  
-#			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-multimedia.repo  
-#			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-nvidia.repo      
-#			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-steam.repo       
-#		elif [ [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] && [ "${VERSION:1:1}" = "7" ] ] ; then	
-#			sudo yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
-#			sudo yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
-#			sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-#			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-negativo17.repo 
-#			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-multimedia.repo
-#			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-nvidia.repo     
-#			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-steam.repo
-#		else
-#			echo "oops5"
-#		fi
-#    else
-#        echo "oops6"
-#    fi
-#    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-#    sleep 1
+    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+    sleep 1
+    #install software-properties-common for add-apt-repository command below
+    tput setaf 1; echo "$INSTALL_SPCP" ; tput setaf 9;
+    if command -v apt-get >/dev/null; then
+        sudo apt install software-properties-common
+    #elif command -v yum >/dev/null; then
+	else
+        echo "$FUNCTION_LINUX_SERVER_UPDATE_YUM_REQUIRED_NO"
+    fi
+    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+    sleep 1
+    #add multiverse repo
+    tput setaf 1; echo "$ADD_MULTIVERSE" ; tput setaf 9;
+    if command -v apt-get >/dev/null; then
+        sudo add-apt-repository -y multiverse
+    elif command -v yum >/dev/null; then
+		#if command -v dnf >/dev/null; then	
+		# Need to add the following repos.
+		#### Adding these repos allowed steam/vulkan/and the other dependances to install on OEL/RH7/Fedora2+
+		#### I even tested starting the steam gui interface. It started just fine.
+		#### https://negativo17.org/steam/
+		#### Remeber the repos keys ... https://rpmfusion.org/keys
+		if [ "$ID" == "fedora" ] || [ [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] && [ "${VERSION:1:1}"  = "8" ] ] ; then
+			sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-negativo17.repo  
+			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-multimedia.repo  
+			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-nvidia.repo      
+			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-steam.repo       
+		elif [ [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] && [ "${VERSION:1:1}" = "7" ] ] ; then	
+			sudo yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
+			sudo yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
+			sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-negativo17.repo 
+			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-multimedia.repo
+			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-nvidia.repo     
+			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-steam.repo
+		else
+			echo "oops5"
+		fi
+    else
+        echo "oops6"
+    fi
+    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+    sleep 1
 #	#add i386 architecture
 #    tput setaf 1; echo "$ADD_I386" ; tput setaf 9;
 #    if command -v apt-get >/dev/null; then
