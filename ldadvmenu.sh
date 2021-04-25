@@ -67,7 +67,7 @@ echo "$(tput setaf 0)$(tput setab 7)"$CHECKSUDO1"$(tput sgr 0)"
 echo "$(tput setaf 4)"$DRAW60""
 #    ###################################################### 
 [[ "$EUID" -eq 0 ]] || exec sudo "$0" "$@"
-clear
+#clear
 ###############################################################
 ################### Default Variables #########################
 ###############################################################
@@ -104,39 +104,39 @@ LIGHTRED='\033[1;31m'
 LIGHTGREEN='\033[1;32m'
 YELLOW='\033[1;33m'
 WHITE='\033[1;37m'
-CLEAR='\e[0m'
+#clear='\e[0m'
 ##
 # Color Functions
 ##
 ColorRed(){ 
-        echo -ne $RED$1$CLEAR 
+        echo -ne $RED$1$#clear 
 }
 ColorGreen(){
-         echo -ne $GREEN$1$CLEAR
+         echo -ne $GREEN$1$#clear
 }
 ColorOrange(){
-	echo -ne $ORANGE$1$CLEAR
+	echo -ne $ORANGE$1$#clear
 }
 ColorBlue(){
-	echo -ne $BLUE$1$CLEAR
+	echo -ne $BLUE$1$#clear
 }
 ColorPurple(){
-	echo -ne $PURPLE$1$CLEAR
+	echo -ne $PURPLE$1$#clear
 }
 ColorCyan(){
-	echo -ne $CYAN$1$CLEAR
+	echo -ne $CYAN$1$#clear
 }
 ColorLightRed(){
-	echo -ne $LIGHTRED$1$CLEAR
+	echo -ne $LIGHTRED$1$#clear
 }
 ColorLightGreen(){
-	echo -ne $LIGHTGREEN$1$CLEAR
+	echo -ne $LIGHTGREEN$1$#clear
 }
 ColorYellow(){
-	echo -ne $LIGHTYELLOW$1$CLEAR
+	echo -ne $LIGHTYELLOW$1$#clear
 }
 ColorWhite(){
-	echo -ne $WHITE$1$CLEAR
+	echo -ne $WHITE$1$#clear
 }
 ########################################################################
 #####################Check for Menu Updates#############################
@@ -181,7 +181,7 @@ echo "1"
 #####################Install Valheim Server START#######################
 ########################################################################
 function valheim_server_install() {
-    clear
+    #clear
     echo ""
     echo -ne "
 $(ColorOrange ''"$INSTALLVALSERVER"'')
@@ -204,7 +204,7 @@ $(ColorRed ''"$DRAW60"'')"
 		
 		# Linux Steam Local Account Password input
 		echo ""
-		clear
+		#clear
 		echo "$START_INSTALL_1_PARA"
 		while true; 
 		do
@@ -224,7 +224,7 @@ $(ColorRed ''"$DRAW60"'')"
 			tput setaf 2; echo "$STEAM_PASS_NOT_ACCEPTED" ; tput setaf 9;
 			tput setaf 2; echo "$STEAM_PASS_NOT_ACCEPTED_1" ; tput setaf 9;
 		done
-		clear
+		#clear
 		echo ""
 		# Take user input for Valheim Server Public Display
 		echo ""
@@ -242,7 +242,7 @@ $(ColorRed ''"$DRAW60"'')"
 			read -p "$PUBLIC_SERVER_ENTER_NAME" displayname
 		tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
 		echo ""
-		clear
+		#clear
 		
 			# Take user input for Valheim Server World Database Generation
 			echo ""
@@ -264,7 +264,7 @@ $(ColorRed ''"$DRAW60"'')"
 					tput setaf 2; echo "$WORLD_SET_ERROR" ; tput setaf 9; 
 					tput setaf 2; echo "$WORLD_SET_ERROR_1" ; tput setaf 9; 
 				done
-			clear
+			#clear
 			echo ""
 			
 		if [ "$newinstall" == "y" ]; then
@@ -288,7 +288,7 @@ $(ColorRed ''"$DRAW60"'')"
 				echo ""
 					read -p "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_ENTER" portnumber
 				tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
-				clear		
+				#clear		
 				echo ""
 		fi
 
@@ -376,7 +376,7 @@ $(ColorRed ''"$DRAW60"'')"
 		echo $worldname >> /home/steam/worlds.txt
 		sleep 1
 		chown steam:steam /home/steam/*.txt
-		clear
+		#clear
 	
 		#install steamcmd
 		if [ "$newinstall" == "y" ]; then
@@ -504,7 +504,7 @@ EOF
 		systemctl enable valheimserver_${worldname}.service
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9; 
 		sleep 2
-		clear
+		#clear
 		tput setaf 2; echo "$INSTALL_BUILD_FINISH_THANK_YOU" ; tput setaf 9;
 		echo ""
 		echo ""    
@@ -540,6 +540,7 @@ function linux_server_update() {
 			sudo dnf clean all && dnf update -y && dnf upgrade -y
 		elif [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:1:1}" == "7" ]] ; then	
 			sudo yum clean all && yum update -y && yum upgrade -y
+			echo "yum'ed"
 		else
 			echo "oops1"
 		fi
@@ -562,6 +563,7 @@ function linux_server_update() {
 			sudo dnf install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
 		elif [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:1:1}" == "7" ]] ; then	
 			sudo yum install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
+			echo "yum'ed"
 	    else
 			echo "oops3"
 		fi
@@ -866,7 +868,7 @@ function nocheck_valheim_update_install() {
 ########################################################################
 function continue_with_valheim_update_install() {
 	set_steamexe
-    clear
+    #clear
     echo ""
     echo -ne "
 $(ColorOrange ''"$FUNCTION_INSTALL_VALHEIM_UPDATES"'')
@@ -888,7 +890,7 @@ $(ColorRed ''"$DRAW60"'')"
 	else
 		echo "$FUNCTION_INSTALL_VALHEIM_UPDATES_CANCEL"
 		sleep 3
-		clear
+		#clear
 	fi
 }
 
@@ -952,7 +954,7 @@ $(ColorRed '------------------------------------------------------------')"
 
 # Stop Valheim Server Service
 function stop_valheim_server() {
-    clear
+    #clear
     echo ""
     echo -ne "
 $(ColorOrange ''"$FUNCTION_STOP_VALHEIM_SERVER_SERVICE_HEADER"'')
@@ -973,13 +975,13 @@ $(ColorRed ''"$DRAW60"'')"
     else
 		echo "$FUNCTION_STOP_VALHEIM_SERVER_SERVICE_CANCEL"
 		sleep 3
-		clear
+		#clear
 	fi
 }
 
 # Start Valheim Server Service
 function start_valheim_server() {
-    clear
+    #clear
     echo ""
     echo -ne "
 $(ColorOrange ''"$FUNCTION_START_VALHEIM_SERVER_SERVICE_HEADER"'')
@@ -1000,13 +1002,13 @@ $(ColorRed ''"$DRAW60"'')"
     else
 		echo "$FUNCTION_START_VALHEIM_SERVER_SERVICE_CANCEL"
         sleep 3
-		clear
+		#clear
 	fi
 }
 
 # Restart Valheim Server Service
 function restart_valheim_server() {
-    clear
+    #clear
     echo ""
     echo -ne "
 $(ColorOrange ''"$FUNCTION_RESTART_VALHEIM_SERVICE_SERVICE_HEADER"'')
@@ -1026,13 +1028,13 @@ $(ColorRed ''"$DRAW60"'')"
     else
         echo "$FUNCTION_RESTART_VALHEIM_SERVICE_SERVICE_CANCEL"
         sleep 3
-		clear
+		#clear
 	fi
 }
 
 # Display Valheim Server Status
 function display_valheim_server_status() {
-    clear
+    #clear
     echo ""
     sudo systemctl status --no-pager -l valheimserver_${worldname}.service
     echo ""
@@ -1049,7 +1051,7 @@ function display_valheim_server_status() {
 
 # Display Valheim Vanilla Configuration File
 function display_start_valheim() {
-    clear
+    #clear
     echo ""
     sudo cat ${valheimInstallPath}/start_valheim_${worldname}.sh
     echo ""
@@ -1058,7 +1060,7 @@ function display_start_valheim() {
 
 # Display Valheim Start Configuration
 function display_start_valheim() {
-    clear
+    #clear
     echo ""
     sudo cat ${valheimInstallPath}/start_valheim_${worldname}.sh
     echo ""
@@ -1066,7 +1068,7 @@ function display_start_valheim() {
 
 # Display Valheim World Data Folder
 function display_world_data_folder() {
-    clear
+    #clear
     echo ""
     sudo ls -lisa $worldpath
     echo ""
@@ -1074,7 +1076,7 @@ function display_world_data_folder() {
 
 # Print System INFOS
 function display_system_info() {
-	clear
+	#clear
 	echo ""
     echo -e "$DRAW80"
     echo -e "$FUNCTION_DISPLAY_SYSTEM_INFO_HEADER"
@@ -1104,7 +1106,7 @@ function display_system_info() {
 
 # PRINT NETWORK INFO
 function display_network_info() {
-clear
+#clear
     echo ""
     sudo netstat -atunp | grep valheim
     echo ""
@@ -1112,7 +1114,7 @@ clear
 
 # Display History of Connected Players
 function display_player_history() {
-clear
+#clear
     echo ""
     sudo grep ZDOID /var/log/syslog*
     echo ""
@@ -1262,7 +1264,7 @@ function change_public_display_name() {
     else
         echo "$FUNCTION_CHANGE_PUBLIC_DISPLAY_CANCEL_CHANGING"
         sleep 3
-        clear
+        #clear
     fi
 }
     
@@ -1302,7 +1304,7 @@ function change_default_server_port() {
     else
         echo "$FUNCTION_CHANGE_DEFAULT_SERVER_PORT_CANCEL"
         sleep 3
-        clear
+        #clear
     fi
 }
 function change_local_world_name() {
@@ -1344,7 +1346,7 @@ function change_local_world_name() {
 ###     else
 ###        echo "$FUNCTION_CHANGE_SERVER_WORLD_NAME_CANCEL"
 ###        sleep 3
-###        clear
+###        #clear
 ###  fi
 
 }
@@ -1391,7 +1393,7 @@ function change_server_access_password() {
     else
         echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_CANCEL"
         sleep 3
-        clear
+        #clear
     fi
 }
 function write_public_on_config_and_restart() {
@@ -1472,7 +1474,7 @@ sleep 1
 }
 
 function install_valheim_plus() {
-clear
+	##clear
     echo ""
     if [ ! -f /usr/bin/unzip ]; then
     apt install unzip -y
@@ -1506,7 +1508,7 @@ clear
 }
 
 function valheim_plus_enable() {
-clear
+##clear
     echo ""
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_ENABLE" ; tput setaf 9; 
     valheimVanilla=2
@@ -1522,7 +1524,7 @@ clear
 }
 
 function valheim_plus_disable() {
-clear
+##clear
     echo ""
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_DISABLE" ; tput setaf 9; 
     valheimVanilla=1
@@ -1539,7 +1541,7 @@ clear
 
 function valheim_plus_update() {
 check_valheim_plus_repo
-clear
+##clear
     tput setaf 2;  echo "$FUNCTION_VALHEIM_PLUS_UPDATE_INFO" ; tput setaf 9; 
     vpLocalCheck=$(cat ${valheimInstallPath}/localValheimPlusVersion)
     echo $vpLocalCheck
@@ -1573,7 +1575,7 @@ clear
 }
 
 function valheimplus_mod_options() {
-clear
+##clear
     nano ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg
     echo ""
     tput setaf 2; echo "$DRAW80" ; tput setaf 9;
@@ -1591,12 +1593,12 @@ clear
     else
     echo "$FUNCTION_VALHEIM_PLUS_EDIT_VPLUS_CANCEL"
     sleep 2
-    clear
+    ##clear
 fi
 }
 
 function bepinex_mod_options() {
-clear
+##clear
     nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
     echo ""
     tput setaf 2; echo "$DRAW80" ; tput setaf 9;
@@ -1614,7 +1616,7 @@ clear
     else
     echo "$FUNCTION_VALHEIM_PLUS_EDIT_BEPINEX_CANCEL"
     sleep 2
-    clear
+    ##clear
 fi
 }
 
@@ -1877,7 +1879,7 @@ sleep 1
 }
 
 function install_valheim_bepinex() {
-clear
+#clear
     echo ""
     if [ ! -f /usr/bin/unzip ]; then
     apt install unzip -y
@@ -1912,7 +1914,7 @@ clear
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_LETS_GO" ; tput setaf 9; 
 }
 function valheim_bepinex_enable() {
-clear
+#clear
     echo ""
     tput setaf 2; echo "$FUNCTION_BEPINEX_ENABLE" ; tput setaf 9; 
     valheimVanilla=2
@@ -1928,7 +1930,7 @@ clear
 }
 
 function valheim_bepinex_disable() {
-clear
+#clear
     echo ""
     tput setaf 2; echo "$FUNCTION_BEPINEX_DISABLE" ; tput setaf 9; 
     valheimVanilla=1
@@ -1944,7 +1946,7 @@ clear
 }
 
 function valheim_bepinex_update() {
-clear
+#clear
     tput setaf 2;  echo "$FUNCTION_BEPINEX_UPDATE_INFO" ; tput setaf 9; 
     officialBepInEx=$(curl -sL https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2) 
     localBepInEx=$(cat ${valheimInstallPath}/localValheimBepinexVersion)    
@@ -1976,7 +1978,7 @@ clear
 }
 
 function bepinex_mod_options() {
-clear
+#clear
     nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
     echo ""
     tput setaf 2; echo "$DRAW80" ; tput setaf 9;
@@ -1994,7 +1996,7 @@ clear
     else
     echo "$FUNCTION_BEPINEX_EDIT_CANCEL"
     sleep 2
-    clear
+    #clear
 fi
 }
 
@@ -2250,7 +2252,7 @@ function set_world_server() {
 		echo ""	
 	fi
 	request99="n"
-	#clear
+	##clear
 }
 ########################################################################
 ##########################MENUS STATUS VARIBLES END#####################
