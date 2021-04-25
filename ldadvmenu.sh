@@ -532,7 +532,7 @@ function linux_server_update() {
 
 		echo "$ID"
 		echo "$VERSION"
-		echo "${VERSION:1:1}"
+		echo "${VERSION:0:1}"
 		
     tput setaf 1; echo "$CHECK_FOR_UPDATES" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
@@ -541,9 +541,9 @@ function linux_server_update() {
 		echo "Insert command here."    
 	#elif command -v dnf >/dev/null; then
     elif command -v yum >/dev/null; then
-		if [[ "$ID" == "fedora" ]] || [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:1:1}" == "8" ]] ; then
+		if [[ "$ID" == "fedora" ]] || [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:0:1}" == "8" ]] ; then
 			sudo dnf clean all && dnf update -y && dnf upgrade -y
-		elif [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:1:1}" == "7" ]] ; then	
+		elif [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:0:1}" == "7" ]] ; then	
 			sudo yum clean all && yum update -y && yum upgrade -y
 			echo "yum'ed"
 		else
