@@ -532,6 +532,7 @@ function linux_server_update() {
 
 		echo "$ID"
 		echo "$VERSION"
+		echo "${VERSION:1:1}"
 		
     tput setaf 1; echo "$CHECK_FOR_UPDATES" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
