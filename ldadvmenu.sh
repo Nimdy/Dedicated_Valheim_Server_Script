@@ -604,19 +604,16 @@ function linux_server_update() {
 		#### https://negativo17.org/steam/
 		#### Remeber the repos keys ... https://rpmfusion.org/keys
 		if [[ "$ID" == "fedora" ]] || [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:0:1}" == "8" ]] ; then
+			sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+			sudo dnf config-manager --add-repo=http://mirror.centos.org/centos/8/os/x86_64/
 			sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-negativo17.repo  
-			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-multimedia.repo  
-			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-nvidia.repo      
-			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-steam.repo       
 		elif [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:0:1}" == "7" ]] ; then	
+			sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+			sudo yum-config-manager --add-repo=http://mirror.centos.org/centos/7/os/x86_64/
 			sudo yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
 			sudo yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
-			sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-negativo17.repo 
-			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-multimedia.repo
-			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-nvidia.repo     
-			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-steam.repo
 			### Why not just remove if exists.
 			# If problems with the added repos like
 			# --> Finished Dependency Resolution
@@ -1190,6 +1187,32 @@ function firewall_substate(){
 echo -e '\E[32m'"$firewall_substate "
 }
 
+function firewall_enable(){
+     if command -v ufw >/dev/null; then
+          firewall_status=$(systemctl is-active ufw)
+     elif command -v firewalld >/dev/null; then
+          firewall_status=$(systemctl is-active firewalld)     
+     elif command -v iptables >/dev/null; then
+       echo firewall_status=$(systemctl is-active iptables)
+	 else
+       echo "..."
+     fi
+    
+	echo -e '\E[32m'"$firewall_status "
+}
+
+function firewall_disable(){
+     if command -v ufw >/dev/null; then
+          firewall_substate=$(systemctl show -p SubState ufw)
+     elif command -v firewalld >/dev/null; then
+          firewall_substate=$(systemctl show -p SubState firewalld)
+     elif command -v iptables >/dev/null; then
+       echo firewall_status=$(systemctl show -p SubState iptables)		  
+	 else
+       echo "..."
+     fi
+echo -e '\E[32m'"$firewall_substate "
+}
 
 #List   #iptables -L OUTPUT -n --line-numbers
 #Delete #iptables -D INPUT 5
