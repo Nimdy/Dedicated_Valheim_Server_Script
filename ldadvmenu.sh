@@ -1160,7 +1160,23 @@ clear
 ## call use them in the start and stop service actions above.
 
 
-function firewall_status(){
+
+
+function is_firewall_enabled(){
+     if command -v ufw >/dev/null; then
+          firewall_enabled=$(systemctl is-enabled ufw)
+     elif command -v firewalld >/dev/null; then
+          firewall_enabled=$(systemctl is-enabled firewalld)     
+     elif command -v iptables >/dev/null; then
+       echo firewall_enabled=$(systemctl is-enabled iptables)
+	 else
+       echo "..."
+     fi
+    
+	echo -e '\E[32m'"$firewall_enabled "
+}
+
+function get_firewall_status(){
      if command -v ufw >/dev/null; then
           firewall_status=$(systemctl is-active ufw)
      elif command -v firewalld >/dev/null; then
@@ -1170,55 +1186,55 @@ function firewall_status(){
 	 else
        echo "..."
      fi
-    
 	echo -e '\E[32m'"$firewall_status "
 }
 
-function firewall_substate(){
+function get_firewall_substate(){
      if command -v ufw >/dev/null; then
           firewall_substate=$(systemctl show -p SubState ufw)
      elif command -v firewalld >/dev/null; then
           firewall_substate=$(systemctl show -p SubState firewalld)
      elif command -v iptables >/dev/null; then
-       echo firewall_status=$(systemctl show -p SubState iptables)		  
+       echo firewall_substate=$(systemctl show -p SubState iptables)		  
 	 else
        echo "..."
      fi
 echo -e '\E[32m'"$firewall_substate "
 }
 
-function firewall_enable(){
-     if command -v ufw >/dev/null; then
-          firewall_status=$(systemctl is-active ufw)
-     elif command -v firewalld >/dev/null; then
-          firewall_status=$(systemctl is-active firewalld)     
-     elif command -v iptables >/dev/null; then
-       echo firewall_status=$(systemctl is-active iptables)
-	 else
-       echo "..."
-     fi
-    
-	echo -e '\E[32m'"$firewall_status "
+
+function enable_firewall(){
+    echo "START: Enabling and starting firewall."
+    if command -v ufw >/dev/null; then
+        sudo systemctl enable ufw && systemctl start ufw		  
+    elif command -v firewalld >/dev/null; then
+        sudo systemctl enable firewalld && systemctl start firewalld		  
+    elif command -v iptables >/dev/null; then
+        sudo systemctl enable iptables && systemctl start iptables		  
+	else
+		echo "..."
+    fi
+	echo "END: Enabling and starting firewall."
 }
 
-function firewall_disable(){
-     if command -v ufw >/dev/null; then
-          firewall_substate=$(systemctl show -p SubState ufw)
-     elif command -v firewalld >/dev/null; then
-          firewall_substate=$(systemctl show -p SubState firewalld)
-     elif command -v iptables >/dev/null; then
-       echo firewall_status=$(systemctl show -p SubState iptables)		  
-	 else
-       echo "..."
-     fi
-echo -e '\E[32m'"$firewall_substate "
+function disable_firewall(){
+    echo "START: Stopping and disabling firewall."
+    if command -v ufw >/dev/null; then
+         sudo systemctl stop ufw && systemctl disable ufw		  
+    elif command -v firewalld >/dev/null; then
+         sudo systemctl stop firewalld && systemctl disable firewalld		  
+    elif command -v iptables >/dev/null; then
+         sudo systemctl stop iptables && systemctl disable iptables		  
+	else
+      echo "..."
+    fi
+	echo "END: Stopping and disabling firewall."
 }
 
 #List   #iptables -L OUTPUT -n --line-numbers
 #Delete #iptables -D INPUT 5
-
-#List   #firewall-cmd --list-all 
-#Delete #firewall-cmd --permanent --remove-port=()/tcp
+#firewall-cmd --list-all 
+#firewall-cmd --permanent --remove-port=()/tcp
 ########################################################################
 ############# LD: Firewall section (WIP) END############################
 ########################################################################
@@ -2426,9 +2442,11 @@ $(ColorOrange '║')" $(display_local_IP)
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
 	echo -ne "
-$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(firewall_status)
+$(ColorOrange '║') Is there an enabled firewall? " $(is_firewall_enabled)
 	echo -ne "
-$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW_SUBSTATE" $(firewall_substate) 
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(get_firewall_status)
+	echo -ne "
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW_SUBSTATE" $(get_firewall_substate) 
 	echo -ne " 
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 	echo -ne "
