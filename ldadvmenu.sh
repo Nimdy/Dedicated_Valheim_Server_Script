@@ -529,6 +529,10 @@ function linux_server_update() {
 # ID=debian=apt
 # ID=ubuntu=apt
 # ID=FreeBSD=pkg
+
+		echo "$ID"
+		echo "$VERSION"
+		
     tput setaf 1; echo "$CHECK_FOR_UPDATES" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
 	    sudo apt update && apt upgrade -y
@@ -593,6 +597,8 @@ function linux_server_update() {
 		#### I even tested starting the steam gui interface. It started just fine.
 		#### https://negativo17.org/steam/
 		#### Remeber the repos keys ... https://rpmfusion.org/keys
+
+		
 		if [[ "$ID" == "fedora" ]] || [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:1:1}" == "8" ]] ; then
 			sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-negativo17.repo  
@@ -604,7 +610,7 @@ function linux_server_update() {
 			sudo yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
 			sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-negativo17.repo 
-			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-multimedia.repo
+6			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-multimedia.repo
 			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-nvidia.repo     
 			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-steam.repo
 		else
