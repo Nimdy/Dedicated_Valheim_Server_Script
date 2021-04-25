@@ -548,7 +548,7 @@ function linux_server_update() {
     elif command -v yum >/dev/null; then
 		if [[ "$ID" == "fedora" ]] || [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:0:1}" == "8" ]] ; then
 			sudo dnf clean all && dnf update -y && dnf upgrade -y
-		elif [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:0:1}" == "7" ]] ; then	
+		elif [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:0:1}" == "7" ]] ; then
 			sudo yum clean all && yum update -y && yum upgrade -y
 			echo "yum'ed"
 		else
@@ -603,8 +603,6 @@ function linux_server_update() {
 		#### I even tested starting the steam gui interface. It started just fine.
 		#### https://negativo17.org/steam/
 		#### Remeber the repos keys ... https://rpmfusion.org/keys
-
-		
 		if [[ "$ID" == "fedora" ]] || [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:0:1}" == "8" ]] ; then
 			sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-negativo17.repo  
@@ -616,9 +614,25 @@ function linux_server_update() {
 			sudo yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
 			sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-negativo17.repo 
-6			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-multimedia.repo
+			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-multimedia.repo
 			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-nvidia.repo     
 			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-steam.repo
+			### Why not just remove if exists.
+			# If problems with the added repos like
+			# --> Finished Dependency Resolution
+			# 			Error: Package: ntp-4.2.6p5-22.el7.centos.2.x86_64 (@updates)
+			#			Requires: ntpdate = 4.2.6p5-22.el7.centos.2
+			#
+			#### It is because of duplicate entries in the yum local db.
+			#### To fix:
+			#
+			# yum install yum-tools
+			# rpm -Va > rpmrequest.txt
+			#### This reports them
+			# sudo package-cleanup --dupes
+			#### This fix them
+			# sudo package-cleanup --cleandupes
+			
 		else
 			echo "oops5"
 		fi
@@ -684,20 +698,20 @@ function Install_steamcmd_client() {
 #### Transaction check error:
 ####   file /usr/share/man/man1/pango-view.1.gz from install of pango-1.42.4-4.el7_7.i686 conflicts with file from package pango-1.42.4-4.el7_7.x86_64
 ####   file /usr/share/man/man1/gtk-query-immodules-2.0.1.gz from install of gtk2-2.24.31-1.el7.i686 conflicts with file from package gtk2-2.24.31-1.el7.x86_64
-####   ....
+####   ...
 ####
-#### This was the issue causing steam not to install for me.
-#### The errors are due to the new added repos to my system.
-#### These error happen when the i686(32bit) depent libs are being installed for steam and where the x86_64 bit versions are already installed from another repo.
+#### These error happen when dependent rpms are being installed for steam (or just update/upgrade)
+#### and where the reported rpm is already installed from another repo.
 ####
-#### This took me a bit to find an answer.  
-#### But the fix this is easy. 
+#### The fix this is easy. 
 ####
 #### <ctrl-c> out of menu
 ####
-#### Run the following for all listed.
+#### Reinstall all of the listed in output like this:
 ####
-#### yum reinstall pango.x86_64 gtk2.x86_64 ...
+#### yum reinstall pango.x86_64 gtk2.x86_64 
+####
+#### This installs the rpm listed in the output from the newly added repos and fixes the error.
 ####
 #### Rerun the menu script.
 ####
