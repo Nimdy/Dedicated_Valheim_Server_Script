@@ -536,9 +536,9 @@ function linux_server_update() {
 		echo "Insert command here."    
 	#elif command -v dnf >/dev/null; then
     elif command -v yum >/dev/null; then
-		if [[ "$ID" == "fedora" ]] || [[ "$ID "= "centos" || "$ID" = "ol" || "$ID" = "rhel" && "${VERSION:1:1}"  = "8" ]] ; then	
+		if [[ "$ID" == "fedora" ]] || [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:1:1}" == "8" ]] ; then
 			sudo dnf clean all && dnf update -y && dnf upgrade -y
-		elif [[ "$ID "= "centos" || "$ID" = "ol" || "$ID" = "rhel" && "${VERSION:1:1}" = "7" ]] ; then	
+		elif [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:1:1}" == "7" ]] ; then	
 			sudo yum clean all && yum update -y && yum upgrade -y
 		else
 			echo "oops1"
@@ -558,9 +558,9 @@ function linux_server_update() {
 	# Might use ID_LIKE="fedora" and VERSION_ID="7.9" instead? But this works.
 	#
     elif command -v yum >/dev/null; then
-		if [[ "$ID" == "fedora" ]] || [[ "$ID "= "centos" || "$ID" = "ol" || "$ID" = "rhel" && "${VERSION:1:1}"  = "8" ]] ; then	
+		if [[ "$ID" == "fedora" ]] || [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:1:1}" == "8" ]] ; then
 			sudo dnf install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
-		elif [[ "$ID "= "centos" || "$ID" = "ol" || "$ID" = "rhel" && "${VERSION:1:1}" = "7" ]] ; then	
+		elif [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:1:1}" == "7" ]] ; then	
 			sudo yum install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
 	    else
 			echo "oops3"
@@ -591,13 +591,13 @@ function linux_server_update() {
 		#### I even tested starting the steam gui interface. It started just fine.
 		#### https://negativo17.org/steam/
 		#### Remeber the repos keys ... https://rpmfusion.org/keys
-		if [[ "$ID" == "fedora" ]] || [[ "$ID "= "centos" || "$ID" = "ol" || "$ID" = "rhel" && "${VERSION:1:1}"  = "8" ]] ; then
+		if [[ "$ID" == "fedora" ]] || [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:1:1}" == "8" ]] ; then
 			sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-negativo17.repo  
 			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-multimedia.repo  
 			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-nvidia.repo      
 			sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-steam.repo       
-		elif [[ "$ID "= "centos" || "$ID" = "ol" || "$ID" = "rhel" && "${VERSION:1:1}" = "7" ]] ; then	
+		elif [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:1:1}" == "7" ]] ; then	
 			sudo yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
 			sudo yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
 			sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
@@ -629,9 +629,9 @@ function linux_server_update() {
         sudo apt update
     elif command -v yum >/dev/null; then
 		#elif command -v dnf >/dev/null; then
-		if [[ "$ID" == "fedora" ]] || [[ "$ID "= "centos" || "$ID" = "ol" || "$ID" = "rhel" && "${VERSION:1:1}"  = "8" ]] ; then
+		if [[ "$ID" == "fedora" ]] || [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:1:1}" == "8" ]] ; then
 			sudo dnf update		
-		elif [[ "$ID "= "centos" || "$ID" = "ol" || "$ID" = "rhel" && "${VERSION:1:1}" = "7" ]] ; then	
+		elif [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:1:1}" == "7" ]] ; then	
 			sudo yum update
 		else
 			echo "oops6"
@@ -658,9 +658,9 @@ function Install_steamcmd_client() {
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 	elif command -v yum >/dev/null; then
 		#if command -v dnf >/dev/null; then
-		if [[ "$ID" == "fedora" ]] || [[ "$ID "= "centos" || "$ID" = "ol" || "$ID" = "rhel" && "${VERSION:1:1}"  = "8" ]] ; then
+		if [[ "$ID" == "fedora" ]] || [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:1:1}" == "8" ]] ; then
 	    	sudo dnf -y install steam kernel-modules-extra
-		elif [[ "$ID "= "centos" || "$ID" = "ol" || "$ID" = "rhel" && "${VERSION:1:1}" = "7" ]] ; then	
+		elif [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:1:1}" == "7" ]] ; then	
 			sudo yum install steam -y
 		else
 			echo "oops7"			
