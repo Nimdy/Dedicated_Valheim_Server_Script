@@ -1345,7 +1345,7 @@ function create_firewalld_service_file(){
 </service>
 EOF
 				fi
-			elif [ "$sftc" == "val" ]    
+			elif [ "$sftc" == "val" ] ; then    
 				checkfile=/usr/lib/firewalld/services/valheimserver-${worldname}.xml
 				if [ -f "$checkfile" ]; then
 					echo "Steam<cmd> Firewalld service file already created."
