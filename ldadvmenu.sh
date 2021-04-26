@@ -99,7 +99,7 @@ fwused="n"
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.042620211630.alpha"
+ldversion="0.4.042620211700.alpha"
 # beta -- good to test
 # alpha -- something new added and untested.
 # I have done a lot and still testing and it seams to be working as originally intended.
@@ -436,9 +436,16 @@ $(ColorRed ''"$DRAW60"'')"
 				fi
 			elif [ "${fwused}" == "f" ] ; then		
 				if command -v firewalld >/dev/null; then
+					if [ "$is_firewall_enabled" == "y" ] ; then
+						if [ "$get_firewall_status" == "y" ] ; then
+							sftc="ste"
+							create_firewalld_service_file
+							add_firewalld_public_service
+						fi
+					fi
 					#systemctl start firewalld
-					systemctl status firewalld
-					firewall-cmd --permanent --zone=public --add-port=${portnumber}-${portnumber+2}/udp
+					#systemctl status firewalld
+					#firewall-cmd --permanent --zone=public --add-port=${portnumber}-${portnumber+2}/udp
 					#firewall-cmd --reload
 				fi
 			else		    
@@ -768,15 +775,19 @@ function Install_steamcmd_client() {
 			fi
 		elif [ "${fwused}" == "f" ] ; then		
 			if command -v firewalld >/dev/null; then
-				#sudo systemctl start firewalld
-				sudo systemctl status firewalld
-				sudo firewall-cmd --permanent --zone=public  --add-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
-				sudo firewall-cmd --reload
+				if [ "$is_firewall_enabled" == "y" ] ; then
+					if [ "$get_firewall_status" == "y" ] ; then
+						sftc="ste"
+						create_firewalld_service_file
+						add_firewalld_public_service
+					fi
+				fi		
+				#sudo firewall-cmd --permanent --zone=public  --add-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
+				#sudo firewall-cmd --reload
 			fi
 		else		    
 			echo ""
 		fi
-	
 	else 
 		if [ "${is_firewall_enabled}" == "y" ] ; then 
 			disable_all_firewalls
@@ -1342,8 +1353,8 @@ EOF
 					cat >> /usr/lib/firewalld/services/valheimserver_${worldname}.xml <<EOF
 <?xml version="1.0" encoding="utf-8"?>
 <service>
-   <short>Valheim <worldname> Server</short>
-   <description>Valheim <worldname> game server ports</description>
+   <short>Valheim ${worldname} Server</short>
+   <description>Valheim ${worldname} game server ports</description>
    <port protocol="upd" port="${portnumber}-${portnumber+2}"/>
  </service>
 EOF
@@ -1390,7 +1401,7 @@ function add_firewalld_public_service(){
 			if [ "$sftc" == "ste" ]
 				sudo firewall-cmd --zone=public --permanent --add-service=steam
 			elif [ "$sftc" == "val" ]    
-				sudo firewall-cmd --zone=public --permanent --add-service=valheim-<worldname>
+				sudo firewall-cmd --zone=public --permanent --add-service=valheim-${worldname}
 			else
 				echo ""
 
@@ -1407,7 +1418,7 @@ function remove_firewalld_public_service(){
 			if [ "$sftc" == "ste" ]
 				sudo firewall-cmd --zone=public --permanent --remove-service=steam
 			elif [ "$sftc" == "val" ]    
-				sudo firewall-cmd --zone=public --permanent --remove-service=valheim-<worldname>
+				sudo firewall-cmd --zone=public --permanent --remove-service=valheim-${worldname}
 			else				
 				echo ""
 				# firewall-cmd --zone=public --permanent --remove-service=*
@@ -1419,7 +1430,6 @@ function remove_firewalld_public_service(){
 	sudo firewall-cmd --reload
 	sudo firewall-cmd --zone=public --permanent --list-services
 }
-
 
 ########################################################################
 ########################################################################
@@ -1438,20 +1448,10 @@ function remove_firewalld_public_service(){
 ######################  Firewalld 
 ########################################################################
 ### yum install firewalld -y
-### which firewalld
 ### systemctl [is-active/is-enabled/status/enable/disable/start/stop] firewalld >/dev/null 2>&1 && echo YES || echo NO
-### firewall-cmd --state 				
-### firewall-cmd --get-default-zone     
-### firewall-cmd --get-active-zones
-### firewall-cmd --list-all
-### firewall-cmd --get-zones
-###firewall-cmd --zone=home --list-all
-# firewall-cmd --get-services
-# firewall-cmd --zone=public --permanent --add-port=<<port>-range>/<udp/tcp>
-# firewall-cmd --zone=public --permanent --remove-port=<<port>-range>/<udp/tcp>
-# firewall-cmd --zone=public --permanent --remove-port=*/*
-# firewall-cmd --zone=public --permanent --list-ports
-# firewall-cmd --reload
+### firewall-cmd --state --get-default-zone --get-active-zones --get-zones --get-services 
+### firewall-cmd --zone=* --permanent --</add/remove>-port=*/* --list-all
+### firewall-cmd --reload
 ########################################################################
 ########################################################################
 
