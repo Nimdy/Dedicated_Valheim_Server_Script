@@ -109,10 +109,10 @@ fwused="n"
 mversion="2.3.3-Lofn.beta"
 ldversion="0.4.042620211930.alpha"
 ### -- Use are your own risk -- 
-###
-### beta -- Good for Public Testing.
-### alpha -- Dev team review and testing of the new code.
 ### dev -- Adding new code.
+### alpha -- Dev team review and testing of the new code.
+### beta -- Good for Public Testing.
+### released -- Never -- When placed in advance(menu).sh
 ###
 ### Please note that this is a play ground file for me and 
 ### allows Zerobandwidth do determine what to pull into the main advance(menu).sh file.
