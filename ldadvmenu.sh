@@ -95,7 +95,9 @@ fwused="n"
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.042620211200.beta"
+ldversion="0.4.042620211200.alpha"
+# beta -- good to test
+# alpha -- something new added and untested.
 # I have done a lot and still testing and it seams to be working as originally intended.
 # So for OEL/REL/Fedora and centos tested.
 # I am still in design mode for the firewall stuff.
