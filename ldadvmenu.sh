@@ -57,7 +57,7 @@ else
 	echo "Default" >> $fileworldlist
 	readarray -t worldlistarray < $fileworldlist
 fi
-worldname=set_world_server
+#worldname=""
 #############################################################
 ########################  Santiy Check  #####################
 #############################################################
@@ -2728,7 +2728,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 
 # Display Main Menu System
 menu(){
-	# if [ "${worldname}" = "" ] ; then  set_world_server ;fi
+	if [ "${worldname}" = "" ] ; then  worldname=set_world_server ; fi
 	menu_header
 	echo -ne "
 $(ColorOrange ' '"$FUNCTION_MAIN_MENU_CHECK_SCRIPT_UPDATES_HEADER"' ')
