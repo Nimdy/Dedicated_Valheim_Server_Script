@@ -84,6 +84,7 @@ backupPath=/home/steam/backups
 # is not included in a Linux flavor repos
 freshinstall="n"
 # worldname=""
+fwinuse="f" ### f = firewalld i = iptables u = ufw
 # debugmsg="n"
 # if [ "${dubugmsg}" == "y" ] ; then echo "something" ; fi
 # Set this to delete all files from the 
@@ -1160,56 +1161,76 @@ clear
 ## call use them in the start and stop service actions above.
 
 
-
+function is_firewall_installed(){
+    fwiufw=n
+    fwifwd=n
+	fwiipt=n
+  
+    if command -v ufw >/dev/null; then fwiufw=y ; fi
+    if command -v firewalld >/dev/null; then fwifwd=y ; fi
+	if command -v iptables >/dev/null; then fwiipt=y ; fi
+	if [ "${fwiufw}" == "y" ||  "${fwifwd}" == "y" || "${fwiipt}" == "n" ] ; then
+		is_firewall_installed=y
+	else
+		is_firewall_installed=n
+    fi 	
+    echo "The following firewall systems are found:"
+	echo "UFW: ${fwiufw} -- Firewalld: ${fwifwd} -- Iptables: ${fwiipt}"
+	echo -e '\E[32m'"$is_firewall_installed "
+}
 
 function is_firewall_enabled(){
-     if command -v ufw >/dev/null; then
-          firewall_enabled=$(systemctl is-enabled ufw)
-     elif command -v firewalld >/dev/null; then
-          firewall_enabled=$(systemctl is-enabled firewalld)     
-     elif command -v iptables >/dev/null; then
-       echo firewall_enabled=$(systemctl is-enabled iptables)
-	 else
-       echo "..."
-     fi
-    
-	echo -e '\E[32m'"$firewall_enabled "
+    fweufw=disabled
+    fwefwd=disabled
+	fweipt=disabled
+	
+    if command -v ufw >/dev/null; then fweufw=$(systemctl is-enabled ufw) ; fi
+    if command -v firewalld >/dev/null; then fwefwd=$(systemctl is-enabled firewalld) ; fi
+	if command -v iptables >/dev/null; then fweipt=$(systemctl is-enabled iptables) ; fi
+	if [ "${fweufw}" == "enabled" || "${fwefwd}" == "enabled" || "${fweipt}" == "enabled" ] ; then
+		is_firewall_enabled="y"
+	else 	
+		is_firewall_enabled="n"
+	fi	
+    echo "The following firewall systems enabled:"
+	echo "UFW: ${fweufw} -- Firewalld: ${fwefwd} -- Iptables: ${fweipt}"
+	echo -e '\E[32m'"$is_firewall_enabled "
 }
 
 function get_firewall_status(){
-     if command -v ufw >/dev/null; then
-          firewall_status=$(systemctl is-active ufw)
-     elif command -v firewalld >/dev/null; then
-          firewall_status=$(systemctl is-active firewalld)     
-     elif command -v iptables >/dev/null; then
-       echo firewall_status=$(systemctl is-active iptables)
-	 else
-       echo "..."
-     fi
-	echo -e '\E[32m'"$firewall_status "
+    if [ "${fwinuse}" == "u" ] ; then
+        firewall_substate=$(systemctl is-active ufw)		  
+    elif [ "${fwinuse}" == "f" ] ; then
+        firewall_substate=$(systemctl is-active firewalld)
+    elif [ "${fwinuse}" == "i" ] ; then
+       firewall_substate=$(systemctl is-active iptables)	  
+	else
+		echo "..."
+    fi	
+	echo -e '\E[32m'"$get_firewall_status "
 }
 
 function get_firewall_substate(){
-     if command -v ufw >/dev/null; then
-          firewall_substate=$(systemctl show -p SubState ufw)
-     elif command -v firewalld >/dev/null; then
-          firewall_substate=$(systemctl show -p SubState firewalld)
-     elif command -v iptables >/dev/null; then
-       echo firewall_substate=$(systemctl show -p SubState iptables)		  
-	 else
-       echo "..."
-     fi
-echo -e '\E[32m'"$firewall_substate "
+    if [ "${fwinuse}" == "u" ] ; then
+        firewall_substate=$(systemctl show -p SubState ufw)		  
+    elif [ "${fwinuse}" == "f" ] ; then
+        firewall_substate=$(systemctl show -p SubState firewalld)
+    elif [ "${fwinuse}" == "i" ] ; then
+       firewall_substate=$(systemctl show -p SubState iptables)		  
+	else
+		echo "..."
+    fi
+	echo -e '\E[32m'"$get_firewall_substate "
 }
 
 
-function enable_firewall(){
+function enable_prefered_firewall(){
     echo "START: Enabling and starting firewall."
-    if command -v ufw >/dev/null; then
+    if [ "${fwinuse}" == "u" ] ; then
         sudo systemctl enable ufw && systemctl start ufw		  
-    elif command -v firewalld >/dev/null; then
+    elif [ "${fwinuse}" == "f" ] ; then
         sudo systemctl enable firewalld && systemctl start firewalld		  
-    elif command -v iptables >/dev/null; then
+    elif [ "${fwinuse}" == "i" ] ; then
         sudo systemctl enable iptables && systemctl start iptables		  
 	else
 		echo "..."
@@ -1217,17 +1238,20 @@ function enable_firewall(){
 	echo "END: Enabling and starting firewall."
 }
 
-function disable_firewall(){
-    echo "START: Stopping and disabling firewall."
+function disable_all_firewalls(){
+    echo "START: Stopping and disabling ALL firewall systems installed."
     if command -v ufw >/dev/null; then
-         sudo systemctl stop ufw && systemctl disable ufw		  
-    elif command -v firewalld >/dev/null; then
-         sudo systemctl stop firewalld && systemctl disable firewalld		  
-    elif command -v iptables >/dev/null; then
-         sudo systemctl stop iptables && systemctl disable iptables		  
-	else
-      echo "..."
+         sudo systemctl stop ufw
+		 systemctl disable ufw		  
+	fi	
+    if command -v firewalld >/dev/null; then
+         sudo systemctl stop firewalld
+		 systemctl disable firewalld		  
     fi
+	if command -v iptables >/dev/null; then
+         sudo systemctl stop iptables
+		 systemctl disable iptables		  
+	fi
 	echo "END: Stopping and disabling firewall."
 }
 
