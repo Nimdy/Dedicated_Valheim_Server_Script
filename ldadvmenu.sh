@@ -84,12 +84,17 @@ backupPath=/home/steam/backups
 ### Defaults are "n" on the below parameters.
 ###
 ### This option is only for the steamcmd install where it 
-### is not included in a Linux flavor repos
-### Set this to delete all files from the 
-### /home/steam/steamcmd directory for clean reinstall steamcmd.
+### is not included in the "steam" client install ... ie RH/OEL-yum
+### Set this to delete all files from the /home/steam/steamcmd directory to install steamcmd fresh.
 freshinstall="n"
-### Do you want to use a firewall?
+### <n : no>
+### <y : yes>
+### 
+### Firewall setup..............
+### Do you use a firewall?
 usefw="n" 
+### <n : no>
+### <y : yes>
 ### what firewall do you want to use?  
 ### <n : none> 
 ### <u : ufw> 
@@ -112,15 +117,18 @@ ldversion="0.4.042620211745.alpha"
 # Please note that this is a play ground file for me and 
 # allows Zerobandwidth do determine what to pull into the main advance(menu).sh file.
 # 
+# I have done a lot ( and still ) testing of this new code 
+# and it seams to be working as original intended, but
+# now for OEL/REL/Fedora and centos tested.
 #
-# I have done a lot and still testing and it seams to be working as original intended.
-# and now for OEL/REL/Fedora and centos tested.
 # If you are using the above server versions of this software and the added repos cause issues,
 # I have provided the 3 fixes for most of the issues caused by the added repos 
 # in the function ***linux_server_update***.
 #
 # I am still in design mode for the firewall stuff.
-# Current it works 99% for FireWallD
+# Current it works 99% for FireWallD only at this time.
+#
+# Other Linux flavors and firewall systems to be added.
 ########################################################################
 #############################Set COLOR VARS#############################
 ########################################################################
