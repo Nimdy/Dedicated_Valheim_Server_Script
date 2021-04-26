@@ -2471,17 +2471,14 @@ function set_world_server() {
 				echo "World menu selection: ${world}"
 				break;
 			else
-				set_world_server="Please Install a server."
 				echo "Invalid selection"	
-				echo ""			  
 			fi
 		done	
-		echo ".............................."		
-		echo "Worldname set to: ${worldname}"
-		echo ".............................."		
+#		echo ".............................."		
+#		echo "Worldname set to: ${worldname}"
+#		echo ".............................."		
 	elif [ "$worldname" = "" ] && [ -n "$worldlistarray" ] ; then
-		worldname="..."
-		echo "No worlds setup yet?"		
+		worldname="Default"
 		echo ""	
     else 
 		echo ""	
