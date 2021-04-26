@@ -103,12 +103,24 @@ fwused="n"
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
 ldversion="0.4.042620211745.alpha"
+# -- Use are your own risk -- 
+#
 # beta -- Good for Public Testing.
 # alpha -- Dev team review and testing of the new code.
 # dev -- Adding new code.
-# I have done a lot and still testing and it seams to be working as originally intended.
-# So for OEL/REL/Fedora and centos tested.
+#
+# Please note that this is a play ground file for me and 
+# allows Zerobandwidth do determine what to pull into the main advance(menu).sh file.
+# 
+#
+# I have done a lot and still testing and it seams to be working as original intended.
+# and now for OEL/REL/Fedora and centos tested.
+# If you are using the above server versions of this software and the added repos cause issues,
+# I have provided the 3 fixes for most of the issues caused by the added repos 
+# in the function ***linux_server_update***.
+#
 # I am still in design mode for the firewall stuff.
+# Current it works 99% for FireWallD
 ########################################################################
 #############################Set COLOR VARS#############################
 ########################################################################
@@ -647,22 +659,6 @@ function linux_server_update() {
 			sudo yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
 			sudo yum localinstall --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-nonfree-release-7.noarch.rpm
 			sudo yum-config-manager --add-repo=https://negativo17.org/repos/epel-negativo17.repo 
-			### Why not just remove if exists.
-			# If problems with the added repos like
-			# --> Finished Dependency Resolution
-			# 			Error: Package: ntp-4.2.6p5-22.el7.centos.2.x86_64 (@updates)
-			#			Requires: ntpdate = 4.2.6p5-22.el7.centos.2
-			#
-			#### It is because of duplicate entries in the yum local db.
-			#### To fix:
-			#
-			# yum install yum-tools
-			# rpm -Va > rpmrequest.txt
-			#### This reports them
-			# sudo package-cleanup --dupes
-			#### This fix them
-			# sudo package-cleanup --cleandupes
-			
 		else
 			echo "oops5"
 		fi
@@ -723,29 +719,63 @@ function Install_steamcmd_client() {
 		else
 			echo "oops7"			
 		fi	
-#### You might see the following after adding
-#### 
-#### Transaction check error:
-####   file /usr/share/man/man1/pango-view.1.gz from install of pango-1.42.4-4.el7_7.i686 conflicts with file from package pango-1.42.4-4.el7_7.x86_64
-####   file /usr/share/man/man1/gtk-query-immodules-2.0.1.gz from install of gtk2-2.24.31-1.el7.i686 conflicts with file from package gtk2-2.24.31-1.el7.x86_64
-####   ...
-####
-#### These error happen when dependent rpms are being installed for steam (or just update/upgrade)
-#### and where the reported rpm is already installed from another repo.
-####
-#### The fix this is easy. 
-####
-#### <ctrl-c> out of menu
-####
-#### Reinstall all of the listed in output like this:
-####
-#### yum reinstall pango.x86_64 gtk2.x86_64 
-####
-#### This installs the rpm listed in the output from the newly added repos and fixes the error.
-####
-#### Rerun the menu script.
-####
-	# Because there is 100% no yum steamcmd still need to
+########################################################################
+#########################  repo help   #################################
+########################################################################
+###
+### You might have the following issues adding the above repos to RH/OeL
+###
+### Why not just remove if exists.
+### If problems with the added repos like
+### --> Finished Dependency Resolution
+### 			Error: Package: ntp-4.2.6p5-22.el7.centos.2.x86_64 (@updates)
+###			Requires: ntpdate = 4.2.6p5-22.el7.centos.2
+###
+### It is because of duplicate entries in the yum local db.
+### To fix:
+###
+### yum install yum-tools
+### rpm -Va > rpmrequest.txt
+### This reports them
+### sudo package-cleanup --dupes
+### This fix them
+### sudo package-cleanup --cleandupes
+###
+########################################################################
+###
+### Transaction check error:
+###   file /usr/share/man/man1/pango-view.1.gz from install of pango-1.42.4-4.el7_7.i686 conflicts with file from package pango-1.42.4-4.el7_7.x86_64
+###   file /usr/share/man/man1/gtk-query-immodules-2.0.1.gz from install of gtk2-2.24.31-1.el7.i686 conflicts with file from package gtk2-2.24.31-1.el7.x86_64
+###   ...
+###
+### These error happen when dependent rpms are being installed for steam (or just update/upgrade)
+### and where the reported rpm is already installed from another repo.
+###
+### The fix this is easy. 
+###
+### <ctrl-c> out of menu
+###
+### Reinstall all of the listed in output like this:
+###
+### yum reinstall pango.x86_64 gtk2.x86_64 
+###
+### This installs the rpm listed in the output from the newly added repos and fixes the error.
+###
+### Rerun the menu script.
+###
+########################################################################
+###
+### The last thing you might need to do is downgrade an rmp/lib version needed for steam 
+###  , which a higher unsupport version is installed
+### yum downgrade <name>
+### or just *** yum remove <name> *** 
+### and let the *** yum install steam *** 
+### Install correct version.
+### 
+########################################################################
+
+# Because there is 100% no yum steamcmd still need to
+
 		steamzipfile="/home/steam/steamcmd/steamcmd_linux.tar.gz"
 		cd /home/steam
 		mkdir steamcmd
