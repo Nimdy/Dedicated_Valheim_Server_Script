@@ -1329,7 +1329,8 @@ function create_firewalld_service_file(){
 		if [ "${fwused}" == "f" ] ; then
 			if [ "$sftc" == "ste" ]
 				checkfile=/usr/lib/firewalld/services/steam.xml
-				if [ -f "$checkfile" ]; then
+				
+				if [ -f "$checkfile" ] ; then
 					echo "Steam<cmd> Firewalld service file already created."
 				else
 					cat >> /usr/lib/firewalld/services/steam.xml <<EOF
@@ -1345,9 +1346,10 @@ function create_firewalld_service_file(){
 </service>
 EOF
 				fi
-			elif [ "$sftc" == "val" ] ; then    
+
+			elif [ "${sftc}" == "val" ] ; then    
 				checkfile=/usr/lib/firewalld/services/valheimserver-${worldname}.xml
-				if [ -f "$checkfile" ]; then
+				if [ -f "$checkfile" ] ; then
 					echo "Steam<cmd> Firewalld service file already created."
 				else
 					cat >> /usr/lib/firewalld/services/valheimserver_${worldname}.xml <<EOF
@@ -1374,14 +1376,14 @@ function delete_firewalld_service_file(){
 		if [ "${fwused}" == "f" ] ; then
 			if [ "$sftc" == "ste" ]
 				checkfile=/usr/lib/firewalld/services/steam.xml
-				if [ -f "$checkfile" ]; then
+				if [ -f "$checkfile" ] ; then
 					rm /usr/lib/firewalld/services/steam.xml
 				else
 					echo "File does not exist."
 				fi
 			elif [ "$sftc" == "val" ]    
 				checkfile=/usr/lib/firewalld/services/valheimserver-${worldname}.xml
-				if [ -f "$checkfile" ]; then
+				if [ -f "$checkfile" ] ; then
 					rm /usr/lib/firewalld/services/valheimserver-${worldname}.xml
 				else
 					echo "File does not exist."
