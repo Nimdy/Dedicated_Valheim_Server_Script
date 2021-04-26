@@ -87,7 +87,11 @@ backupPath=/home/steam/backups
 freshinstall="n"
 ### Do you want to use a firewall?
 usefw="n" 
-### what firewall do you want to use? f--firewalld  i--iptables u--ufw n--none 
+### what firewall do you want to use?  
+### <n : none> 
+### <u : ufw> 
+### <f : firewalld> 
+### <i : iptables> 
 fwused="n" 
 # if [ "${dubugmsg}" == "y" ] ; then echo "something" ; fi
 # worldname=""
@@ -95,7 +99,7 @@ fwused="n"
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.042620211200.alpha"
+ldversion="0.4.042620211500.alpha"
 # beta -- good to test
 # alpha -- something new added and untested.
 # I have done a lot and still testing and it seams to be working as originally intended.
@@ -757,7 +761,9 @@ function Install_steamcmd_client() {
 				echo ""
 			fi
 		elif [ "${fwused}" == "i" ] ; then
-			if command -v iptables >/dev/null; then
+			#if command -v iptables >/dev/null; then
+			#if command -v ip6tables >/dev/null; then
+			#if command -v eptables >/dev/null; then
 				echo "WIP Need to add."
 			fi
 		elif [ "${fwused}" == "f" ] ; then		
@@ -1188,7 +1194,7 @@ clear
 ########################################################################
 
 ########################################################################
-############# LD: Firewall section (WIP) START##########################
+############# (WIP) Firewall control section START #####################
 ########################################################################
 
 ## LD: Going to add disable / enable firewall and then
@@ -1261,11 +1267,19 @@ function get_firewall_substate(){
 function enable_prefered_firewall(){
     echo "START: Enabling and starting firewall."
     if [ "${fwinuse}" == "u" ] ; then
-        sudo systemctl enable ufw && systemctl start ufw		  
+        sudo systemctl unmask ufw && systemctl enable ufw && systemctl start ufw		  
     elif [ "${fwinuse}" == "f" ] ; then
-        sudo systemctl enable firewalld && systemctl start firewalld		  
+        sudo systemctl unmask firewalld && systemctl enable firewalld && systemctl start firewalld		  
     elif [ "${fwinuse}" == "i" ] ; then
-        sudo systemctl enable iptables && systemctl start iptables		  
+		if command -v iptables >/dev/null; then
+			sudo systemctl unmask iptables && systemctl enable iptables && systemctl start iptables		  
+		fi
+		if command -v ip6tables >/dev/null; then
+			sudo systemctl unmask ip6tables && systemctl enable ip6tables && systemctl start ip6tables		
+		fi
+		if command -v eptables >/dev/null; then
+			sudo systemctl unmask eptables && systemctl enable eptables && systemctl start eptables		  
+		fi
 	else
 		echo "..."
     fi
@@ -1275,29 +1289,127 @@ function enable_prefered_firewall(){
 function disable_all_firewalls(){
     echo "START: Stopping and disabling ALL firewall systems installed."
     if command -v ufw >/dev/null; then
-         sudo systemctl stop ufw
-		 systemctl disable ufw		  
+         sudo systemctl stop ufw && systemctl disable ufw 
+		 ## && systemctl mask ufw		  
 	fi	
     if command -v firewalld >/dev/null; then
-         sudo systemctl stop firewalld
-		 systemctl disable firewalld		  
+         sudo systemctl stop firewalld && sudo systemctl disable firewalld 
+		 ## && systemctl mask firewalld	  
     fi
 	if command -v iptables >/dev/null; then
-         sudo systemctl stop iptables
-		 systemctl disable iptables		  
+         sudo systemctl stop iptables && systemctl disable iptables 
+		 ## && systemctl mask iptables
 	fi
+	if command -v ip6tables >/dev/null; then
+		 sudo systemctl stop ip6tables && systemctl disable ip6tables 
+		 ## && systemctl mask ip6tables
+	fi
+	if command -v eptables >/dev/null; then
+		 sudo systemctl stop eptables && systemctl disable eptables 
+		 ## && systemctl mask eptables
+	fi		 
 	echo "END: Stopping and disabling firewall."
 }
 
-#List   #iptables -L OUTPUT -n --line-numbers
-#Delete #iptables -D INPUT 5
-#firewall-cmd --list-all 
-#firewall-cmd --permanent --remove-port=()/tcp
+
 ########################################################################
-############# LD: Firewall section (WIP) END############################
+########################################################################
+####  List of different firewall  systems commands  
+#### ... as ref list until done. :)                
+########################################################################
+######################  ufw
+########################################################################
+####
+########################################################################
+####################### [e/i]p[6]tables ################################
+########################################################################
+#### List   #iptables -L OUTPUT -n --line-numbers
+#### Delete #iptables -D INPUT 5
+########################################################################
+######################  Firewalld 
+########################################################################
+### yum install firewalld -y
+### which firewalld
+### systemctl [is-active/is-enabled/status/enable/disable/start/stop] firewalld >/dev/null 2>&1 && echo YES || echo NO
+### firewall-cmd --state 				
+######## running
+### firewall-cmd --get-default-zone     
+##### public
+### firewall-cmd --get-active-zones
+##### home
+#####   interfaces: eno1
+### firewall-cmd --list-all
+##### You're performing an operation over default zone ('public'),
+##### but your connections/interfaces are in zone 'home' (see --get-active-zones)
+##### You most likely need to use --zone=home option.
+##### public
+#####   target: default
+#####   icmp-block-inversion: no
+#####   interfaces:
+#####   sources:
+#####   services: dhcpv6-client ssh
+#####   ports: 2456-2458/udp 27015-27016/tcp 27030-27039/tcp 1200/udp 27000-27015/udp 27020/udp 2456-2458/tcp
+#####   protocols:
+#####   masquerade: no
+#####   forward-ports:
+#####   source-ports:
+#####   icmp-blocks:
+#####   rich rules:
+### firewall-cmd --get-zones
+##### block dmz drop external home internal public trusted work
+###firewall-cmd --zone=home --list-all
+#### ... 
+# firewall-cmd --get-services
+#### shh ...
+########### Might create
+########### /usr/lib/firewalld/services/steam.xml
+#### 
+#### <?xml version="1.0" encoding="utf-8"?>
+#### <service>
+####   <short>Steam service</short>
+####   <description>These are the ports needed for Steam and Steamcmd</description>
+####   <port protocol="upd" port="1200"/>
+####   <port protocol="upd" port="27000-27015"/>
+####   <port protocol="upd" port="27020"/>
+####   <port protocol="tcp" port="27015-27016"/>
+####   <port protocol="tcp" port="27030-27039"/>
+#### </service>
+####
+#### And then ...
+####
+########### /usr/lib/firewalld/services/valheim-<worldname>.xml
+#### 
+#### <?xml version="1.0" encoding="utf-8"?>
+#### <service>
+####   <short>Valheim <worldname> Server</short>
+####   <description>Valheim <worldname> game server ports</description>
+####   <port protocol="upd" port="2456-2458"/>
+#### ...
+####   <port protocol="upd" port="2466-2468"/>
+#### ...
+####   <port protocol="upd" port="2476-2478"/>
+#### </service>
+
+# firewall-cmd --zone=public --permanent --add-service=valheim-<worldname>
+# firewall-cmd --zone=public --permanent --add-service=steam
+# firewall-cmd --zone=public --permanent --remove-service=valheim-<worldname>
+# firewall-cmd --zone=public --permanent --remove-service=steam
+# firewall-cmd --zone=public --permanent --remove-service=*
+# firewall-cmd --zone=public [--permanent] --list-services
+#### ***(OR just leave)***
+# firewall-cmd --zone=public --permanent --add-port=<<port>-range>/<udp/tcp>
+# firewall-cmd --zone=public --permanent --remove-port=<<port>-range>/<udp/tcp>
+# firewall-cmd --zone=public --permanent --remove-port=*/*
+# firewall-cmd --zone=public --permanent --list-ports
+#### ***(and)***
+# firewall-cmd --reload
+########################################################################
 ########################################################################
 
 ########################################################################
+############# (WIP) Firewall control section END    ####################
+########################################################################
+
 ########################################################################
 ##############MAIN VALHEIM SERVER ADMIN FUNCTIONS END###################
 ########################################################################
