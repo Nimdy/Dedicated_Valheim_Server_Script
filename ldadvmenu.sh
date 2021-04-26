@@ -769,11 +769,10 @@ function Install_steamcmd_client() {
 				echo ""
 			fi
 		elif [ "${fwused}" == "i" ] ; then
-			#if command -v iptables >/dev/null; then
-			#if command -v ip6tables >/dev/null; then
-			#if command -v eptables >/dev/null; then
-				echo "WIP Need to add."
-			fi
+			#if command -v iptables >/dev/null; then ; fi
+			#if command -v ip6tables >/dev/null; then ; fi
+			#if command -v eptables >/dev/null; then ; fi
+			echo "WIP Need to add."
 		elif [ "${fwused}" == "f" ] ; then		
 			if command -v firewalld >/dev/null; then
 				if [ "$is_firewall_enabled" == "y" ] ; then
@@ -789,8 +788,7 @@ function Install_steamcmd_client() {
 		else		    
 			echo ""
 		fi
-		fi
-	else 
+	else
 		if [ "${is_firewall_enabled}" == "y" ] ; then 
 			disable_all_firewalls
 		fi
