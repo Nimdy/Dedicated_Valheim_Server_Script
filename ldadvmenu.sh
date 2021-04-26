@@ -57,7 +57,7 @@ else
 	echo "Default" >> $fileworldlist
 	readarray -t worldlistarray < $fileworldlist
 fi
-
+worldname=set_world_server
 #############################################################
 ########################  Santiy Check  #####################
 #############################################################
@@ -93,8 +93,8 @@ usefw="n"
 ### <f : firewalld> 
 ### <i : iptables> 
 fwused="n" 
+###############################################################
 # if [ "${dubugmsg}" == "y" ] ; then echo "something" ; fi
-# worldname=""
 # debugmsg="n"
 ###############################################################
 # Set Menu Version for menu display
@@ -2459,7 +2459,7 @@ function set_steamexe() {
 function set_world_server() {
 	#readarray worldlistarray < /home/steam/worlds.txt
     if [ "$worldname" = "" ] && [ -n "$worldlistarray" ] && [ "$request99" != "y" ] ; then	
-		worldname=${worldlistarray[0]}
+		set_world_server=${worldlistarray[0]}
 	elif [ -n "$worldlistarray" ] && [ "$request99" = "y" ] ; then
 		echo "$FUNCTION_SET_WORLD_SERVER_INFO"
 		select world in "${worldlistarray[@]}";
@@ -2467,11 +2467,11 @@ function set_world_server() {
 			echo "You selected $menu ($REPLY)"
 			echo "World name is ${world}"
 			if [ -n "$REPLY" ] ; then
-				worldname=${world}
+				set_world_server=${world}
 				echo "World menu selection: ${world}"
-				echo "Would session set: ${worldname}"
 				break;
 			else
+				set_world_server="Please Install a server."
 				echo "Invalid selection"	
 				echo ""			  
 			fi
@@ -2683,10 +2683,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 
 # Display Main Menu System
 menu(){
-	if [ "${worldname}" = "" ] ; 
-	then  
-		set_world_server 
-	fi
+	# if [ "${worldname}" = "" ] ; then  set_world_server ;fi
 	menu_header
 	echo -ne "
 $(ColorOrange ' '"$FUNCTION_MAIN_MENU_CHECK_SCRIPT_UPDATES_HEADER"' ')
@@ -2743,7 +2740,8 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 			17) restore_world_data ; menu ;;
 			18) mods_menu ; mods_menu ;;
 			19) bepinex_menu ; bepinex_menu ;;			
-			99) request99="y" ; set_world_server ; menu ;;
+			99) request99="y" ; worldname=set_world_server ; menu ;;
+			##99) request99="y" ; set_world_server ; menu ;;
 			0) exit 0 ;;
 			*)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
         esac
