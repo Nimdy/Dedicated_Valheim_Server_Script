@@ -57,7 +57,7 @@ else
 	echo "Default" >> $fileworldlist
 	readarray -t worldlistarray < $fileworldlist
 fi
-#worldname=""
+worldname=""
 #############################################################
 ########################  Santiy Check  #####################
 #############################################################
@@ -2507,7 +2507,7 @@ function set_steamexe() {
 function set_world_server() {
 	#readarray worldlistarray < /home/steam/worlds.txt
     if [ "$worldname" = "" ] && [ -n "$worldlistarray" ] && [ "$request99" != "y" ] ; then	
-		set_world_server=${worldlistarray[0]}
+		worldname=${worldlistarray[0]}
 	elif [ -n "$worldlistarray" ] && [ "$request99" = "y" ] ; then
 		echo "$FUNCTION_SET_WORLD_SERVER_INFO"
 		select world in "${worldlistarray[@]}";
@@ -2515,7 +2515,7 @@ function set_world_server() {
 			echo "You selected $menu ($REPLY)"
 			echo "World name is ${world}"
 			if [ -n "$REPLY" ] ; then
-				set_world_server=${world}
+				worldname=${world}
 				echo "World menu selection: ${world}"
 				break;
 			else
@@ -2785,7 +2785,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 			17) restore_world_data ; menu ;;
 			18) mods_menu ; mods_menu ;;
 			19) bepinex_menu ; bepinex_menu ;;			
-			99) request99="y" ; worldname=set_world_server ; menu ;;
+			99) request99="y" ; set_world_server ; menu ;;
 			##99) request99="y" ; set_world_server ; menu ;;
 			0) exit 0 ;;
 			*)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
