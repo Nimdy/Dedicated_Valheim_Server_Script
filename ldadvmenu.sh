@@ -35,7 +35,7 @@
 ####
 ###############################################################################################
 ###############################################################################################
-# Current Options: DE=German, EN=English, FR=French, SP=Spanish"
+#### Current Options: DE=German, EN=English, FR=French, SP=Spanish"
 ###############################################################################################
 ###############################################################################################
 source /etc/os-release
@@ -107,28 +107,27 @@ fwused="n"
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.042620211745.alpha"
-# -- Use are your own risk -- 
-#
-# beta -- Good for Public Testing.
-# alpha -- Dev team review and testing of the new code.
-# dev -- Adding new code.
-#
-# Please note that this is a play ground file for me and 
-# allows Zerobandwidth do determine what to pull into the main advance(menu).sh file.
-# 
-# I have done a lot ( and still ) testing of this new code 
-# and it seams to be working as original intended, but
-# now for OEL/REL/Fedora and centos tested.
-#
-# If you are using the above server versions of this software and the added repos cause issues,
-# I have provided the 3 fixes for most of the issues caused by the added repos 
-# in the function ***linux_server_update***.
-#
-# I am still in design mode for the firewall stuff.
-# Current it works 99% for FireWallD only at this time.
-#
-# Other Linux flavors and firewall systems to be added.
+ldversion="0.4.042620211930.alpha"
+### -- Use are your own risk -- 
+###
+### beta -- Good for Public Testing.
+### alpha -- Dev team review and testing of the new code.
+### dev -- Adding new code.
+###
+### Please note that this is a play ground file for me and 
+### allows Zerobandwidth do determine what to pull into the main advance(menu).sh file.
+### 
+### I have done a lot ( and still ) testing of this new code 
+### and it seams to be working as original intended, but
+### now for OEL/REL/Fedora and centos tested.
+###
+### If you are using the above server versions of Linux and the added repos cause issues,
+### I have provided the 3 most causes and fixes in the function ***linux_server_update*** text.
+###
+### I am still in design mode for the firewall stuff.
+### Current it works 99% for FireWallD only at this time.
+###
+### Other Linux flavors and firewall systems to be added.
 ########################################################################
 #############################Set COLOR VARS#############################
 ########################################################################
