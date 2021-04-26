@@ -84,7 +84,7 @@ backupPath=/home/steam/backups
 # is not included in a Linux flavor repos
 freshinstall="n"
 # worldname=""
-fwinuse="f" ### f = firewalld i = iptables u = ufw
+fwinuse="f" ### f--firewalld  i--iptables u--ufw n--none 
 # debugmsg="n"
 # if [ "${dubugmsg}" == "y" ] ; then echo "something" ; fi
 # Set this to delete all files from the 
