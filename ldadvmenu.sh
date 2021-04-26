@@ -1327,7 +1327,7 @@ function disable_all_firewalls(){
 function create_firewalld_service_file(){
 	if [ "${usefw}" == "y" ] ; then 
 		if [ "${fwused}" == "f" ] ; then
-			if [ "$sftc" == "ste" ]
+			if [ "$sftc" == "ste" ] ; then
 				checkfile=/usr/lib/firewalld/services/steam.xml
 				if [ -f "$checkfile" ] ; then
 					echo "Steam<cmd> Firewalld service file already created."
@@ -1345,8 +1345,7 @@ function create_firewalld_service_file(){
 </service>
 EOF
 				fi
-			fi
-		elif [ "$sftc" == "val" ] ; then    
+			elif [ "$sftc" == "val" ] ; then    
 				checkfile=/usr/lib/firewalld/services/valheimserver-${worldname}.xml
 				if [ -f "$checkfile" ] ; then
 					echo "Steam<cmd> Firewalld service file already created."
@@ -1373,14 +1372,14 @@ EOF
 function delete_firewalld_service_file(){
 	if [ "${usefw}" == "y" ] ; then 
 		if [ "${fwused}" == "f" ] ; then
-			if [ "$sftc" == "ste" ]
+			if [ "$sftc" == "ste" ] ; then
 				checkfile=/usr/lib/firewalld/services/steam.xml
 				if [ -f "$checkfile" ] ; then
 					rm /usr/lib/firewalld/services/steam.xml
 				else
 					echo "File does not exist."
 				fi
-			elif [ "$sftc" == "val" ]    
+			elif [ "$sftc" == "val" ] ; then   
 				checkfile=/usr/lib/firewalld/services/valheimserver-${worldname}.xml
 				if [ -f "$checkfile" ] ; then
 					rm /usr/lib/firewalld/services/valheimserver-${worldname}.xml
@@ -1399,9 +1398,9 @@ function delete_firewalld_service_file(){
 function add_firewalld_public_service(){
 	if [ "${usefw}" == "y" ] ; then 
 		if [ "${fwused}" == "f" ] ; then
-			if [ "$sftc" == "ste" ]
+			if [ "$sftc" == "ste" ] ; then
 				sudo firewall-cmd --zone=public --permanent --add-service=steam
-			elif [ "$sftc" == "val" ]    
+			elif [ "$sftc" == "val" ] ; then   
 				sudo firewall-cmd --zone=public --permanent --add-service=valheim-${worldname}
 			else
 				echo ""
@@ -1416,9 +1415,9 @@ function add_firewalld_public_service(){
 function remove_firewalld_public_service(){
 	if [ "${usefw}" == "y" ] ; then 
 		if [ "${fwused}" == "f" ] ; then
-			if [ "$sftc" == "ste" ]
+			if [ "$sftc" == "ste" ] ; then
 				sudo firewall-cmd --zone=public --permanent --remove-service=steam
-			elif [ "$sftc" == "val" ]    
+			elif [ "$sftc" == "val" ] ; then 
 				sudo firewall-cmd --zone=public --permanent --remove-service=valheim-${worldname}
 			else				
 				echo ""
