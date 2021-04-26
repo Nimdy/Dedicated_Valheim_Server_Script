@@ -1209,6 +1209,8 @@ function is_firewall_installed(){
     if command -v ufw >/dev/null; then fwiufw=y ; fi
     if command -v firewalld >/dev/null; then fwifwd=y ; fi
 	if command -v iptables >/dev/null; then fwiipt=y ; fi
+	if command -v ip6tables >/dev/null; then fwiipt=y ; fi
+	if command -v eptables >/dev/null; then fwiipt=y ; fi
 	if [ "${fwiufw}" == "y" ||  "${fwifwd}" == "y" || "${fwiipt}" == "n" ] ; then
 		is_firewall_installed=y
 	else
