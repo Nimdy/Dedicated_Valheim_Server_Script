@@ -2504,7 +2504,6 @@ function set_steamexe() {
 }
 
 # LD: Set the world server name.
-1
 function set_world_server() {
 	#readarray worldlistarray < /home/steam/worlds.txt
     if [ "$worldname" = "" ] && [ -n "$worldlistarray" ] && [ "$request99" != "y" ] ; then	
