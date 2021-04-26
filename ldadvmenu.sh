@@ -80,6 +80,9 @@ valheimInstallPath=/home/steam/valheimserver
 worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
 ### Backup Directory ( Default )
 backupPath=/home/steam/backups
+###
+### Defaults are "n" on the below parameters.
+###
 ### This option is only for the steamcmd install where it 
 ### is not included in a Linux flavor repos
 ### Set this to delete all files from the 
@@ -99,9 +102,9 @@ fwused="n"
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.042620211700.dev"
+ldversion="0.4.042620211745.alpha"
 # beta -- Good for Public Testing.
-# alpha -- Testing new code.
+# alpha -- Dev team review and testing of the new code.
 # dev -- Adding new code.
 # I have done a lot and still testing and it seams to be working as originally intended.
 # So for OEL/REL/Fedora and centos tested.
