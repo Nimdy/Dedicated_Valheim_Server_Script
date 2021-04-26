@@ -789,6 +789,7 @@ function Install_steamcmd_client() {
 		else		    
 			echo ""
 		fi
+		fi
 	else 
 		if [ "${is_firewall_enabled}" == "y" ] ; then 
 			disable_all_firewalls
