@@ -74,25 +74,28 @@ clear
 ### NOTE: Only change this if you know what you are doing   ###    
 ###############################################################
 ###############################################################
-#Valheim Server Install location(Default) 
+### Valheim Server Install location(Default) 
 valheimInstallPath=/home/steam/valheimserver
-#Valheim World Data Path(Default)
+### Valheim World Data Path(Default)
 worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
-#Backup Directory ( Default )
+### Backup Directory ( Default )
 backupPath=/home/steam/backups
-# This option is only for the steamcmd install where it 
-# is not included in a Linux flavor repos
+### This option is only for the steamcmd install where it 
+### is not included in a Linux flavor repos
+### Set this to delete all files from the 
+### /home/steam/steamcmd directory for clean reinstall steamcmd.
 freshinstall="n"
-# worldname=""
-fwinuse="f" ### f--firewalld  i--iptables u--ufw n--none 
-# debugmsg="n"
+### Do you want to use a firewall?
+usefw="n" 
+### what firewall do you want to use? f--firewalld  i--iptables u--ufw n--none 
+fwused="n" 
 # if [ "${dubugmsg}" == "y" ] ; then echo "something" ; fi
-# Set this to delete all files from the 
-# /home/steam/steamcmd directory for clean reinstall steamcmd.
+# worldname=""
+# debugmsg="n"
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.042520212915.beta"
+ldversion="0.4.042620211200.beta"
 # I have done a lot and still testing and it seams to be working as originally intended.
 # So for OEL/REL/Fedora and centos tested.
 # I am still in design mode for the firewall stuff.
@@ -408,26 +411,38 @@ $(ColorRed ''"$DRAW60"'')"
 		#### These should also be added to as port forwards on your network router.
 		####
 		#
-		if command -v ufw >/dev/null; then
-			# ufw allow udp from any to any port $minportnumber-$maxportnumber
-			# The above command needs to be validated.
-			echo ""
-		elif command -v iptables >/dev/null; then
-			# sudo iptables –A INPUT –p upd ––dport ${portnumber},${portnumber}+1,${portnumber}+2) –j ACCEPT
-			#if [ "$ID" == "fedora" ] || [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] )  ; then
-			#	sudo /sbin/service iptables save
-			#else
-			#	sudo /sbin/iptables–save
-			#fi
-			echo ""			
-		elif command -v firewalld >/dev/null; then
-			#systemctl start firewalld
-			systemctl status firewalld
-			firewall-cmd --permanent --zone=public --add-port=${portnumber}-${portnumber+2}/udp
-			#firewall-cmd --reload
-		else		    
-			echo ""
-		fi
+		if [ "${usefw}" == "y" ] ; then 
+			if [ "${fwused}" == "u" ] ; then
+				if command -v ufw >/dev/null; then
+					# ufw allow udp from any to any port $minportnumber-$maxportnumber
+					# The above command needs to be validated.
+					echo ""
+				fi
+			elif [ "${fwused}" == "i" ] ; then
+				if command -v iptables >/dev/null; then
+					# sudo iptables –A INPUT –p upd ––dport ${portnumber},${portnumber}+1,${portnumber}+2) –j ACCEPT
+					#if [ "$ID" == "fedora" ] || [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] )  ; then
+					#	sudo /sbin/service iptables save
+					#else
+					#	sudo /sbin/iptables–save
+					#fi
+					echo ""	
+				fi
+			elif [ "${fwused}" == "f" ] ; then		
+				if command -v firewalld >/dev/null; then
+					#systemctl start firewalld
+					systemctl status firewalld
+					firewall-cmd --permanent --zone=public --add-port=${portnumber}-${portnumber+2}/udp
+					#firewall-cmd --reload
+				fi
+			else		    
+				echo ""
+			fi
+		else 
+			if [ "${is_firewall_enabled}" == "y" ] ; then 
+				disable_all_firewalls
+			fi
+		fi		
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 		sleep 1
 		#build config for start_valheim.sh
@@ -731,17 +746,34 @@ function Install_steamcmd_client() {
 	#### Need to add code to veriy firewall system and if enabled.
 	#### Below is the line needed for steamcmd
 	#### These should also be added to as port forwards on your network router.
-	if command -v ufw >/dev/null; then
-		# Need to add ufw commands. 
-		echo "WIP Need to add."
-	elif command -v firewalld >/dev/null; then
-		#sudo systemctl start firewalld
-		sudo systemctl status firewalld
-		sudo firewall-cmd --permanent --zone=public  --add-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
-		sudo firewall-cmd --reload
-	else
-		echo "..."
-	fi
+	if [ "${usefw}" == "y" ] ; then 
+		if [ "${fwused}" == "u" ] ; then
+			if command -v ufw >/dev/null; then
+				# ufw allow udp from any to any port $minportnumber-$maxportnumber
+				# The above command needs to be validated.
+				echo "WIP Need to add."
+				echo ""
+			fi
+		elif [ "${fwused}" == "i" ] ; then
+			if command -v iptables >/dev/null; then
+				echo "WIP Need to add."
+			fi
+		elif [ "${fwused}" == "f" ] ; then		
+			if command -v firewalld >/dev/null; then
+				#sudo systemctl start firewalld
+				sudo systemctl status firewalld
+				sudo firewall-cmd --permanent --zone=public  --add-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
+				sudo firewall-cmd --reload
+			fi
+		else		    
+			echo ""
+		fi
+	
+	else 
+		if [ "${is_firewall_enabled}" == "y" ] ; then 
+			disable_all_firewalls
+		fi
+	fi	
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1
 	#build symbolic link for steamcmd
@@ -1198,12 +1230,12 @@ function is_firewall_enabled(){
 }
 
 function get_firewall_status(){
-    if [ "${fwinuse}" == "u" ] ; then
-        firewall_substate=$(systemctl is-active ufw)		  
-    elif [ "${fwinuse}" == "f" ] ; then
-        firewall_substate=$(systemctl is-active firewalld)
-    elif [ "${fwinuse}" == "i" ] ; then
-       firewall_substate=$(systemctl is-active iptables)	  
+    if [ "${fwused}" == "u" ] ; then
+        get_firewall_status=$(systemctl is-active ufw)		  
+    elif [ "${fwused}" == "f" ] ; then
+        get_firewall_status=$(systemctl is-active firewalld)
+    elif [ "${fwused}" == "i" ] ; then
+		get_firewall_status=$(systemctl is-active iptables)	  
 	else
 		echo "..."
     fi	
@@ -1211,12 +1243,12 @@ function get_firewall_status(){
 }
 
 function get_firewall_substate(){
-    if [ "${fwinuse}" == "u" ] ; then
-        firewall_substate=$(systemctl show -p SubState ufw)		  
-    elif [ "${fwinuse}" == "f" ] ; then
-        firewall_substate=$(systemctl show -p SubState firewalld)
-    elif [ "${fwinuse}" == "i" ] ; then
-       firewall_substate=$(systemctl show -p SubState iptables)		  
+    if [ "${fwused}" == "u" ] ; then
+        get_firewall_substate=$(systemctl show -p SubState ufw)		  
+    elif [ "${fwused}" == "f" ] ; then
+        get_firewall_substate=$(systemctl show -p SubState firewalld)
+    elif [ "${fwused}" == "i" ] ; then
+       get_firewall_substate=$(systemctl show -p SubState iptables)		  
 	else
 		echo "..."
     fi
