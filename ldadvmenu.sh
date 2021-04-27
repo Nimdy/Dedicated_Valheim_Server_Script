@@ -102,8 +102,8 @@ usefw="n"
 ### <i : iptables> 
 fwused="n" 
 ###############################################################
-# if [ "${dubugmsg}" == "y" ] ; then echo "something" ; fi
-# debugmsg="n"
+debugmsg="y"
+# if [ "$dubugmsg" == "y" ] ; then echo "something" ; fi
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
@@ -1270,9 +1270,10 @@ function is_firewall_installed(){
 	else
 		is_firewall_installed=n
     fi 	
-    echo "The following firewall systems are found:"
-	echo "UFW: ${fwiufw} -- Firewalld: ${fwifwd} -- Iptables: ${fwiipt} -- Ip6tables: ${fwiipt6} -- Eptables: ${fwiept}"
 	echo -e '\E[32m'"$is_firewall_installed "
+    echo -ne "The following firewall systems are found:"
+	echo "UFW: ${fwiufw} -- Firewalld: ${fwifwd} -- Iptables: ${fwiipt} -- Ip6tables: ${fwiipt6} -- Eptables: ${fwiept}"
+	
 }
 
 function is_firewall_enabled(){
@@ -1297,8 +1298,9 @@ function is_firewall_enabled(){
 
 	echo -e '\E[32m'"$is_firewall_enabled "
 	## Testing for now...
-	tput setaf 2; echo "The following firewall systems enabled: " ; tput setaf 9;
-	tput setaf 2; echo "UFW: ${fweufw} -- Firewalld: ${fwefwd} -- Iptables: ${fweipt}"  ; tput setaf 9;
+	if [ "$dubugmsg" == "y" ] ; then 
+		tput setaf 2; echo -ne "The following firewall systems enabled: -- UFW: ${fweufw} -- Firewalld: ${fwefwd} -- Iptables: ${fweipt}" ; tput setaf 9;
+	fi
 }
 
 function get_firewall_status(){
@@ -1308,9 +1310,9 @@ function get_firewall_status(){
         get_firewall_status=$(systemctl is-active firewalld)
     elif [ "${fwused}" == "i" ] ; then
 		# get_firewall_status=$(systemctl is-active iptables)	  
-		echo "..."
+		echo "1..."
 	else
-		echo "..."
+		echo "2..."
     fi	
 	echo -e '\E[32m'"$get_firewall_status "
 }
