@@ -1299,7 +1299,9 @@ function is_firewall_enabled(){
 	echo -e '\E[32m'"$is_firewall_enabled "
 	## Testing for now...
 	if [ "$debugmsg" == "y" ] ; then 
-		tput setaf 2; echo -ne "The following firewall systems enabled: -- UFW: ${fweufw} -- Firewalld: ${fwefwd} -- Iptables: ${fweipt}" ; tput setaf 9;
+		echo -e '\E[32m'"The following firewall systems enabled: -- UFW: ${fweufw} -- Firewalld: ${fwefwd} -- Iptables: ${fweipt}"
+	else
+		echo -e '\E[32m'"$is_firewall_enabled "
 	fi
 }
 
@@ -2558,7 +2560,9 @@ function are_mods_enabled() {
 }
 # LD: Set steamcmd based on Linux Flavor
 function set_steamexe() {
-    tput setaf 1; echo "$FUNCTION_SET_STEAMEXE_INFO" ; tput setaf 9;
+	if [ "$debugmsg" == "y" ] ; then 
+		tput setaf 1; echo "$FUNCTION_SET_STEAMEXE_INFO" ; tput setaf 9;
+	fi	
 	if command -v apt-get >/dev/null; then
 		steamexe=/home/steam/steamcmd
 	elif command -v yum >/dev/null; then
@@ -2566,7 +2570,9 @@ function set_steamexe() {
 	else
 		echo ""
 	fi
-    tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+	if [ "$debugmsg" == "y" ] ; then 
+		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+	fi	
 	sleep 1
 }
 
