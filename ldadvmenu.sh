@@ -1256,19 +1256,22 @@ function is_firewall_installed(){
     fwiufw=n
     fwifwd=n
 	fwiipt=n
+	fwiipt6=n
+	fwiept=n
   
     if command -v ufw >/dev/null; then fwiufw=y ; fi
     if command -v firewalld >/dev/null; then fwifwd=y ; fi
 	if command -v iptables >/dev/null; then fwiipt=y ; fi
-	if command -v ip6tables >/dev/null; then fwiipt=y ; fi
-	if command -v eptables >/dev/null; then fwiipt=y ; fi
-	if [ "${fwiufw}" == "y" ||  "${fwifwd}" == "y" || "${fwiipt}" == "n" ] ; then
+	if command -v ip6tables >/dev/null; then fwiipt6=y ; fi
+	if command -v eptables >/dev/null; then fwiept=y ; fi
+	
+	if [[ ( "${fwiufw}" == "y" ||  "${fwifwd}" == "y" || "${fwiipt}" == "n" || "${fwiipt6}" == "n" || "${fweipt}" == "n" ) ]] ; then
 		is_firewall_installed=y
 	else
 		is_firewall_installed=n
     fi 	
     echo "The following firewall systems are found:"
-	echo "UFW: ${fwiufw} -- Firewalld: ${fwifwd} -- Iptables: ${fwiipt}"
+	echo "UFW: ${fwiufw} -- Firewalld: ${fwifwd} -- Iptables: ${fwiipt} -- Ip6tables: ${fwiipt6} -- Eptables: ${fwiept}"
 	echo -e '\E[32m'"$is_firewall_installed "
 }
 
@@ -1276,18 +1279,26 @@ function is_firewall_enabled(){
     fweufw=disabled
     fwefwd=disabled
 	fweipt=disabled
+	fweipt6=disabled
+	fweept=disabled
 	
-    if command -v ufw >/dev/null; then fweufw=$(systemctl is-enabled ufw) ; fi
+    if command -v ufw >/dev/null; then 	fweufw=$(systemctl is-enabled ufw) ; fi
     if command -v firewalld >/dev/null; then fwefwd=$(systemctl is-enabled firewalld) ; fi
-	if command -v iptables >/dev/null; then fweipt=$(systemctl is-enabled iptables) ; fi
+
 	
-	if [[ ( "$fweufw" == "enabled" || "$fwefwd" == "enabled" || "$fweipt" == "enabled" ) ]] ; then
+	#if command -v iptables >/dev/null; then fweipt=$(systemctl is-enabled iptables) ; fi
+	#if command -v ip6tables >/dev/null; then fweipt=$(systemctl is-enabled ip6tables) ; fi
+	#if command -v eptables >/dev/null; then fweipt=$(systemctl is-enabled eptables) ; fi
+
+
+	if [[ ( "$fweufw" == "enabled" || "$fwefwd" == "enabled" || "$fweipt" == "enabled" || "$fweipt6" == "enabled" || "$fweept" == "enabled" ) ]] ; then
 		is_firewall_enabled="y"
 	else 	
 		is_firewall_enabled="n"
 	fi	
-    echo "The following firewall systems enabled:"
-	echo "UFW: ${fweufw} -- Firewalld: ${fwefwd} -- Iptables: ${fweipt}"
+	## Testing for now...
+	tput setaf 2; echo "The following firewall systems enabled: " ; tput setaf 9;
+	tput setaf 2; echo "UFW: ${fweufw} -- Firewalld: ${fwefwd} -- Iptables: ${fweipt}"  ; tput setaf 9;
 	echo -e '\E[32m'"$is_firewall_enabled "
 }
 
@@ -1297,7 +1308,8 @@ function get_firewall_status(){
     elif [ "${fwused}" == "f" ] ; then
         get_firewall_status=$(systemctl is-active firewalld)
     elif [ "${fwused}" == "i" ] ; then
-		get_firewall_status=$(systemctl is-active iptables)	  
+		# get_firewall_status=$(systemctl is-active iptables)	  
+		echo "..."
 	else
 		echo "..."
     fi	
@@ -1310,7 +1322,8 @@ function get_firewall_substate(){
     elif [ "${fwused}" == "f" ] ; then
         get_firewall_substate=$(systemctl show -p SubState firewalld)
     elif [ "${fwused}" == "i" ] ; then
-       get_firewall_substate=$(systemctl show -p SubState iptables)		  
+       # get_firewall_substate=$(systemctl show -p SubState iptables)		  
+		echo "..."	   
 	else
 		echo "..."
     fi
