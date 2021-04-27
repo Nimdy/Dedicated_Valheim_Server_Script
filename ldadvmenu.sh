@@ -866,12 +866,12 @@ function backup_world_data() {
         TODAY="$(date +%Y-%m-%d-%T)"
 		tput setaf 5; echo "$BACKUP_WORLD_CHECK_DIRECTORY" ; tput setaf 9;
 		tput setaf 5; echo "$BACKUP_WORLD_CHECK_DIRECTORY_1" ; tput setaf 9;
-		dldir=$backupPath
+		dldir=$backupPath/$worldname
 		[ ! -d "$dldir" ] && mkdir -p "$dldir"
         sleep 1
         ## Clean up files older than 2 weeks. Create a new backup.
 		tput setaf 1; echo "$BACKUP_WORLD_CONDUCT_CLEANING" ; tput setaf 9;
-        find $backupPath/* -mtime +14 -type f -delete
+        find $backupPath/$worldname/* -mtime +14 -type f -delete
 		tput setaf 2; echo "$BACKUP_WORLD_CONDUCT_CLEANING_LOKI" ; tput setaf 9;
         sleep 1
         ## Tar Section. Create a backup file, with the current date in its name.
@@ -887,7 +887,7 @@ function backup_world_data() {
         #give it a few
         sleep 10
 		tput setaf 1; echo "$BACKUP_WORLD_MAKING_TAR" ; tput setaf 9;
-        tar czf $backupPath/valheim-backup-$TODAY.tgz $worldpath/*
+        tar czf $backupPath/$worldname/valheim-backup-$TODAY.tgz $worldpath/$worldname/*
 		tput setaf 2; echo "$BACKUP_WORLD_MAKING_TAR_COMPLETE" ; tput setaf 9;
 		sleep 1
 		tput setaf 2; echo "$BACKUP_WORLD_RESTARTING_SERVICES" ; tput setaf 9;
@@ -909,7 +909,7 @@ function restore_world_data() {
 	#init empty array
     declare -a backups
 	#loop through backups and put in array
-    for file in ${backupPath}/*.tgz
+    for file in ${backupPath}/${worldname}/*.tgz
     do
         backups=(${backups[*]} "$file")
     done;
@@ -948,10 +948,10 @@ $(ColorGreen ' '"$RESTORE_WORLD_DATA_CONFIRM_1"' ') "
         sleep 5
 		#copy backup to worlds folder
         tput setaf 2; echo "$RESTORE_WORLD_DATA_COPYING ${backups[$selectedIndex-1]} to ${worldpath}/" ; tput setaf 9;
-        cp ${backups[$selectedIndex-1]} ${worldpath}/
+        cp ${backups[$selectedIndex-1]} ${worldpath}/${worldname}/
 		#untar
         tput setaf 2; echo "$RESTORE_WORLD_DATA_UNPACKING ${worldpath}/${restorefile}" ; tput setaf 9;
-        tar xzf ${worldpath}/${restorefile} --strip-components=7 --directory ${worldpath}/  
+        tar xzf ${worldpath}/${worldname}/${restorefile} --strip-components=7 --directory ${worldpath}/${worldname}/  
 		chown -Rf steam:steam ${worldpath}
 		rm  ${worldpath}/*.tgz
         tput setaf 2; echo "$RESTORE_WORLD_DATA_STARTING_VALHEIM_SERVICES" ; tput setaf 9;
@@ -1235,10 +1235,10 @@ clear
     echo ""
 }
 
-#function worldseed(){
-#worldseed=$(cat > /home/steam/.config/unity3d/IronGate/Valheim/worlds/${serverdisplayname}.fwl)
-#echo -e '\E[32m'"$worldseed "
-#}
+function get_worldseed(){
+	worldseed=$(cat > ${worldpath}/${worldname}/${serverdisplayname}.fwl)
+	echo -e '\E[32m'"$worldseed "
+}
 
 ########################################################################
 ##############Valheim Server Information output END#####################
@@ -2592,7 +2592,7 @@ function are_mods_enabled() {
 # LD: Set steamcmd based on Linux Flavor
 function set_steamexe() {
 	if [ "$debugmsg" == "y" ] ; then 
-		tput setaf 1; echo "$FUNCTION_SET_STEAMEXE_INFO" ; tput setaf 9;
+		tput setaf 1; echo -ne "$FUNCTION_SET_STEAMEXE_INFO" ; tput setaf 9;
 	fi	
 	if command -v apt-get >/dev/null; then
 		steamexe=/home/steam/steamcmd
@@ -2602,7 +2602,7 @@ function set_steamexe() {
 		echo ""
 	fi
 	if [ "$debugmsg" == "y" ] ; then 
-		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+		tput setaf 2; echo -ne "$ECHO_DONE" ; tput setaf 9;
 	fi	
 	sleep 1
 }
