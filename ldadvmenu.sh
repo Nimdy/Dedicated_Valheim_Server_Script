@@ -107,7 +107,7 @@ fwused="n"
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.042620211930.alpha"
+ldversion="0.4.042620212000.alpha"
 ### -- Use are your own risk -- 
 ### dev -- Adding new code.
 ### alpha -- Dev team review and testing of the new code.
