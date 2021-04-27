@@ -97,9 +97,10 @@ usefw="n"
 ### <y : yes>
 ### what firewall do you want to use? 
 ### <n : none> 
-### <i : iptables> 
+### <a : arptables>
 ### <e : ebtables> 
 ### <f : firewalld> 
+### <i : iptables> 
 ### <u : ufw> 
 fwused="n" 
 ###############################################################
@@ -1283,19 +1284,22 @@ function is_firewall_installed(){
 }
 
 function is_firewall_enabled(){
-    fweufw=disabled
+
+	fwearp=disabled
+	fweebt=disabled
     fwefwd=disabled
 	fweipt=disabled
 	fweipt6=disabled
-	fweebt=disabled
-	
-    if command -v ufw >/dev/null; then 	fweufw=$(systemctl is-enabled ufw) ; fi
+    fweufw=disabled
+
+	if command -v arptables >/dev/null; then fwearp=$(systemctl is-enabled ebtables) ; fi
+	if command -v ebtables >/dev/null; then fweebt=$(systemctl is-enabled ebtables) ; fi	
     if command -v firewalld >/dev/null; then fwefwd=$(systemctl is-enabled firewalld) ; fi
 	if command -v iptables >/dev/null; then fweipt=$(systemctl is-enabled iptables) ; fi
 	if command -v ip6tables >/dev/null; then fweipt6=$(systemctl is-enabled ip6tables) ; fi
-	if command -v ebtables >/dev/null; then fweebt=$(systemctl is-enabled ebtables) ; fi
+    if command -v ufw >/dev/null; then 	fweufw=$(systemctl is-enabled ufw) ; fi
 
-	if [[ ( "$fweufw" == "enabled" || "$fwefwd" == "enabled" || "$fweipt" == "enabled" || "$fweipt6" == "enabled" || "$fweebt" == "enabled" ) ]] ; then
+	if [[ ( "$fwearp" == "enabled" || "$fweebt" == "enabled" || "$fwefwd" == "enabled" || "$fweipt" == "enabled" || "$fweipt6" == "enabled" || "$fweufw" == "enabled" ) ]] ; then
 		is_firewall_enabled="y"
 	else 	
 		is_firewall_enabled="n"
@@ -1312,15 +1316,19 @@ function is_firewall_enabled(){
 function get_firewall_status(){
 	if [ "usefw" == "y" ] ;  then
 		get_firewall_status="NA"
-		if [ "${fwused}" == "u" ] ; then
-			if command -v ufw >/dev/null; then get_firewall_status=$(systemctl is-active ufw) ; fi
+		
+
+		if [ "${fwused}" == "a" ] ; then
+			if command -v arptables >/dev/null; then get_firewall_status=$(systemctl is-active arptables) ; fi			
+		elif [ "${fwused}" == "e" ] ; then
+			if command -v ebtables >/dev/null; then get_firewall_status=$(systemctl is-active ebtables) ; fi			
 		elif [ "${fwused}" == "f" ] ; then
 			if command -v firewalld >/dev/null; then get_firewall_status=$(systemctl is-active firewalld) ; fi
 		elif [ "${fwused}" == "i" ] ; then
 			if command -v iptables >/dev/null; then get_firewall_status=$(systemctl is-active iptables) ; fi
 			#if command -v ip6tables >/dev/null; then get_firewall_status=$(systemctl is-active ip6tables) ; fi
-		elif [ "${fwused}" == "e" ] ; then
-			if command -v ebtables >/dev/null; then get_firewall_status=$(systemctl is-active ebtables) ; fi			
+		elif [ "${fwused}" == "u" ] ; then
+			if command -v ufw >/dev/null; then get_firewall_status=$(systemctl is-active ufw) ; fi
 		else
 			get_firewall_status="noActiveSerivceFound"
 		fi	
@@ -1339,15 +1347,18 @@ function get_firewall_status(){
 function get_firewall_substate(){
 	if [ "usefw" == "y" ] ;  then
 		get_firewall_substate="NA"
-		if [ "${fwused}" == "u" ] ; then
-			if command -v ufw >/dev/null; then get_firewall_substate=$(systemctl show -p SubState ufw) ; fi
+		
+		if [ "${fwused}" == "a" ] ; then
+			if command -v arptables >/dev/null; then get_firewall_substate=$(systemctl show -p SubState arptables) ; fi
+		elif [ "${fwused}" == "e" ] ; then
+			if command -v ebtables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState ebtables) ; fi
 		elif [ "${fwused}" == "f" ] ; then
 			if command -v firewalld >/dev/null; then get_firewall_substate=$(systemctl show -p SubState firewalld) ; fi
 		elif [ "${fwused}" == "i" ] ; then
 			if command -v iptables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState iptables) ; fi		
 			# if command -v ip6tables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState ip6tables) ; fi
-		elif [ "${fwused}" == "e" ] ; then
-			if command -v ebtables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState ebtables) ; fi
+		elif [ "${fwused}" == "u" ] ; then
+			if command -v ufw >/dev/null; then get_firewall_substate=$(systemctl show -p SubState ufw) ; fi
 		else
 			get_firewall_status="noActiceSubStatusServiceFound"
 		fi
@@ -1371,10 +1382,18 @@ function enable_prefered_firewall(){
 		echo -e '\E[32m'"START: Enabling and starting firewall."
 	fi
 
-    if [ "${fwinuse}" == "u" ] ; then
-        sudo systemctl unmask ufw && systemctl enable ufw && systemctl start ufw		  
+	if [ "${fwused}" == "a" ] ; then		
+		if command -v arptables >/dev/null; then
+			sudo systemctl unmask arptables && systemctl enable arptables && systemctl start arptables		  
+		fi
+	elif [ "${fwused}" == "e" ] ; then		
+		if command -v ebtables >/dev/null; then
+			sudo systemctl unmask ebtables && systemctl enable ebtables && systemctl start ebtables		  
+		fi
     elif [ "${fwinuse}" == "f" ] ; then
-        sudo systemctl unmask firewalld && systemctl enable firewalld && systemctl start firewalld		  
+		if command -v firewalld >/dev/null; then
+			sudo systemctl unmask firewalld && systemctl enable firewalld && systemctl start firewalld		  
+		fi	
     elif [ "${fwinuse}" == "i" ] ; then
 		if command -v iptables >/dev/null; then
 			sudo systemctl unmask iptables && systemctl enable iptables && systemctl start iptables		  
@@ -1382,10 +1401,10 @@ function enable_prefered_firewall(){
 		#if command -v ip6tables >/dev/null; then
 		#	sudo systemctl unmask ip6tables && systemctl enable ip6tables && systemctl start ip6tables		
 		#fi
-	elif [ "${fwused}" == "e" ] ; then		
-		if command -v ebtables >/dev/null; then
-			sudo systemctl unmask ebtables && systemctl enable ebtables && systemctl start ebtables		  
-		fi
+    elif [ "${fwinuse}" == "u" ] ; then
+		if command -v ufw >/dev/null; then
+			sudo systemctl unmask ufw && systemctl enable ufw && systemctl start ufw
+		fi	
 	else
 		echo "No firewalls to enable"
     fi
@@ -1401,9 +1420,13 @@ function disable_all_firewalls(){
 		echo -e '\E[32m'"START: Stopping and disabling ALL firewall systems installed."
 	fi
 	
-    if command -v ufw >/dev/null; then
-         sudo systemctl stop ufw && systemctl disable ufw 
-		 ## && systemctl mask ufw		  
+	if command -v arptables >/dev/null; then
+		 sudo systemctl stop arptables && systemctl disable arptables 
+		 ## && systemctl mask arptables
+	fi	
+	if command -v ebtables >/dev/null; then
+		 sudo systemctl stop ebtables && systemctl disable ebtables 
+		 ## && systemctl mask ebtables
 	fi	
     if command -v firewalld >/dev/null; then
          sudo systemctl stop firewalld && sudo systemctl disable firewalld 
@@ -1417,11 +1440,11 @@ function disable_all_firewalls(){
 		 sudo systemctl stop ip6tables && systemctl disable ip6tables 
 		 ## && systemctl mask ip6tables
 	fi
-	if command -v ebtables >/dev/null; then
-		 sudo systemctl stop ebtables && systemctl disable ebtables 
-		 ## && systemctl mask ebtables
-	fi		 
-
+    if command -v ufw >/dev/null; then
+         sudo systemctl stop ufw && systemctl disable ufw 
+		 ## && systemctl mask ufw		  
+	fi	
+	
 	if [ "$debugmsg" == "y" ] ; then 
 		echo -e '\E[32m'"END: Stopping and disabling ALL firewall systems installed."
 	fi
@@ -1542,9 +1565,9 @@ function remove_firewalld_public_service(){
 ########################################################################
 ######################  ufw
 ########################################################################
-####
+#### xtable-addon
 ########################################################################
-####################### [e/i]p[6]tables ################################
+####################### arp/eb/ip[6]tables ################################
 ########################################################################
 #### List   #iptables -L OUTPUT -n --line-numbers
 #### Delete #iptables -D INPUT 5
