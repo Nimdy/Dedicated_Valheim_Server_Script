@@ -1284,22 +1284,21 @@ function is_firewall_enabled(){
 	
     if command -v ufw >/dev/null; then 	fweufw=$(systemctl is-enabled ufw) ; fi
     if command -v firewalld >/dev/null; then fwefwd=$(systemctl is-enabled firewalld) ; fi
-
 	
 	#if command -v iptables >/dev/null; then fweipt=$(systemctl is-enabled iptables) ; fi
 	#if command -v ip6tables >/dev/null; then fweipt=$(systemctl is-enabled ip6tables) ; fi
 	#if command -v eptables >/dev/null; then fweipt=$(systemctl is-enabled eptables) ; fi
-
 
 	if [[ ( "$fweufw" == "enabled" || "$fwefwd" == "enabled" || "$fweipt" == "enabled" || "$fweipt6" == "enabled" || "$fweept" == "enabled" ) ]] ; then
 		is_firewall_enabled="y"
 	else 	
 		is_firewall_enabled="n"
 	fi	
+
+	echo -e '\E[32m'"$is_firewall_enabled "
 	## Testing for now...
 	tput setaf 2; echo "The following firewall systems enabled: " ; tput setaf 9;
 	tput setaf 2; echo "UFW: ${fweufw} -- Firewalld: ${fwefwd} -- Iptables: ${fweipt}"  ; tput setaf 9;
-	echo -e '\E[32m'"$is_firewall_enabled "
 }
 
 function get_firewall_status(){
