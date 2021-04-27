@@ -1258,15 +1258,15 @@ function is_firewall_installed(){
     fwifwd=n
 	fwiipt=n
 	fwiipt6=n
-	fwiept=n
+	fwiebt=n
   
     if command -v ufw >/dev/null; then fwiufw=y ; fi
     if command -v firewalld >/dev/null; then fwifwd=y ; fi
 	if command -v iptables >/dev/null; then fwiipt=y ; fi
 	if command -v ip6tables >/dev/null; then fwiipt6=y ; fi
-	if command -v ebtables >/dev/null; then fwiept=y ; fi
+	if command -v ebtables >/dev/null; then fwiebt=y ; fi
 	
-	if [[ ( "${fwiufw}" == "y" ||  "${fwifwd}" == "y" || "${fwiipt}" == "y" || "${fwiipt6}" == "y" || "${fweipt}" == "y" ) ]] ; then
+	if [[ ( "$fwiufw" == "y" ||  "$fwifwd" == "y" || "$fwiipt" == "y" || "$fwiipt6" == "y" || "$fwiebt" == "y" ) ]] ; then
 		is_firewall_installed=y
 	else
 		is_firewall_installed=n
@@ -1274,7 +1274,7 @@ function is_firewall_installed(){
 
 	## Testing for now...
 	if [ "$debugmsg" == "y" ] ; then 
-		echo -e '\E[32m'"The following firewall systems are found: UFW: ${fwiufw} -- Firewalld: ${fwifwd} -- Iptables: ${fwiipt} -- Ip6tables: ${fwiipt6} -- ebtables: ${fwiept} "
+		echo -e '\E[32m'"The following firewall systems are found: UFW: ${fwiufw} -- Firewalld: ${fwifwd} -- Iptables: ${fwiipt} -- Ip6tables: ${fwiipt6} -- ebtables: ${fwiebt} "
 	else
 		echo -e '\E[32m'"$is_firewall_installed "
 	fi
@@ -1286,15 +1286,15 @@ function is_firewall_enabled(){
     fwefwd=disabled
 	fweipt=disabled
 	fweipt6=disabled
-	fweibt=disabled
+	fweebt=disabled
 	
     if command -v ufw >/dev/null; then 	fweufw=$(systemctl is-enabled ufw) ; fi
     if command -v firewalld >/dev/null; then fwefwd=$(systemctl is-enabled firewalld) ; fi
 	if command -v iptables >/dev/null; then fweipt=$(systemctl is-enabled iptables) ; fi
-	if command -v ip6tables >/dev/null; then fweipt=$(systemctl is-enabled ip6tables) ; fi
-	if command -v ebtables >/dev/null; then fweipt=$(systemctl is-enabled ebtables) ; fi
+	if command -v ip6tables >/dev/null; then fweipt6=$(systemctl is-enabled ip6tables) ; fi
+	if command -v ebtables >/dev/null; then fweebt=$(systemctl is-enabled ebtables) ; fi
 
-	if [[ ( "$fweufw" == "enabled" || "$fwefwd" == "enabled" || "$fweipt" == "enabled" || "$fweipt6" == "enabled" || "$fweibt" == "enabled" ) ]] ; then
+	if [[ ( "$fweufw" == "enabled" || "$fwefwd" == "enabled" || "$fweipt" == "enabled" || "$fweipt6" == "enabled" || "$fweebt" == "enabled" ) ]] ; then
 		is_firewall_enabled="y"
 	else 	
 		is_firewall_enabled="n"
@@ -1302,7 +1302,7 @@ function is_firewall_enabled(){
 
 	## Testing for now...
 	if [ "$debugmsg" == "y" ] ; then 
-		echo -e '\E[32m'"The following firewall systems enabled: -- UFW: ${fweufw} -- Firewalld: ${fwefwd} -- Iptables: ${fweipt}"
+		echo -e '\E[32m'"The following firewall systems enabled: -- UFW: ${fweufw} -- Firewalld: ${fwefwd} -- Iptables: ${fweipt} -- Ip6tables: ${fweipt6} -- Iptables: ${fweebt}"
 	else
 		echo -e '\E[32m'"$is_firewall_enabled "
 	fi
@@ -1320,7 +1320,6 @@ function get_firewall_status(){
 			#if command -v ip6tables >/dev/null; then get_firewall_status=$(systemctl is-active ip6tables) ; fi
 		elif [ "${fwused}" == "e" ] ; then
 			if command -v ebtables >/dev/null; then get_firewall_status=$(systemctl is-active ebtables) ; fi			
-			echo "Need to enter better code for [i/e]p6tbables..."
 		else
 			get_firewall_status="noActiveSerivceFound"
 		fi	
@@ -1348,7 +1347,6 @@ function get_firewall_substate(){
 			# if command -v ip6tables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState ip6tables) ; fi
 		elif [ "${fwused}" == "e" ] ; then
 			if command -v ebtables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState ebtables) ; fi
-			echo "Need to enter better code for [e/i]p6tbables..."	   
 		else
 			get_firewall_status="noActiceSubStatusServiceFound"
 		fi
