@@ -895,7 +895,7 @@ function backup_world_data() {
         tput setaf 2; echo "$BACKUP_WORLD_RESTARTING_SERVICES_1" ; tput setaf 9;
 		echo ""
 		tput setaf 2; echo "$BACKUP_WORLD_SET_PERMS_FILES" ; tput setaf 9;
-		chown -Rf steam:steam ${backupPath}
+		chown -Rf steam:steam ${backupPath}/${worldname}
 		tput setaf 2; echo "$BACKUP_WORLD_PROCESS_COMPLETE" ; tput setaf 9;
 		echo ""
 	else 
@@ -947,13 +947,13 @@ $(ColorGreen ' '"$RESTORE_WORLD_DATA_CONFIRM_1"' ') "
 		#give it a few
         sleep 5
 		#copy backup to worlds folder
-        tput setaf 2; echo "$RESTORE_WORLD_DATA_COPYING ${backups[$selectedIndex-1]} to ${worldpath}/" ; tput setaf 9;
+        tput setaf 2; echo "$RESTORE_WORLD_DATA_COPYING ${backups[$selectedIndex-1]} to ${worldpath}/${worldname}/" ; tput setaf 9;
         cp ${backups[$selectedIndex-1]} ${worldpath}/${worldname}/
 		#untar
         tput setaf 2; echo "$RESTORE_WORLD_DATA_UNPACKING ${worldpath}/${restorefile}" ; tput setaf 9;
         tar xzf ${worldpath}/${worldname}/${restorefile} --strip-components=7 --directory ${worldpath}/${worldname}/  
-		chown -Rf steam:steam ${worldpath}
-		rm  ${worldpath}/*.tgz
+		chown -Rf steam:steam ${worldpath}/${worldname}/
+		rm  ${worldpath}/${worldname}/*.tgz
         tput setaf 2; echo "$RESTORE_WORLD_DATA_STARTING_VALHEIM_SERVICES" ; tput setaf 9;
         tput setaf 2; echo "$RESTORE_WORLD_DATA_CUSS_LOKI" ; tput setaf 9;
         systemctl start valheimserver_dfault.service
@@ -1185,7 +1185,7 @@ function display_start_valheim() {
 function display_world_data_folder() {
     clear
     echo ""
-    sudo ls -lisa $worldpath
+    sudo ls -lisa $worldpath/$worldname
     echo ""
 }
 
