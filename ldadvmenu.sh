@@ -1252,7 +1252,7 @@ function get_worldseed(){
 ## LD: Going to add disable / enable firewall and then
 ## call use them in the start and stop service actions above.
 
-
+# I am sure this will always return y .. Who does not have some firewall system installed. But ...
 function is_firewall_installed(){
     fwiufw=n
     fwifwd=n
@@ -1268,6 +1268,7 @@ function is_firewall_installed(){
 	
 	if [[ ( "$fwiufw" == "y" ||  "$fwifwd" == "y" || "$fwiipt" == "y" || "$fwiipt6" == "y" || "$fwiebt" == "y" ) ]] ; then
 		is_firewall_installed=y
+		
 	else
 		is_firewall_installed=n
     fi 	
