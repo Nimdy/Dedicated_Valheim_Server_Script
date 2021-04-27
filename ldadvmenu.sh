@@ -1318,7 +1318,7 @@ function get_firewall_status(){
 			get_firewall_status="No firewall running."
 		fi	
 	else
-		get_firewall_status="Firewall management is not in use. If a fireway is running please disable."
+		get_firewall_status="Firewall management is not in use. If a firewall found enabled, please disable all found."
 	fi
 	echo -e '\E[32m'"$get_firewall_status "
 }
