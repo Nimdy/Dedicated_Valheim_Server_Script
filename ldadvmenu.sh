@@ -2859,7 +2859,6 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 			18) mods_menu ; mods_menu ;;
 			19) bepinex_menu ; bepinex_menu ;;			
 			99) request99="y" ; set_world_server ; menu ;;
-			##99) request99="y" ; set_world_server ; menu ;;
 			0) exit 0 ;;
 			*)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
         esac
