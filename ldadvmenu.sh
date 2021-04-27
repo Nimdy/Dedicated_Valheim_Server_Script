@@ -103,7 +103,7 @@ usefw="n"
 fwused="n" 
 ###############################################################
 debugmsg="y"
-# if [ "$dubugmsg" == "y" ] ; then echo "something" ; fi
+# if [ "$debugmsg" == "y" ] ; then echo "something" ; fi
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
@@ -1298,7 +1298,7 @@ function is_firewall_enabled(){
 
 	echo -e '\E[32m'"$is_firewall_enabled "
 	## Testing for now...
-	if [ "$dubugmsg" == "y" ] ; then 
+	if [ "$debugmsg" == "y" ] ; then 
 		tput setaf 2; echo -ne "The following firewall systems enabled: -- UFW: ${fweufw} -- Firewalld: ${fwefwd} -- Iptables: ${fweipt}" ; tput setaf 9;
 	fi
 }
@@ -1318,7 +1318,7 @@ function get_firewall_status(){
 			get_firewall_status="No firewall running."
 		fi	
 	else
-		get_firewall_status="Firewall management is not in use. If a firewall found enabled, please disable all found."
+		get_firewall_status="Firewall management is not in use. If a firewall found enabled, please disable."
 	fi
 	echo -e '\E[32m'"$get_firewall_status "
 }
