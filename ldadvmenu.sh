@@ -1265,14 +1265,18 @@ function is_firewall_installed(){
 	if command -v ip6tables >/dev/null; then fwiipt6=y ; fi
 	if command -v eptables >/dev/null; then fwiept=y ; fi
 	
-	if [[ ( "${fwiufw}" == "y" ||  "${fwifwd}" == "y" || "${fwiipt}" == "n" || "${fwiipt6}" == "n" || "${fweipt}" == "n" ) ]] ; then
+	if [[ ( "${fwiufw}" == "y" ||  "${fwifwd}" == "y" || "${fwiipt}" == "y" || "${fwiipt6}" == "y" || "${fweipt}" == "y" ) ]] ; then
 		is_firewall_installed=y
 	else
 		is_firewall_installed=n
     fi 	
-	echo -e '\E[32m'"$is_firewall_installed "
-    echo -ne "The following firewall systems are found:"
-	echo "UFW: ${fwiufw} -- Firewalld: ${fwifwd} -- Iptables: ${fwiipt} -- Ip6tables: ${fwiipt6} -- Eptables: ${fwiept}"
+
+	## Testing for now...
+	if [ "$debugmsg" == "y" ] ; then 
+		echo -e '\E[32m'"The following firewall systems are found: UFW: ${fwiufw} -- Firewalld: ${fwifwd} -- Iptables: ${fwiipt} -- Ip6tables: ${fwiipt6} -- Eptables: ${fwiept} "
+	else
+		echo -e '\E[32m'"$is_firewall_installed "
+	fi
 	
 }
 
@@ -1296,7 +1300,6 @@ function is_firewall_enabled(){
 		is_firewall_enabled="n"
 	fi	
 
-	echo -e '\E[32m'"$is_firewall_enabled "
 	## Testing for now...
 	if [ "$debugmsg" == "y" ] ; then 
 		echo -e '\E[32m'"The following firewall systems enabled: -- UFW: ${fweufw} -- Firewalld: ${fwefwd} -- Iptables: ${fweipt}"
@@ -1317,12 +1320,18 @@ function get_firewall_status(){
 			#if command -v eptables >/dev/null; then get_firewall_status=$(systemctl is-active eptables) ; fi			
 			echo "Need to enter better code for [i/e]p6tbables..."
 		else
-			get_firewall_status="No firewall running."
+			get_firewall_status="noneActive"
 		fi	
 	else
-		get_firewall_status="Firewall management is not in use. If a firewall found enabled, please disable."
+		get_firewall_status="noActiceServiceFound"
 	fi
-	echo -e '\E[32m'"$get_firewall_status "
+	
+	if [ "$debugmsg" == "y" ] ; then 
+		echo -e '\E[32m'"Firewall management is not in use. If a firewall found enabled, please disable."
+	else
+		echo -e '\E[32m'"$get_firewall_status "
+	fi
+
 }
 
 function get_firewall_substate(){
@@ -1337,17 +1346,28 @@ function get_firewall_substate(){
 			# if command -v eptables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState eptables) ; fi
 			echo "Need to enter better code for [i/e]p6tbables..."	   
 		else
-			get_firewall_status="No firewall running."
+			get_firewall_status="noServiceSubStatusFound"
 		fi
 	else
-		get_firewall_status="Firewall management is not in use. If a fireway is running please disable."	
+		get_firewall_status="notInUse"
 	fi
-	echo -e '\E[32m'"$get_firewall_substate "
+	
+	if [ "$debugmsg" == "y" ] ; then 
+		echo -e '\E[32m'"Firewall management is not in use. If a firewall found enabled, please disable."
+	else
+		echo -e '\E[32m'"$get_firewall_substate "
+	fi
+	
+	
 }
 
 
 function enable_prefered_firewall(){
-    echo "START: Enabling and starting firewall."
+
+	if [ "$debugmsg" == "y" ] ; then 
+		echo -e '\E[32m'"START: Enabling and starting firewall."
+	fi
+
     if [ "${fwinuse}" == "u" ] ; then
         sudo systemctl unmask ufw && systemctl enable ufw && systemctl start ufw		  
     elif [ "${fwinuse}" == "f" ] ; then
@@ -1363,13 +1383,20 @@ function enable_prefered_firewall(){
 			sudo systemctl unmask eptables && systemctl enable eptables && systemctl start eptables		  
 		fi
 	else
-		echo "..."
+		echo "No firewalls to enable"
     fi
-	echo "END: Enabling and starting firewall."
+	
+	if [ "$debugmsg" == "y" ] ; then 
+		echo -e '\E[32m'"END: Enabling and starting firewall."
+	fi
 }
 
 function disable_all_firewalls(){
-    echo "START: Stopping and disabling ALL firewall systems installed."
+
+	if [ "$debugmsg" == "y" ] ; then 
+		echo -e '\E[32m'"START: Stopping and disabling ALL firewall systems installed."
+	fi
+	
     if command -v ufw >/dev/null; then
          sudo systemctl stop ufw && systemctl disable ufw 
 		 ## && systemctl mask ufw		  
@@ -1390,7 +1417,11 @@ function disable_all_firewalls(){
 		 sudo systemctl stop eptables && systemctl disable eptables 
 		 ## && systemctl mask eptables
 	fi		 
-	echo "END: Stopping and disabling firewall."
+
+	if [ "$debugmsg" == "y" ] ; then 
+		echo -e '\E[32m'"END: Stopping and disabling ALL firewall systems installed."
+	fi
+
 }
 
 function create_firewalld_service_file(){
