@@ -1280,7 +1280,8 @@ function is_firewall_enabled(){
     if command -v ufw >/dev/null; then fweufw=$(systemctl is-enabled ufw) ; fi
     if command -v firewalld >/dev/null; then fwefwd=$(systemctl is-enabled firewalld) ; fi
 	if command -v iptables >/dev/null; then fweipt=$(systemctl is-enabled iptables) ; fi
-	if [ "$fweufw" == "enabled" || "$fwefwd" == "enabled" || "$fweipt" == "enabled" ] ; then
+	
+	if [[ ( "$fweufw" == "enabled" || "$fwefwd" == "enabled" || "$fweipt" == "enabled" ) ]] ; then
 		is_firewall_enabled="y"
 	else 	
 		is_firewall_enabled="n"
