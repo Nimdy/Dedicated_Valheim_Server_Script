@@ -1304,30 +1304,42 @@ function is_firewall_enabled(){
 }
 
 function get_firewall_status(){
-    if [ "${fwused}" == "u" ] ; then
-        get_firewall_status=$(systemctl is-active ufw)		  
-    elif [ "${fwused}" == "f" ] ; then
-        get_firewall_status=$(systemctl is-active firewalld)
-    elif [ "${fwused}" == "i" ] ; then
-		# get_firewall_status=$(systemctl is-active iptables)	  
-		echo "1..."
+	if [ "usefw" == "y" ] ;  then
+		if [ "${fwused}" == "u" ] ; then
+			if command -v ufw >/dev/null; then get_firewall_status=$(systemctl is-active ufw) ; fi
+		elif [ "${fwused}" == "f" ] ; then
+			if command -v firewalld >/dev/null; then get_firewall_status=$(systemctl is-active firewalld) ; fi
+		elif [ "${fwused}" == "i" ] ; then
+			#if command -v iptables >/dev/null; then get_firewall_status=$(systemctl is-active iptables) ; fi
+			#if command -v ip6tables >/dev/null; then get_firewall_status=$(systemctl is-active ip6tables) ; fi
+			#if command -v eptables >/dev/null; then get_firewall_status=$(systemctl is-active eptables) ; fi			
+			echo "Need to enter better code for [i/e]p6tbables..."
+		else
+			get_firewall_status="No firewall running."
+		fi	
 	else
-		echo "2..."
-    fi	
+		get_firewall_status="Firewall management is not in use. If a fireway is running please disable."
+	fi
 	echo -e '\E[32m'"$get_firewall_status "
 }
 
 function get_firewall_substate(){
-    if [ "${fwused}" == "u" ] ; then
-        get_firewall_substate=$(systemctl show -p SubState ufw)		  
-    elif [ "${fwused}" == "f" ] ; then
-        get_firewall_substate=$(systemctl show -p SubState firewalld)
-    elif [ "${fwused}" == "i" ] ; then
-       # get_firewall_substate=$(systemctl show -p SubState iptables)		  
-		echo "..."	   
+	if [ "usefw" == "y" ] ;  then
+		if [ "${fwused}" == "u" ] ; then
+			if command -v ufw >/dev/null; then get_firewall_substate=$(systemctl show -p SubState ufw) ; fi
+		elif [ "${fwused}" == "f" ] ; then
+			if command -v firewalld >/dev/null; then get_firewall_substate=$(systemctl show -p SubState firewalld) ; fi
+		elif [ "${fwused}" == "i" ] ; then
+			# if command -v iptables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState iptables) ; fi		
+			# if command -v ip6tables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState ip6tables) ; fi
+			# if command -v eptables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState eptables) ; fi
+			echo "Need to enter better code for [i/e]p6tbables..."	   
+		else
+			get_firewall_status="No firewall running."
+		fi
 	else
-		echo "..."
-    fi
+		get_firewall_status="Firewall management is not in use. If a fireway is running please disable."	
+	fi
 	echo -e '\E[32m'"$get_firewall_substate "
 }
 
