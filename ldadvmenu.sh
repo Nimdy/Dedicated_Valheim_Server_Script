@@ -2828,6 +2828,52 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
     esac
 }
 
+function firewall_admin_menu() {
+	echo ""
+	echo -ne "
+$(ColorOrange ''"Valheim Server Firewall Infomation and control Center"'')
+$(ColorOrange '-')$(ColorGreen '1)') "get_firewall_status"  # Going to make this function for when called from headed and provide more info here.
+$(ColorOrange '-')$(ColorGreen '2)') "get_firewall_substate" # ditto
+$(ColorOrange '-')$(ColorGreen '3)') "3"
+$(ColorOrange '-')$(ColorGreen '4)') "4"
+$(ColorOrange '-')$(ColorGreen '5)') "5"
+$(ColorOrange '-')$(ColorGreen '6)') "6"
+$(ColorOrange '-')$(ColorGreen '7)') "7"
+$(ColorOrange '-')$(ColorGreen '8)') "8"
+$(ColorOrange '-')$(ColorGreen '94)') "Add the firewalld public service for Valheim server"  I want to make this work for all firewall systems
+$(ColorOrange '-')$(ColorGreen '95)') "Remove the firewalld public service for Valheim server" ditto
+$(ColorOrange '-')$(ColorGreen '96)') "The firewall system installed"
+$(ColorOrange '-')$(ColorGreen '97)') "Is that is firewall system enabled"
+$(ColorOrange '-')$(ColorGreen '98)') "Enable prefered firewall system based on settings in the %menu.sh file"
+$(ColorOrange '-')$(ColorGreen '99)') "Stop all known firewall systems"
+
+
+$(ColorOrange '-')$(ColorGreen '0)') "$RETURN_MAIN_MENU."
+$(ColorOrange ''"$DRAW60"'')
+$(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
+
+
+    read a
+    case $a in
+#	    1) get_firewall_status ; firewall_admin_menu ;;
+#		2) get_firewall_substate ; firewall_admin_menu ;;
+#		3) # ; firewall_admin_menu ;;
+#		4) # ; firewall_admin_menu ;;
+#		5) # ; firewall_admin_menu ;;
+#		6) # ; firewall_admin_menu ;;
+#		7) # ; firewall_admin_menu ;;
+#		8) # ; firewall_admin_menu ;;
+#		94) add_firewalld_public_service ; firewall_admin_menu ;;
+#		95) remove_firewalld_public_service ; firewall_admin_menu ;;
+#		96) is_firewall_installed ; firewall_admin_menu ;;
+#		97) is_firewall_enabled ; firewall_admin_menu ;;
+#		98) enable_prefered_firewall ; firewall_admin_menu ;;
+#		99) disable_all_firewalls ; firewall_admin_menu ;;
+        0) menu ; menu ;;
+		*)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; firewall_admin_menu ;;
+    esac
+}
+
 # Sub Tech Support Menu System
 function tech_support(){
 	menu_header
@@ -2900,22 +2946,23 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 			1) script_check_update ; menu ;;
 			2) tech_support ; menu ;;
 			3) server_install_menu ; menu ;;
-			4) confirm_check_apply_server_updates ; menu ;;	
-			5) display_full_config ; menu ;;
-			6) change_public_display_name ; menu ;;
-			7) change_default_server_port ; menu ;;		
-			8) change_local_world_name ; menu ;;
-			9) change_server_access_password ; menu ;;
-			10) write_public_on_config_and_restart ; menu ;;
-			11) write_public_off_config_and_restart ; menu ;;
-			12) stop_valheim_server ; menu ;;
-			13) start_valheim_server ; menu ;;
-			14) restart_valheim_server ; menu ;;
-			15) display_valheim_server_status ; menu ;;
-			16) backup_world_data ; menu ;;
-			17) restore_world_data ; menu ;;
-			18) mods_menu ; mods_menu ;;
-			19) bepinex_menu ; bepinex_menu ;;			
+			4) firewall_admin_menu ; menu ;; ## same as server-install-menu for now.
+			5) confirm_check_apply_server_updates ; menu ;;	
+			6) display_full_config ; menu ;;
+			7) change_public_display_name ; menu ;;
+			8) change_default_server_port ; menu ;;		
+			9) change_local_world_name ; menu ;;
+			10) change_server_access_password ; menu ;;
+			11) write_public_on_config_and_restart ; menu ;;
+			12) write_public_off_config_and_restart ; menu ;;
+			13) stop_valheim_server ; menu ;;
+			14) start_valheim_server ; menu ;;
+			15) restart_valheim_server ; menu ;;
+			16) display_valheim_server_status ; menu ;;
+			17) backup_world_data ; menu ;;
+			18) restore_world_data ; menu ;;
+			19) mods_menu ; mods_menu ;;
+			20) bepinex_menu ; bepinex_menu ;;			
 			99) request99="y" ; set_world_server ; menu ;;
 			0) exit 0 ;;
 			*)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
