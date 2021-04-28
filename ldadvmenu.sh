@@ -464,15 +464,10 @@ $(ColorRed ''"$DRAW60"'')"
 				if command -v firewalld >/dev/null; then
 					if [ "$is_firewall_enabled" == "y" ] ; then
 						if [ "$get_firewall_status" == "y" ] ; then
-							sftc="ste"
-							create_firewalld_service_file
-							add_firewalld_public_service
+							sftc="val"
+							add_Valheim_server_public_ports
 						fi
 					fi
-					#systemctl start firewalld
-					#systemctl status firewalld
-					#firewall-cmd --permanent --zone=public --add-port=${portnumber}-${portnumber+2}/udp
-					#firewall-cmd --reload
 				fi
 			else		    
 				echo ""
@@ -821,12 +816,9 @@ function Install_steamcmd_client() {
 				if [ "$is_firewall_enabled" == "y" ] ; then
 					if [ "$get_firewall_status" == "y" ] ; then
 						sftc="ste"
-						create_firewalld_service_file
-						add_firewalld_public_service
+				        add_Valheim_server_public_ports
 					fi
 				fi		
-				#sudo firewall-cmd --permanent --zone=public  --add-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
-				#sudo firewall-cmd --reload
 			fi
 		else		    
 			echo ""
@@ -1253,8 +1245,8 @@ function get_worldseed(){
 
 ## LD: Going to add disable / enable firewall and then
 ## call use them in the start and stop service actions above.
-
 # I am sure this will always return y .. Who does not have some firewall system installed. But ...
+
 function is_firewall_installed(){
     fwiufw=n
     fwifwd=n
@@ -1467,6 +1459,54 @@ function disable_all_firewalls(){
 	fi
 
 }
+
+
+
+
+
+function add_Valheim_server_public_ports(){
+	if [ "${usefw}" == "y" ] ; then 
+		if [ "${fwused}" == "f" ] ; then
+			if [ "$sftc" == "ste" ] ; then
+				sudo firewall-cmd --zone=public --permanent --add-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
+			elif [ "$sftc" == "val" ] ; then   
+				sudo firewall-cmd --zone=public --permanent --add-port=${portnumber}-${portnumber+2}/udp
+			else
+				echo ""
+
+			fi
+			sudo firewall-cmd --reload
+			sudo firewall-cmd --zone=public --permanent --list-ports
+		fi	
+	fi
+}
+
+
+function remove_Valheim_server_public_ports(){
+	if [ "${usefw}" == "y" ] ; then 
+		if [ "${fwused}" == "f" ] ; then
+			if [ "$sftc" == "ste" ] ; then
+				sudo firewall-cmd --zone=public --permanent --remove-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
+			elif [ "$sftc" == "val" ] ; then 
+				sudo firewall-cmd --zone=public --permanent --remove-port=${portnumber}-${portnumber+2}/udp
+			else				
+				echo ""
+			fi
+			sudo firewall-cmd --reload
+			sudo firewall-cmd --zone=public --permanent --list-ports
+		fi	
+	fi
+}
+
+
+# for all other FW systems
+function add_to_etc_services_file(){
+	echo "idea only for now"
+}
+
+# These are created for FireWALLD only. 
+# As an indea when I thought the other system might have the same type thing.
+# I am going back to add the ports only. But leaving this code here.
 
 function create_firewalld_service_file(){
 	if [ "${usefw}" == "y" ] ; then 
