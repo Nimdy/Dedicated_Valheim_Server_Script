@@ -1316,8 +1316,6 @@ function is_firewall_enabled(){
 function get_firewall_status(){
 	if [ "usefw" == "y" ] ;  then
 		get_firewall_status="NA"
-		
-
 		if [ "${fwused}" == "a" ] ; then
 			if command -v arptables >/dev/null; then get_firewall_status=$(systemctl is-active arptables) ; fi			
 		elif [ "${fwused}" == "e" ] ; then
@@ -1335,19 +1333,12 @@ function get_firewall_status(){
 	else
 		get_firewall_status="notInUse"
 	fi
-	
-	if [ "$debugmsg" == "y" ] ; then 
-		echo -e '\E[32m'"Firewall management is not in use. If a firewall found enabled, please disable."
-	else
-		echo -e '\E[32m'"$get_firewall_status "
-	fi
-
+	echo -e '\E[32m'"$get_firewall_status "
 }
 
 function get_firewall_substate(){
 	if [ "usefw" == "y" ] ;  then
 		get_firewall_substate="NA"
-		
 		if [ "${fwused}" == "a" ] ; then
 			if command -v arptables >/dev/null; then get_firewall_substate=$(systemctl show -p SubState arptables) ; fi
 		elif [ "${fwused}" == "e" ] ; then
@@ -1365,15 +1356,40 @@ function get_firewall_substate(){
 	else
 		get_firewall_substate="notInUse"
 	fi
-	
-	if [ "$debugmsg" == "y" ] ; then 
-		echo -e '\E[32m'"Firewall management is not in use. If a firewall found enabled, please disable."
-	else
-		echo -e '\E[32m'"$get_firewall_substate "
-	fi
-	
-	
+	echo -e '\E[32m'"$get_firewall_substate "
 }
+
+function get_firewall_moreinfo(){
+	if [ "usefw" == "y" ] ;  then
+		get_firewall_substate="NA"
+		
+		if [ "${fwused}" == "a" ] ; then
+			echo ""
+		elif [ "${fwused}" == "e" ] ; then
+			echo ""
+		elif [ "${fwused}" == "f" ] ; then
+			if command -v firewalld >/dev/null; then 
+				firewall-cmd --state
+				firewall-cmd --get-default-zone
+				firewall-cmd --get-active-zones
+				firewall-cmd --get-zones 
+				firewall-cmd --get-services 
+				firewall-cmd --zone=public --permanent --list-all
+				get_firewall_status="Done"
+			fi
+		elif [ "${fwused}" == "i" ] ; then
+			echo ""		
+		elif [ "${fwused}" == "u" ] ; then
+			echo ""
+		else
+			get_firewall_status="NoFWF"
+		fi
+	else
+		get_firewall_substate="NotInUse"
+	fi
+	echo -e '\E[32m'"$get_firewall_substate "
+}
+
 
 
 function enable_prefered_firewall(){
@@ -2832,43 +2848,33 @@ function firewall_admin_menu() {
 	echo ""
 	echo -ne "
 $(ColorOrange ''"Valheim Server Firewall Infomation and control Center"'')
-$(ColorOrange '-')$(ColorGreen '1)') "get_firewall_status"  # Going to make this function for when called from headed and provide more info here.
-$(ColorOrange '-')$(ColorGreen '2)') "get_firewall_substate" # ditto
-$(ColorOrange '-')$(ColorGreen '3)') "3"
-$(ColorOrange '-')$(ColorGreen '4)') "4"
-$(ColorOrange '-')$(ColorGreen '5)') "5"
-$(ColorOrange '-')$(ColorGreen '6)') "6"
-$(ColorOrange '-')$(ColorGreen '7)') "7"
-$(ColorOrange '-')$(ColorGreen '8)') "8"
+$(ColorOrange '-')$(ColorGreen '1)') "get firewall status"  # Going to make this function for when called from headed and provide more info here.
+$(ColorOrange '-')$(ColorGreen '2)') "get firewall substate" # ditto
+$(ColorOrange '-')$(ColorGreen '3)') "Get More information about the firewall system"
+$(ColorOrange '-')$(ColorGreen '92)') "Create the Firewalld service file"
+$(ColorOrange '-')$(ColorGreen '93)') "Delete the Firewalld service file"
 $(ColorOrange '-')$(ColorGreen '94)') "Add the firewalld public service for Valheim server"  I want to make this work for all firewall systems
 $(ColorOrange '-')$(ColorGreen '95)') "Remove the firewalld public service for Valheim server" ditto
 $(ColorOrange '-')$(ColorGreen '96)') "The firewall system installed"
 $(ColorOrange '-')$(ColorGreen '97)') "Is that is firewall system enabled"
 $(ColorOrange '-')$(ColorGreen '98)') "Enable prefered firewall system based on settings in the %menu.sh file"
-$(ColorOrange '-')$(ColorGreen '99)') "Stop all known firewall systems"
-
-
+$(ColorOrange '-')$(ColorGreen '99)') "Stop all known firewall systems. This will open your host to the world."
 $(ColorOrange '-')$(ColorGreen '0)') "$RETURN_MAIN_MENU."
 $(ColorOrange ''"$DRAW60"'')
 $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
-
-
     read a
     case $a in
-#	    1) get_firewall_status ; firewall_admin_menu ;;
-#		2) get_firewall_substate ; firewall_admin_menu ;;
-#		3) # ; firewall_admin_menu ;;
-#		4) # ; firewall_admin_menu ;;
-#		5) # ; firewall_admin_menu ;;
-#		6) # ; firewall_admin_menu ;;
-#		7) # ; firewall_admin_menu ;;
-#		8) # ; firewall_admin_menu ;;
-#		94) add_firewalld_public_service ; firewall_admin_menu ;;
-#		95) remove_firewalld_public_service ; firewall_admin_menu ;;
-#		96) is_firewall_installed ; firewall_admin_menu ;;
-#		97) is_firewall_enabled ; firewall_admin_menu ;;
-#		98) enable_prefered_firewall ; firewall_admin_menu ;;
-#		99) disable_all_firewalls ; firewall_admin_menu ;;
+	    1) get_firewall_status ; firewall_admin_menu ;;
+		2) get_firewall_substate ; firewall_admin_menu ;;
+		3) get_firewall_info ; firewall_admin_menu ;;
+		92) create_firewalld_service_file ; firewall_admin_menu ;;
+		93) delete_firewalld_service_file ; firewall_admin_menu ;;
+		94) add_firewalld_public_service ; firewall_admin_menu ;;
+		95) remove_firewalld_public_service ; firewall_admin_menu ;;
+		96) is_firewall_installed ; firewall_admin_menu ;;
+		97) is_firewall_enabled ; firewall_admin_menu ;;
+		98) enable_prefered_firewall ; firewall_admin_menu ;;
+		99) disable_all_firewalls ; firewall_admin_menu ;;
         0) menu ; menu ;;
 		*)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; firewall_admin_menu ;;
     esac
