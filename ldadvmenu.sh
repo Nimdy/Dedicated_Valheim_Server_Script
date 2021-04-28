@@ -109,7 +109,7 @@ debugmsg="y"
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.042820210930.dev"
+ldversion="0.4.042820211811.dev"
 ### -- Use are your own risk -- 
 ### dev -- Adding new code. 
 ###     -- Currently working on firewall sub menu and functions related.
@@ -1470,6 +1470,7 @@ function add_Valheim_server_public_ports(){
 			if [ "$sftc" == "ste" ] ; then
 				sudo firewall-cmd --zone=public --permanent --add-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
 			elif [ "$sftc" == "val" ] ; then   
+			    #Need to write a get_current_port function. Anyone?
 				sudo firewall-cmd --zone=public --permanent --add-port=${portnumber}-${portnumber+2}/udp
 			else
 				echo ""
@@ -1488,6 +1489,7 @@ function remove_Valheim_server_public_ports(){
 			if [ "$sftc" == "ste" ] ; then
 				sudo firewall-cmd --zone=public --permanent --remove-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
 			elif [ "$sftc" == "val" ] ; then 
+			    #Need to write a get_current_port function.
 				sudo firewall-cmd --zone=public --permanent --remove-port=${portnumber}-${portnumber+2}/udp
 			else				
 				echo ""
@@ -1505,7 +1507,7 @@ function add_to_etc_services_file(){
 }
 
 # These are created for FireWALLD only. 
-# As an indea when I thought the other system might have the same type thing.
+# As an idea when I thought the other system might have the same type thing.
 # I am going back to add the ports only. But leaving this code here.
 
 function create_firewalld_service_file(){
@@ -2870,7 +2872,11 @@ $(ColorOrange ''"FireWallD actions for this Valheim server"'')
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen '1)') Show system status            
 $(ColorOrange '-')$(ColorGreen '2)') Show system substate          
-$(ColorOrange '-')$(ColorGreen '3)') Dump all information on the firewall "
+$(ColorOrange '-')$(ColorGreen '3)') Dump all information on the firewall 
+$(ColorOrange '-')$(ColorGreen '4)') Add the Steam ports to the firewall
+$(ColorOrange '-')$(ColorGreen '5)') Remove the Steam ports from the firewall
+$(ColorOrange '-')$(ColorGreen '6)') Add this Valheim service port to the firewall
+$(ColorOrange '-')$(ColorGreen '7)') Remove this Valheim service port from the firewall "
 		elif [ "${fwused}" == "f" ] ; then
 		echo -ne "
 $(ColorOrange '------------------------------------------------------------')
@@ -2885,9 +2891,9 @@ $(ColorOrange '-')$(ColorGreen '53)') Remove the public service for Valheim serv
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange ''"To help verify/install perfered firewall system"'')
 $(ColorOrange '------------------------------------------------------------')
-$(ColorOrange '-')$(ColorGreen '97)') Verify/install the perfered firewall system.
-$(ColorOrange '-')$(ColorGreen '98)') Verify/enable the prefered firewall system.
-$(ColorOrange '-')$(ColorGreen '99)') Stop all known firewall systems.             
+$(ColorOrange '-')$(ColorGreen '100)') Verify/install the perfered firewall system.
+$(ColorOrange '-')$(ColorGreen '101)') Verify/enable the prefered firewall system.
+$(ColorOrange '-')$(ColorGreen '102)') Stop all known firewall systems.             
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen '0)') "$RETURN_MAIN_MENU."
 $(ColorOrange '------------------------------------------------------------')
@@ -2898,6 +2904,10 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 	    1) get_firewall_status ; firewall_admin_menu ;;
 		2) get_firewall_substate ; firewall_admin_menu ;;
 		3) get_firewall_info ; firewall_admin_menu ;;
+		4) sftc="ste" ; add_Valheim_server_public_ports ; firewall_admin_menu ;;
+		5) sftc="ste" ; remove_Valheim_server_public_ports ; firewall_admin_menu ;;
+		6) sftc="val" ; add_Valheim_server_public_ports ; firewall_admin_menu ;;
+		7) sftc="val" ; remove_Valheim_server_public_ports ; firewall_admin_menu ;;
 		50) create_firewalld_service_file ; firewall_admin_menu ;;
 		51) delete_firewalld_service_file ; firewall_admin_menu ;;
 		52) add_firewalld_public_service ; firewall_admin_menu ;;
