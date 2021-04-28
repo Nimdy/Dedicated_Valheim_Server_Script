@@ -5,28 +5,16 @@
 # If you need anything, please visit our Discord Server: https://discord.gg/ejgQUfc
 # GLHF
 
+BASEDIR=$(dirname "${0}")
+# shellcheck source=lib/func
+source "${BASEDIR}/lib/func"
 
+func::load_language "${1}"
+func::check_dependencies
+func::check_root
 
-
-#Current Options: DE=German, EN=English, FR=French, SP=Spanish"
-if [ "$1" == "" ]
-then
-        LANGUAGE=EN
-else
-        LANGUAGE=$1
-fi
-source lang/$LANGUAGE.conf
-
-
-# Sanity Check
-#    #######################################################
-echo "$(tput setaf 4)"$DRAW60""
-echo "$(tput setaf 0)$(tput setab 7)"$CHECKSUDO"$(tput sgr 0)"
-echo "$(tput setaf 0)$(tput setab 7)"$CHECKSUDO1"$(tput sgr 0)"    
-echo "$(tput setaf 4)"$DRAW60""
-#    ###################################################### 
-[[ "$EUID" -eq 0 ]] || exec sudo "$0" "$@"
-
+# CAVEAT: This script expects the user to be in the content root.
+cd "${BASEDIR}" || exit 1
 
 clear
 ###############################################################

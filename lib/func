@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# Common helper functions.
+
+func::check_root() {
+  # Check Whether or not we have root access.
+  echo "$(tput setaf 4)"$DRAW60""
+  echo "$(tput setaf 0)$(tput setab 7)"$CHECKSUDO"$(tput sgr 0)"
+  echo "$(tput setaf 0)$(tput setab 7)"$CHECKSUDO1"$(tput sgr 0)"
+  echo "$(tput setaf 4)"$DRAW60""
+}
+
+utils::element_in_array() {
+  # Check whether or not an element is in an array.
+  # Args:
+  #   ${1} -> Element to find in the array.
+  #   ${2} -> From this element onwards we have the array elements.
+  # CAVEAT: It's extremely important to pass arguments properly, the array should be passed as an array and not split.
+  local element="${1}"
+  shift
+  for elm in "${@}"; do
+    if [[ "${element}" == "${elm}" ]]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+func::check_dependencies() {
+  # Find and install missing requirements.
+
+  declare REQUIREMENTS=(
+    'curl'
+    'git'
+  )
+  local pending_install=()
+  for req in "${REQUIREMENTS[@]}"; do
+    if ! command -v "${req}" 1>/dev/null && ! dpkg --get-selections | grep -E "^${req}\s+install" 1>/dev/null; then
+      pending_install+=("${req}")
+    else
+      echo "Requirement: ${req} already satisfied."
+    fi
+  done
+  if [[ -n "${pending_install[*]}" ]]; then
+    echo "Found missing requirements, Press ENTER to install them automatically, CTRL+C to abort."
+    read -p ''
+    func::check_root
+    apt-get update &> /dev/null
+    for req in "${pending_install[@]}"; do
+      if ! utils::element_in_array "${req}" "${MANUAL_INSTALL[@]}"; then
+        echo "Installing ${req} via apt-get."
+        if ! apt-get install -y "${req}"; then
+          echo "${req} failed to install, please review manually."
+          exit 5
+        fi
+      fi
+    done
+  fi
+}
+
+func::load_language() {
+  #Current Options: DE=German, EN=English, FR=French, SP=Spanish"
+  if [ "$1" == "" ]; then
+    LANGUAGE=EN
+  else
+    LANGUAGE=$1
+  fi
+  source "$(dirname $0)/lang/$LANGUAGE.conf"
+}
