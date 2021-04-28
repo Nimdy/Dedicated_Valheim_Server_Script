@@ -647,7 +647,7 @@ function linux_server_update() {
     fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1
-    #add multiverse repo
+    #add the MULTIVERSE repo(s) per Linux Flavor.
     tput setaf 1; echo "$ADD_MULTIVERSE" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
         sudo add-apt-repository -y multiverse
