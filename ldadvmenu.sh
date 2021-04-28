@@ -109,9 +109,10 @@ debugmsg="y"
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.042620212000.alpha"
+ldversion="0.4.042820210930.dev"
 ### -- Use are your own risk -- 
-### dev -- Adding new code.
+### dev -- Adding new code. 
+###     -- Currently working on firewall sub menu and functions related.
 ### alpha -- Dev team review and testing of the new code.
 ### beta -- Good for Public Testing.
 ### released -- Never -- When placed in advance(menu).sh
@@ -1575,30 +1576,6 @@ function remove_firewalld_public_service(){
 }
 
 ########################################################################
-########################################################################
-####  List of different firewall  systems commands  
-#### ... as ref list until done. :)                
-########################################################################
-######################  ufw
-########################################################################
-#### xtable-addon
-########################################################################
-####################### arp/eb/ip[6]tables ################################
-########################################################################
-#### List   #iptables -L OUTPUT -n --line-numbers
-#### Delete #iptables -D INPUT 5
-########################################################################
-######################  Firewalld 
-########################################################################
-### yum install firewalld -y
-### systemctl [is-active/is-enabled/status/enable/disable/start/stop] firewalld >/dev/null 2>&1 && echo YES || echo NO
-### firewall-cmd --state --get-default-zone --get-active-zones --get-zones --get-services 
-### firewall-cmd --zone=* --permanent --</add/remove>-port=*/* --list-all
-### firewall-cmd --reload
-########################################################################
-########################################################################
-
-########################################################################
 ############# (WIP) Firewall control section END    ####################
 ########################################################################
 
@@ -2848,18 +2825,32 @@ function firewall_admin_menu() {
 	echo ""
 	echo -ne "
 $(ColorOrange ''"Valheim Server Firewall Infomation and control Center"'')
-$(ColorOrange '-')$(ColorGreen '1)') "get firewall status"  # Going to make this function for when called from headed and provide more info here.
-$(ColorOrange '-')$(ColorGreen '2)') "get firewall substate" # ditto
-$(ColorOrange '-')$(ColorGreen '3)') "Get More information about the firewall system"
-$(ColorOrange '-')$(ColorGreen '92)') "Create the Firewalld service file"
-$(ColorOrange '-')$(ColorGreen '93)') "Delete the Firewalld service file"
-$(ColorOrange '-')$(ColorGreen '94)') "Add the firewalld public service for Valheim server"  I want to make this work for all firewall systems
-$(ColorOrange '-')$(ColorGreen '95)') "Remove the firewalld public service for Valheim server" ditto
-$(ColorOrange '-')$(ColorGreen '96)') "The firewall system installed"
-$(ColorOrange '-')$(ColorGreen '97)') "Is that is firewall system enabled"
-$(ColorOrange '-')$(ColorGreen '98)') "Enable prefered firewall system based on settings in the %menu.sh file"
-$(ColorOrange '-')$(ColorGreen '99)') "Stop all known firewall systems. This will open your host to the world."
+$(ColorOrange '------------------------------------------------------------')
+$(ColorOrange ''"FireWallD actions for this Valheim server"'')
+$(ColorOrange '------------------------------------------------------------')
+$(ColorOrange '-')$(ColorGreen '1)') Show system status            
+$(ColorOrange '-')$(ColorGreen '2)') Show system substate          
+$(ColorOrange '-')$(ColorGreen '3)') Dump all information on the firewall "
+		elif [ "${fwused}" == "f" ] ; then
+		echo -ne "
+$(ColorOrange '------------------------------------------------------------')
+$(ColorOrange ''"Specifc to FireWallD for this Valheim world."'')
+$(ColorOrange '------------------------------------------------------------')
+$(ColorOrange '-')$(ColorGreen '50)') Create the service file
+$(ColorOrange '-')$(ColorGreen '51)') Delete the service file
+$(ColorOrange '-')$(ColorGreen '52)') Add the public service  
+$(ColorOrange '-')$(ColorGreen '53)') Remove the public service for Valheim server "
+		fi
+		echo -ne "
+$(ColorOrange '------------------------------------------------------------')
+$(ColorOrange ''"To help verify/install perfered firewall system"'')
+$(ColorOrange '------------------------------------------------------------')
+$(ColorOrange '-')$(ColorGreen '97)') Verify/install the perfered firewall system.
+$(ColorOrange '-')$(ColorGreen '98)') Verify/enable the prefered firewall system.
+$(ColorOrange '-')$(ColorGreen '99)') Stop all known firewall systems.             
+$(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen '0)') "$RETURN_MAIN_MENU."
+$(ColorOrange '------------------------------------------------------------')
 $(ColorOrange ''"$DRAW60"'')
 $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
     read a
@@ -2867,18 +2858,19 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 	    1) get_firewall_status ; firewall_admin_menu ;;
 		2) get_firewall_substate ; firewall_admin_menu ;;
 		3) get_firewall_info ; firewall_admin_menu ;;
-		92) create_firewalld_service_file ; firewall_admin_menu ;;
-		93) delete_firewalld_service_file ; firewall_admin_menu ;;
-		94) add_firewalld_public_service ; firewall_admin_menu ;;
-		95) remove_firewalld_public_service ; firewall_admin_menu ;;
-		96) is_firewall_installed ; firewall_admin_menu ;;
-		97) is_firewall_enabled ; firewall_admin_menu ;;
-		98) enable_prefered_firewall ; firewall_admin_menu ;;
+		50) create_firewalld_service_file ; firewall_admin_menu ;;
+		51) delete_firewalld_service_file ; firewall_admin_menu ;;
+		52) add_firewalld_public_service ; firewall_admin_menu ;;
+		53) remove_firewalld_public_service ; firewall_admin_menu ;;
+		97) is_firewall_installed ; firewall_admin_menu ;;
+		98) is_firewall_enabled ; firewall_admin_menu ;;
 		99) disable_all_firewalls ; firewall_admin_menu ;;
         0) menu ; menu ;;
 		*)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; firewall_admin_menu ;;
     esac
 }
+
+
 
 # Sub Tech Support Menu System
 function tech_support(){
@@ -2952,7 +2944,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 			1) script_check_update ; menu ;;
 			2) tech_support ; menu ;;
 			3) server_install_menu ; menu ;;
-			4) firewall_admin_menu ; menu ;; ## same as server-install-menu for now.
+			4) firewall_admin_menu ; menu ;; 
 			5) confirm_check_apply_server_updates ; menu ;;	
 			6) display_full_config ; menu ;;
 			7) change_public_display_name ; menu ;;
