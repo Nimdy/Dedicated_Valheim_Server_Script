@@ -50,14 +50,19 @@ source lang/$LANGUAGE.conf
 
 fileworldlist=/home/steam/worlds.txt
 
+
+
 if [ -f "$fileworldlist" ]; then
 	readarray -t worldlistarray < $fileworldlist
 else 
    	touch $fileworldlist
-	echo "Default" >> $fileworldlist
+	echo " 2456" >> $fileworldlist
 	readarray -t worldlistarray < $fileworldlist
+	echo "Vworldname=MainServer" >> /home/steam/Valheim${worldname}.env
+	echo "Vportnumber=2456" >> /home/steam/Valheim${worldname}.env
 fi
 worldname=""
+portnumber=""
 #############################################################
 ########################  Santiy Check  #####################
 #############################################################
@@ -109,7 +114,7 @@ debugmsg="y"
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.042820211811.dev"
+ldversion="0.4.042920210050.alpha"
 ### -- Use are your own risk -- 
 ### dev -- Adding new code. 
 ###     -- Currently working on firewall sub menu and functions related.
@@ -414,8 +419,13 @@ $(ColorRed ''"$DRAW60"'')"
 		echo $CREDS_DISPLAY_CREDS_PRINT_OUT_SHOW_PUBLIC $publicList >> /home/steam/serverSetup.txt
 		echo "$DRAW60" >> /home/steam/serverSetup.txt
 		sleep 1
-		echo $worldname >> /home/steam/worlds.txt
+		echo $worldname  >> /home/steam/worlds.txt
 		sleep 1
+		echo "Vworldname=${worldname}" >> /home/steam/Valheim${worldname}.env
+		echo "Vportnumber=${portnumber}" >> /home/steam/Valheim${worldname}.env
+		
+		sleep 1
+		
 		chown steam:steam /home/steam/*.txt
 		clear
 	
@@ -1470,8 +1480,7 @@ function add_Valheim_server_public_ports(){
 			if [ "$sftc" == "ste" ] ; then
 				sudo firewall-cmd --zone=public --permanent --add-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
 			elif [ "$sftc" == "val" ] ; then   
-			    #Need to write a get_current_port function. Anyone?
-				sudo firewall-cmd --zone=public --permanent --add-port=${portnumber}-${portnumber+2}/udp
+			    sudo firewall-cmd --zone=public --permanent --add-port=${Vportnumber}-${Vportnumber+2}/udp
 			else
 				echo ""
 
@@ -1490,7 +1499,7 @@ function remove_Valheim_server_public_ports(){
 				sudo firewall-cmd --zone=public --permanent --remove-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
 			elif [ "$sftc" == "val" ] ; then 
 			    #Need to write a get_current_port function.
-				sudo firewall-cmd --zone=public --permanent --remove-port=${portnumber}-${portnumber+2}/udp
+				sudo firewall-cmd --zone=public --permanent --remove-port=${Vportnumber}-${Vportnumber+2}/udp
 			else				
 				echo ""
 			fi
@@ -2682,6 +2691,7 @@ function set_world_server() {
 			echo "World name is ${world}"
 			if [ -n "$REPLY" ] ; then
 				worldname=${world}
+				source /home/steam/Valheim${worldname}.env
 				echo "World menu selection: ${world}"
 				break;
 			else
