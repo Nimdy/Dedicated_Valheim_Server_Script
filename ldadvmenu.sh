@@ -109,7 +109,7 @@ usefw="n"
 ### <u : ufw> 
 fwused="n" 
 ###############################################################
-debugmsg="y"
+debugmsg="n"
 # if [ "$debugmsg" == "y" ] ; then echo "something" ; fi
 ###############################################################
 # Set Menu Version for menu display
@@ -1290,21 +1290,31 @@ function is_firewall_installed(){
 
 function is_firewall_enabled(){
 
-	fwearp=disabled
-	fweebt=disabled
-    fwefwd=disabled
-	fweipt=disabled
-	fweipt6=disabled
-    fweufw=disabled
+	if command -v arptables >/dev/null; then 
+		systemctl is-enabled arptables >/dev/null 2>&1 && fwearp=y || fwearp=n
+	fi
+	
+	if command -v ebtables >/dev/null; then 
+		systemctl is-enabled ebtables >/dev/null 2>&1 && fweebt=y || fweebt=n	
+	fi	
+    
+	if command -v firewalld >/dev/null; then
+		systemctl is-enabled firewalld >/dev/null 2>&1 && fwefwd=y || fwefwd=n
+	fi
+	
+	if command -v iptables >/dev/null; then 
+		systemctl is-enabled iptables >/dev/null 2>&1 && fweipt=y || fweipt=n	
+	fi
+	
+	if command -v ip6tables >/dev/null; then 
+		systemctl is-enabled ip6tables >/dev/null 2>&1 && fweipt6=y || fweipt6=n
+	fi
+    
+	if command -v ufw >/dev/null; then 	
+		systemctl is-enabled ufw >/dev/null 2>&1 && fweufw=y || fweufw=n	
+	fi
 
-	if command -v arptables >/dev/null; then fwearp=$(systemctl is-enabled ebtables) ; fi
-	if command -v ebtables >/dev/null; then fweebt=$(systemctl is-enabled ebtables) ; fi	
-    if command -v firewalld >/dev/null; then fwefwd=$(systemctl is-enabled firewalld) ; fi
-	if command -v iptables >/dev/null; then fweipt=$(systemctl is-enabled iptables) ; fi
-	if command -v ip6tables >/dev/null; then fweipt6=$(systemctl is-enabled ip6tables) ; fi
-    if command -v ufw >/dev/null; then 	fweufw=$(systemctl is-enabled ufw) ; fi
-
-	if [[ ( "$fwearp" == "enabled" || "$fweebt" == "enabled" || "$fwefwd" == "enabled" || "$fweipt" == "enabled" || "$fweipt6" == "enabled" || "$fweufw" == "enabled" ) ]] ; then
+	if [[ ( "$fwearp" == "y" || "$fweebt" == "y" || "$fwefwd" == "y" || "$fweipt" == "y" || "$fweipt6" == "y" || "$fweufw" == "y" ) ]] ; then
 		is_firewall_enabled="y"
 	else 	
 		is_firewall_enabled="n"
