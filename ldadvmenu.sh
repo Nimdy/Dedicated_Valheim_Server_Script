@@ -2890,7 +2890,7 @@ $(ColorOrange '-')$(ColorGreen '4)') Add the Steam ports to the firewall
 $(ColorOrange '-')$(ColorGreen '5)') Remove the Steam ports from the firewall
 $(ColorOrange '-')$(ColorGreen '6)') Add this Valheim service port to the firewall
 $(ColorOrange '-')$(ColorGreen '7)') Remove this Valheim service port from the firewall "
-		elif [ "${fwused}" == "f" ] ; then
+		if [ "${fwused}" == "f" ] ; then
 		echo -ne "
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange ''"Specifc to FireWallD for this Valheim world."'')
