@@ -2849,7 +2849,7 @@ $(ColorOrange '║') Is there an enabled firewall? " $(is_firewall_enabled)
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(get_firewall_status)
 	echo -ne "
-$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW_SUBSTATE" $(get_firewall_substate) 
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW_SUBSTATE -- substatus" $(get_firewall_substate) 
 	echo -ne " 
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 	echo -ne "
@@ -2861,6 +2861,7 @@ $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LD_SEVER_SESSION ${worldname}
 $(ColorOrange '║') 
 $(ColorOrange '╚═══════════════════════════════════════════════════════════')"
 }
+## Notes: FUNCTION_HEADER_MENU_INFO_SERVER_UFW_SUBSTATE is missing in nls files.
 
 # Sub Server Menu System
 function server_install_menu() {
