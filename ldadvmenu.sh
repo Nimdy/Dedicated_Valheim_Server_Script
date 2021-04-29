@@ -17,7 +17,7 @@
 ###############################################################################################
 ####
 #### Modifier: Lord/Ranger(Dumoss)
-#### Forked from: Njord advancemenu.ld (with beta) Updated: 10-APR-2021
+#### Forked from: Njord advancemenu.ld (beta) Updated: 29-APR-2021
 ####
 #### I would like to thank "Dr." Zerobandwidth "Frankenstein"
 #### and the development team of "Igor's" for putting 
@@ -114,11 +114,10 @@ debugmsg="y"
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.042920210050.alpha"
+ldversion="0.4.042920210850.alpha"
 ### -- Use are your own risk -- 
 ### dev -- Adding new code. 
-###     -- Currently working on firewall sub menu and functions related.
-### alpha -- Dev team review and testing of the new code.
+### alpha -- Dev team QA review and testing of the new code.
 ### beta -- Good for Public Testing.
 ### released -- Never -- When placed in advance(menu).sh
 ###
@@ -2996,8 +2995,7 @@ $(ColorOrange '-')$(ColorGreen ' 17)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_BACKUP_W
 $(ColorOrange '-')$(ColorGreen ' 18)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_RESTORE_WORLD_DATA
 $(ColorOrange ''"$FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_HEADER"'')
 $(ColorOrange '-')$(ColorGreen ' 19)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG_YES
-$(ColorOrange '-')$(ColorGreen ' 20)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG_YES_BEP																				
-#$(ColorOrange '-')$(ColorGreen '') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG
+$(ColorOrange '-')$(ColorGreen ' 20)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG_YES_BEP
 $(ColorOrange ''"$DRAW60"'')
 $(ColorOrange '-')$(ColorGreen ' 99)') $FUNCTION_MAIN_MENU_LD_CHANGE_SESSION_CURRENT_WORLD
 $(ColorOrange ''"$DRAW60"'')
