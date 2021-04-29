@@ -421,7 +421,7 @@ $(ColorRed ''"$DRAW60"'')"
 		sleep 1
 		echo $worldname  >> /home/steam/worlds.txt
 		sleep 1
-		echo "Vdisplayname=${worldname}" >> /home/steam/Valheim${worldname}.env
+		echo "Vdisplayname=${displayname}" >> /home/steam/Valheim${worldname}.env
 		echo "Vworldname=${worldname}" >> /home/steam/Valheim${worldname}.env
 		echo "Vportnumber=${portnumber}" >> /home/steam/Valheim${worldname}.env
 		echo "VServerpwd=${$password}" >> /home/steam/Valheim${worldname}.env
