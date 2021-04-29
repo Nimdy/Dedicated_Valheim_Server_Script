@@ -421,12 +421,15 @@ $(ColorRed ''"$DRAW60"'')"
 		sleep 1
 		echo $worldname  >> /home/steam/worlds.txt
 		sleep 1
+		echo "Vdisplayname=${worldname}" >> /home/steam/Valheim${worldname}.env
 		echo "Vworldname=${worldname}" >> /home/steam/Valheim${worldname}.env
 		echo "Vportnumber=${portnumber}" >> /home/steam/Valheim${worldname}.env
-		
+		echo "VServerpwd=${$password}" >> /home/steam/Valheim${worldname}.env
+		echo "VPublicList=${$publicList}" >> /home/steam/Valheim${worldname}.env
 		sleep 1
-		
 		chown steam:steam /home/steam/*.txt
+		chown steam:steam /home/steam/*.env
+		chmod +x /home/steam/*.env
 		clear
 	
 		#install steamcmd
