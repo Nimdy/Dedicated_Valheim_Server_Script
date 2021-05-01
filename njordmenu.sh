@@ -225,34 +225,34 @@ echo "1"
 ########################################################################
 #####################Install Valheim Server START#######################
 ########################################################################
-function valheim_server_install() {
-    clear
-    echo ""
-    echo -ne "
-$(ColorOrange ''"$INSTALLVALSERVER"'')
-$(ColorRed ''"$DRAW60"'')"
-	echo ""
-	tput setaf 2; echo "$CONFIRMVALINSTALL" ; tput setaf 9; 
-	tput setaf 2; echo "$CONFIRMVALINSTALL_1" ; tput setaf 9; 
-	echo -ne "
-$(ColorRed ''"$DRAW60"'')"
-	echo ""
-	read -p "$PLEASE_CONFIRM" confirmStartInstall
-	#if y, then continue, else cancel
-	
-    if [ "$confirmStartInstall" == "y" ]; then
-		echo ""
-		# Linux updates.
-		if [ "$newinstall" == "y" ]; then
-			linux_server_update
-		fi
+function valheim_server_steam_account_creation() {
+	# create steam account
+	# later add top variable for steam user because maybe somebody already has a steam account for something else?
+			  
+									  
+						  
 		
-		# Linux Steam Local Account Password input
-		echo ""
-		clear
-		echo "$START_INSTALL_1_PARA"
-		if [ "$newinstall" == "y"]; then
-		while true; 
+														 
+														   
+		   
+						  
+		
+											  
+								  
+ 
+											  
+		 
+				  
+								   
+					  
+	
+  
+											
+		 
+	   
+	echo "$START_INSTALL_1_PARA"
+	while true; 
+			  
 		do
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 			tput setaf 2; echo "$STEAM_NON_ROOT_STEAM_PASSWORD" ; tput setaf 9;
@@ -270,9 +270,27 @@ $(ColorRed ''"$DRAW60"'')"
 			tput setaf 2; echo "$STEAM_PASS_NOT_ACCEPTED" ; tput setaf 9;
 			tput setaf 2; echo "$STEAM_PASS_NOT_ACCEPTED_1" ; tput setaf 9;
 		done
-		fi
-		clear
+	
+	   
 		echo ""
+	# Set the env bash profile information for steam user
+		tput setaf 1; echo "$INSTALL_BUILD_NON_ROOT_STEAM_ACCOUNT" ; tput setaf 9;
+			sleep 1
+			if command -v apt-get >/dev/null; then
+				useradd --create-home --shell /bin/bash --password $userpassword steam
+				cp /etc/skel/.bashrc /home/steam/.bashrc
+				cp /etc/skel/.profile /home/steam/.profile
+            elif command -v yum >/dev/null; then
+				useradd -mU -s /bin/bash -p $userpassword steam
+				# All file from /etc/skel/ are auto copied on RH.
+			else
+				echo ""
+			fi		
+		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+}
+
+function valheim_server_public_server_display_name() {
+	echo ""
 		# Take user input for Valheim Server Public Display
 		echo ""
 		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
@@ -289,93 +307,137 @@ $(ColorRed ''"$DRAW60"'')"
 			read -p "$PUBLIC_SERVER_ENTER_NAME" displayname
 		tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
 		echo ""
-		clear
-		
-			# Take user input for Valheim Server World Database Generation
-			echo ""
-				while true; 
-				do
-					tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-					tput setaf 2; echo "$WORLD_SET_WORLD_NAME_HEADER" ; tput setaf 9;
-					tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-					tput setaf 1; echo "$WORLD_SET_CHAR_RULES" ; tput setaf 9;
-					tput setaf 1; echo "$WORLD_SET_NO_SPECIAL_CHAR_RULES" ; tput setaf 9;
-					tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-					tput setaf 2; echo "$WORLD_GOOD_EXAMPLE" ; tput setaf 9;
-					tput setaf 1; echo "$WORLD_BAD_EXAMPLE" ; tput setaf 9;
-					tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-					echo ""
-						read -p "$WORLD_SET_WORLD_NAME_VAR" worldname
-					tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
-					[[ ${#worldname} -ge 4 && "$worldname" =~ ^[[:alnum:]]+$ ]] && break
-					tput setaf 2; echo "$WORLD_SET_ERROR" ; tput setaf 9; 
-					tput setaf 2; echo "$WORLD_SET_ERROR_1" ; tput setaf 9; 
-				done
-			clear
-			echo ""
-			
-		if [ "$newinstall" == "y" ]; then
-			# First time install use defaults. 
-			portnumber=2456
-			echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_INFO_DEFAULTPORT"
-		else 
-				# Take user input for Valheim Server port.
-				# Will be adding some port checks during my firewall steps. 
-				echo ""
-				tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-				tput setaf 2; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_HEADER" ; tput setaf 9;
-				tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-				tput setaf 1; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_INFO1" ; tput setaf 9;
-				tput setaf 1; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_INFO2" ; tput setaf 9;
-				tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-				tput setaf 2; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_INFO3" ; tput setaf 9;
-				tput setaf 2; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_INFO4" ; tput setaf 9;
-				tput setaf 1; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_INFO5" ; tput setaf 9;
-				#### Get currently used ports and display them here along side worldnames
-				#### IE:  World Names and Ports currently in use:
-				####  World Name: ExampleWorld Ports Used: 2456-2458
-				####  World Name: Example 2    Ports Used: 2359-2461
+	   
+  
+																								 
+		  
 				
-				tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-				echo ""
-				while true; do
-					read -p "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_ENTER" portnumber
-					### write check if new port is = used ports => try again, error
-					usedport="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' start_valheim_${worldname}.sh)"
-					[[ ${#portnumber} -ge 4 && ${#portnumber} -le 6 ]] [[$usedport == portnumber]] && [[ $portnumber -gt 1024 && $portnumber -le 65530 ]] && [[ "$portnumber" =~ ^[[:alnum:]]+$ ]] && break
-				done	 
-				tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
-				clear		
-				echo ""
-		fi
+	  
+												 
+																										 
+												 
+																							  
+																		  
+												 
+																						   
+																						  
+												 
+			
+												   
+																																													 
+}
+																						
+																						   
+		
+		
+		  
+   
+								   
+									  
+				  
+															  
+	   
+											  
+																								
+		   
+												
+																																									  
+												
+																																									 
+																																									 
+												
+																																									 
+																																									 
+																																									 
+																			 
+													 
+														
+														
+	
+												
+		   
+				  
+																																														
+																									  
+																																					
+																																																										   
+		  
+																																												  
+		   
+		   
+	
 
-		# Take user input for Valheim Server password
-		# Added security for harder passwords
-		echo ""        
-		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-		tput setaf 2; echo "$SERVER_ACCESS_PASS_HEADER" ; tput setaf 9;
-		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-		tput setaf 1; echo "$SERVER_ACCESS_INFO" ; tput setaf 9;
-		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-		tput setaf 2; echo "$SERVER_ACCESS_PUBLIC_NAME_INFO $displayname " ; tput setaf 9;
-		tput setaf 2; echo "$SERVER_ACCESS_WORLD_NAME_INFO $worldname " ; tput setaf 9;
-		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+function valheim_server_local_world_name() {
+	# Set world name function that will be used for .db and .fwl files
+		echo ""
+											  
+																 
+											  
+														  
+											  
+																					
+																				 
+											  
 		while true; 
 		do
-			tput setaf 1; echo "$SERVER_ACCESS_WARN_INFO" ; tput setaf 9;
-			tput setaf 1; echo "$SERVER_ACCESS_WARN_INFO_1" ; tput setaf 9;
+																								
+																								   
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-			tput setaf 2; echo "$SERVER_ACCESS_GOOD_EXAMPLE" ; tput setaf 9;
-			tput setaf 1; echo "$SERVER_ACCESS_BAD_EXAMPLE" ; tput setaf 9;
+			tput setaf 2; echo "$WORLD_SET_WORLD_NAME_HEADER" ; tput setaf 9;
+																								   
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-				read -p "$SERVER_ACCESS_ENTER_PASSWORD" password
+			tput setaf 1; echo "$WORLD_SET_CHAR_RULES" ; tput setaf 9;
+			tput setaf 1; echo "$WORLD_SET_NO_SPECIAL_CHAR_RULES" ; tput setaf 9;
+			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+			tput setaf 2; echo "$WORLD_GOOD_EXAMPLE" ; tput setaf 9;
+			tput setaf 1; echo "$WORLD_BAD_EXAMPLE" ; tput setaf 9;
+			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+			echo ""
+				read -p "$WORLD_SET_WORLD_NAME_VAR" worldname
 			tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
-				[[ ${#password} -ge 5 && "$password" == *[[:lower:]]* && "$password" == *[[:upper:]]* && "$password" =~ ^[[:alnum:]]+$ ]] && break
-			tput setaf 2; echo "$SERVER_ACCESS_PASSWORD_ERROR" ; tput setaf 9;
-			tput setaf 2; echo "$SERVER_ACCESS_PASSWORD_ERROR_1" ; tput setaf 9;
+			[[ ${#worldname} -ge 4 && "$worldname" =~ ^[[:alnum:]]+$ ]] && break
+			tput setaf 2; echo "$WORLD_SET_ERROR" ; tput setaf 9; 
+			tput setaf 2; echo "$WORLD_SET_ERROR_1" ; tput setaf 9; 
 		done
-		
-		# Take user input to Show Server Public
+	    clear
+	    echo ""
+}
+
+function valheim_server_public_valheim_port() {
+		# Take user input for Valheim Server port.
+		# Will be adding some port checks during my firewall steps. 
+		echo ""
+			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+			tput setaf 2; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_HEADER" ; tput setaf 9;
+			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+			tput setaf 1; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_INFO1" ; tput setaf 9;
+			tput setaf 1; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_INFO2" ; tput setaf 9;
+			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+			tput setaf 2; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_INFO3" ; tput setaf 9;
+			tput setaf 2; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_INFO4" ; tput setaf 9;
+			tput setaf 1; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_INFO5" ; tput setaf 9;
+			#### Get currently used ports and display them here along side worldnames
+			#### IE:  World Names and Ports currently in use:
+			####  World Name: ExampleWorld Ports Used: 2456-2458
+			####  World Name: Example 2    Ports Used: 2359-2461
+			
+			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+		echo ""
+			while true; do
+				read -p "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_ENTER" portnumber
+				### write check if new port is = used ports => try again, error
+				#usedport="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' start_valheim_${worldname}.sh)"
+				[[ ${#portnumber} -ge 4 && ${#portnumber} -le 6 ]] && [[ $portnumber -gt 1024 && $portnumber -le 65530 ]] && [[ "$portnumber" =~ ^[[:alnum:]]+$ ]] && break
+			done	 
+			tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+			clear		
+		echo ""
+}
+
+function valheim_server_public_listing() {
+	# set public listing
+	# 1 = Display Server
+	# 0 = LAN or do not Display Server public
 		echo ""
 		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 		tput setaf 2; echo "$PUBLIC_ENABLED_DISABLE_HEADER" ; tput setaf 9;
@@ -399,27 +461,35 @@ $(ColorRed ''"$DRAW60"'')"
 		tput setaf 2; echo "$CREDS_DISPLAY_CREDS_PRINT_OUT_SHOW_PUBLIC $publicList " ; tput setaf 9; 
 		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 		echo ""
-		sleep 5
-	
-		#EDIT HERE #1
-		#build account to run Valheim
-		if [ "$newinstall" == "y" ]; then
-			tput setaf 1; echo "$INSTALL_BUILD_NON_ROOT_STEAM_ACCOUNT" ; tput setaf 9;
-			sleep 1
-			if command -v apt-get >/dev/null; then
-				useradd --create-home --shell /bin/bash --password $userpassword steam
-				cp /etc/skel/.bashrc /home/steam/.bashrc
-				cp /etc/skel/.profile /home/steam/.profile
-            elif command -v yum >/dev/null; then
-				useradd -mU -s /bin/bash -p $userpassword steam
-				# All file from /etc/skel/ are auto copied on RH.
-			else
-				echo ""
-			fi		
-			tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-		fi
-		sleep 1
-	
+}
+
+function valheim_server_public_access_password() {
+	# added security for password complex
+		echo ""        
+		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+		tput setaf 2; echo "$SERVER_ACCESS_PASS_HEADER" ; tput setaf 9;
+		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+		tput setaf 1; echo "$SERVER_ACCESS_INFO" ; tput setaf 9;
+		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+		tput setaf 2; echo "$SERVER_ACCESS_PUBLIC_NAME_INFO $displayname " ; tput setaf 9;
+		tput setaf 2; echo "$SERVER_ACCESS_WORLD_NAME_INFO $worldname " ; tput setaf 9;
+		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+		while true; 
+		do
+			tput setaf 1; echo "$SERVER_ACCESS_WARN_INFO" ; tput setaf 9;
+			tput setaf 1; echo "$SERVER_ACCESS_WARN_INFO_1" ; tput setaf 9;
+			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+			tput setaf 2; echo "$SERVER_ACCESS_GOOD_EXAMPLE" ; tput setaf 9;
+			tput setaf 1; echo "$SERVER_ACCESS_BAD_EXAMPLE" ; tput setaf 9;
+			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+				read -p "$SERVER_ACCESS_ENTER_PASSWORD" password
+			tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+				[[ ${#password} -ge 5 && "$password" == *[[:lower:]]* && "$password" == *[[:upper:]]* && "$password" =~ ^[[:alnum:]]+$ ]] && break
+			tput setaf 2; echo "$SERVER_ACCESS_PASSWORD_ERROR" ; tput setaf 9;
+			tput setaf 2; echo "$SERVER_ACCESS_PASSWORD_ERROR_1" ; tput setaf 9;
+		done
+}
+function build_configuration_env_files_set_permissions(){		
 		#Populate Admin/config files
 		echo "$DRAW60" >> /home/steam/serverSetup.txt
 		echo $CREDS_DISPLAY_CREDS_PRINT_OUT_STEAM_PASSWORD $userpassword >> /home/steam/serverSetup.txt
@@ -435,33 +505,66 @@ $(ColorRed ''"$DRAW60"'')"
 		echo "Vdisplayname=${displayname}" >> /home/steam/Valheim${worldname}.env
 		echo "Vworldname=${worldname}" >> /home/steam/Valheim${worldname}.env
 		echo "Vportnumber=${portnumber}" >> /home/steam/Valheim${worldname}.env
-		echo "VServerpwd=${$password}" >> /home/steam/Valheim${worldname}.env
-		echo "VPublicList=${$publicList}" >> /home/steam/Valheim${worldname}.env
+		echo "VServerpwd=${password}" >> /home/steam/Valheim${worldname}.env
+		echo "VPublicList=${publicList}" >> /home/steam/Valheim${worldname}.env
 		sleep 1
 		chown steam:steam /home/steam/*.txt
 		chown steam:steam /home/steam/*.env
 		chmod +x /home/steam/*.env
 		clear
+}
+function valheim_server_install() {
+    clear
+    echo ""
+    echo -ne "
+$(ColorOrange ''"$INSTALLVALSERVER"'')
+$(ColorRed ''"$DRAW60"'')"
+	echo ""
+	tput setaf 2; echo "$CONFIRMVALINSTALL" ; tput setaf 9; 
+	tput setaf 2; echo "$CONFIRMVALINSTALL_1" ; tput setaf 9; 
+	echo -ne "
+$(ColorRed ''"$DRAW60"'')"
+	echo ""
+	read -p "$PLEASE_CONFIRM" confirmStartInstall
+	#if y, then continue, else cancel
 	
-		#install steamcmd
+    if [ "$confirmStartInstall" == "y" ]; then
+		echo ""
+		# Linux updates.
 		if [ "$newinstall" == "y" ]; then
+			linux_server_update
+			valheim_server_steam_account_creation
+			valheim_server_public_server_display_name
+			valheim_server_local_world_name
+			valheim_server_public_valheim_port
+			valheim_server_public_listing
+			valheim_server_public_access_password
+			build_configuration_env_files_set_permissions
 			Install_steamcmd_client
-		fi
-		
-		#chown steam user to steam
-		tput setaf 1; echo "$INSTALL_BUILD_SET_STEAM_PERM" ; tput setaf 9;
-		chown steam:steam -Rf /home/steam/*
-		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-		sleep 1
-		
-		set_steamexe
-		
-		#Download Valheim from steam
-		if [ "$newinstall" == "y" ]; then
+	
+  
+							
+			tput setaf 1; echo "$INSTALL_BUILD_SET_STEAM_PERM" ; tput setaf 9;
+			chown steam:steam -Rf /home/steam/*
+			tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+			sleep 1
 			nocheck_valheim_update_install
+		else 
+		#add server valheim server skipping steam user creation
+			valheim_server_public_server_display_name
+			valheim_server_local_world_name
+			valheim_server_public_valheim_port
+			valheim_server_public_listing
+			valheim_server_public_access_password
+			build_configuration_env_files_set_permissions
+			nocheck_valheim_update_install
+			tput setaf 1; echo "$INSTALL_BUILD_SET_STEAM_PERM" ; tput setaf 9;
+			chown steam:steam -Rf /home/steam/*
+			tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+			sleep 1
 		fi
-		
-		
+	
+  
 		#### Need to add code to veriy firewall system and if enabled.
 		#### Below is the line needed for Valheim
 		#### These should also be added to as port forwards on your network router.
@@ -506,9 +609,9 @@ $(ColorRed ''"$DRAW60"'')"
 		#build config for start_valheim.sh
 		tput setaf 1; echo "$INSTALL_BUILD_DELETE_OLD_CONFIGS" ; tput setaf 9;  
 		tput setaf 1; echo "$INSTALL_BUILD_DELETE_OLD_CONFIGS_1" ; tput setaf 9;
-		[ -e ${valheimInstallPath}/start_valheim_${worldname}.sh ] && rm ${valheimInstallPath}/start_valheim_${worldname}.sh
+		[ -e ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh ] && rm ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
 		sleep 1
-cat >> ${valheimInstallPath}/start_valheim_${worldname}.sh <<EOF
+cat >> ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh <<EOF
 #!/bin/bash
 export templdpath=\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
@@ -516,7 +619,7 @@ export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: Minimum password length is 5 characters & Password cant be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${displayname}" -port "2456" -nographics -batchmode -world "${worldname}" -password "${password}" -public "${publicList}" -savedir "${worldpath}/${worldname}"
+./valheim_server.x86_64 -name "${displayname}" -port "${portnumber}" -nographics -batchmode -world "${worldname}" -password "${password}" -public "${publicList}" -savedir "${worldpath}/${worldname}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
@@ -526,7 +629,7 @@ EOF
 		[ -e /home/steam/check_log.sh ] && rm /home/steam/check_log.sh
 		#set execute permissions
 		tput setaf 1; echo "$INSTALL_BUILD_SET_PERM_ON_START_VALHEIM" ; tput setaf 9;
-		chmod +x ${valheimInstallPath}/start_valheim_${worldname}.sh
+		chmod +x ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 		sleep 1
 		#build systemctl configurations for execution of processes for Valheim Server
@@ -552,11 +655,11 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
-ExecStart=${valheimInstallPath}/start_valheim_${worldname}.sh
+ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath}_${worldname} +app_update 896660 validate +exit
+ExecStart=${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
-WorkingDirectory=${valheimInstallPath}
+WorkingDirectory=${valheimInstallPath}_${worldname}
 LimitNOFILE=100000
 [Install]
 WantedBy=multi-user.target
@@ -737,6 +840,7 @@ function Install_steamcmd_client() {
 	if command -v apt-get >/dev/null; then
 		echo steam steam/license note '' | debconf-set-selections
 		echo steam steam/question select 'I AGREE' | debconf-set-selections
+		#' fixes coding breaking for viewing in editors only.... dont ask me why... thanks auto accept agreement syntax above
 		sudo apt install steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386 -y
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 	elif command -v yum >/dev/null; then
@@ -952,7 +1056,7 @@ function restore_world_data() {
 $(ColorRed '------------------------------------------------------------')
 $(ColorGreen ' '"$RESTORE_WORLD_DATA_SHOW_FILE"' '${restorefile}' ?')
 $(ColorGreen ' '"$RESTORE_WORLD_DATA_ARE_YOU_SURE"' ')
-$(ColorOrange ' '"$RESTORE_WORLD_DATA_VALIDATE_DATA_WITH_CONFIG"' '${valheimInstallPath}'/start_valheim_${worldname}.sh')
+$(ColorOrange ' '"$RESTORE_WORLD_DATA_VALIDATE_DATA_WITH_CONFIG"' '${valheimInstallPath}_${worldname}'/start_valheim_${worldname}.sh')
 $(ColorOrange ' '"$RESTORE_WORLD_DATA_INFO"' ')
 $(ColorGreen ' '"$RESTORE_WORLD_DATA_CONFIRM_1"' ') "
 	#read user input confirmation
@@ -975,7 +1079,7 @@ $(ColorGreen ' '"$RESTORE_WORLD_DATA_CONFIRM_1"' ') "
 		rm  ${worldpath}/${worldname}/*.tgz
         tput setaf 2; echo "$RESTORE_WORLD_DATA_STARTING_VALHEIM_SERVICES" ; tput setaf 9;
         tput setaf 2; echo "$RESTORE_WORLD_DATA_CUSS_LOKI" ; tput setaf 9;
-        systemctl start valheimserver_dfault.service
+        systemctl start valheimserver_${worldname}.service
 	else
 		tput setaf 2; echo "$RESTORE_WORLD_DATA_CANCEL_CUSS_LOKI" ; tput setaf 9;
 	fi
@@ -993,7 +1097,7 @@ function nocheck_valheim_update_install() {
 
 	tput setaf 1; echo "$INSTALL_BUILD_DOWNLOAD_INSTALL_STEAM_VALHEIM" ; tput setaf 9;
 	sleep 1
-	$steamexe +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
+	$steamexe +login anonymous +force_install_dir ${valheimInstallPath}_${worldname} +app_update 896660 validate +exit
 	tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 }
 
@@ -1018,8 +1122,8 @@ $(ColorRed ''"$DRAW60"'')"
 	#if y, then continue, else cancel
 	if [ "$confirmOfficialUpdates" == "y" ]; then
 		tput setaf 2; echo "$FUNCTION_INSTALL_VALHEIM_UPDATE_APPLY_INFO" ; tput setaf 9; 
-		$steamexe +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
-		chown -R steam:steam ${valheimInstallPath}
+		$steamexe +login anonymous +force_install_dir ${valheimInstallPath}_${worldname} +app_update 896660 validate +exit
+		chown -R steam:steam ${valheimInstallPath}_${worldname}
 		echo ""
 	else
 		echo "$FUNCTION_INSTALL_VALHEIM_UPDATES_CANCEL"
@@ -1039,7 +1143,7 @@ function check_apply_server_updates_beta() {
     find "/home" "/root" -wholename "*/.steam/appcache/appinfo.vdf" | xargs -r rm -f --
     repoValheim=$($steamexe +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4)
     echo "Official Valheim-: $repoValheim"
-    localValheim=$(grep buildid ${valheimInstallPath}/steamapps/appmanifest_896660.acf | cut -d'"' -f4)
+    localValheim=$(grep buildid ${valheimInstallPath}_${worldname}/steamapps/appmanifest_896660.acf | cut -d'"' -f4)
     echo "Local Valheim Ver: $localValheim"
     if [ "$repoValheim" == "$localValheim" ]; then
 		echo "No new Updates found"
@@ -1048,7 +1152,7 @@ function check_apply_server_updates_beta() {
 		echo "Update Found kicking process to Odin for updating!"
 		sleep 2
         continue_with_valheim_update_install
-		systemctl restart valheimserver.service
+		systemctl restart valheimserver_${worldname}.service
         echo ""
      fi
      echo ""
@@ -1187,7 +1291,7 @@ function display_valheim_server_status() {
 function display_start_valheim() {
     clear
     echo ""
-    sudo cat ${valheimInstallPath}/start_valheim_${worldname}.sh
+    sudo cat ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
     echo ""
 }
 
@@ -1196,7 +1300,7 @@ function display_start_valheim() {
 function display_start_valheim() {
     clear
     echo ""
-    sudo cat ${valheimInstallPath}/start_valheim_${worldname}.sh
+    sudo cat ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
     echo ""
 }
 
@@ -1663,11 +1767,11 @@ function remove_firewalld_public_service(){
 ##################CHANGE VALHEIM START CONFIG START#####################
 ########################################################################
 function get_current_config() {
-    currentDisplayName=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' ${valheimInstallPath}/start_valheim_${worldname}.sh)
-    currentPort=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}/start_valheim_${worldname}.sh)
-    worldnameName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}/start_valheim_${worldname}.sh)
-    currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' ${valheimInstallPath}/start_valheim_${worldname}.sh)
-    currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/start_valheim_${worldname}.sh)
+    currentDisplayName=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh)
+    currentPort=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh)
+    worldnameName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh)
+    currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh)
+    currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh)
 }
 function print_current_config() {
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_NAME $(tput setaf 2)${currentDisplayName} $(tput setaf 9) "
@@ -1691,7 +1795,7 @@ function set_config_defaults() {
 function write_config_and_restart() {
     tput setaf 1; echo "$FUNCTION_WRITE_CONFIG_RESTART_INFO" ; tput setaf 9;
     sleep 1
-    cat > ${valheimInstallPath}/start_valheim_${worldname}.sh <<EOF
+    cat > ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh <<EOF
 #!/bin/bash
 export templdpath=\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
@@ -1702,9 +1806,9 @@ export SteamAppId=892970
 ./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setworldnameName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
-   echo "$FUNCTION_WRITE_CONFIG_RESTART_SET_PERMS" ${valheimInstallPath}/start_valheim_${worldname}.sh
-   chown steam:steam ${valheimInstallPath}/start_valheim_${worldname}.sh
-   chmod +x ${valheimInstallPath}/start_valheim_${worldname}.sh
+   echo "$FUNCTION_WRITE_CONFIG_RESTART_SET_PERMS" ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
+   chown steam:steam ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
+   chmod +x ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
    echo "$ECHO_DONE"
    echo "$FUNCTION_WRITE_CONFIG_RESTART_SERVICE_INFO"
    sudo systemctl restart valheimserver_${worldname}.service
@@ -1923,15 +2027,15 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
+ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath}_${worldname} +app_update 896660 validate +exit
 EOF
 if [ "$valheimVanilla" == "1" ]; then
    echo "$FUNCTION_VALHEIM_PLUS_BUILD_CONFIG_SET_VANILLA"
 cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF 
-ExecStart=${valheimInstallPath}/start_valheim_${worldname}.sh
+ExecStart=${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
-WorkingDirectory=${valheimInstallPath}
+WorkingDirectory=${valheimInstallPath}_${worldname}
 LimitNOFILE=100000
 [Install]
 WantedBy=multi-user.target
@@ -1939,10 +2043,10 @@ EOF
 else 
    echo "$FUNCTION_VALHEIM_PLUS_BUILD_CONFIG_SET_PLUS"
 cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF   
-ExecStart=${valheimInstallPath}/start_server_bepinex.sh
+ExecStart=${valheimInstallPath}_${worldname}/start_server_bepinex.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
-WorkingDirectory=${valheimInstallPath}
+WorkingDirectory=${valheimInstallPath}_${worldname}
 LimitNOFILE=100000
 [Install]
 WantedBy=multi-user.target
@@ -1959,14 +2063,14 @@ function install_valheim_plus() {
     apt install unzip -y
     fi
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CHANGING_DIR" ; tput setaf 9; 
-    cd $valheimInstallPath
+    cd ${valheimInstallPath}_${worldname}
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CHECKING_OLD_INSTALL" ; tput setaf 9; 
     [ -e UnixServer.zip ] && rm UnixServer.zip
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_DOWNLOADING_VALHEIM_PLUS_FROM_REPO" ; tput setaf 9; 
     curl -s https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest \
     | grep "browser_download_url.*UnixServer\.zip" \
     | cut -d ":" -f 2,3 | tr -d \" \
-    | wget -P ${valheimInstallPath} -qi - 
+    | wget -P ${valheimInstallPath}_${worldname} -qi - 
     echo ""
     sleep 1
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CREATING_VER_STAMP" ; tput setaf 9; 
@@ -2022,7 +2126,7 @@ function valheim_plus_update() {
 check_valheim_plus_repo
 clear
     tput setaf 2;  echo "$FUNCTION_VALHEIM_PLUS_UPDATE_INFO" ; tput setaf 9; 
-    vpLocalCheck=$(cat ${valheimInstallPath}/localValheimPlusVersion)
+    vpLocalCheck=$(cat ${valheimInstallPath}_${worldname}/localValheimPlusVersion)
     echo $vpLocalCheck
     echo $latestValPlus
     if [[ $latestValPlus == $vpLocalCheck ]]; then
@@ -2039,7 +2143,7 @@ clear
 	    [ ! -d "$dldir" ] && mkdir -p "$dldir"
             sleep 1
 	    TODAYMK="$(date +%Y-%m-%d-%T)"
-	    cp ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg ${backupPath}/valheim_plus-$TODAYMK.cfg
+	    cp ${valheimInstallPath}_${worldname}/BepInEx/config/valheim_plus.cfg ${backupPath}/valheim_plus-$TODAYMK.cfg
 	    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_UPDATE_DOWNLOADING_VPLUS" ; tput setaf 9; 
             install_valheim_plus
 	    sleep 2
@@ -2055,7 +2159,7 @@ clear
 
 function valheimplus_mod_options() {
 clear
-    nano ${valheimInstallPath}/BepInEx/config/valheim_plus.cfg
+    nano ${valheimInstallPath}_${worldname}/BepInEx/config/valheim_plus.cfg
     echo ""
     tput setaf 2; echo "$DRAW80" ; tput setaf 9;
     tput setaf 2;  echo "$FUNCTION_VALHEIM_PLUS_EDIT_VPLUS_CONFIG_SAVE_RESTART" ; tput setaf 9; 
@@ -2078,7 +2182,7 @@ fi
 
 function bepinex_mod_options() {
 clear
-    nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
+    nano ${valheimInstallPath}_${worldname}/BepInEx/config/BepInEx.cfg
     echo ""
     tput setaf 2; echo "$DRAW80" ; tput setaf 9;
     echo "$FUNCTION_VALHEIM_PLUS_EDIT_BEPINEX_CONFIG_RESTART"
@@ -2100,7 +2204,8 @@ fi
 }
 
 function build_start_server_bepinex_configuration_file() {
-cat > ${valheimInstallPath}/start_server_bepinex.sh <<'EOF'
+
+cat > ${valheimInstallPath}_${worldname}/start_server_bepinex.sh <<'EOF'
 #!/bin/sh
 # BepInEx running script
 #
@@ -2110,6 +2215,9 @@ cat > ${valheimInstallPath}/start_server_bepinex.sh <<'EOF'
 
 # -------- SETTINGS --------
 # ---- EDIT AS NEEDED ------
+executable_name="valheim_server.x86_64"
+worldname=$(pwd | cut -d'/' -f4 | cut -d'_' -f2)
+worldSaves="/home/steam/.config/unity3d/IronGate/Valheim/worlds/"
 
 # EDIT THIS: The name of the executable to run
 # LINUX: This is the name of the Unity game executable [preconfigured]
@@ -2117,7 +2225,7 @@ cat > ${valheimInstallPath}/start_server_bepinex.sh <<'EOF'
 executable_name="valheim_server.x86_64"
 
 
-server_savedir="$HOME/.config/unity3d/IronGate/Valheim"
+													   
 
 # EDIT THIS: Valheim server parameters
 # Can be overriden by script parameters named exactly like the ones for the Valheim executable
@@ -2127,7 +2235,8 @@ server_name="$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' start_va
 server_password="$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' start_valheim_${worldname}.sh)"
 server_port="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' start_valheim_${worldname}.sh)"
 server_world="$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' start_valheim_${worldname}.sh)"
-server_public="$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' start_valheim_${worldname}.sh)"
+server_public="$(perl -n -e '/\-public "?([^"]+)"? \-savedir/  && print "$1\n"' start_valheim_${worldname}.sh)"
+server_savedir="$(perl -n -e '/\-savedir "?([^"]+)"?$/ && print "$1\n"' start_valheim_${worldname}.sh)"
 
 
 # The rest is automatically handled by BepInEx for Valheim+
@@ -2233,7 +2342,7 @@ do
 	esac
 done
 
-"${VALHEIM_PLUS_PATH}/${executable_name}" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${worldpath}/${worldname}"
+"${VALHEIM_PLUS_PATH}/${executable_name}" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${worldSaves}${worldname}"
 
 export LD_LIBRARY_PATH=$templdpath
 EOF
@@ -2289,7 +2398,7 @@ echo $latestValPlus
 
 # Check Local ValheimPlus Build for menu display
 function check_local_valheim_plus_build() {
-localValheimPlusVer=${valheimInstallPath}/localValheimPlusVersion
+localValheimPlusVer=${valheimInstallPath}_${worldname}/localValheimPlusVersion
    if [[ -e $localValheimPlusVer ]] ; then
     localValheimPlusBuild=$(cat ${localValheimPlusVer})
         echo $localValheimPlusBuild
@@ -2333,10 +2442,10 @@ EOF
 if [ "$valheimVanilla" == "1" ]; then
    echo "$FUNCTION_BEPINEX_BUILD_CONFIG_SET_VANILLA"
 cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF 
-ExecStart=${valheimInstallPath}/start_valheim_${worldname}.sh
+ExecStart=${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
-WorkingDirectory=${valheimInstallPath}
+WorkingDirectory=${valheimInstallPath}_${worldname}
 LimitNOFILE=100000
 [Install]
 WantedBy=multi-user.target
@@ -2344,10 +2453,10 @@ EOF
 else 
    echo "$FUNCTION_BEPINEX_BUILD_CONFIG_SET"
 cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF   
-ExecStart=${valheimInstallPath}/start_valw_bepinex.sh
+ExecStart=${valheimInstallPath}_${worldname}/start_valw_bepinex.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
-WorkingDirectory=${valheimInstallPath}
+WorkingDirectory=${valheimInstallPath}_${worldname}
 LimitNOFILE=100000
 [Install]
 WantedBy=multi-user.target
@@ -2373,15 +2482,15 @@ clear
     wget https://valheim.thunderstore.io/package/download/denikson/BepInExPack_Valheim/${officialBepInEx}/
     mv index.html bepinex.zip
     unzip -o bepinex.zip
-    cp -a BepInExPack_Valheim/. ${valheimInstallPath}
+    cp -a BepInExPack_Valheim/. ${valheimInstallPath}_${worldname}
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CREATING_VER_STAMP" ; tput setaf 9; 
-    cat manifest.json | grep version | cut -d'"' -f4 > ${valheimInstallPath}/localValheimBepinexVersion
+    cat manifest.json | grep version | cut -d'"' -f4 > ${valheimInstallPath}_${worldname}/localValheimBepinexVersion
     rm -rf $PWD
     echo ""
     sleep 1
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_UNPACKING_FILES" ; tput setaf 9; 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_REMOVING_OLD_BEPINEX_CONFIG" ; tput setaf 9;
-    cd ${valheimInstallPath}
+    cd ${valheimInstallPath}_${worldname}
     [ ! -e start_valw_bepinex.sh ] && rm start_valw_bepinex.sh
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_BUILDING_NEW_BEPINEX_CONFIG" ; tput setaf 9; 
     build_valw_bepinex_configuration_file
@@ -2428,7 +2537,7 @@ function valheim_bepinex_update() {
 clear
     tput setaf 2;  echo "$FUNCTION_BEPINEX_UPDATE_INFO" ; tput setaf 9; 
     officialBepInEx=$(curl -sL https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2) 
-    localBepInEx=$(cat ${valheimInstallPath}/localValheimBepinexVersion)    
+    localBepInEx=$(cat ${valheimInstallPath}_${worldname}/localValheimBepinexVersion)    
     echo $officialBepInEx
     echo $localBepInEx
     if [[ $officialBepInEx == $localBepInEx ]]; then
@@ -2443,7 +2552,7 @@ clear
 	    [ ! -d "$dldir" ] && mkdir -p "$dldir"
             sleep 1
 	    TODAYMK="$(date +%Y-%m-%d-%T)"
-	    cp ${valheimInstallPath}/BepInEx/config/BepInEx.cfg ${backupPath}/BepInEx.cfg-$TODAYMK.cfg
+	    cp ${valheimInstallPath}_${worldname}/BepInEx/config/BepInEx.cfg ${backupPath}/BepInEx.cfg-$TODAYMK.cfg
 	    tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_DOWNLOADING_BEPINEX" ; tput setaf 9; 
             install_valheim_bepinex
 	    sleep 2
@@ -2458,7 +2567,7 @@ clear
 
 function bepinex_mod_options() {
 clear
-    nano ${valheimInstallPath}/BepInEx/config/BepInEx.cfg
+    nano ${valheimInstallPath}_${worldname}/BepInEx/config/BepInEx.cfg
     echo ""
     tput setaf 2; echo "$DRAW80" ; tput setaf 9;
     tput setaf 2;  echo "$FUNCTION_BEPINEX_EDIT_CONFIG_SAVE_RESTART" ; tput setaf 9; 
@@ -2481,7 +2590,7 @@ fi
 
 
 function build_valw_bepinex_configuration_file() {
-  cat > ${valheimInstallPath}/start_valw_bepinex.sh <<'EOF'
+  cat > ${valheimInstallPath}_${worldname}/start_valw_bepinex.sh <<'EOF'
 #!/bin/sh
 # BepInEx running script
 #
@@ -2495,13 +2604,16 @@ function build_valw_bepinex_configuration_file() {
 # EDIT THIS: The name of the executable to run
 # LINUX: This is the name of the Unity game executable
 # MACOS: This is the name of the game app folder, including the .app suffix
+worldname=$(pwd | cut -d'/' -f4 | cut -d'_' -f2)
+worldSaves="/home/steam/.config/unity3d/IronGate/Valheim/worlds/"
 
 #importing server parms to BepInEx
 server_name="$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' start_valheim_${worldname}.sh)"
 server_password="$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' start_valheim_${worldname}.sh)"
 server_port="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' start_valheim_${worldname}.sh)"
 server_world="$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' start_valheim_${worldname}.sh)"
-server_public="$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' start_valheim_${worldname}.sh)"
+server_public="$(perl -n -e '/\-public "?([^"]+)"? \-savedir/  && print "$1\n"' start_valheim_${worldname}.sh)"
+server_savedir="$(perl -n -e '/\-savedir "?([^"]+)"?$/ && print "$1\n"' start_valheim_${worldname}.sh)"
 
 # The rest is automatically handled by BepInEx
 
@@ -2528,7 +2640,7 @@ echo "Starting server PRESS CTRL-C to exit"
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: Minimum password length is 5 characters & Password cant be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-exec ./valheim_server.x86_64 -name "${server_name}" -port "${server_port}" -world "${server_world}" -password "${server_password}" -public "${server_public}"
+exec ./valheim_server.x86_64 -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${worldSaves}${worldname}"
 EOF
 }
 
@@ -2542,7 +2654,7 @@ echo $latestBepinex
 
 # Check Local Bepinex Build for menu display
 function check_local_bepinex_build() {
-localValheimBepinexVer=${valheimInstallPath}/localValheimBepinexVersion
+localValheimBepinexVer=${valheimInstallPath}_${worldname}/localValheimBepinexVersion
    if [[ -e $localValheimBepinexVer ]] ; then
     localValheimBepinexBuild=$(cat ${localValheimBepinexVer})
         echo $localValheimBepinexBuild
@@ -2604,19 +2716,19 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'')"
 # Check Current Valheim REPO Build for menu display
 function check_official_valheim_release_build() {
 
-if [[ $(find "/home/steam/valheimserver/officialvalheimbuild" -mmin +59 -print) ]]; then
+if [[ $(find "${valheimInstallPath}_${worldname}/officialvalheimbuild" -mmin +59 -print) ]]; then
       find "/home" "/root" -wholename "*/.steam/appcache/appinfo.vdf" | xargs -r rm -f --
       currentOfficialRepo=$($steamexe +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4)
-      echo $currentOfficialRepo > /home/steam/valheimserver/officialvalheimbuild
-      chown steam:steam /home/steam/valheimserver/officialvalheimbuild
+      echo $currentOfficialRepo > ${valheimInstallPath}_${worldname}/officialvalheimbuild
+      chown steam:steam ${valheimInstallPath}_${worldname}/officialvalheimbuild
       echo $currentOfficialRepo
-elif [ ! -f /home/steam/valheimserver/officialvalheimbuild ]; then
+elif [ ! -f ${valheimInstallPath}_${worldname}/officialvalheimbuild ]; then
       currentOfficialRepo=$($steamexe +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4)
-      echo $currentOfficialRepo > /home/steam/valheimserver/officialvalheimbuild
-      chown steam:steam /home/steam/valheimserver/officialvalheimbuild
+      echo $currentOfficialRepo > ${valheimInstallPath}_${worldname}/officialvalheimbuild
+      chown steam:steam ${valheimInstallPath}_${worldname}/officialvalheimbuild
       echo $currentOfficialRepo
-elif [ -f /home/steam/valheimserver/officialvalheimbuild ]; then
-      currentOfficialRepo=$(cat /home/steam/valheimserver/officialvalheimbuild)
+elif [ -f ${valheimInstallPath}_${worldname}/officialvalheimbuild ]; then
+      currentOfficialRepo=$(cat ${valheimInstallPath}_${worldname}/officialvalheimbuild)
       echo $currentOfficialRepo
 else
       echo "$NO_DATA";
@@ -2625,7 +2737,7 @@ else
 
 # Check Local Valheim Build for menu display
 function check_local_valheim_build() {
-localValheimAppmanifest=${valheimInstallPath}/steamapps/appmanifest_896660.acf
+localValheimAppmanifest=${valheimInstallPath}_${worldname}/steamapps/appmanifest_896660.acf
    if [[ -e $localValheimAppmanifest ]] ; then
     localValheimBuild=$(grep buildid ${localValheimAppmanifest} | cut -d'"' -f4)
         echo $localValheimBuild
@@ -2640,7 +2752,7 @@ echo $latestScript
 }
 
 function display_public_status_on_or_off() {
-currentPortCheck=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/start_valheim_${worldname}.sh)
+currentPortCheck=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh)
     if [[ $currentPortCheck == 1 ]]; then 
       echo "$ECHO_ON"
     else
@@ -2673,8 +2785,8 @@ ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"$INTERNET_MSG $tecreset $I
 
 function are_mods_enabled() {
 	modstrue=$( cat /lib/systemd/system/valheimserver_${worldname}.service | grep bepinex)
-	var2="ExecStart=/home/steam/valheimserver/start_server_bepinex.sh"
-	var3="ExecStart=/home/steam/valheimserver/start_valw_bepinex.sh"
+	var2="ExecStart=${valheimInstallPath}_${worldname}/start_server_bepinex.sh"
+	var3="ExecStart=${valheimInstallPath}_${worldname}/start_valw_bepinex.sh"
 	if [[ $modstrue == $var2 ]]; then
 			echo "Enabled with ValheimPlus"
 	elif
