@@ -48,15 +48,9 @@ else
 fi 
 source lang/$LANGUAGE.conf
 
-
-#if [ -f "$fileworldlist" ]; then
-#	readarray -t worldlistarray < $fileworldlist
-#else
-#	newinstall = "y"
-#	valheim_server_install 
-#fi
-
-
+###############################
+# moved to get_current_config
+##################################
 # if [ -f "$fileworldlist" ]; then
 # 	readarray -t worldlistarray < $fileworldlist
 # else
@@ -79,7 +73,7 @@ source lang/$LANGUAGE.conf
 # 	#echo "export VServerpwd" >> /home/steam/Valheim${worldname}.env
 # 	#echo "export VPublicList" >> /home/steam/Valheim${worldname}.env
 # fi
-
+##########################
 fileworldlist=/home/steam/worlds.txt
 #worldname=""
 #portnumber=""
@@ -2982,6 +2976,7 @@ $(ColorCyan '╚═════════════════════�
 
 function menu_header() {
 	get_current_config
+	# moved to get_current_config
 	#set_steamexe	
 	echo -ne "
 $(ColorOrange '╔══════════════════════════════════════════════════════════╗')
