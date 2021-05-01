@@ -49,38 +49,36 @@ fi
 source lang/$LANGUAGE.conf
 
 
-if [ -f "$fileworldlist" ]; then
-	readarray -t worldlistarray < $fileworldlist
-else
-	newinstall = "y"
-	valheim_server_install 
-fi
+#if [ -f "$fileworldlist" ]; then
+#	readarray -t worldlistarray < $fileworldlist
+#else
+#	newinstall = "y"
+#	valheim_server_install 
+#fi
 
 
-if [ -f "$fileworldlist" ]; then
-	readarray -t worldlistarray < $fileworldlist
-else
-	# If the Worlds file does not exist.
-   	#touch $fileworldlist
-	#echo "MainServer" >> $fileworldlist
-	#readarray -t worldlistarray < $fileworldlist
-	
-	# will this work here or?
-	
-	newinstall = "y"
-	valheim_server_install 
-	
-	#echo "Vdisplayname=MainServer" >> /home/steam/Valheim${worldname}.env
-	#echo "Vworldname=MainServer" >> /home/steam/Valheim${worldname}.env
-	#echo "Vportnumber=####" >> /home/steam/Valheim${worldname}.env
-	#echo "VServerpwd=1nV4l1D" >> /home/steam/Valheim${worldname}.env
-	#echo "VPublicList=#" >> /home/steam/Valheim${worldname}.env
-	#echo "export Vdisplayname" >> /home/steam/Valheim${worldname}.env
-	#echo "export Vworldname" >> /home/steam/Valheim${worldname}.env
-	#echo "export Vportnumber" >> /home/steam/Valheim${worldname}.env
-	#echo "export VServerpwd" >> /home/steam/Valheim${worldname}.env
-	#echo "export VPublicList" >> /home/steam/Valheim${worldname}.env
-fi
+# if [ -f "$fileworldlist" ]; then
+# 	readarray -t worldlistarray < $fileworldlist
+# else
+# 
+# 	newinstall = "y"
+# 	valheim_server_install
+# 	
+# 	# If the Worlds file does not exist.
+#    	#touch $fileworldlist
+# 	#echo "MainServer" >> $fileworldlist
+# 	#readarray -t worldlistarray < $fileworldlist
+# 	#echo "Vdisplayname=MainServer" >> /home/steam/Valheim${worldname}.env
+# 	#echo "Vworldname=MainServer" >> /home/steam/Valheim${worldname}.env
+# 	#echo "Vportnumber=####" >> /home/steam/Valheim${worldname}.env
+# 	#echo "VServerpwd=1nV4l1D" >> /home/steam/Valheim${worldname}.env
+# 	#echo "VPublicList=#" >> /home/steam/Valheim${worldname}.env
+# 	#echo "export Vdisplayname" >> /home/steam/Valheim${worldname}.env
+# 	#echo "export Vworldname" >> /home/steam/Valheim${worldname}.env
+# 	#echo "export Vportnumber" >> /home/steam/Valheim${worldname}.env
+# 	#echo "export VServerpwd" >> /home/steam/Valheim${worldname}.env
+# 	#echo "export VPublicList" >> /home/steam/Valheim${worldname}.env
+# fi
 
 fileworldlist=/home/steam/worlds.txt
 #worldname=""
