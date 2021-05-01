@@ -48,8 +48,13 @@ else
 fi 
 source lang/$LANGUAGE.conf
 
-fileworldlist=/home/steam/worlds.txt
 
+if [ -f "$fileworldlist" ]; then
+	readarray -t worldlistarray < $fileworldlist
+else
+	newinstall = "y"
+	valheim_server_install 
+fi
 
 
 if [ -f "$fileworldlist" ]; then
@@ -76,8 +81,10 @@ else
 	#echo "export VServerpwd" >> /home/steam/Valheim${worldname}.env
 	#echo "export VPublicList" >> /home/steam/Valheim${worldname}.env
 fi
-worldname=""
-portnumber=""
+
+fileworldlist=/home/steam/worlds.txt
+#worldname=""
+#portnumber=""
 #############################################################
 ########################  Santiy Check  #####################
 #############################################################
@@ -517,11 +524,11 @@ function build_configuration_env_files_set_permissions(){
 		sleep 1
 		echo $worldname  >> /home/steam/worlds.txt
 		sleep 1
-		echo "Vdisplayname=${displayname}" >> /home/steam/Valheim${worldname}.env
-		echo "Vworldname=${worldname}" >> /home/steam/Valheim${worldname}.env
-		echo "Vportnumber=${portnumber}" >> /home/steam/Valheim${worldname}.env
-		echo "VServerpwd=${password}" >> /home/steam/Valheim${worldname}.env
-		echo "VPublicList=${publicList}" >> /home/steam/Valheim${worldname}.env
+		#echo "Vdisplayname=${displayname}" >> /home/steam/Valheim${worldname}.env
+		#echo "Vworldname=${worldname}" >> /home/steam/Valheim${worldname}.env
+		#echo "Vportnumber=${portnumber}" >> /home/steam/Valheim${worldname}.env
+		#echo "VServerpwd=${password}" >> /home/steam/Valheim${worldname}.env
+		#echo "VPublicList=${publicList}" >> /home/steam/Valheim${worldname}.env
 
 		#echo "export Vdisplayname" >> /home/steam/Valheim${worldname}.env
 		#echo "export Vworldname" >> /home/steam/Valheim${worldname}.env
@@ -531,8 +538,8 @@ function build_configuration_env_files_set_permissions(){
 		
 		sleep 1
 		chown steam:steam /home/steam/*.txt
-		chown steam:steam /home/steam/*.env
-		chmod +x /home/steam/*.env
+		#chown steam:steam /home/steam/*.env
+		#chmod +x /home/steam/*.env
 		clear
 }
 function valheim_server_install() {
@@ -1630,7 +1637,9 @@ function add_Valheim_server_public_ports(){
 			if [ "$sftc" == "ste" ] ; then
 				sudo firewall-cmd --zone=public --permanent --add-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
 			elif [ "$sftc" == "val" ] ; then   
-			    sudo firewall-cmd --zone=public --permanent --add-port=${Vportnumber}-${Vportnumber+2}/udp
+			    #sudo firewall-cmd --zone=public --permanent --add-port=${Vportnumber}-${Vportnumber+2}/udp
+				sudo firewall-cmd --zone=public --permanent --add-port=${currentPort}-${currentPort+2}/udp
+				
 			else
 				echo ""
 
@@ -1649,7 +1658,8 @@ function remove_Valheim_server_public_ports(){
 				sudo firewall-cmd --zone=public --permanent --remove-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
 			elif [ "$sftc" == "val" ] ; then 
 			    #Need to write a get_current_port function.
-				sudo firewall-cmd --zone=public --permanent --remove-port=${Vportnumber}-${Vportnumber+2}/udp
+				#sudo firewall-cmd --zone=public --permanent --remove-port=${Vportnumber}-${Vportnumber+2}/udp
+				sudo firewall-cmd --zone=public --permanent --remove-port=${currentPort}-${currentPort+2}/udp				
 			else				
 				echo ""
 			fi
@@ -1794,7 +1804,14 @@ function get_current_config() {
     worldnameName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh)
     currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh)
     currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh)
+	if [ -f "$fileworldlist" ]; then
+		unset worldlistarray && readarray -t worldlistarray < $fileworldlist
+	else
+		newinstall = "y"
+		valheim_server_install 
+	fi
 }
+
 function print_current_config() {
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_NAME $(tput setaf 2)${currentDisplayName} $(tput setaf 9) "
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_PORT $(tput setaf 2)${currentPort} $(tput setaf 9) "
