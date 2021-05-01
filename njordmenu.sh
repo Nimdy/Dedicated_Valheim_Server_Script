@@ -1122,7 +1122,7 @@ $(ColorGreen ' '"$RESTORE_WORLD_DATA_CONFIRM_1"' ') "
 ###############LD: Download Valheim from steam #########################
 ########################################################################
 function nocheck_valheim_update_install() {
-	set_steamexe
+	#set_steamexe
 
 	tput setaf 1; echo "$INSTALL_BUILD_DOWNLOAD_INSTALL_STEAM_VALHEIM" ; tput setaf 9;
 	sleep 1
@@ -1134,7 +1134,7 @@ function nocheck_valheim_update_install() {
 #############Install Official Update of Valheim Updates#################
 ########################################################################
 function continue_with_valheim_update_install() {
-	set_steamexe
+	#set_steamexe
     clear
     echo ""
     echo -ne "
@@ -1166,7 +1166,7 @@ $(ColorRed ''"$DRAW60"'')"
 ######################beta updater for Valheim##########################
 ########################################################################
 function check_apply_server_updates_beta() {
-	set_steamexe
+	#set_steamexe
     echo ""
     echo "Downloading Official Valheim Repo Log Data for comparison only"
     find "/home" "/root" -wholename "*/.steam/appcache/appinfo.vdf" | xargs -r rm -f --
@@ -1810,6 +1810,7 @@ function get_current_config() {
 		newinstall = "y"
 		valheim_server_install 
 	fi
+	set_steamexe
 }
 
 function print_current_config() {
@@ -2897,7 +2898,7 @@ function set_world_server() {
 
 function menu_header_vplus_enable() {
 get_current_config
-set_steamexe
+#set_steamexe
 echo -ne "
 $(ColorPurple '╔════════════════════')$(ColorOrange 'Valheim+')$(ColorPurple '═══════════════════╗')
 $(ColorPurple '║~~~~~~~~~~~~~~~~~~')$(ColorLightGreen '-Njord Menu-')$(ColorPurple '~~~~~~~~~~~~~~~~~║')
@@ -2940,7 +2941,7 @@ $(ColorPurple '╚════════════════════�
 						
 function menu_header_bepinex_enable() {
 get_current_config
-set_steamexe
+#set_steamexe
 echo -ne "
 $(ColorCyan '╔═════════════════════')$(ColorOrange 'BepInEx')$(ColorCyan '═══════════════════╗')
 $(ColorCyan '║~~~~~~~~~~~~~~~~~~')$(ColorLightGreen '-Njord Menu-')$(ColorCyan '~~~~~~~~~~~~~~~~~║')
@@ -2983,7 +2984,7 @@ $(ColorCyan '╚═════════════════════�
 
 function menu_header() {
 	get_current_config
-	set_steamexe	
+	#set_steamexe	
 	echo -ne "
 $(ColorOrange '╔══════════════════════════════════════════════════════════╗')
 $(ColorOrange '║~~~~~~~~~~*****~~~~~~~~-Njord Menu-~~~~~~~~~*****~~~~~~~~~║')
