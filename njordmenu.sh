@@ -1702,7 +1702,7 @@ EOF
 <service>
    <short>Valheim ${worldname} Server</short>
    <description>Valheim ${worldname} game server ports</description>
-   <port protocol="upd" port="${portnumber}-${portnumber+2}"/>
+   <port protocol="upd" port="${currentPort}-${currentPort+2}"/>
  </service>
 EOF
 				fi
