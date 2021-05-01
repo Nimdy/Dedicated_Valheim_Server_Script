@@ -54,12 +54,27 @@ fileworldlist=/home/steam/worlds.txt
 
 if [ -f "$fileworldlist" ]; then
 	readarray -t worldlistarray < $fileworldlist
-else 
-   	touch $fileworldlist
-	echo " 2456" >> $fileworldlist
-	readarray -t worldlistarray < $fileworldlist
-	echo "Vworldname=MainServer" >> /home/steam/Valheim${worldname}.env
-	echo "Vportnumber=2456" >> /home/steam/Valheim${worldname}.env
+else
+	# If the Worlds file does not exist.
+   	#touch $fileworldlist
+	#echo "MainServer" >> $fileworldlist
+	#readarray -t worldlistarray < $fileworldlist
+	
+	# will this work here or?
+	
+	newinstall = "y"
+	valheim_server_install 
+	
+	#echo "Vdisplayname=MainServer" >> /home/steam/Valheim${worldname}.env
+	#echo "Vworldname=MainServer" >> /home/steam/Valheim${worldname}.env
+	#echo "Vportnumber=####" >> /home/steam/Valheim${worldname}.env
+	#echo "VServerpwd=1nV4l1D" >> /home/steam/Valheim${worldname}.env
+	#echo "VPublicList=#" >> /home/steam/Valheim${worldname}.env
+	#echo "export Vdisplayname" >> /home/steam/Valheim${worldname}.env
+	#echo "export Vworldname" >> /home/steam/Valheim${worldname}.env
+	#echo "export Vportnumber" >> /home/steam/Valheim${worldname}.env
+	#echo "export VServerpwd" >> /home/steam/Valheim${worldname}.env
+	#echo "export VPublicList" >> /home/steam/Valheim${worldname}.env
 fi
 worldname=""
 portnumber=""
@@ -507,6 +522,13 @@ function build_configuration_env_files_set_permissions(){
 		echo "Vportnumber=${portnumber}" >> /home/steam/Valheim${worldname}.env
 		echo "VServerpwd=${password}" >> /home/steam/Valheim${worldname}.env
 		echo "VPublicList=${publicList}" >> /home/steam/Valheim${worldname}.env
+
+		#echo "export Vdisplayname" >> /home/steam/Valheim${worldname}.env
+		#echo "export Vworldname" >> /home/steam/Valheim${worldname}.env
+		#echo "export Vportnumber" >> /home/steam/Valheim${worldname}.env
+		#echo "export VServerpwd" >> /home/steam/Valheim${worldname}.env
+		#echo "export VPublicList" >> /home/steam/Valheim${worldname}.env
+		
 		sleep 1
 		chown steam:steam /home/steam/*.txt
 		chown steam:steam /home/steam/*.env
