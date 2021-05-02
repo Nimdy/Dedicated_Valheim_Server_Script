@@ -38,7 +38,10 @@
 #### Current Options: DE=German, EN=English, FR=French, SP=Spanish"
 ###############################################################################################
 ###############################################################################################
+# All linux systems should have this 
+# If not .. <> install os-release
 source /etc/os-release
+
 
 if [ "$1" == "" ] 
 then 
@@ -762,16 +765,16 @@ function linux_server_update() {
 	#        WTF is curl not installed by default... come on man!
     tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
-        sudo apt install lib32gcc1 libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl -y
+        sudo apt install lib32gcc1 libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl isof -y
     #elif command -v dnf >/dev/null; then
 	# Seams RH went to dnf as well in RHEL8
 	# Might use ID_LIKE="fedora" and VERSION_ID="7.9" instead? But this works.
 	#
     elif command -v yum >/dev/null; then
 		if [[ "$ID" == "fedora" ]] || [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:0:1}" == "8" ]] ; then
-			sudo dnf install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
+			sudo dnf install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl isof -y
 		elif [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:0:1}" == "7" ]] ; then	
-			sudo yum install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl -y
+			sudo yum install glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl isof -y
 			echo "yum'ed"
 	    else
 			echo "oops3"
@@ -1405,17 +1408,17 @@ function is_firewall_installed(){
     fwiipt6=n
     fwiebt=n
   
-        if command -v ufw >/dev/null; then fwiufw=y ; fi
-        if command -v firewalld >/dev/null; then fwifwd=y ; fi
+    if command -v ufw >/dev/null; then fwiufw=y ; fi
+    if command -v firewalld >/dev/null; then fwifwd=y ; fi
 	if command -v iptables >/dev/null; then fwiipt=y ; fi
 	if command -v ip6tables >/dev/null; then fwiipt6=y ; fi
 	if command -v ebtables >/dev/null; then fwiebt=y ; fi
 	
-	  if [[ ( "$fwiufw" == "y" ||  "$fwifwd" == "y" || "$fwiipt" == "y" || "$fwiipt6" == "y" || "$fwiebt" == "y" ) ]] ; then
-	      is_firewall_installed=y
-	  else
-	      is_firewall_installed=n
-          fi 	
+	if [[ ( "$fwiufw" == "y" ||  "$fwifwd" == "y" || "$fwiipt" == "y" || "$fwiipt6" == "y" || "$fwiebt" == "y" ) ]] ; then
+	    is_firewall_installed=y
+	else
+	    is_firewall_installed=n
+    fi 	
 
 	## Testing for now...
 	if [ "$debugmsg" == "y" ] ; then 
