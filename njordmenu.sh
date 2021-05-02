@@ -1405,24 +1405,43 @@ function is_firewall_installed(){
     fwiipt6=n
     fwiebt=n
   
-    if command -v ufw >/dev/null; then fwiufw=y ; fi
-    if command -v firewalld >/dev/null; then fwifwd=y ; fi
-	if command -v iptables >/dev/null; then fwiipt=y ; fi
-	if command -v ip6tables >/dev/null; then fwiipt6=y ; fi
-	if command -v ebtables >/dev/null; then fwiebt=y ; fi
+    if command -v ufw >/dev/null; then 
+		fwiufw=y
+		echo -ne "
+$(ColorOrange ''"Uncomplicated Firewall (ufw) is installed. "'')"		
+	fi
+	
+    if command -v firewalld >/dev/null; then 
+		fwifwd=y
+		echo -ne "
+$(ColorOrange ''"FireWALLD is installed. "'')"		
+	fi
+
+	if command -v iptables >/dev/null; then 
+		fwiipt=y  
+		echo -ne "
+$(ColorOrange ''"IPTables is installed. "'')"
+	fi
+
+	if command -v ip6tables >/dev/null; then 
+		fwiipt6=y 
+		echo -ne "
+$(ColorOrange ''"IP6Tables is installed. "'')"		
+	fi
+
+
+	if command -v ebtables >/dev/null; then 
+		fwiebt=y 
+		echo -ne "
+$(ColorOrange ''"EBTables is installed. "'')"		
+	fi
 	
 	if [[ ( "$fwiufw" == "y" ||  "$fwifwd" == "y" || "$fwiipt" == "y" || "$fwiipt6" == "y" || "$fwiebt" == "y" ) ]] ; then
 	    is_firewall_installed=y
 	else
 	    is_firewall_installed=n
     fi 	
-
-
-	if [ "$simpleyn" == "y" ] ; then 
-		echo -e '\E[32m'"The following firewall systems are found: UFW: ${fwiufw} -- Firewalld: ${fwifwd} -- Iptables: ${fwiipt} -- Ip6tables: ${fwiipt6} -- ebtables: ${fwiebt} "
-	else
-		echo -e '\E[32m'"$is_firewall_installed "
-	fi
+	#echo -e '\E[32m'"$is_firewall_installed "
 	
 }
 
@@ -1459,10 +1478,12 @@ function is_firewall_enabled(){
 	fi	
 
 	## Testing for now...
-	if [ "$debugmsg" == "y" ] ; then 
-		echo -e '\E[32m'"The following firewall systems enabled: -- UFW: ${fweufw} -- Firewalld: ${fwefwd} -- Iptables: ${fweipt} -- Ip6tables: ${fweipt6} -- Iptables: ${fweebt}"
+	if [ "$is_firewall_enabled" == "y" ] ; then 
+		echo -ne "
+$(ColorOrange ''"Firewall(s) Enabled: -- UFW: ${fweufw} -- Firewalld: ${fwefwd} -- Iptables: ${fweipt} -- Ip6tables: ${fweipt6} -- Iptables: ${fweebt}"'')"
 	else
-		echo -e '\E[32m'"$is_firewall_enabled "
+		echo -ne "
+$(ColorOrange ''"No Firewall systems are currently enabled."'')"
 	fi
 }
 
@@ -1473,7 +1494,7 @@ function get_firewall_status(){
 		if command -v ${fwbeingused} >/dev/null; then
 			sudo get_firewall_substate=$(systemctl is-active ${fwbeingused})
 		else
-			get_firewall_status="Firewall config not concomplete."
+			get_firewall_status="Firewall config not complete."
 		fi
 		
 		# if [ "${fwused}" == "a" ] ; then
@@ -1503,7 +1524,7 @@ function get_firewall_substate(){
 		if command -v ${fwbeingused} >/dev/null; then
 			sudo get_firewall_substate=$(systemctl show -p SubState ${fwbeingused})
 		else
-			get_firewall_status="Firewall config not concomplete."
+			get_firewall_status="Firewall config not complete."
 		fi
 
 		#if [ "${fwused}" == "a" ] ; then
@@ -3070,9 +3091,22 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 }
 
 function firewall_admin_menu() {
-	echo ""
-	echo -ne "
+
+	if [ "${usefw}" == "n" ] ; then
+		echo ""
+		echo "The firewall admin system is not enabled."
+		echo "Please open the menu.sh file and modify the header parameters to enable."
+		echo "Returning to main menu."
+		echo ""
+		sleep 2
+		menu ; menu ;;	
+	else
+		echo -ne "
 $(ColorOrange ''"Valheim Server Firewall Infomation and control Center"'')
+$(ColorOrange '------------------------------------------------------------')"
+is_firewall_installed
+is_firewall_enabled
+		echo -ne "
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange ''"FireWallD actions for this Valheim server"'')
 $(ColorOrange '------------------------------------------------------------')
@@ -3105,8 +3139,8 @@ $(ColorOrange '-')$(ColorGreen '0)') "$RETURN_MAIN_MENU."
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange ''"$DRAW60"'')
 $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
-    read a
-    case $a in
+		read a
+		case $a in
 	    1) get_firewall_status ; firewall_admin_menu ;;
 		2) get_firewall_substate ; firewall_admin_menu ;;
 		3) get_firewall_info ; firewall_admin_menu ;;
@@ -3118,12 +3152,13 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 		51) delete_firewalld_service_file ; firewall_admin_menu ;;
 		52) add_firewalld_public_service ; firewall_admin_menu ;;
 		53) remove_firewalld_public_service ; firewall_admin_menu ;;
-		97) is_firewall_installed ; firewall_admin_menu ;;
-		98) is_firewall_enabled ; firewall_admin_menu ;;
+		#97) is_firewall_installed ; firewall_admin_menu ;;
+		#98) is_firewall_enabled ; firewall_admin_menu ;;
 		99) disable_all_firewalls ; firewall_admin_menu ;;
         0) menu ; menu ;;
 		*)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; firewall_admin_menu ;;
-    esac
+		esac
+	fi
 }
 
 
