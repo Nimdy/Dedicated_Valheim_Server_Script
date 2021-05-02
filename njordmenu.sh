@@ -128,9 +128,9 @@ debugmsg="n"
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.050220211900ET.alpha"
+ldversion="0.4.050220211930ET.dev"
 ### -- Use are your own risk -- 
-### dev -- Adding new code. 
+### dev -- Adding and debugging my new code changes.
 ### alpha -- Dev team QA review and testing of the new code.
 ### beta -- Good for Public Testing.
 ### released -- Never -- When placed in advance(menu).sh
