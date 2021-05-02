@@ -118,21 +118,17 @@ usefw="n"
 ### <n : no>
 ### <y : yes>
 ### what firewall do you want to use? 
-### <n : none> 
-### <a : arptables>
-### <e : ebtables> 
-### <f : firewalld> 
-### <i : iptables> 
-### <u : ufw> 
-fwused="n"
+#Change the following value to one listed in the fwsystems list below or use 'none'.
 fwbeingused="firewalld"
+# Do not changed this only add to it.
+fwsystems=(arptables ebtables firewalld iptables ip6tables ufw)
 ###############################################################
 debugmsg="n"
 # if [ "$debugmsg" == "y" ] ; then echo "something" ; fi
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.050120212100ET.alpha"
+ldversion="0.4.050220211900ET.alpha"
 ### -- Use are your own risk -- 
 ### dev -- Adding new code. 
 ### alpha -- Dev team QA review and testing of the new code.
@@ -596,13 +592,13 @@ $(ColorRed ''"$DRAW60"'')"
 		####
 		#
 		if [ "${usefw}" == "y" ] ; then 
-			if [ "${fwused}" == "u" ] ; then
+			if [ "${fwbeingused}" == "ufw" ] ; then
 				if command -v ufw >/dev/null; then
 					# ufw allow udp from any to any port $minportnumber-$maxportnumber
 					# The above command needs to be validated.
 					echo ""
 				fi
-			elif [ "${fwused}" == "i" ] ; then
+			elif [ "${fwbeingused}" == "iptables" ] ; then
 				if command -v iptables >/dev/null; then
 					# sudo iptables –A INPUT –p upd ––dport ${portnumber},${portnumber}+1,${portnumber}+2) –j ACCEPT
 					#if [ "$ID" == "fedora" ] || [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] )  ; then
@@ -612,7 +608,7 @@ $(ColorRed ''"$DRAW60"'')"
 					#fi
 					echo ""	
 				fi
-			elif [ "${fwused}" == "f" ] ; then		
+			elif [ "${fwbeingused}" == "firewalld" ] ; then		
 				if command -v firewalld >/dev/null; then
 					if [ "$is_firewall_enabled" == "y" ] ; then
 						if [ "$get_firewall_status" == "y" ] ; then
@@ -952,19 +948,19 @@ function Install_steamcmd_client() {
 	#### Below is the line needed for steamcmd
 	#### These should also be added to as port forwards on your network router.
 	if [ "${usefw}" == "y" ] ; then 
-		if [ "${fwused}" == "u" ] ; then
+		if [ "${fwbeingused}" == "ufw" ] ; then
 			if command -v ufw >/dev/null; then
 				# ufw allow udp from any to any port $minportnumber-$maxportnumber
 				# The above command needs to be validated.
 				echo "WIP Need to add."
 				echo ""
 			fi
-		elif [ "${fwused}" == "i" ] ; then
+		elif [ "${fwbeingused}" == "iptables" ] ; then
 			#if command -v iptables >/dev/null; then ; fi
 			#if command -v ip6tables >/dev/null; then ; fi
 			#if command -v ebtables >/dev/null; then ; fi
 			echo "WIP Need to add."
-		elif [ "${fwused}" == "f" ] ; then		
+		elif [ "${fwbeingused}" == "firewalld" ] ; then		
 			if command -v firewalld >/dev/null; then
 				if [ "$is_firewall_enabled" == "y" ] ; then
 					if [ "$get_firewall_status" == "y" ] ; then
@@ -1421,8 +1417,8 @@ function is_firewall_installed(){
 	    is_firewall_installed=n
     fi 	
 
-	## Testing for now...
-	if [ "$debugmsg" == "y" ] ; then 
+
+	if [ "$simpleyn" == "y" ] ; then 
 		echo -e '\E[32m'"The following firewall systems are found: UFW: ${fwiufw} -- Firewalld: ${fwifwd} -- Iptables: ${fwiipt} -- Ip6tables: ${fwiipt6} -- ebtables: ${fwiebt} "
 	else
 		echo -e '\E[32m'"$is_firewall_installed "
@@ -1477,7 +1473,7 @@ function get_firewall_status(){
 		if command -v ${fwbeingused} >/dev/null; then
 			sudo get_firewall_substate=$(systemctl is-active ${fwbeingused})
 		else
-			get_firewall_status="Error"
+			get_firewall_status="Firewall config not concomplete."
 		fi
 		
 		# if [ "${fwused}" == "a" ] ; then
@@ -1495,7 +1491,7 @@ function get_firewall_status(){
 		# 	get_firewall_status="Error"
 		# fi	
 	else
-		get_firewall_status="notInUse"
+		get_firewall_status="Firewall Admin not enabled."
 	fi
 	echo -e '\E[32m'"$get_firewall_status "
 }
@@ -1507,7 +1503,7 @@ function get_firewall_substate(){
 		if command -v ${fwbeingused} >/dev/null; then
 			sudo get_firewall_substate=$(systemctl show -p SubState ${fwbeingused})
 		else
-			get_firewall_status="Error"
+			get_firewall_status="Firewall config not concomplete."
 		fi
 
 		#if [ "${fwused}" == "a" ] ; then
@@ -1526,7 +1522,7 @@ function get_firewall_substate(){
 		#fi
 		
 	else
-		get_firewall_substate="NotInUse"
+		get_firewall_substate="Firewall Admin not enabled."
 	fi
 	echo -e '\E[32m'"$get_firewall_substate "
 }
@@ -1548,34 +1544,36 @@ function get_firewall_moreinfo(){
 				firewall-cmd --get-zones 
 				firewall-cmd --get-services 
 				firewall-cmd --zone=public --permanent --list-all
-				get_firewall_status="Success"
+				get_firewall_moreinfo="Success"
 			fi
 		#elif [ "${fwused}" == "i" ] ; then
 		#	echo ""		
 		#elif [ "${fwused}" == "u" ] ; then
 		#	echo ""
 		else
-			get_firewall_status="Error"
+			get_firewall_moreinfo="Firewall config not concomplete."
 		fi
 	else
-		get_firewall_substate="NotInUse"
+		get_firewall_moreinfo="Firewall Admin not enabled."
 	fi
-	echo -e '\E[32m'"$get_firewall_substate "
+	echo -e '\E[32m'"$get_firewall_moreinfo "
 }
 
-
+function is_port_added_firewall(){
+	
+	is_port_added_firewall="Work in Progress"
+	
+	echo -e '\E[32m'"$is_port_added_firewall "
+	
+}
 
 function enable_prefered_firewall(){
-
-	if [ "$debugmsg" == "y" ] ; then 
-		echo -e '\E[32m'"START: Enabling and starting firewall."
-	fi
-
 	#Is this better and does it work?
 	if command -v ${fwbeingused} >/dev/null; then
 		sudo systemctl unmask ${fwbeingused} && systemctl enable ${fwbeingused} && systemctl start ${fwbeingused}	
+		enable_prefered_firewall="Completed"
 	else
-		echo "No firewalls to enable"
+		enable_prefered_firewall"Firewall Admin not enabled."
     fi
 
 
@@ -1605,31 +1603,20 @@ function enable_prefered_firewall(){
 	#else
 	#	echo "No firewalls to enable"
     #fi
-	
-	
-	if [ "$debugmsg" == "y" ] ; then 
-		echo -e '\E[32m'"END: Enabling and starting firewall."
-	fi
+		
+	echo -e '\E[32m'"$enable_prefered_firewall "	
 }
 
 function disable_all_firewalls(){
-
-	if [ "$debugmsg" == "y" ] ; then 
-		echo -e '\E[32m'"START: Stopping and disabling ALL firewall systems installed."
-	fi
-	
 	#Is this better and does it work?
-	fwsystems=(arptables ebtables firewalld iptables ip6tables ufw)
-    for fws in "${fwsystems[@]}"
+	for fws in "${fwsystems[@]}"
 	do
 		echo "$fws is a registered user"
-   	if command -v $fws >/dev/null; then
-		sudo systemctl stop $fws && systemctl disable $fws
-	 	## && systemctl mask $fws
-	fi	
-	
+		if command -v $fws >/dev/null; then
+			sudo systemctl stop $fws && systemctl disable $fws
+			## && systemctl mask $fws
+		fi
 	done 
-	
 	# if command -v arptables >/dev/null; then
 	# 	 sudo systemctl stop arptables && systemctl disable arptables 
 	# 	 ## && systemctl mask arptables
@@ -1654,11 +1641,8 @@ function disable_all_firewalls(){
     #      sudo systemctl stop ufw && systemctl disable ufw 
 	# 	 ## && systemctl mask ufw		  
 	# fi	
-	
-	if [ "$debugmsg" == "y" ] ; then 
-		echo -e '\E[32m'"END: Stopping and disabling ALL firewall systems installed."
-	fi
-
+	disable_all_firewalls="All known Firewall systems disabled."
+	echo -e '\E[32m'"$disable_all_firewalls "
 }
 
 
@@ -1667,7 +1651,7 @@ function disable_all_firewalls(){
 
 function add_Valheim_server_public_ports(){
 	if [ "${usefw}" == "y" ] ; then 
-		if [ "${fwused}" == "f" ] ; then
+		if [ "${fwbeingused}" == "fierwalld" ] ; then
 			if [ "$sftc" == "ste" ] ; then
 				sudo firewall-cmd --zone=public --permanent --add-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
 			elif [ "$sftc" == "val" ] ; then   
@@ -1687,7 +1671,7 @@ function add_Valheim_server_public_ports(){
 
 function remove_Valheim_server_public_ports(){
 	if [ "${usefw}" == "y" ] ; then 
-		if [ "${fwused}" == "f" ] ; then
+		if [ "${fwbeingused}" == "firewalld" ] ; then
 			if [ "$sftc" == "ste" ] ; then
 				sudo firewall-cmd --zone=public --permanent --remove-port={1200/udp,27000-27015/udp,27020/udp,27015-27016/tcp,27030-27039/tcp}
 			elif [ "$sftc" == "val" ] ; then 
@@ -1715,7 +1699,7 @@ function add_to_etc_services_file(){
 
 function create_firewalld_service_file(){
 	if [ "${usefw}" == "y" ] ; then 
-		if [ "${fwused}" == "f" ] ; then
+		if [ "${fwbeingused}" == "firewalld" ] ; then
 			if [ "$sftc" == "ste" ] ; then
 				checkfile=/usr/lib/firewalld/services/steam.xml
 				if [ -f "$checkfile" ] ; then
@@ -1760,7 +1744,7 @@ EOF
 
 function delete_firewalld_service_file(){
 	if [ "${usefw}" == "y" ] ; then 
-		if [ "${fwused}" == "f" ] ; then
+		if [ "${fwbeingused}" == "firewalld" ] ; then
 			if [ "$sftc" == "ste" ] ; then
 				checkfile=/usr/lib/firewalld/services/steam.xml
 				if [ -f "$checkfile" ] ; then
@@ -1786,7 +1770,7 @@ function delete_firewalld_service_file(){
 
 function add_firewalld_public_service(){
 	if [ "${usefw}" == "y" ] ; then 
-		if [ "${fwused}" == "f" ] ; then
+		if [ "${fwbeingused}" == "firewalld" ] ; then
 			if [ "$sftc" == "ste" ] ; then
 				sudo firewall-cmd --zone=public --permanent --add-service=steam
 			elif [ "$sftc" == "val" ] ; then   
@@ -1803,7 +1787,7 @@ function add_firewalld_public_service(){
 
 function remove_firewalld_public_service(){
 	if [ "${usefw}" == "y" ] ; then 
-		if [ "${fwused}" == "f" ] ; then
+		if [ "${fwbeingused}" == "f" ] ; then
 			if [ "$sftc" == "ste" ] ; then
 				sudo firewall-cmd --zone=public --permanent --remove-service=steam
 			elif [ "$sftc" == "val" ] ; then 
@@ -3044,11 +3028,11 @@ $(ColorOrange '║')" $(display_local_IP)
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
 	echo -ne "
-$(ColorOrange '║') Is there an enabled firewall? " $(is_firewall_enabled)
-	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(get_firewall_status)
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW_SUBSTATE -- substatus" $(get_firewall_substate) 
+	echo -ne "
+$(ColorOrange '║') Is the port added to the firewall? " $(is_port_added_firewall)
 	echo -ne " 
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 	echo -ne "
@@ -3099,7 +3083,7 @@ $(ColorOrange '-')$(ColorGreen '4)') Add the Steam ports to the firewall
 $(ColorOrange '-')$(ColorGreen '5)') Remove the Steam ports from the firewall
 $(ColorOrange '-')$(ColorGreen '6)') Add this Valheim service port to the firewall
 $(ColorOrange '-')$(ColorGreen '7)') Remove this Valheim service port from the firewall "
-		if [ "${fwused}" == "f" ] ; then
+		if [ "${fwbeingused}" == "firewalld" ] ; then
 		echo -ne "
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange ''"Specifc to FireWallD for this Valheim world."'')
