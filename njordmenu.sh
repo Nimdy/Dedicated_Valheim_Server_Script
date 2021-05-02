@@ -3164,6 +3164,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 
 
 # Sub Tech Support Menu System
+# Options 7 and 8 added. And needs more work.
 function tech_support(){
 	menu_header
 	echo ""
@@ -3175,6 +3176,8 @@ $(ColorOrange '-')$(ColorGreen ' 3)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_WOR
 $(ColorOrange '-')$(ColorGreen ' 4)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_SYSTEM_INFO
 $(ColorOrange '-')$(ColorGreen ' 5)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_NETWORK_INFO
 $(ColorOrange '-')$(ColorGreen ' 6)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_CONNECTED_PLAYER_HISTORY
+$(ColorOrange '-')$(ColorGreen ' 7)') Show World Seed
+$(ColorOrange '-')$(ColorGreen ' 8)') System preformance (TOP)
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') "$RETURN_MAIN_MENU"
 $(ColorOrange '------------------------------------------------------------')
@@ -3187,6 +3190,8 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 			4) display_system_info ; tech_support ;;
 			5) display_network_info ; tech_support ;;
 	        6) display_player_history ; tech_support ;;
+			7) get_worldseed ; tech_support ;;
+			8) top ; tech_support ;; 			
 			0) menu ; menu ;;
 		    *)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; tech_support ;;
         esac
