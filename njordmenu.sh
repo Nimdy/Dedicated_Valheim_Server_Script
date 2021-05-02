@@ -1588,30 +1588,42 @@ function disable_all_firewalls(){
 		echo -e '\E[32m'"START: Stopping and disabling ALL firewall systems installed."
 	fi
 	
-	if command -v arptables >/dev/null; then
-		 sudo systemctl stop arptables && systemctl disable arptables 
-		 ## && systemctl mask arptables
+	#Is this better does it work?
+	fwsystems=(arptables ebtables firewalld iptables ip6tables ufw)
+    for fws in "${fwsystems[@]}"
+	do
+		echo "$fws is a registered user"
+   	if command -v $fws >/dev/null; then
+		sudo systemctl stop $fws && systemctl disable $fws
+	 	## && systemctl mask $fws
 	fi	
-	if command -v ebtables >/dev/null; then
-		 sudo systemctl stop ebtables && systemctl disable ebtables 
-		 ## && systemctl mask ebtables
-	fi	
-    if command -v firewalld >/dev/null; then
-         sudo systemctl stop firewalld && sudo systemctl disable firewalld 
-		 ## && systemctl mask firewalld	  
-    fi
-	if command -v iptables >/dev/null; then
-         sudo systemctl stop iptables && systemctl disable iptables 
-		 ## && systemctl mask iptables
-	fi
-	if command -v ip6tables >/dev/null; then
-		 sudo systemctl stop ip6tables && systemctl disable ip6tables 
-		 ## && systemctl mask ip6tables
-	fi
-    if command -v ufw >/dev/null; then
-         sudo systemctl stop ufw && systemctl disable ufw 
-		 ## && systemctl mask ufw		  
-	fi	
+	
+	done 
+	
+	# if command -v arptables >/dev/null; then
+	# 	 sudo systemctl stop arptables && systemctl disable arptables 
+	# 	 ## && systemctl mask arptables
+	# fi	
+	# if command -v ebtables >/dev/null; then
+	# 	 sudo systemctl stop ebtables && systemctl disable ebtables 
+	# 	 ## && systemctl mask ebtables
+	# fi	
+    # if command -v firewalld >/dev/null; then
+    #      sudo systemctl stop firewalld && sudo systemctl disable firewalld 
+	# 	 ## && systemctl mask firewalld	  
+    # fi
+	# if command -v iptables >/dev/null; then
+    #      sudo systemctl stop iptables && systemctl disable iptables 
+	# 	 ## && systemctl mask iptables
+	# fi
+	# if command -v ip6tables >/dev/null; then
+	# 	 sudo systemctl stop ip6tables && systemctl disable ip6tables 
+	# 	 ## && systemctl mask ip6tables
+	# fi
+    # if command -v ufw >/dev/null; then
+    #      sudo systemctl stop ufw && systemctl disable ufw 
+	# 	 ## && systemctl mask ufw		  
+	# fi	
 	
 	if [ "$debugmsg" == "y" ] ; then 
 		echo -e '\E[32m'"END: Stopping and disabling ALL firewall systems installed."
