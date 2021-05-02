@@ -1385,7 +1385,8 @@ clear
 }
 
 function get_worldseed(){
-	worldseed=$(cat > ${worldpath}/${worldname}/${serverdisplayname}.fwl)
+	#worldseed=$(cat > ${worldpath}/${worldname}/${serverdisplayname}.fwl)
+	worldseed=$(hexdump -s 9 -n 10 -e'2 "%_p"' ${worldpath}/${worldname}/${serverdisplayname}.fwl)
 	echo -e '\E[32m'"$worldseed "
 }
 
