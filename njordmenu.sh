@@ -3099,7 +3099,7 @@ function firewall_admin_menu() {
 		echo "Returning to main menu."
 		echo ""
 		sleep 2
-		menu ; menu ;;	
+		menu
 	else
 		echo -ne "
 $(ColorOrange ''"Valheim Server Firewall Infomation and control Center"'')
