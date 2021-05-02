@@ -630,9 +630,9 @@ $(ColorRed ''"$DRAW60"'')"
 		#build config for start_valheim.sh
 		tput setaf 1; echo "$INSTALL_BUILD_DELETE_OLD_CONFIGS" ; tput setaf 9;  
 		tput setaf 1; echo "$INSTALL_BUILD_DELETE_OLD_CONFIGS_1" ; tput setaf 9;
-		[ -e ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh ] && rm ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
+		[ -e ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh ] && rm ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
 		sleep 1
-cat >> ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh <<EOF
+cat >> ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh <<EOF
 #!/bin/bash
 export templdpath=\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
@@ -650,7 +650,7 @@ EOF
 		[ -e /home/steam/check_log.sh ] && rm /home/steam/check_log.sh
 		#set execute permissions
 		tput setaf 1; echo "$INSTALL_BUILD_SET_PERM_ON_START_VALHEIM" ; tput setaf 9;
-		chmod +x ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
+		chmod +x ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 		sleep 1
 		#build systemctl configurations for execution of processes for Valheim Server
@@ -676,11 +676,11 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath}_${worldname} +app_update 896660 validate +exit
-ExecStart=${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
+ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath}/${worldname} +app_update 896660 validate +exit
+ExecStart=${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
-WorkingDirectory=${valheimInstallPath}_${worldname}
+WorkingDirectory=${valheimInstallPath}/${worldname}
 LimitNOFILE=100000
 [Install]
 WantedBy=multi-user.target
@@ -1077,7 +1077,7 @@ function restore_world_data() {
 $(ColorRed '------------------------------------------------------------')
 $(ColorGreen ' '"$RESTORE_WORLD_DATA_SHOW_FILE"' '${restorefile}' ?')
 $(ColorGreen ' '"$RESTORE_WORLD_DATA_ARE_YOU_SURE"' ')
-$(ColorOrange ' '"$RESTORE_WORLD_DATA_VALIDATE_DATA_WITH_CONFIG"' '${valheimInstallPath}_${worldname}'/start_valheim_${worldname}.sh')
+$(ColorOrange ' '"$RESTORE_WORLD_DATA_VALIDATE_DATA_WITH_CONFIG"' '${valheimInstallPath}/${worldname}'/start_valheim_${worldname}.sh')
 $(ColorOrange ' '"$RESTORE_WORLD_DATA_INFO"' ')
 $(ColorGreen ' '"$RESTORE_WORLD_DATA_CONFIRM_1"' ') "
 	#read user input confirmation
@@ -1118,7 +1118,7 @@ function nocheck_valheim_update_install() {
 
 	tput setaf 1; echo "$INSTALL_BUILD_DOWNLOAD_INSTALL_STEAM_VALHEIM" ; tput setaf 9;
 	sleep 1
-	$steamexe +login anonymous +force_install_dir ${valheimInstallPath}_${worldname} +app_update 896660 validate +exit
+	$steamexe +login anonymous +force_install_dir ${valheimInstallPath}/${worldname} +app_update 896660 validate +exit
 	tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 }
 
@@ -1143,8 +1143,8 @@ $(ColorRed ''"$DRAW60"'')"
 	#if y, then continue, else cancel
 	if [ "$confirmOfficialUpdates" == "y" ]; then
 		tput setaf 2; echo "$FUNCTION_INSTALL_VALHEIM_UPDATE_APPLY_INFO" ; tput setaf 9; 
-		$steamexe +login anonymous +force_install_dir ${valheimInstallPath}_${worldname} +app_update 896660 validate +exit
-		chown -R steam:steam ${valheimInstallPath}_${worldname}
+		$steamexe +login anonymous +force_install_dir ${valheimInstallPath}/${worldname} +app_update 896660 validate +exit
+		chown -R steam:steam ${valheimInstallPath}/${worldname}
 		echo ""
 	else
 		echo "$FUNCTION_INSTALL_VALHEIM_UPDATES_CANCEL"
@@ -1164,7 +1164,7 @@ function check_apply_server_updates_beta() {
     find "/home" "/root" -wholename "*/.steam/appcache/appinfo.vdf" | xargs -r rm -f --
     repoValheim=$($steamexe +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4)
     echo "Official Valheim-: $repoValheim"
-    localValheim=$(grep buildid ${valheimInstallPath}_${worldname}/steamapps/appmanifest_896660.acf | cut -d'"' -f4)
+    localValheim=$(grep buildid ${valheimInstallPath}/${worldname}/steamapps/appmanifest_896660.acf | cut -d'"' -f4)
     echo "Local Valheim Ver: $localValheim"
     if [ "$repoValheim" == "$localValheim" ]; then
 		echo "No new Updates found"
@@ -1312,7 +1312,7 @@ function display_valheim_server_status() {
 function display_start_valheim() {
     clear
     echo ""
-    sudo cat ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
+    sudo cat ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
     echo ""
 }
 
@@ -1321,7 +1321,7 @@ function display_start_valheim() {
 function display_start_valheim() {
     clear
     echo ""
-    sudo cat ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
+    sudo cat ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
     echo ""
 }
 
@@ -1838,11 +1838,11 @@ function remove_firewalld_public_service(){
 ##################CHANGE VALHEIM START CONFIG START#####################
 ########################################################################
 function get_current_config() {
-    currentDisplayName=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh)
-    currentPort=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh)
-    worldnameName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh)
-    currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh)
-    currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh)
+    currentDisplayName=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+    currentPort=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+    worldnameName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+    currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+    currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
 	if [ -f "$fileworldlist" ]; then
 		unset worldlistarray && readarray -t worldlistarray < $fileworldlist
 	else
@@ -1874,7 +1874,7 @@ function set_config_defaults() {
 function write_config_and_restart() {
     tput setaf 1; echo "$FUNCTION_WRITE_CONFIG_RESTART_INFO" ; tput setaf 9;
     sleep 1
-    cat > ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh <<EOF
+    cat > ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh <<EOF
 #!/bin/bash
 export templdpath=\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
@@ -1885,9 +1885,9 @@ export SteamAppId=892970
 ./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setworldnameName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
-   echo "$FUNCTION_WRITE_CONFIG_RESTART_SET_PERMS" ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
-   chown steam:steam ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
-   chmod +x ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
+   echo "$FUNCTION_WRITE_CONFIG_RESTART_SET_PERMS" ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
+   chown steam:steam ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
+   chmod +x ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
    echo "$ECHO_DONE"
    echo "$FUNCTION_WRITE_CONFIG_RESTART_SERVICE_INFO"
    sudo systemctl restart valheimserver_${worldname}.service
@@ -2106,15 +2106,15 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath}_${worldname} +app_update 896660 validate +exit
+ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath}/${worldname} +app_update 896660 validate +exit
 EOF
 if [ "$valheimVanilla" == "1" ]; then
    echo "$FUNCTION_VALHEIM_PLUS_BUILD_CONFIG_SET_VANILLA"
 cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF 
-ExecStart=${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
+ExecStart=${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
-WorkingDirectory=${valheimInstallPath}_${worldname}
+WorkingDirectory=${valheimInstallPath}/${worldname}
 LimitNOFILE=100000
 [Install]
 WantedBy=multi-user.target
@@ -2122,10 +2122,10 @@ EOF
 else 
    echo "$FUNCTION_VALHEIM_PLUS_BUILD_CONFIG_SET_PLUS"
 cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF   
-ExecStart=${valheimInstallPath}_${worldname}/start_server_bepinex.sh
+ExecStart=${valheimInstallPath}/${worldname}/start_server_bepinex.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
-WorkingDirectory=${valheimInstallPath}_${worldname}
+WorkingDirectory=${valheimInstallPath}/${worldname}
 LimitNOFILE=100000
 [Install]
 WantedBy=multi-user.target
@@ -2142,14 +2142,14 @@ function install_valheim_plus() {
     apt install unzip -y
     fi
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CHANGING_DIR" ; tput setaf 9; 
-    cd ${valheimInstallPath}_${worldname}
+    cd ${valheimInstallPath}/${worldname}
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CHECKING_OLD_INSTALL" ; tput setaf 9; 
     [ -e UnixServer.zip ] && rm UnixServer.zip
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_DOWNLOADING_VALHEIM_PLUS_FROM_REPO" ; tput setaf 9; 
     curl -s https://api.github.com/repos/valheimPlus/valheimPlus/releases/latest \
     | grep "browser_download_url.*UnixServer\.zip" \
     | cut -d ":" -f 2,3 | tr -d \" \
-    | wget -P ${valheimInstallPath}_${worldname} -qi - 
+    | wget -P ${valheimInstallPath}/${worldname} -qi - 
     echo ""
     sleep 1
     tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_INSTALL_CREATING_VER_STAMP" ; tput setaf 9; 
@@ -2205,7 +2205,7 @@ function valheim_plus_update() {
 check_valheim_plus_repo
 clear
     tput setaf 2;  echo "$FUNCTION_VALHEIM_PLUS_UPDATE_INFO" ; tput setaf 9; 
-    vpLocalCheck=$(cat ${valheimInstallPath}_${worldname}/localValheimPlusVersion)
+    vpLocalCheck=$(cat ${valheimInstallPath}/${worldname}/localValheimPlusVersion)
     echo $vpLocalCheck
     echo $latestValPlus
     if [[ $latestValPlus == $vpLocalCheck ]]; then
@@ -2222,7 +2222,7 @@ clear
 	    [ ! -d "$dldir" ] && mkdir -p "$dldir"
             sleep 1
 	    TODAYMK="$(date +%Y-%m-%d-%T)"
-	    cp ${valheimInstallPath}_${worldname}/BepInEx/config/valheim_plus.cfg ${backupPath}/valheim_plus-$TODAYMK.cfg
+	    cp ${valheimInstallPath}/${worldname}/BepInEx/config/valheim_plus.cfg ${backupPath}/valheim_plus-$TODAYMK.cfg
 	    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_UPDATE_DOWNLOADING_VPLUS" ; tput setaf 9; 
             install_valheim_plus
 	    sleep 2
@@ -2238,7 +2238,7 @@ clear
 
 function valheimplus_mod_options() {
 clear
-    nano ${valheimInstallPath}_${worldname}/BepInEx/config/valheim_plus.cfg
+    nano ${valheimInstallPath}/${worldname}/BepInEx/config/valheim_plus.cfg
     echo ""
     tput setaf 2; echo "$DRAW80" ; tput setaf 9;
     tput setaf 2;  echo "$FUNCTION_VALHEIM_PLUS_EDIT_VPLUS_CONFIG_SAVE_RESTART" ; tput setaf 9; 
@@ -2261,7 +2261,7 @@ fi
 
 function bepinex_mod_options() {
 clear
-    nano ${valheimInstallPath}_${worldname}/BepInEx/config/BepInEx.cfg
+    nano ${valheimInstallPath}/${worldname}/BepInEx/config/BepInEx.cfg
     echo ""
     tput setaf 2; echo "$DRAW80" ; tput setaf 9;
     echo "$FUNCTION_VALHEIM_PLUS_EDIT_BEPINEX_CONFIG_RESTART"
@@ -2284,7 +2284,7 @@ fi
 
 function build_start_server_bepinex_configuration_file() {
 
-cat > ${valheimInstallPath}_${worldname}/start_server_bepinex.sh <<'EOF'
+cat > ${valheimInstallPath}/${worldname}/start_server_bepinex.sh <<'EOF'
 #!/bin/sh
 # BepInEx running script
 #
@@ -2477,7 +2477,7 @@ echo $latestValPlus
 
 # Check Local ValheimPlus Build for menu display
 function check_local_valheim_plus_build() {
-localValheimPlusVer=${valheimInstallPath}_${worldname}/localValheimPlusVersion
+localValheimPlusVer=${valheimInstallPath}/${worldname}/localValheimPlusVersion
    if [[ -e $localValheimPlusVer ]] ; then
     localValheimPlusBuild=$(cat ${localValheimPlusVer})
         echo $localValheimPlusBuild
@@ -2521,10 +2521,10 @@ EOF
 if [ "$valheimVanilla" == "1" ]; then
    echo "$FUNCTION_BEPINEX_BUILD_CONFIG_SET_VANILLA"
 cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF 
-ExecStart=${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh
+ExecStart=${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
-WorkingDirectory=${valheimInstallPath}_${worldname}
+WorkingDirectory=${valheimInstallPath}/${worldname}
 LimitNOFILE=100000
 [Install]
 WantedBy=multi-user.target
@@ -2532,10 +2532,10 @@ EOF
 else 
    echo "$FUNCTION_BEPINEX_BUILD_CONFIG_SET"
 cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF   
-ExecStart=${valheimInstallPath}_${worldname}/start_valw_bepinex.sh
+ExecStart=${valheimInstallPath}/${worldname}/start_valw_bepinex.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
-WorkingDirectory=${valheimInstallPath}_${worldname}
+WorkingDirectory=${valheimInstallPath}/${worldname}
 LimitNOFILE=100000
 [Install]
 WantedBy=multi-user.target
@@ -2561,15 +2561,15 @@ clear
     wget https://valheim.thunderstore.io/package/download/denikson/BepInExPack_Valheim/${officialBepInEx}/
     mv index.html bepinex.zip
     unzip -o bepinex.zip
-    cp -a BepInExPack_Valheim/. ${valheimInstallPath}_${worldname}
+    cp -a BepInExPack_Valheim/. ${valheimInstallPath}/${worldname}
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CREATING_VER_STAMP" ; tput setaf 9; 
-    cat manifest.json | grep version | cut -d'"' -f4 > ${valheimInstallPath}_${worldname}/localValheimBepinexVersion
+    cat manifest.json | grep version | cut -d'"' -f4 > ${valheimInstallPath}/${worldname}/localValheimBepinexVersion
     rm -rf $PWD
     echo ""
     sleep 1
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_UNPACKING_FILES" ; tput setaf 9; 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_REMOVING_OLD_BEPINEX_CONFIG" ; tput setaf 9;
-    cd ${valheimInstallPath}_${worldname}
+    cd ${valheimInstallPath}/${worldname}
     [ ! -e start_valw_bepinex.sh ] && rm start_valw_bepinex.sh
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_BUILDING_NEW_BEPINEX_CONFIG" ; tput setaf 9; 
     build_valw_bepinex_configuration_file
@@ -2616,7 +2616,7 @@ function valheim_bepinex_update() {
 clear
     tput setaf 2;  echo "$FUNCTION_BEPINEX_UPDATE_INFO" ; tput setaf 9; 
     officialBepInEx=$(curl -sL https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2) 
-    localBepInEx=$(cat ${valheimInstallPath}_${worldname}/localValheimBepinexVersion)    
+    localBepInEx=$(cat ${valheimInstallPath}/${worldname}/localValheimBepinexVersion)    
     echo $officialBepInEx
     echo $localBepInEx
     if [[ $officialBepInEx == $localBepInEx ]]; then
@@ -2631,7 +2631,7 @@ clear
 	    [ ! -d "$dldir" ] && mkdir -p "$dldir"
             sleep 1
 	    TODAYMK="$(date +%Y-%m-%d-%T)"
-	    cp ${valheimInstallPath}_${worldname}/BepInEx/config/BepInEx.cfg ${backupPath}/BepInEx.cfg-$TODAYMK.cfg
+	    cp ${valheimInstallPath}/${worldname}/BepInEx/config/BepInEx.cfg ${backupPath}/BepInEx.cfg-$TODAYMK.cfg
 	    tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_DOWNLOADING_BEPINEX" ; tput setaf 9; 
             install_valheim_bepinex
 	    sleep 2
@@ -2646,7 +2646,7 @@ clear
 
 function bepinex_mod_options() {
 clear
-    nano ${valheimInstallPath}_${worldname}/BepInEx/config/BepInEx.cfg
+    nano ${valheimInstallPath}/${worldname}/BepInEx/config/BepInEx.cfg
     echo ""
     tput setaf 2; echo "$DRAW80" ; tput setaf 9;
     tput setaf 2;  echo "$FUNCTION_BEPINEX_EDIT_CONFIG_SAVE_RESTART" ; tput setaf 9; 
@@ -2669,7 +2669,7 @@ fi
 
 
 function build_valw_bepinex_configuration_file() {
-  cat > ${valheimInstallPath}_${worldname}/start_valw_bepinex.sh <<'EOF'
+  cat > ${valheimInstallPath}/${worldname}/start_valw_bepinex.sh <<'EOF'
 #!/bin/sh
 # BepInEx running script
 #
@@ -2733,7 +2733,7 @@ echo $latestBepinex
 
 # Check Local Bepinex Build for menu display
 function check_local_bepinex_build() {
-localValheimBepinexVer=${valheimInstallPath}_${worldname}/localValheimBepinexVersion
+localValheimBepinexVer=${valheimInstallPath}/${worldname}/localValheimBepinexVersion
    if [[ -e $localValheimBepinexVer ]] ; then
     localValheimBepinexBuild=$(cat ${localValheimBepinexVer})
         echo $localValheimBepinexBuild
@@ -2795,19 +2795,19 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'')"
 # Check Current Valheim REPO Build for menu display
 function check_official_valheim_release_build() {
 
-if [[ $(find "${valheimInstallPath}_${worldname}/officialvalheimbuild" -mmin +59 -print) ]]; then
+if [[ $(find "${valheimInstallPath}/${worldname}/officialvalheimbuild" -mmin +59 -print) ]]; then
       find "/home" "/root" -wholename "*/.steam/appcache/appinfo.vdf" | xargs -r rm -f --
       currentOfficialRepo=$($steamexe +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4)
-      echo $currentOfficialRepo > ${valheimInstallPath}_${worldname}/officialvalheimbuild
-      chown steam:steam ${valheimInstallPath}_${worldname}/officialvalheimbuild
+      echo $currentOfficialRepo > ${valheimInstallPath}/${worldname}/officialvalheimbuild
+      chown steam:steam ${valheimInstallPath}/${worldname}/officialvalheimbuild
       echo $currentOfficialRepo
-elif [ ! -f ${valheimInstallPath}_${worldname}/officialvalheimbuild ]; then
+elif [ ! -f ${valheimInstallPath}/${worldname}/officialvalheimbuild ]; then
       currentOfficialRepo=$($steamexe +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4)
-      echo $currentOfficialRepo > ${valheimInstallPath}_${worldname}/officialvalheimbuild
-      chown steam:steam ${valheimInstallPath}_${worldname}/officialvalheimbuild
+      echo $currentOfficialRepo > ${valheimInstallPath}/${worldname}/officialvalheimbuild
+      chown steam:steam ${valheimInstallPath}/${worldname}/officialvalheimbuild
       echo $currentOfficialRepo
-elif [ -f ${valheimInstallPath}_${worldname}/officialvalheimbuild ]; then
-      currentOfficialRepo=$(cat ${valheimInstallPath}_${worldname}/officialvalheimbuild)
+elif [ -f ${valheimInstallPath}/${worldname}/officialvalheimbuild ]; then
+      currentOfficialRepo=$(cat ${valheimInstallPath}/${worldname}/officialvalheimbuild)
       echo $currentOfficialRepo
 else
       echo "$NO_DATA";
@@ -2816,7 +2816,7 @@ else
 
 # Check Local Valheim Build for menu display
 function check_local_valheim_build() {
-localValheimAppmanifest=${valheimInstallPath}_${worldname}/steamapps/appmanifest_896660.acf
+localValheimAppmanifest=${valheimInstallPath}/${worldname}/steamapps/appmanifest_896660.acf
    if [[ -e $localValheimAppmanifest ]] ; then
     localValheimBuild=$(grep buildid ${localValheimAppmanifest} | cut -d'"' -f4)
         echo $localValheimBuild
@@ -2831,7 +2831,7 @@ echo $latestScript
 }
 
 function display_public_status_on_or_off() {
-currentPortCheck=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}_${worldname}/start_valheim_${worldname}.sh)
+currentPortCheck=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
     if [[ $currentPortCheck == 1 ]]; then 
       echo "$ECHO_ON"
     else
@@ -2864,8 +2864,8 @@ ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"$INTERNET_MSG $tecreset $I
 
 function are_mods_enabled() {
 	modstrue=$( cat /lib/systemd/system/valheimserver_${worldname}.service | grep bepinex)
-	var2="ExecStart=${valheimInstallPath}_${worldname}/start_server_bepinex.sh"
-	var3="ExecStart=${valheimInstallPath}_${worldname}/start_valw_bepinex.sh"
+	var2="ExecStart=${valheimInstallPath}/${worldname}/start_server_bepinex.sh"
+	var3="ExecStart=${valheimInstallPath}/${worldname}/start_valw_bepinex.sh"
 	if [[ $modstrue == $var2 ]]; then
 			echo "Enabled with ValheimPlus"
 	elif
