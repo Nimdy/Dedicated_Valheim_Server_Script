@@ -1469,20 +1469,27 @@ function is_firewall_enabled(){
 function get_firewall_status(){
 	if [ "usefw" == "y" ] ;  then
 		get_firewall_status="NA"
-		if [ "${fwused}" == "a" ] ; then
-			if command -v arptables >/dev/null; then get_firewall_status=$(systemctl is-active arptables) ; fi			
-		elif [ "${fwused}" == "e" ] ; then
-			if command -v ebtables >/dev/null; then get_firewall_status=$(systemctl is-active ebtables) ; fi			
-		elif [ "${fwused}" == "f" ] ; then
-			if command -v firewalld >/dev/null; then get_firewall_status=$(systemctl is-active firewalld) ; fi
-		elif [ "${fwused}" == "i" ] ; then
-			if command -v iptables >/dev/null; then get_firewall_status=$(systemctl is-active iptables) ; fi
-			#if command -v ip6tables >/dev/null; then get_firewall_status=$(systemctl is-active ip6tables) ; fi
-		elif [ "${fwused}" == "u" ] ; then
-			if command -v ufw >/dev/null; then get_firewall_status=$(systemctl is-active ufw) ; fi
+		#Is this better and does it work?
+		if command -v ${fwbeingused} >/dev/null; then
+			sudo get_firewall_substate=$(systemctl is-active ${fwbeingused})
 		else
 			get_firewall_status="Error"
-		fi	
+		fi
+		
+		# if [ "${fwused}" == "a" ] ; then
+		# 	if command -v arptables >/dev/null; then get_firewall_status=$(systemctl is-active arptables) ; fi			
+		# elif [ "${fwused}" == "e" ] ; then
+		# 	if command -v ebtables >/dev/null; then get_firewall_status=$(systemctl is-active ebtables) ; fi			
+		# elif [ "${fwused}" == "f" ] ; then
+		# 	if command -v firewalld >/dev/null; then get_firewall_status=$(systemctl is-active firewalld) ; fi
+		# elif [ "${fwused}" == "i" ] ; then
+		# 	if command -v iptables >/dev/null; then get_firewall_status=$(systemctl is-active iptables) ; fi
+		# 	#if command -v ip6tables >/dev/null; then get_firewall_status=$(systemctl is-active ip6tables) ; fi
+		# elif [ "${fwused}" == "u" ] ; then
+		# 	if command -v ufw >/dev/null; then get_firewall_status=$(systemctl is-active ufw) ; fi
+		# else
+		# 	get_firewall_status="Error"
+		# fi	
 	else
 		get_firewall_status="notInUse"
 	fi
@@ -1492,20 +1499,28 @@ function get_firewall_status(){
 function get_firewall_substate(){
 	if [ "usefw" == "y" ] ;  then
 		get_firewall_substate="NA"
-		if [ "${fwused}" == "a" ] ; then
-			if command -v arptables >/dev/null; then get_firewall_substate=$(systemctl show -p SubState arptables) ; fi
-		elif [ "${fwused}" == "e" ] ; then
-			if command -v ebtables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState ebtables) ; fi
-		elif [ "${fwused}" == "f" ] ; then
-			if command -v firewalld >/dev/null; then get_firewall_substate=$(systemctl show -p SubState firewalld) ; fi
-		elif [ "${fwused}" == "i" ] ; then
-			if command -v iptables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState iptables) ; fi		
-			# if command -v ip6tables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState ip6tables) ; fi
-		elif [ "${fwused}" == "u" ] ; then
-			if command -v ufw >/dev/null; then get_firewall_substate=$(systemctl show -p SubState ufw) ; fi
+		#Is this better and does it work?
+		if command -v ${fwbeingused} >/dev/null; then
+			sudo get_firewall_substate=$(systemctl show -p SubState ${fwbeingused})
 		else
 			get_firewall_status="Error"
 		fi
+
+		#if [ "${fwused}" == "a" ] ; then
+		#	if command -v arptables >/dev/null; then get_firewall_substate=$(systemctl show -p SubState arptables) ; fi
+		#elif [ "${fwused}" == "e" ] ; then
+		#	if command -v ebtables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState ebtables) ; fi
+		#elif [ "${fwused}" == "f" ] ; then
+		#	if command -v firewalld >/dev/null; then get_firewall_substate=$(systemctl show -p SubState firewalld) ; fi
+		#elif [ "${fwused}" == "i" ] ; then
+		#	if command -v iptables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState iptables) ; fi		
+		#	# if command -v ip6tables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState ip6tables) ; fi
+		#elif [ "${fwused}" == "u" ] ; then
+		#	if command -v ufw >/dev/null; then get_firewall_substate=$(systemctl show -p SubState ufw) ; fi
+		#else
+		#	get_firewall_status="Error"
+		#fi
+		
 	else
 		get_firewall_substate="NotInUse"
 	fi
@@ -1514,7 +1529,7 @@ function get_firewall_substate(){
 
 function get_firewall_moreinfo(){
 	if [ "usefw" == "y" ] ;  then
-		get_firewall_moreinfo=""
+		get_firewall_moreinfo="NA"
 		
 		#if [ "${fwused}" == "a" ] ; then
 		#	echo ""
