@@ -121,14 +121,15 @@ usefw="n"
 ### <f : firewalld> 
 ### <i : iptables> 
 ### <u : ufw> 
-fwused="n" 
+fwused="n"
+fwbeingused="firewalld"
 ###############################################################
 debugmsg="n"
 # if [ "$debugmsg" == "y" ] ; then echo "something" ; fi
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.050120210850.alpha"
+ldversion="0.4.050120212100ET.alpha"
 ### -- Use are your own risk -- 
 ### dev -- Adding new code. 
 ### alpha -- Dev team QA review and testing of the new code.
@@ -1480,7 +1481,7 @@ function get_firewall_status(){
 		elif [ "${fwused}" == "u" ] ; then
 			if command -v ufw >/dev/null; then get_firewall_status=$(systemctl is-active ufw) ; fi
 		else
-			get_firewall_status="noActiveSerivceFound"
+			get_firewall_status="Error"
 		fi	
 	else
 		get_firewall_status="notInUse"
@@ -1503,23 +1504,24 @@ function get_firewall_substate(){
 		elif [ "${fwused}" == "u" ] ; then
 			if command -v ufw >/dev/null; then get_firewall_substate=$(systemctl show -p SubState ufw) ; fi
 		else
-			get_firewall_status="noActiceSubStatusServiceFound"
+			get_firewall_status="Error"
 		fi
 	else
-		get_firewall_substate="notInUse"
+		get_firewall_substate="NotInUse"
 	fi
 	echo -e '\E[32m'"$get_firewall_substate "
 }
 
 function get_firewall_moreinfo(){
 	if [ "usefw" == "y" ] ;  then
-		get_firewall_substate="NA"
+		get_firewall_moreinfo=""
 		
-		if [ "${fwused}" == "a" ] ; then
-			echo ""
-		elif [ "${fwused}" == "e" ] ; then
-			echo ""
-		elif [ "${fwused}" == "f" ] ; then
+		#if [ "${fwused}" == "a" ] ; then
+		#	echo ""
+		#elif [ "${fwused}" == "e" ] ; then
+		#	echo ""
+		#elif [ "${fwused}" == "f" ] ; then
+		if [ "${fwbeingused}" == "firewalld" ] ; then
 			if command -v firewalld >/dev/null; then 
 				firewall-cmd --state
 				firewall-cmd --get-default-zone
@@ -1527,14 +1529,14 @@ function get_firewall_moreinfo(){
 				firewall-cmd --get-zones 
 				firewall-cmd --get-services 
 				firewall-cmd --zone=public --permanent --list-all
-				get_firewall_status="Done"
+				get_firewall_status="Success"
 			fi
-		elif [ "${fwused}" == "i" ] ; then
-			echo ""		
-		elif [ "${fwused}" == "u" ] ; then
-			echo ""
+		#elif [ "${fwused}" == "i" ] ; then
+		#	echo ""		
+		#elif [ "${fwused}" == "u" ] ; then
+		#	echo ""
 		else
-			get_firewall_status="NoFWF"
+			get_firewall_status="Error"
 		fi
 	else
 		get_firewall_substate="NotInUse"
@@ -1550,32 +1552,41 @@ function enable_prefered_firewall(){
 		echo -e '\E[32m'"START: Enabling and starting firewall."
 	fi
 
-	if [ "${fwused}" == "a" ] ; then		
-		if command -v arptables >/dev/null; then
-			sudo systemctl unmask arptables && systemctl enable arptables && systemctl start arptables		  
-		fi
-	elif [ "${fwused}" == "e" ] ; then		
-		if command -v ebtables >/dev/null; then
-			sudo systemctl unmask ebtables && systemctl enable ebtables && systemctl start ebtables		  
-		fi
-    elif [ "${fwinuse}" == "f" ] ; then
-		if command -v firewalld >/dev/null; then
-			sudo systemctl unmask firewalld && systemctl enable firewalld && systemctl start firewalld		  
-		fi	
-    elif [ "${fwinuse}" == "i" ] ; then
-		if command -v iptables >/dev/null; then
-			sudo systemctl unmask iptables && systemctl enable iptables && systemctl start iptables		  
-		fi
-		#if command -v ip6tables >/dev/null; then
-		#	sudo systemctl unmask ip6tables && systemctl enable ip6tables && systemctl start ip6tables		
-		#fi
-    elif [ "${fwinuse}" == "u" ] ; then
-		if command -v ufw >/dev/null; then
-			sudo systemctl unmask ufw && systemctl enable ufw && systemctl start ufw
-		fi	
+	#Is this better and does it work?
+	if command -v ${fwbeingused} >/dev/null; then
+		sudo systemctl unmask ${fwbeingused} && systemctl enable ${fwbeingused} && systemctl start ${fwbeingused}	
 	else
 		echo "No firewalls to enable"
     fi
+
+
+	#if [ "${fwused}" == "a" ] ; then		
+	#	if command -v arptables >/dev/null; then
+	#		sudo systemctl unmask arptables && systemctl enable arptables && systemctl start arptables		  
+	#	fi
+	#elif [ "${fwused}" == "e" ] ; then		
+	#	if command -v ebtables >/dev/null; then
+	#		sudo systemctl unmask ebtables && systemctl enable ebtables && systemctl start ebtables		  
+	#	fi
+    #elif [ "${fwinuse}" == "f" ] ; then
+	#	if command -v firewalld >/dev/null; then
+	#		sudo systemctl unmask firewalld && systemctl enable firewalld && systemctl start firewalld		  
+	#	fi	
+    #elif [ "${fwinuse}" == "i" ] ; then
+	#	if command -v iptables >/dev/null; then
+	#		sudo systemctl unmask iptables && systemctl enable iptables && systemctl start iptables		  
+	#	fi
+	#	#if command -v ip6tables >/dev/null; then
+	#	#	sudo systemctl unmask ip6tables && systemctl enable ip6tables && systemctl start ip6tables		
+	#	#fi
+    #elif [ "${fwinuse}" == "u" ] ; then
+	#	if command -v ufw >/dev/null; then
+	#		sudo systemctl unmask ufw && systemctl enable ufw && systemctl start ufw
+	#	fi	
+	#else
+	#	echo "No firewalls to enable"
+    #fi
+	
 	
 	if [ "$debugmsg" == "y" ] ; then 
 		echo -e '\E[32m'"END: Enabling and starting firewall."
@@ -1588,7 +1599,7 @@ function disable_all_firewalls(){
 		echo -e '\E[32m'"START: Stopping and disabling ALL firewall systems installed."
 	fi
 	
-	#Is this better does it work?
+	#Is this better and does it work?
 	fwsystems=(arptables ebtables firewalld iptables ip6tables ufw)
     for fws in "${fwsystems[@]}"
 	do
