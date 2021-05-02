@@ -2906,7 +2906,7 @@ function set_world_server() {
 			echo "World name is ${world}"
 			if [ -n "$REPLY" ] ; then
 				worldname=${world}
-				source /home/steam/Valheim${worldname}.env
+				#source /home/steam/Valheim${worldname}.env
 				echo "World menu selection: ${world}"
 				break;
 			else
