@@ -98,7 +98,7 @@ clear
 ### Valheim Server Install location(Default) 
 valheimInstallPath=/home/steam/valheimserver
 ### Valheim World Data Path(Default)
-worldpath=/home/steam/.config/unity3d/IronGate/Valheim/
+worldpath=/home/steam/.config/unity3d/IronGate/Valheim
 worldfilelist=/home/steam/worlds.txt
 ### Backup Directory ( Default )
 backupPath=/home/steam/backups
