@@ -239,28 +239,6 @@ echo "1"
 function valheim_server_steam_account_creation() {
 	# create steam account
 	# later add top variable for steam user because maybe somebody already has a steam account for something else?
-			  
-									  
-						  
-		
-														 
-														   
-		   
-						  
-		
-											  
-								  
- 
-											  
-		 
-				  
-								   
-					  
-	
-  
-											
-		 
-	   
 	echo "$START_INSTALL_1_PARA"
 	while true; 
 			  
@@ -317,78 +295,12 @@ function valheim_server_public_server_display_name() {
 		echo ""
 			read -p "$PUBLIC_SERVER_ENTER_NAME" displayname
 		tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
-		echo ""
-	   
-  
-																								 
-		  
-				
-	  
-												 
-																										 
-												 
-																							  
-																		  
-												 
-																						   
-																						  
-												 
-			
-												   
-																																													 
+		echo ""																																								 
 }
-																						
-																						   
-		
-		
-		  
-   
-								   
-									  
-				  
-															  
-	   
-											  
-																								
-		   
-												
-																																									  
-												
-																																									 
-																																									 
-												
-																																									 
-																																									 
-																																									 
-																			 
-													 
-														
-														
-	
-												
-		   
-				  
-																																														
-																									  
-																																					
-																																																										   
-		  
-																																												  
-		   
-		   
-	
 
 function valheim_server_local_world_name() {
 	# Set world name function that will be used for .db and .fwl files
 		echo ""
-											  
-																 
-											  
-														  
-											  
-																					
-																				 
-											  
 		while true; 
 		do
 																								
