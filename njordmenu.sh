@@ -51,34 +51,6 @@ else
 fi 
 source lang/$LANGUAGE.conf
 
-###############################
-# moved to get_current_config
-##################################
-# if [ -f "$worldfilelist" ]; then
-# 	readarray -t worldlistarray < $worldfilelist
-# else
-# 
-# 	newinstall = "y"
-# 	valheim_server_install
-# 	
-# 	# If the Worlds file does not exist.
-#    	#touch $worldfilelist
-# 	#echo "MainServer" >> $worldfilelist
-# 	#readarray -t worldlistarray < $worldfilelist
-# 	#echo "Vdisplayname=MainServer" >> /home/steam/Valheim${worldname}.env
-# 	#echo "Vworldname=MainServer" >> /home/steam/Valheim${worldname}.env
-# 	#echo "Vportnumber=####" >> /home/steam/Valheim${worldname}.env
-# 	#echo "VServerpwd=1nV4l1D" >> /home/steam/Valheim${worldname}.env
-# 	#echo "VPublicList=#" >> /home/steam/Valheim${worldname}.env
-# 	#echo "export Vdisplayname" >> /home/steam/Valheim${worldname}.env
-# 	#echo "export Vworldname" >> /home/steam/Valheim${worldname}.env
-# 	#echo "export Vportnumber" >> /home/steam/Valheim${worldname}.env
-# 	#echo "export VServerpwd" >> /home/steam/Valheim${worldname}.env
-# 	#echo "export VPublicList" >> /home/steam/Valheim${worldname}.env
-# fi
-##########################
-#worldname=""
-#portnumber=""
 #############################################################
 ########################  Santiy Check  #####################
 #############################################################
@@ -259,8 +231,7 @@ function valheim_server_steam_account_creation() {
 			tput setaf 2; echo "$STEAM_PASS_NOT_ACCEPTED" ; tput setaf 9;
 			tput setaf 2; echo "$STEAM_PASS_NOT_ACCEPTED_1" ; tput setaf 9;
 		done
-	
-	   
+		
 		echo ""
 	# Set the env bash profile information for steam user
 		tput setaf 1; echo "$INSTALL_BUILD_NON_ROOT_STEAM_ACCOUNT" ; tput setaf 9;
@@ -269,7 +240,7 @@ function valheim_server_steam_account_creation() {
 				useradd --create-home --shell /bin/bash --password $userpassword steam
 				cp /etc/skel/.bashrc /home/steam/.bashrc
 				cp /etc/skel/.profile /home/steam/.profile
-            elif command -v yum >/dev/null; then
+                                elif command -v yum >/dev/null; then
 				useradd -mU -s /bin/bash -p $userpassword steam
 				# All file from /etc/skel/ are auto copied on RH.
 			else
@@ -303,8 +274,6 @@ function valheim_server_local_world_name() {
 		echo ""
 		while true; 
 		do
-																								
-																								   
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 			tput setaf 2; echo "$WORLD_SET_WORLD_NAME_HEADER" ; tput setaf 9;
 																								   
@@ -425,22 +394,7 @@ function build_configuration_env_files_set_permissions(){
 		sleep 1
 		echo $worldname  >> /home/steam/worlds.txt
 		sleep 1
-		#echo "Vdisplayname=${displayname}" >> /home/steam/Valheim${worldname}.env
-		#echo "Vworldname=${worldname}" >> /home/steam/Valheim${worldname}.env
-		#echo "Vportnumber=${portnumber}" >> /home/steam/Valheim${worldname}.env
-		#echo "VServerpwd=${password}" >> /home/steam/Valheim${worldname}.env
-		#echo "VPublicList=${publicList}" >> /home/steam/Valheim${worldname}.env
-
-		#echo "export Vdisplayname" >> /home/steam/Valheim${worldname}.env
-		#echo "export Vworldname" >> /home/steam/Valheim${worldname}.env
-		#echo "export Vportnumber" >> /home/steam/Valheim${worldname}.env
-		#echo "export VServerpwd" >> /home/steam/Valheim${worldname}.env
-		#echo "export VPublicList" >> /home/steam/Valheim${worldname}.env
-		
-		sleep 1
 		chown steam:steam /home/steam/*.txt
-		#chown steam:steam /home/steam/*.env
-		#chmod +x /home/steam/*.env
 		clear
 }
 function valheim_server_install() {
