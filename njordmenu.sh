@@ -125,7 +125,7 @@ debugmsg="n"
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.050220211930ET.dev"
+ldversion="0.4.050220212000ET.alpha"
 ### -- Use are your own risk -- 
 ### dev -- Adding and debugging my new code changes.
 ### alpha -- Dev team QA review and testing of the new code.
@@ -1574,11 +1574,27 @@ function get_firewall_moreinfo(){
 }
 
 function is_port_added_firewall(){
-	
-	is_port_added_firewall="Work in Progress"
-	
+
+	if command -v ${fwbeingused} >/dev/null; then
+		if [ "${fwbeingused}" == "firewalld" ] ; then
+			portlistarray=( $(sudo firewall-cmd --zone=public --permanent --list-ports) )
+			is_port_added_firewall="n"
+			for fwdportlist in "${portlistarray[@]}"
+			do
+				if [ "$currentPort" == "${(portlistarray[@].Substring(1,4))}" ] ; then
+					is_port_added_firewall="y"
+				else 	
+					is_port_added_firewall="e"
+				if	
+			done 
+		else 
+			is_port_added_firewall="Firewall system Missing"
+		fi	
+	else
+		is_port_added_firewall="Firewall Admin not enabled."
+    fi
+
 	echo -e '\E[32m'"$is_port_added_firewall "
-	
 }
 
 function enable_prefered_firewall(){
@@ -1623,9 +1639,9 @@ function enable_prefered_firewall(){
 
 function disable_all_firewalls(){
 	#Is this better and does it work?
-	for fws in "${fwsystems[@]}"
+	for fws in ${fwsystems[@]}
 	do
-		echo "$fws is a registered user"
+		echo "$fws is being stopped."
 		if command -v $fws >/dev/null; then
 			sudo systemctl stop $fws && systemctl disable $fws
 			## && systemctl mask $fws
