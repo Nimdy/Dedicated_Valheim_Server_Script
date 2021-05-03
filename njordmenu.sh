@@ -429,7 +429,7 @@ function valheim_server_public_valheim_port() {
 			tput setaf 1; echo "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_INFO5" ; tput setaf 9;
 			#### Get currently used ports and display them here along side worldnames
 			#### IE:  World Names and Ports currently in use:
-			####  World Name: ExampleWorld Ports Used: 2456-2458
+			####  World Name: Example World Ports Used: 2456-2458
 			####  World Name: Example 2    Ports Used: 2359-2461
 			
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
@@ -438,7 +438,7 @@ function valheim_server_public_valheim_port() {
 				read -p "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_ENTER" portnumber
 				### write check if new port is = used ports => try again, error
 				#usedport="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' start_valheim_${worldname}.sh)"
-				[[ ${#portnumber} -ge 4 && ${#portnumber} -le 6 ]] && [[ $portnumber -gt 1024 && $portnumber -le 65530 ]] && [[ "$portnumber" =~ ^[[:alnum:]]+$ ]] && break
+				[[ ${#portnumber} -ge 4 && ${#portnumber} -le 6 ]] && [[ $portnumber -gt 1024 && $portnumber -le 65530 ]] && [[ "$portnumber" =~ ^[[:alnum:]]+$ ]] & break
 			done	 
 			tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
 			clear		
@@ -550,37 +550,33 @@ $(ColorRed ''"$DRAW60"'')"
 		echo ""
 		# Linux updates.
 		if [ "$newinstall" == "y" ]; then
+			tput setaf 2; echo "Thank you for using the Njord Menu system." ; tput setaf 9; 
+			tput setaf 2; echo "This appears to be the frist time the menu has" ; tput setaf 9; 
+			tput setaf 2; echo "been run on this system." ; tput setaf 9; 
+			tput setaf 2; echo "Installing the first Valheim server started." ; tput setaf 9; 
 			linux_server_update
 			valheim_server_steam_account_creation
 			valheim_server_public_server_display_name
 			valheim_server_local_world_name
-			valheim_server_public_valheim_port
+			portnumber=2456
 			valheim_server_public_listing
 			valheim_server_public_access_password
 			build_configuration_env_files_set_permissions
 			Install_steamcmd_client
-	
-  
-							
-			tput setaf 1; echo "$INSTALL_BUILD_SET_STEAM_PERM" ; tput setaf 9;
-			chown steam:steam -Rf /home/steam/*
-			tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-			sleep 1
-			nocheck_valheim_update_install
 		else 
-		#add server valheim server skipping steam user creation
+			#add server valheim server skipping steam user creation
 			valheim_server_public_server_display_name
 			valheim_server_local_world_name
 			valheim_server_public_valheim_port
 			valheim_server_public_listing
 			valheim_server_public_access_password
 			build_configuration_env_files_set_permissions
-			nocheck_valheim_update_install
-			tput setaf 1; echo "$INSTALL_BUILD_SET_STEAM_PERM" ; tput setaf 9;
-			chown steam:steam -Rf /home/steam/*
-			tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
-			sleep 1
 		fi
+		nocheck_valheim_update_install
+		tput setaf 1; echo "$INSTALL_BUILD_SET_STEAM_PERM" ; tput setaf 9;
+		chown steam:steam -Rf /home/steam/*
+		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
+		sleep 1
 	
   
 		#### Need to add code to veriy firewall system and if enabled.
@@ -1843,6 +1839,7 @@ function get_current_config() {
     currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
 	if [ -f "$worldfilelist" ]; then
 		unset worldlistarray && readarray -t worldlistarray < $worldfilelist
+		set_world_server
 	else
 		newinstall = "y"
 		valheim_server_install 
