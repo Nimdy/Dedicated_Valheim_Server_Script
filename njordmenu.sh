@@ -54,17 +54,17 @@ source lang/$LANGUAGE.conf
 ###############################
 # moved to get_current_config
 ##################################
-# if [ -f "$fileworldlist" ]; then
-# 	readarray -t worldlistarray < $fileworldlist
+# if [ -f "$worldfilelist" ]; then
+# 	readarray -t worldlistarray < $worldfilelist
 # else
 # 
 # 	newinstall = "y"
 # 	valheim_server_install
 # 	
 # 	# If the Worlds file does not exist.
-#    	#touch $fileworldlist
-# 	#echo "MainServer" >> $fileworldlist
-# 	#readarray -t worldlistarray < $fileworldlist
+#    	#touch $worldfilelist
+# 	#echo "MainServer" >> $worldfilelist
+# 	#readarray -t worldlistarray < $worldfilelist
 # 	#echo "Vdisplayname=MainServer" >> /home/steam/Valheim${worldname}.env
 # 	#echo "Vworldname=MainServer" >> /home/steam/Valheim${worldname}.env
 # 	#echo "Vportnumber=####" >> /home/steam/Valheim${worldname}.env
@@ -77,7 +77,6 @@ source lang/$LANGUAGE.conf
 # 	#echo "export VPublicList" >> /home/steam/Valheim${worldname}.env
 # fi
 ##########################
-fileworldlist=/home/steam/worlds.txt
 #worldname=""
 #portnumber=""
 #############################################################
@@ -99,24 +98,22 @@ clear
 ### Valheim Server Install location(Default) 
 valheimInstallPath=/home/steam/valheimserver
 ### Valheim World Data Path(Default)
-worldpath=/home/steam/.config/unity3d/IronGate/Valheim/worlds
+worldpath=/home/steam/.config/unity3d/IronGate/Valheim/
+worldfilelist=/home/steam/worlds.txt
 ### Backup Directory ( Default )
 backupPath=/home/steam/backups
 ###
-### Defaults are "n" on the below parameters.
-###
+
 ### This option is only for the steamcmd install where it 
 ### is not included in the "steam" client install ... ie RH/OEL-yum
 ### Set this to delete all files from the /home/steam/steamcmd directory to install steamcmd fresh.
-freshinstall="n"
+### Defaults are "n" on the below parameters.
 ### <n : no>
 ### <y : yes>
-### 
-### Firewall setup..............
+freshinstall="n"
+### **** Firewall setup ***
 ### Do you use a firewall?
 usefw="n" 
-### <n : no>
-### <y : yes>
 ### what firewall do you want to use? 
 #Change the following value to one listed in the fwsystems list below or use 'none'.
 fwbeingused="firewalld"
@@ -632,7 +629,7 @@ $(ColorRed ''"$DRAW60"'')"
 		tput setaf 1; echo "$INSTALL_BUILD_DELETE_OLD_CONFIGS_1" ; tput setaf 9;
 		[ -e ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh ] && rm ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
 		sleep 1
-cat >> ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh <<EOF
+		cat >> ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh <<EOF
 #!/bin/bash
 export templdpath=\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
@@ -1838,18 +1835,19 @@ function remove_firewalld_public_service(){
 ##################CHANGE VALHEIM START CONFIG START#####################
 ########################################################################
 function get_current_config() {
+	set_steamexe
     currentDisplayName=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
     currentPort=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
     worldnameName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
     currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
     currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
-	if [ -f "$fileworldlist" ]; then
-		unset worldlistarray && readarray -t worldlistarray < $fileworldlist
+	if [ -f "$worldfilelist" ]; then
+		unset worldlistarray && readarray -t worldlistarray < $worldfilelist
 	else
 		newinstall = "y"
 		valheim_server_install 
 	fi
-	set_steamexe
+
 }
 
 function print_current_config() {
