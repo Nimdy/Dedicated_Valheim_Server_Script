@@ -1581,7 +1581,7 @@ function is_port_added_firewall(){
 			is_port_added_firewall="n"
 			for fwdportlist in "${portlistarray[@]}"
 			do
-				if [ "$currentPort" == "${(portlistarray[@].Substring(1,4))}" ] ; then
+				if [ "$currentPort" == "${fwdportlist.Substring(1,4))}" ] ; then
 					is_port_added_firewall="y"
 				else 	
 					is_port_added_firewall="e"
