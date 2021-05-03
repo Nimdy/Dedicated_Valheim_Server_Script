@@ -398,23 +398,25 @@ function build_configuration_env_files_set_permissions(){
 		clear
 }
 function valheim_server_install() {
-    clear
-    echo ""
-    echo -ne "
-$(ColorOrange ''"$INSTALLVALSERVER"'')
-$(ColorRed ''"$DRAW60"'')"
-	echo ""
-	tput setaf 2; echo "$CONFIRMVALINSTALL" ; tput setaf 9; 
-	tput setaf 2; echo "$CONFIRMVALINSTALL_1" ; tput setaf 9; 
-	echo -ne "
-$(ColorRed ''"$DRAW60"'')"
-	echo ""
-	read -p "$PLEASE_CONFIRM" confirmStartInstall
-	#if y, then continue, else cancel
+        clear
+        echo ""
+        echo -ne "
+        $(ColorOrange ''"$INSTALLVALSERVER"'')
+        $(ColorRed ''"$DRAW60"'')"
+	    echo ""
+	    tput setaf 2; echo "$CONFIRMVALINSTALL" ; tput setaf 9; 
+	    tput setaf 2; echo "$CONFIRMVALINSTALL_1" ; tput setaf 9; 
+	    echo -ne "
+        $(ColorRed ''"$DRAW60"'')"
+	    echo ""
+	    read -p "$PLEASE_CONFIRM" confirmStartInstall
+	    #if y, then continue, else cancel
 	
     if [ "$confirmStartInstall" == "y" ]; then
 		echo ""
 		# Linux updates.
+        echo "Press Y(yes) or N(no)"
+        read -p "Is this a brand new install" newinstall
 		if [ "$newinstall" == "y" ]; then
 			tput setaf 2; echo "Thank you for using the Njord Menu system." ; tput setaf 9; 
 			tput setaf 2; echo "This appears to be the frist time the menu has" ; tput setaf 9; 
