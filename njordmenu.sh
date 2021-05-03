@@ -1485,7 +1485,7 @@ function get_firewall_status(){
 		get_firewall_status="NA"
 		#Is this better and does it work?
 		if command -v ${fwbeingused} >/dev/null; then
-			sudo get_firewall_substate=$(systemctl is-active ${fwbeingused})
+			sudo get_firewall_status=$(systemctl is-active ${fwbeingused})
 		else
 			get_firewall_status="Firewall config not complete."
 		fi
@@ -1593,7 +1593,6 @@ function is_port_added_firewall(){
 	else
 		is_port_added_firewall="Firewall Admin not enabled."
     fi
-
 	echo -e '\E[32m'"$is_port_added_firewall "
 }
 
@@ -1633,7 +1632,6 @@ function enable_prefered_firewall(){
 	#else
 	#	echo "No firewalls to enable"
     #fi
-		
 	echo -e '\E[32m'"$enable_prefered_firewall "	
 }
 
