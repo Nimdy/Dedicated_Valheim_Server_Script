@@ -1585,7 +1585,7 @@ function is_port_added_firewall(){
 					is_port_added_firewall="y"
 				else 	
 					is_port_added_firewall="e"
-				if	
+				fi	
 			done 
 		else 
 			is_port_added_firewall="Firewall system Missing"
