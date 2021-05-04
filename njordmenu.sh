@@ -51,6 +51,34 @@ else
 fi 
 source lang/$LANGUAGE.conf
 
+###############################
+# moved to get_current_config
+##################################
+# if [ -f "$worldfilelist" ]; then
+# 	readarray -t worldlistarray < $worldfilelist
+# else
+# 
+# 	newinstall = "y"
+# 	valheim_server_install
+# 	
+# 	# If the Worlds file does not exist.
+#    	#touch $worldfilelist
+# 	#echo "MainServer" >> $worldfilelist
+# 	#readarray -t worldlistarray < $worldfilelist
+# 	#echo "Vdisplayname=MainServer" >> /home/steam/Valheim${worldname}.env
+# 	#echo "Vworldname=MainServer" >> /home/steam/Valheim${worldname}.env
+# 	#echo "Vportnumber=####" >> /home/steam/Valheim${worldname}.env
+# 	#echo "VServerpwd=1nV4l1D" >> /home/steam/Valheim${worldname}.env
+# 	#echo "VPublicList=#" >> /home/steam/Valheim${worldname}.env
+# 	#echo "export Vdisplayname" >> /home/steam/Valheim${worldname}.env
+# 	#echo "export Vworldname" >> /home/steam/Valheim${worldname}.env
+# 	#echo "export Vportnumber" >> /home/steam/Valheim${worldname}.env
+# 	#echo "export VServerpwd" >> /home/steam/Valheim${worldname}.env
+# 	#echo "export VPublicList" >> /home/steam/Valheim${worldname}.env
+# fi
+##########################
+#worldname=""
+#portnumber=""
 #############################################################
 ########################  Santiy Check  #####################
 #############################################################
@@ -90,19 +118,18 @@ usefw="n"
 #Change the following value to one listed in the fwsystems list below or use 'none'.
 fwbeingused="firewalld"
 # Do not changed this only add to it.
-fwsystems=(arptables ebtables firewalld iptables ip6tables ufw)
+fwsystems=( arptables ebtables firewalld iptables ip6tables ufw )
 ###############################################################
 debugmsg="n"
 # if [ "$debugmsg" == "y" ] ; then echo "something" ; fi
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.050220212000ET.alpha"
+ldversion="0.4.050320212340ET.alpha"
 ### -- Use are your own risk -- 
-### dev -- Adding and debugging my new code changes.
-### alpha -- Dev team QA review and testing of the new code.
-### beta -- Good for Public Testing.
-### released -- Never -- When placed in advance(menu).sh
+### dev -- Done
+### alpha -- Dev QA
+### beta -- Public Testing.
 ###
 ### Please note that this is a play ground file for me and 
 ### allows Zerobandwidth do determine what to pull into the main advance(menu).sh file.
@@ -211,6 +238,28 @@ echo "1"
 function valheim_server_steam_account_creation() {
 	# create steam account
 	# later add top variable for steam user because maybe somebody already has a steam account for something else?
+			  
+									  
+						  
+		
+														 
+														   
+		   
+						  
+		
+											  
+								  
+ 
+											  
+		 
+				  
+								   
+					  
+	
+  
+											
+		 
+	   
 	echo "$START_INSTALL_1_PARA"
 	while true; 
 			  
@@ -231,7 +280,8 @@ function valheim_server_steam_account_creation() {
 			tput setaf 2; echo "$STEAM_PASS_NOT_ACCEPTED" ; tput setaf 9;
 			tput setaf 2; echo "$STEAM_PASS_NOT_ACCEPTED_1" ; tput setaf 9;
 		done
-		
+	
+	   
 		echo ""
 	# Set the env bash profile information for steam user
 		tput setaf 1; echo "$INSTALL_BUILD_NON_ROOT_STEAM_ACCOUNT" ; tput setaf 9;
@@ -240,7 +290,7 @@ function valheim_server_steam_account_creation() {
 				useradd --create-home --shell /bin/bash --password $userpassword steam
 				cp /etc/skel/.bashrc /home/steam/.bashrc
 				cp /etc/skel/.profile /home/steam/.profile
-                                elif command -v yum >/dev/null; then
+            elif command -v yum >/dev/null; then
 				useradd -mU -s /bin/bash -p $userpassword steam
 				# All file from /etc/skel/ are auto copied on RH.
 			else
@@ -266,14 +316,82 @@ function valheim_server_public_server_display_name() {
 		echo ""
 			read -p "$PUBLIC_SERVER_ENTER_NAME" displayname
 		tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
-		echo ""																																								 
+		echo ""
+	   
+  
+																								 
+		  
+				
+	  
+												 
+																										 
+												 
+																							  
+																		  
+												 
+																						   
+																						  
+												 
+			
+												   
+																																													 
 }
+																						
+																						   
+		
+		
+		  
+   
+								   
+									  
+				  
+															  
+	   
+											  
+																								
+		   
+												
+																																									  
+												
+																																									 
+																																									 
+												
+																																									 
+																																									 
+																																									 
+																			 
+													 
+														
+														
+	
+												
+		   
+				  
+																																														
+																									  
+																																					
+																																																										   
+		  
+																																												  
+		   
+		   
+	
 
 function valheim_server_local_world_name() {
 	# Set world name function that will be used for .db and .fwl files
 		echo ""
+											  
+																 
+											  
+														  
+											  
+																					
+																				 
+											  
 		while true; 
 		do
+																								
+																								   
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 			tput setaf 2; echo "$WORLD_SET_WORLD_NAME_HEADER" ; tput setaf 9;
 																								   
@@ -394,29 +512,52 @@ function build_configuration_env_files_set_permissions(){
 		sleep 1
 		echo $worldname  >> /home/steam/worlds.txt
 		sleep 1
+		#echo "Vdisplayname=${displayname}" >> /home/steam/Valheim${worldname}.env
+		#echo "Vworldname=${worldname}" >> /home/steam/Valheim${worldname}.env
+		#echo "Vportnumber=${portnumber}" >> /home/steam/Valheim${worldname}.env
+		#echo "VServerpwd=${password}" >> /home/steam/Valheim${worldname}.env
+		#echo "VPublicList=${publicList}" >> /home/steam/Valheim${worldname}.env
+
+		#echo "export Vdisplayname" >> /home/steam/Valheim${worldname}.env
+		#echo "export Vworldname" >> /home/steam/Valheim${worldname}.env
+		#echo "export Vportnumber" >> /home/steam/Valheim${worldname}.env
+		#echo "export VServerpwd" >> /home/steam/Valheim${worldname}.env
+		#echo "export VPublicList" >> /home/steam/Valheim${worldname}.env
+		
+		sleep 1
 		chown steam:steam /home/steam/*.txt
+		#chown steam:steam /home/steam/*.env
+		#chmod +x /home/steam/*.env
 		clear
 }
 function valheim_server_install() {
-        clear
-        echo ""
-        echo -ne "
-        $(ColorOrange ''"$INSTALLVALSERVER"'')
-        $(ColorRed ''"$DRAW60"'')"
-	    echo ""
-	    tput setaf 2; echo "$CONFIRMVALINSTALL" ; tput setaf 9; 
-	    tput setaf 2; echo "$CONFIRMVALINSTALL_1" ; tput setaf 9; 
-	    echo -ne "
-        $(ColorRed ''"$DRAW60"'')"
-	    echo ""
-	    read -p "$PLEASE_CONFIRM" confirmStartInstall
-	    #if y, then continue, else cancel
+    clear
+    echo ""
+    echo -ne "
+$(ColorOrange ''"$INSTALLVALSERVER"'')
+$(ColorRed ''"$DRAW60"'')"
+	echo ""
+	tput setaf 2; echo "$CONFIRMVALINSTALL" ; tput setaf 9; 
+	tput setaf 2; echo "$CONFIRMVALINSTALL_1" ; tput setaf 9; 
+	echo -ne "
+$(ColorRed ''"$DRAW60"'')"
+	echo ""
+	
+    if [ "$confirmStartInstall" == "y" ]; then
+		tput setaf 2; echo "Thank you for using the Njord Menu system." ; tput setaf 9; 
+		tput setaf 2; echo "This appears to be the frist time the menu has" ; tput setaf 9; 
+		tput setaf 2; echo "been run on this system." ; tput setaf 9; 
+		tput setaf 2; echo "Installing the first Valheim server started." ; tput setaf 9; 
+	fi
+		echo -ne "
+$(ColorRed ''"$DRAW60"'')"
+	
+	read -p "$PLEASE_CONFIRM" confirmStartInstall
+	#if y, then continue, else cancel
 	
     if [ "$confirmStartInstall" == "y" ]; then
 		echo ""
 		# Linux updates.
-        echo "Press Y(yes) or N(no)"
-        read -p "Is this a brand new install" newinstall
 		if [ "$newinstall" == "y" ]; then
 			tput setaf 2; echo "Thank you for using the Njord Menu system." ; tput setaf 9; 
 			tput setaf 2; echo "This appears to be the frist time the menu has" ; tput setaf 9; 
@@ -1349,11 +1490,11 @@ $(ColorOrange ''"No Firewall systems are currently enabled."'')"
 }
 
 function get_firewall_status(){
-	if [ "usefw" == "y" ] ;  then
+	if [ "${usefw}" == "y" ] ; then
 		get_firewall_status="NA"
 		#Is this better and does it work?
-		if command -v ${fwbeingused} >/dev/null; then
-			sudo get_firewall_status=$(systemctl is-active ${fwbeingused})
+		if command -v $fwbeingused >/dev/null; then
+			get_firewall_status=$(systemctl is-active $fwbeingused)
 		else
 			get_firewall_status="Firewall config not complete."
 		fi
@@ -1379,13 +1520,14 @@ function get_firewall_status(){
 }
 
 function get_firewall_substate(){
-	if [ "usefw" == "y" ] ;  then
+
+	if [ "${usefw}" == "y" ] ; then
 		get_firewall_substate="NA"
 		#Is this better and does it work?
-		if command -v ${fwbeingused} >/dev/null; then
-			sudo get_firewall_substate=$(systemctl show -p SubState ${fwbeingused})
+		if command -v $fwbeingused >/dev/null; then
+			get_firewall_substate=$(systemctl show -p SubState ${fwbeingused})
 		else
-			get_firewall_status="Firewall config not complete."
+			get_firewall_substate="Firewall config not complete."
 		fi
 
 		#if [ "${fwused}" == "a" ] ; then
@@ -1410,7 +1552,7 @@ function get_firewall_substate(){
 }
 
 function get_firewall_moreinfo(){
-	if [ "usefw" == "y" ] ;  then
+	if [ "${usefw}" == "y" ] ; then
 		get_firewall_moreinfo="NA"
 		
 		#if [ "${fwused}" == "a" ] ; then
@@ -1442,26 +1584,29 @@ function get_firewall_moreinfo(){
 }
 
 function is_port_added_firewall(){
-
-	if command -v ${fwbeingused} >/dev/null; then
-		if [ "${fwbeingused}" == "firewalld" ] ; then
-			portlistarray=( $(sudo firewall-cmd --zone=public --permanent --list-ports) )
-			is_port_added_firewall="n"
-			for fwdportlist in "${portlistarray[@]}"
-			do
-				if [ "$currentPort" == "${(fwdportlist.Substring(1,4))}" ] ; then
-					is_port_added_firewall="y"
-				else 	
-					is_port_added_firewall="e"
-				fi	
-			done 
-		else 
-			is_port_added_firewall="Firewall system Missing"
-		fi	
-	else
-		is_port_added_firewall="Firewall Admin not enabled."
-    fi
-	echo -e '\E[32m'"$is_port_added_firewall "
+        is_port_added_firewall="n"
+        ((currentPortPlus=$currentPort+2))
+        if command -v ${fwbeingused} >/dev/null; then
+            if [ "${fwbeingused}" == "firewalld" ] ; then
+                portlistarray=( $(sudo firewall-cmd --zone=public --permanent --list-ports) )
+                idx=0
+                while [ $idx -le ${#portlistarray[@]} ] && [ "$is_port_added_firewall" != "y" ] ;
+                do
+                    portTestString="$currentPort-$currentPortPlus/udp"
+                    if [ "$portTestString" == "${portlistarray[$idx]}" ] ; then
+                            is_port_added_firewall="y"
+                    else
+                            is_port_added_firewall="e"
+                    fi
+                    ((idx=$idx+1))
+                done
+            else
+                    is_port_added_firewall="x"
+            fi
+        else
+                is_port_added_firewall="z"
+        fi
+        echo -e '\E[32m'"$is_port_added_firewall "
 }
 
 function enable_prefered_firewall(){
@@ -1714,11 +1859,23 @@ function remove_firewalld_public_service(){
 ########################################################################
 function get_current_config() {
 	set_steamexe
+
     currentDisplayName=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+    currentWorldName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
     currentPort=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
-    worldnameName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
     currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
-    currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+    currentPublicSet=$(perl -n -e '/\-public "([0-1])"? \-savedir/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+    currentSaveDir=$(perl -n -e '/\-savedir "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+	
+    if [ "$debugmsg" == "y" ] ; then
+            echo "$currentDisplayName"
+            echo "$currentWorldName"
+            echo "$currentPort"
+            echo "$currentPublicSet"
+            echo "$currentPassword"
+            echo "$currentSaveDir"
+    fi
+	
 	if [ -f "$worldfilelist" ]; then
 		unset worldlistarray && readarray -t worldlistarray < $worldfilelist
 		set_world_server
@@ -1732,7 +1889,7 @@ function get_current_config() {
 function print_current_config() {
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_NAME $(tput setaf 2)${currentDisplayName} $(tput setaf 9) "
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_PORT $(tput setaf 2)${currentPort} $(tput setaf 9) "
-    echo "$FUNCTION_PRINT_CURRENT_CONFIG_LOCAL_WORLD_NAME $(tput setaf 2)${worldnameName} $(tput setaf 9)"
+    echo "$FUNCTION_PRINT_CURRENT_CONFIG_LOCAL_WORLD_NAME $(tput setaf 2)${currentWorldName} $(tput setaf 9)"
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_LOCAL_WORLD_NAME_INFO"
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_ACCESS_PASSWORD $(tput setaf 2)${currentPassword} $(tput setaf 9) "
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_LISTING $(tput setaf 2)${currentPublicSet}  $(tput setaf 9) "
@@ -1744,7 +1901,7 @@ function set_config_defaults() {
     #if changes are made set variables are updated with new data and will be wrote to new config file
     setCurrentDisplayName=$currentDisplayName
     setCurrentPort=$currentPort
-    setworldnameName=$worldnameName
+    setcurrentWorldName=$currentWorldName
     setCurrentPassword=$currentPassword
     setCurrentPublicSet=$currentPublicSet
 }
@@ -1759,7 +1916,7 @@ export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
 
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${setworldnameName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}"
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${currentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
    echo "$FUNCTION_WRITE_CONFIG_RESTART_SET_PERMS" ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
@@ -1905,7 +2062,7 @@ function change_server_access_password() {
     tput setaf 1; echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_INFO_3" ; tput setaf 9;
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     tput setaf 5; echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_CURRENT_DISPLAY_NAME" ${currentDisplayName} ; tput setaf 9;
-    tput setaf 5; echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_CURRENT_WORLD_NAME" ${worldnameName} ; tput setaf 9;
+    tput setaf 5; echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_CURRENT_WORLD_NAME" ${currentWorldName} ; tput setaf 9;
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     tput setaf 2; echo "$FUNCTION_CHANGE_SERVER_ACCESS_PASSWORD_CURRENT_PASS ${currentPassword} " ; tput setaf 9;
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
