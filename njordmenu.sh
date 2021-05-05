@@ -51,34 +51,6 @@ else
 fi 
 source lang/$LANGUAGE.conf
 
-###############################
-# moved to get_current_config
-##################################
-# if [ -f "$worldfilelist" ]; then
-# 	readarray -t worldlistarray < $worldfilelist
-# else
-# 
-# 	newinstall = "y"
-# 	valheim_server_install
-# 	
-# 	# If the Worlds file does not exist.
-#    	#touch $worldfilelist
-# 	#echo "MainServer" >> $worldfilelist
-# 	#readarray -t worldlistarray < $worldfilelist
-# 	#echo "Vdisplayname=MainServer" >> /home/steam/Valheim${worldname}.env
-# 	#echo "Vworldname=MainServer" >> /home/steam/Valheim${worldname}.env
-# 	#echo "Vportnumber=####" >> /home/steam/Valheim${worldname}.env
-# 	#echo "VServerpwd=1nV4l1D" >> /home/steam/Valheim${worldname}.env
-# 	#echo "VPublicList=#" >> /home/steam/Valheim${worldname}.env
-# 	#echo "export Vdisplayname" >> /home/steam/Valheim${worldname}.env
-# 	#echo "export Vworldname" >> /home/steam/Valheim${worldname}.env
-# 	#echo "export Vportnumber" >> /home/steam/Valheim${worldname}.env
-# 	#echo "export VServerpwd" >> /home/steam/Valheim${worldname}.env
-# 	#echo "export VPublicList" >> /home/steam/Valheim${worldname}.env
-# fi
-##########################
-#worldname=""
-#portnumber=""
 #############################################################
 ########################  Santiy Check  #####################
 #############################################################
@@ -238,28 +210,6 @@ echo "1"
 function valheim_server_steam_account_creation() {
 	# create steam account
 	# later add top variable for steam user because maybe somebody already has a steam account for something else?
-			  
-									  
-						  
-		
-														 
-														   
-		   
-						  
-		
-											  
-								  
- 
-											  
-		 
-				  
-								   
-					  
-	
-  
-											
-		 
-	   
 	echo "$START_INSTALL_1_PARA"
 	while true; 
 			  
@@ -317,77 +267,11 @@ function valheim_server_public_server_display_name() {
 			read -p "$PUBLIC_SERVER_ENTER_NAME" displayname
 		tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
 		echo ""
-	   
-  
-																								 
-		  
-				
-	  
-												 
-																										 
-												 
-																							  
-																		  
-												 
-																						   
-																						  
-												 
-			
-												   
-																																													 
 }
-																						
-																						   
-		
-		
-		  
-   
-								   
-									  
-				  
-															  
-	   
-											  
-																								
-		   
-												
-																																									  
-												
-																																									 
-																																									 
-												
-																																									 
-																																									 
-																																									 
-																			 
-													 
-														
-														
-	
-												
-		   
-				  
-																																														
-																									  
-																																					
-																																																										   
-		  
-																																												  
-		   
-		   
-	
 
 function valheim_server_local_world_name() {
 	# Set world name function that will be used for .db and .fwl files
 		echo ""
-											  
-																 
-											  
-														  
-											  
-																					
-																				 
-											  
 		while true; 
 		do
 																								
@@ -511,19 +395,6 @@ function build_configuration_env_files_set_permissions(){
 		echo "$DRAW60" >> /home/steam/serverSetup.txt
 		sleep 1
 		echo $worldname  >> /home/steam/worlds.txt
-		sleep 1
-		#echo "Vdisplayname=${displayname}" >> /home/steam/Valheim${worldname}.env
-		#echo "Vworldname=${worldname}" >> /home/steam/Valheim${worldname}.env
-		#echo "Vportnumber=${portnumber}" >> /home/steam/Valheim${worldname}.env
-		#echo "VServerpwd=${password}" >> /home/steam/Valheim${worldname}.env
-		#echo "VPublicList=${publicList}" >> /home/steam/Valheim${worldname}.env
-
-		#echo "export Vdisplayname" >> /home/steam/Valheim${worldname}.env
-		#echo "export Vworldname" >> /home/steam/Valheim${worldname}.env
-		#echo "export Vportnumber" >> /home/steam/Valheim${worldname}.env
-		#echo "export VServerpwd" >> /home/steam/Valheim${worldname}.env
-		#echo "export VPublicList" >> /home/steam/Valheim${worldname}.env
-		
 		sleep 1
 		chown steam:steam /home/steam/*.txt
 		#chown steam:steam /home/steam/*.env
@@ -1685,9 +1556,6 @@ function disable_all_firewalls(){
 	disable_all_firewalls="All known Firewall systems disabled."
 	echo -e '\E[32m'"$disable_all_firewalls "
 }
-
-
-
 
 
 function add_Valheim_server_public_ports(){
