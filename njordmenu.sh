@@ -2748,7 +2748,7 @@ echo -e  '\E[32m'"$server_status "
 
 function server_substate(){
 # systemctl option VALUE does not seam valid on RH so I removed. Should stil work.
-server_substate=$(systemctl show -p SubState valheimserver_${worldname}.service)
+server_substate=$(systemctl show -p SubState valheimserver_${worldname}.service | cut -d'=' -f2)
 echo -e '\E[32m'"$server_substate "
 }
 
