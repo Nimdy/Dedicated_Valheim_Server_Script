@@ -2898,6 +2898,8 @@ echo -ne "
 $(ColorCyan '╠═══════════════════════════════════════════════')"
 echo -ne "
 $(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME" ${currentDisplayName}
+echo -ne "
+$(ColorCyan '║') $FUNCTION_HEADER_MENU_INFO_LD_SEVER_SESSION" ${worldname}
 echo -ne " 
 $(ColorCyan '║') $(are_you_connected)
 $(ColorCyan '║')" $(display_public_IP)
