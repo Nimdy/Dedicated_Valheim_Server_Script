@@ -2821,7 +2821,8 @@ function set_world_server() {
 }
 
 function currentHostName(){
-hostname
+var=$(hostname)
+echo $var
 }
 ########################################################################
 ##########################MENUS STATUS VARIBLES END#####################
