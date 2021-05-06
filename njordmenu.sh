@@ -408,17 +408,18 @@ function valheim_server_install() {
 	$(ColorOrange ''"$INSTALLVALSERVER"'')
 	$(ColorRed ''"$DRAW60"'')"
 	echo ""
+	echo -ne "
 	$(ColorGreen ''"$CONFIRMVALINSTALL"'') 
 	$(ColorGreen ''"$CONFIRMVALINSTALL_1"'')" 
 	echo -ne "
 	$(ColorRed ''"$DRAW60"'')"
 	echo ""
-	read -p $(ColorRed ''"$PLEASE_CONFIRM"'')" confirmStartInstall
+	read -p echo -ne " $(ColorRed ''"$PLEASE_CONFIRM"'')" confirmStartInstall
 	#if y, then continue, else cancel
 	
     if [ "$confirmStartInstall" == "y" ]; then
 		echo ""
-		read -p "Is this a fresh install? y(yes) or n(no)" newinstall
+		read -p "Is this a fresh install? y(yes) or n(no - Adding another Valheim Server)" newinstall
 		# Linux updates.
 		if [ "$newinstall" == "y" ]; then
 			tput setaf 2; echo "Thank you for using the Njord Menu system." ; tput setaf 9; 
