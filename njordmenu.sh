@@ -2819,6 +2819,10 @@ function set_world_server() {
 	request99="n"
 	clear
 }
+
+function grabHostName(){
+currentHostName=(hostname)
+}
 ########################################################################
 ##########################MENUS STATUS VARIBLES END#####################
 ########################################################################
@@ -2831,7 +2835,6 @@ function set_world_server() {
 
 function menu_header_vplus_enable() {
 get_current_config
-#set_steamexe
 echo -ne "
 $(ColorPurple '╔════════════════════')$(ColorOrange 'Valheim+')$(ColorPurple '═══════════════════╗')
 $(ColorPurple '║~~~~~~~~~~~~~~~~~~')$(ColorLightGreen '-Njord Menu-')$(ColorPurple '~~~~~~~~~~~~~~~~~║')
@@ -2853,7 +2856,7 @@ $(ColorPurple '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"       
 echo -ne "
 $(ColorPurple '╠═══════════════════════════════════════════════')"
 echo -ne "
-$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME " ${currentDisplayName}
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME " ${currentHostName}
 echo -ne " 
 $(ColorPurple '║') $(are_you_connected)
 $(ColorPurple '║')" $(display_public_IP)
@@ -2874,7 +2877,6 @@ $(ColorPurple '╚════════════════════�
 						
 function menu_header_bepinex_enable() {
 get_current_config
-#set_steamexe
 echo -ne "
 $(ColorCyan '╔═════════════════════')$(ColorOrange 'BepInEx')$(ColorCyan '═══════════════════╗')
 $(ColorCyan '║~~~~~~~~~~~~~~~~~~')$(ColorLightGreen '-Njord Menu-')$(ColorCyan '~~~~~~~~~~~~~~~~~║')
@@ -2892,7 +2894,7 @@ echo -ne "
 $(ColorCyan '╠═══════════════════════════════════════════════')
 $(ColorCyan '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_OFFICIAL_BUILD"'')" $(check_official_valheim_release_build)
 echo -ne "
-$(ColorCyan '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"        $(check_local_valheim_build)
+$(ColorCyan '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')" $(check_local_valheim_build)
 echo -ne "
 $(ColorCyan '╠═══════════════════════════════════════════════')"
 echo -ne "
@@ -2916,10 +2918,8 @@ $(ColorCyan '╚═════════════════════�
 }
 
 function menu_header() {
-	get_current_config
-	# moved to get_current_config
-	#set_steamexe	
-	echo -ne "
+get_current_config
+echo -ne "
 $(ColorOrange '╔══════════════════════════════════════════════════════════╗')
 $(ColorOrange '║~~~~~~~~~~*****~~~~~~~~-Njord Menu-~~~~~~~~~*****~~~~~~~~~║')
 $(ColorOrange '╠══════════════════════════════════════════════════════════╝')
@@ -3070,7 +3070,7 @@ $(ColorOrange '-')$(ColorGreen ' 3)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_WOR
 $(ColorOrange '-')$(ColorGreen ' 4)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_SYSTEM_INFO
 $(ColorOrange '-')$(ColorGreen ' 5)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_NETWORK_INFO
 $(ColorOrange '-')$(ColorGreen ' 6)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_CONNECTED_PLAYER_HISTORY
-$(ColorOrange '-')$(ColorGreen ' 7)') Show World Seed
+$(ColorOrange '-')$(ColorGreen ' 7)') Show World Seed (beta)
 $(ColorOrange '-')$(ColorGreen ' 8)') System preformance (TOP)
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') "$RETURN_MAIN_MENU"
