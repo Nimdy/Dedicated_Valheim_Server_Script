@@ -405,15 +405,14 @@ function valheim_server_install() {
     clear
     echo ""
     echo -ne "
-$(ColorOrange ''"$INSTALLVALSERVER"'')
-$(ColorRed ''"$DRAW60"'')"
+	$(ColorOrange ''"$INSTALLVALSERVER"'')
+	$(ColorRed ''"$DRAW60"'')"
 	echo ""
 	tput setaf 2; echo "$CONFIRMVALINSTALL" ; tput setaf 9; 
 	tput setaf 2; echo "$CONFIRMVALINSTALL_1" ; tput setaf 9; 
-	echo ""
 	echo -ne "
-$(ColorRed ''"$DRAW60"'')"
-	
+	$(ColorRed ''"$DRAW60"'')"
+	echo ""
 	read -p "$PLEASE_CONFIRM" confirmStartInstall
 	#if y, then continue, else cancel
 	
