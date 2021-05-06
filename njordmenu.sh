@@ -2821,7 +2821,7 @@ function set_world_server() {
 }
 
 function currentHostName(){
-var=$(hostname)
+var="$(hostname)"
 echo $var
 }
 ########################################################################
