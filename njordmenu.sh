@@ -412,22 +412,13 @@ $(ColorRed ''"$DRAW60"'')"
 	tput setaf 2; echo "$CONFIRMVALINSTALL_1" ; tput setaf 9; 
 	echo -ne "
 $(ColorRed ''"$DRAW60"'')"
-	echo ""
-	
-    if [ "$confirmStartInstall" == "y" ]; then
-		tput setaf 2; echo "Thank you for using the Njord Menu system." ; tput setaf 9; 
-		tput setaf 2; echo "This appears to be the frist time the menu has" ; tput setaf 9; 
-		tput setaf 2; echo "been run on this system." ; tput setaf 9; 
-		tput setaf 2; echo "Installing the first Valheim server started." ; tput setaf 9; 
-	fi
-		echo -ne "
-$(ColorRed ''"$DRAW60"'')"
 	
 	read -p "$PLEASE_CONFIRM" confirmStartInstall
 	#if y, then continue, else cancel
 	
     if [ "$confirmStartInstall" == "y" ]; then
 		echo ""
+		read -p "Is this a fresh install? y(yes) or n(no)" newinstall
 		# Linux updates.
 		if [ "$newinstall" == "y" ]; then
 			tput setaf 2; echo "Thank you for using the Njord Menu system." ; tput setaf 9; 
