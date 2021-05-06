@@ -414,7 +414,7 @@ $(ColorGreen ''"$CONFIRMVALINSTALL_1"'')"
 echo -ne "
 $(ColorRed ''"$DRAW60"'')"
 echo ""
-read -p echo -ne " $(ColorRed ''"$PLEASE_CONFIRM"'')" confirmStartInstall
+read -p "$PLEASE_CONFIRM" confirmStartInstall
 #if y, then continue, else cancel
 	
     if [ "$confirmStartInstall" == "y" ]; then
