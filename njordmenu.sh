@@ -2820,8 +2820,8 @@ function set_world_server() {
 	clear
 }
 
-function grabHostName(){
-currentHostName=(hostname)
+function currentHostName(){
+hostname
 }
 ########################################################################
 ##########################MENUS STATUS VARIBLES END#####################
