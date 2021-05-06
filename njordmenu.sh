@@ -2187,7 +2187,7 @@ cat > ${valheimInstallPath}/${worldname}/start_server_bepinex.sh <<'EOF'
 # -------- SETTINGS --------
 # ---- EDIT AS NEEDED ------
 executable_name="valheim_server.x86_64"
-worldname=$(pwd | cut -d'/' -f4 | cut -d'_' -f2)
+worldname=$(pwd | cut -d'/' -f5)
 worldSaves="/home/steam/.config/unity3d/IronGate/Valheim/worlds/"
 
 # EDIT THIS: The name of the executable to run
@@ -2575,7 +2575,7 @@ function build_valw_bepinex_configuration_file() {
 # EDIT THIS: The name of the executable to run
 # LINUX: This is the name of the Unity game executable
 # MACOS: This is the name of the game app folder, including the .app suffix
-worldname=$(pwd | cut -d'/' -f4 | cut -d'_' -f2)
+worldname=$(pwd | cut -d'/' -f5)
 worldSaves="/home/steam/.config/unity3d/IronGate/Valheim/worlds/"
 
 #importing server parms to BepInEx
