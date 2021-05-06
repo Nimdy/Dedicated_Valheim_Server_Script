@@ -403,19 +403,19 @@ function build_configuration_env_files_set_permissions(){
 }
 function valheim_server_install() {
     clear
-    echo ""
-    echo -ne "
-	$(ColorOrange ''"$INSTALLVALSERVER"'')
-	$(ColorRed ''"$DRAW60"'')"
-	echo ""
-	echo -ne "
-	$(ColorGreen ''"$CONFIRMVALINSTALL"'') 
-	$(ColorGreen ''"$CONFIRMVALINSTALL_1"'')" 
-	echo -ne "
-	$(ColorRed ''"$DRAW60"'')"
-	echo ""
-	read -p echo -ne " $(ColorRed ''"$PLEASE_CONFIRM"'')" confirmStartInstall
-	#if y, then continue, else cancel
+echo ""
+echo -ne "
+$(ColorOrange ''"$INSTALLVALSERVER"'')
+$(ColorRed ''"$DRAW60"'')"
+echo ""
+echo -ne "
+$(ColorGreen ''"$CONFIRMVALINSTALL"'') 
+$(ColorGreen ''"$CONFIRMVALINSTALL_1"'')" 
+echo -ne "
+$(ColorRed ''"$DRAW60"'')"
+echo ""
+read -p echo -ne " $(ColorRed ''"$PLEASE_CONFIRM"'')" confirmStartInstall
+#if y, then continue, else cancel
 	
     if [ "$confirmStartInstall" == "y" ]; then
 		echo ""
