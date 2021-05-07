@@ -199,6 +199,30 @@ echo "1"
 }
 
 ########################################################################
+################ REBUILD FILE STRUCTURE AND VARIABLES ##################
+########################################################################
+
+#This function will be for folks upgrading to the Njord Menu from mainmenu.sh or advancemenu.sh
+#This is so, we only need to manage one menu system from here on out
+#This is also for preps for the web gui launch
+
+
+function rebuild_folder_structure_and_variables_for_njord_upgrade(){
+
+# Check for old World Names
+# write to worlds.txt
+# move Valheim install to ${valheimInstallPath}/${worldname}
+# rebuild start configuration file ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
+# rebuild all configuration files
+# delete Valheim service files and rebuild it with correct pathing/vars
+# set perms steam:steam
+# start new valheim service file
+
+
+}
+
+
+########################################################################
 ##############MAIN VALHEIM SERVER ADMIN FUNCTIONS START#################
 ########################################################################
 
@@ -272,8 +296,6 @@ function valheim_server_local_world_name() {
 		echo ""
 		while true; 
 		do
-																								
-																								   
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 			tput setaf 2; echo "$WORLD_SET_WORLD_NAME_HEADER" ; tput setaf 9;
 																								   
@@ -395,8 +417,6 @@ function build_configuration_env_files_set_permissions(){
 		echo $worldname  >> /home/steam/worlds.txt
 		sleep 1
 		chown steam:steam /home/steam/*.txt
-		#chown steam:steam /home/steam/*.env
-		#chmod +x /home/steam/*.env
 		clear
 }
 function valheim_server_install() {
@@ -447,8 +467,7 @@ read -p "$PLEASE_CONFIRM" confirmStartInstall
 		chown steam:steam -Rf /home/steam/*
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 		sleep 1
-	
-  
+################################################################# START NEEDS TESTING AND VERIFICATION  #############################################################	  
 		#### Need to add code to veriy firewall system and if enabled.
 		#### Below is the line needed for Valheim
 		#### These should also be added to as port forwards on your network router.
@@ -487,6 +506,7 @@ read -p "$PLEASE_CONFIRM" confirmStartInstall
 			if [ "${is_firewall_enabled}" == "y" ] ; then 
 				disable_all_firewalls
 			fi
+################################################################# END NEEDS TESTING AND VERIFICATION  #############################################################	 
 		fi		
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 		sleep 1
@@ -1242,13 +1262,13 @@ clear
     sudo grep *HAND* /var/log/syslog*
     echo ""
 }
-
+################################################################# START NEEDS TESTING AND VERIFICATION  #############################################################	 
 function get_worldseed(){
 	#worldseed=$(cat > ${worldpath}/${worldname}/${serverdisplayname}.fwl)
 	worldseed=$(hexdump -s 9 -n 10 -e'2 "%_p"' ${worldpath}/${worldname}/${serverdisplayname}.fwl)
 	echo -e '\E[32m'"$worldseed "
 }
-
+################################################################# END NEEDS TESTING AND VERIFICATION  #############################################################	 
 ########################################################################
 ##############Valheim Server Information output END#####################
 ########################################################################
@@ -2559,7 +2579,7 @@ clear
 fi
 }
 
-
+################################################################# NEEDS TESTING AND VERIFICATION worldSaves vs server_saveddir conflicts? #############################################################	 
 function build_valw_bepinex_configuration_file() {
   cat > ${valheimInstallPath}/${worldname}/start_valw_bepinex.sh <<'EOF'
 #!/bin/sh
