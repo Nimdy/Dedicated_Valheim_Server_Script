@@ -207,7 +207,7 @@ echo "1"
 #This is also for preps for the web gui launch
 
 
-function rebuild_folder_structure_and_variables_for_njord_upgrade(){
+function rebuild_folder_structure_and_variables_for_njord_upgrade() {
 
 # Check for old World Names
 # write to worlds.txt
