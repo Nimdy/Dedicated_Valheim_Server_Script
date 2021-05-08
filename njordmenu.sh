@@ -208,7 +208,7 @@ echo "1"
 
 
 function rebuild_folder_structure_and_variables_for_njord_upgrade() {
-
+echo ""
 # Check for old World Names
 # write to worlds.txt
 # move Valheim install to ${valheimInstallPath}/${worldname}
