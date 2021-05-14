@@ -8,7 +8,7 @@
 #### If Frankenstein was a bash script, this is what you would get, so please help me improve it.
 #### Feel free to use and change this as you wish just not for profit. 
 #### If you need anything, please visit our Discord Server: https://discord.gg/ejgQUfc
-#### *** GLHF - V/r, Zerobandwidth and Team
+#### *** GLHF - V/r, Zerobandwidth and Teamdd
 ####
 ###############################################################################################
 ####
