@@ -8,7 +8,7 @@
 #### If Frankenstein was a bash script, this is what you would get, so please help me improve it.
 #### Feel free to use and change this as you wish just not for profit. 
 #### If you need anything, please visit our Discord Server: https://discord.gg/ejgQUfc
-#### *** GLHF - V/r, Zerobandwidth and Teamdd
+#### *** GLHF - V/r, Zerobandwidth and Team
 ####
 ###############################################################################################
 ####
@@ -50,7 +50,6 @@ else
 	LANGUAGE=$1
 fi 
 source lang/$LANGUAGE.conf
-
 #############################################################
 ########################  Santiy Check  #####################
 #############################################################
@@ -97,11 +96,13 @@ debugmsg="n"
 ###############################################################
 # Set Menu Version for menu display
 mversion="2.3.3-Lofn.beta"
-ldversion="0.4.050320212340ET.alpha"
-### -- Use are your own risk -- 
-### dev -- Done
-### alpha -- Dev QA
-### beta -- Public Testing.
+ldversion="0.4.051120211500ET.dev"
+###      -- Use are your own risk -- 
+### dev   -- Still working on firewall code. 
+###       -- Currently adding ufw commands. 
+###       -- And then finish the firewall menu (make pro).
+### alpha -- Dev team review.
+### beta  -- Public Testing.
 ###
 ### Please note that this is a play ground file for me and 
 ### allows Zerobandwidth do determine what to pull into the main advance(menu).sh file.
@@ -199,30 +200,6 @@ echo "1"
 }
 
 ########################################################################
-################ REBUILD FILE STRUCTURE AND VARIABLES ##################
-########################################################################
-
-#This function will be for folks upgrading to the Njord Menu from mainmenu.sh or advancemenu.sh
-#This is so, we only need to manage one menu system from here on out
-#This is also for preps for the web gui launch
-
-
-function rebuild_folder_structure_and_variables_for_njord_upgrade() {
-echo ""
-# Check for old World Names
-# write to worlds.txt
-# move Valheim install to ${valheimInstallPath}/${worldname}
-# rebuild start configuration file ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
-# rebuild all configuration files
-# delete Valheim service files and rebuild it with correct pathing/vars
-# set perms steam:steam
-# start new valheim service file
-
-
-}
-
-
-########################################################################
 ##############MAIN VALHEIM SERVER ADMIN FUNCTIONS START#################
 ########################################################################
 
@@ -252,11 +229,9 @@ function valheim_server_steam_account_creation() {
 			tput setaf 2; echo "$STEAM_PASS_NOT_ACCEPTED" ; tput setaf 9;
 			tput setaf 2; echo "$STEAM_PASS_NOT_ACCEPTED_1" ; tput setaf 9;
 		done
-	
-	   
 		echo ""
 	# Set the env bash profile information for steam user
-		tput setaf 1; echo "$INSTALL_BUILD_NON_ROOT_STEAM_ACCOUNT" ; tput setaf 9;
+	tput setaf 1; echo "$INSTALL_BUILD_NON_ROOT_STEAM_ACCOUNT" ; tput setaf 9;
 			sleep 1
 			if command -v apt-get >/dev/null; then
 				useradd --create-home --shell /bin/bash --password $userpassword steam
@@ -298,7 +273,6 @@ function valheim_server_local_world_name() {
 		do
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 			tput setaf 2; echo "$WORLD_SET_WORLD_NAME_HEADER" ; tput setaf 9;
-																								   
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 			tput setaf 1; echo "$WORLD_SET_CHAR_RULES" ; tput setaf 9;
 			tput setaf 1; echo "$WORLD_SET_NO_SPECIAL_CHAR_RULES" ; tput setaf 9;
@@ -370,7 +344,7 @@ function valheim_server_public_listing() {
 		tput setaf 2; echo "$CREDS_DISPLAY_CREDS_PRINT_OUT_STEAM_PASSWORD $userpassword " ; tput setaf 9;
 		tput setaf 2; echo "$CREDS_DISPLAY_CREDS_PRINT_OUT_SERVER_NAME $displayname " ; tput setaf 9;
 		tput setaf 2; echo "$CREDS_DISPLAY_CREDS_PRINT_OUT_WORLD_NAME $worldname " ; tput setaf 9;
-		tput setaf 2; echo "$CREDS_DISPLAY_CREDS_PRINT_OUT_PORT_USED $portnumber " ; tput setaf 9;
+		tput setaf 2; echo "Port number being used: $portnumber " ; tput setaf 9;
 		tput setaf 2; echo "$CREDS_DISPLAY_CREDS_PRINT_OUT_ACCESS_PASS $password " ; tput setaf 9;
 		tput setaf 2; echo "$CREDS_DISPLAY_CREDS_PRINT_OUT_SHOW_PUBLIC $publicList " ; tput setaf 9; 
 		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
@@ -421,24 +395,22 @@ function build_configuration_env_files_set_permissions(){
 }
 function valheim_server_install() {
     clear
-echo ""
-echo -ne "
+    echo ""
+    echo -ne "
 $(ColorOrange ''"$INSTALLVALSERVER"'')
 $(ColorRed ''"$DRAW60"'')"
-echo ""
-echo -ne "
-$(ColorGreen ''"$CONFIRMVALINSTALL"'') 
-$(ColorGreen ''"$CONFIRMVALINSTALL_1"'')" 
-echo -ne "
+	echo ""
+	tput setaf 2; echo "$CONFIRMVALINSTALL" ; tput setaf 9; 
+	tput setaf 2; echo "$CONFIRMVALINSTALL_1" ; tput setaf 9; 
+	echo -ne "
 $(ColorRed ''"$DRAW60"'')"
-echo ""
-read -p "$PLEASE_CONFIRM" confirmStartInstall
-#if y, then continue, else cancel
+	echo ""
 	
     if [ "$confirmStartInstall" == "y" ]; then
 		echo ""
-		read -p "Is this a fresh install? y(yes) or n(no - Adding another Valheim Server)" newinstall
 		# Linux updates.
+        echo "Press Y(yes) or N(no)"
+        read -p "Is this a brand new install" newinstall
 		if [ "$newinstall" == "y" ]; then
 			tput setaf 2; echo "Thank you for using the Njord Menu system." ; tput setaf 9; 
 			tput setaf 2; echo "This appears to be the frist time the menu has" ; tput setaf 9; 
@@ -467,7 +439,8 @@ read -p "$PLEASE_CONFIRM" confirmStartInstall
 		chown steam:steam -Rf /home/steam/*
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 		sleep 1
-################################################################# START NEEDS TESTING AND VERIFICATION  #############################################################	  
+	
+  
 		#### Need to add code to veriy firewall system and if enabled.
 		#### Below is the line needed for Valheim
 		#### These should also be added to as port forwards on your network router.
@@ -476,9 +449,9 @@ read -p "$PLEASE_CONFIRM" confirmStartInstall
 		if [ "${usefw}" == "y" ] ; then 
 			if [ "${fwbeingused}" == "ufw" ] ; then
 				if command -v ufw >/dev/null; then
-					# ufw allow udp from any to any port $minportnumber-$maxportnumber
+					sudo ufw allow ${portnumber}:${portnumber+2}/upd
 					# The above command needs to be validated.
-					echo ""
+					echo "Adding ports to the UFW system."
 				fi
 			elif [ "${fwbeingused}" == "iptables" ] ; then
 				if command -v iptables >/dev/null; then
@@ -506,7 +479,6 @@ read -p "$PLEASE_CONFIRM" confirmStartInstall
 			if [ "${is_firewall_enabled}" == "y" ] ; then 
 				disable_all_firewalls
 			fi
-################################################################# END NEEDS TESTING AND VERIFICATION  #############################################################	 
 		fi		
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 		sleep 1
@@ -835,6 +807,11 @@ function Install_steamcmd_client() {
 			if command -v ufw >/dev/null; then
 				# ufw allow udp from any to any port $minportnumber-$maxportnumber
 				# The above command needs to be validated.
+				sudo ufw allow 1200/udp
+				sudo ufw allow 27020/udp
+				sudo ufw allow 27000-27015/udp
+				sudo ufw allow 27015-27016/both
+				sudo ufw allow 27030-27039/both
 				echo "WIP Need to add."
 				echo ""
 			fi
@@ -1262,13 +1239,17 @@ clear
     sudo grep *HAND* /var/log/syslog*
     echo ""
 }
-################################################################# START NEEDS TESTING AND VERIFICATION  #############################################################	 
+
 function get_worldseed(){
 	#worldseed=$(cat > ${worldpath}/${worldname}/${serverdisplayname}.fwl)
-	worldseed=$(hexdump -s 9 -n 10 -e'2 "%_p"' ${worldpath}/${worldname}/${serverdisplayname}.fwl)
+	worldseed=$(hexdump -s 9 -n 10 -e'2 "%_p"' ${worldpath}/${worldname}/worlds/${worldname}.fwl)
+    clear
+    echo ""
 	echo -e '\E[32m'"$worldseed "
+    echo ""
+	sleep 2
 }
-################################################################# END NEEDS TESTING AND VERIFICATION  #############################################################	 
+
 ########################################################################
 ##############Valheim Server Information output END#####################
 ########################################################################
@@ -1281,7 +1262,16 @@ function get_worldseed(){
 ## call use them in the start and stop service actions above.
 # I am sure this will always return y .. Who does not have some firewall system installed. But ...
 
-function is_firewall_installed(){
+function is_admin_firewall_installed(){
+	if command -v $fwbeingused >/dev/null; then
+		is_admin_firewall_installed=y 
+	else
+		is_admin_firewall_installed=n
+	fi
+	echo -e '\E[32m'"$is_admin_firewall_installed "
+}
+
+function is_any_firewall_installed(){
     fwiufw=n
     fwifwd=n
     fwiipt=n
@@ -1320,114 +1310,108 @@ $(ColorOrange ''"EBTables is installed. "'')"
 	fi
 	
 	if [[ ( "$fwiufw" == "y" ||  "$fwifwd" == "y" || "$fwiipt" == "y" || "$fwiipt6" == "y" || "$fwiebt" == "y" ) ]] ; then
-	    is_firewall_installed=y
+	    is_any_firewall_installed=y
 	else
-	    is_firewall_installed=n
+	    is_any_firewall_installed=n
     fi 	
 	#echo -e '\E[32m'"$is_firewall_installed "
 	
 }
 
-function is_firewall_enabled(){
 
-	if command -v arptables >/dev/null; then 
-		systemctl is-enabled arptables >/dev/null 2>&1 && fwearp=y || fwearp=n
-	fi
-	
-	if command -v ebtables >/dev/null; then 
-		systemctl is-enabled ebtables >/dev/null 2>&1 && fweebt=y || fweebt=n	
-	fi	
-    
-	if command -v firewalld >/dev/null; then
-		systemctl is-enabled firewalld >/dev/null 2>&1 && fwefwd=y || fwefwd=n
-	fi
-	
-	if command -v iptables >/dev/null; then 
-		systemctl is-enabled iptables >/dev/null 2>&1 && fweipt=y || fweipt=n	
-	fi
-	
-	if command -v ip6tables >/dev/null; then 
-		systemctl is-enabled ip6tables >/dev/null 2>&1 && fweipt6=y || fweipt6=n
-	fi
-    
-	if command -v ufw >/dev/null; then 	
-		systemctl is-enabled ufw >/dev/null 2>&1 && fweufw=y || fweufw=n	
-	fi
+function is_admin_firewall_enabled(){
+        if command -v ${fwbeingused} >/dev/null; then
+                is_admin_firewall_enabled=$(systemctl is-enabled $fwbeingused)
 
-	if [[ ( "$fwearp" == "y" || "$fweebt" == "y" || "$fwefwd" == "y" || "$fweipt" == "y" || "$fweipt6" == "y" || "$fweufw" == "y" ) ]] ; then
-		is_firewall_enabled="y"
-	else 	
-		is_firewall_enabled="n"
-	fi	
+        fi
+        echo -e '\E[32m'"$is_admin_firewall_enabled "
+}
 
-	## Testing for now...
-	if [ "$is_firewall_enabled" == "y" ] ; then 
-		echo -ne "
-$(ColorOrange ''"Firewall(s) Enabled: -- UFW: ${fweufw} -- Firewalld: ${fwefwd} -- Iptables: ${fweipt} -- Ip6tables: ${fweipt6} -- Iptables: ${fweebt}"'')"
-	else
-		echo -ne "
-$(ColorOrange ''"No Firewall systems are currently enabled."'')"
-	fi
+
+function is_any_firewall_enabled(){
+	
+if command -v arptables >/dev/null; then 
+	systemctl is-enabled arptables >/dev/null 2>&1 && fwearp=y || fwearp=n
+fi
+
+if command -v ebtables >/dev/null; then 
+	systemctl is-enabled ebtables >/dev/null 2>&1 && fweebt=y || fweebt=n	
+fi	
+   
+if command -v firewalld >/dev/null; then
+	systemctl is-enabled firewalld >/dev/null 2>&1 && fwefwd=y || fwefwd=n
+fi
+
+if command -v iptables >/dev/null; then 
+	systemctl is-enabled iptables >/dev/null 2>&1 && fweipt=y || fweipt=n	
+fi
+
+if command -v ip6tables >/dev/null; then 
+	systemctl is-enabled ip6tables >/dev/null 2>&1 && fweipt6=y || fweipt6=n
+fi
+   
+if command -v ufw >/dev/null; then 	
+	systemctl is-enabled ufw >/dev/null 2>&1 && fweufw=y || fweufw=n	
+fi
+
+if [[ ( "$fwearp" == "y" || "$fweebt" == "y" || "$fwefwd" == "y" || "$fweipt" == "y" || "$fweipt6" == "y" || "$fweufw" == "y" ) ]] ; then
+	is_any_firewall_enabled="y"
+else 	
+	is_any_firewall_enabled="n"
+fi	
+ 
+ 	## Testing for now...
+ 	if [ "$is_any_firewall_enabled" == "y" ] ; then 
+ 		echo -ne "
+ $(ColorOrange ''"Firewall(s) Enabled: -- UFW: ${fweufw} -- Firewalld: ${fwefwd} -- Iptables: ${fweipt} -- Ip6tables: ${fweipt6} -- Iptables: ${fweebt}"'')"
+ 	else
+ 		echo -ne "
+ $(ColorOrange ''"No Firewall enabled."'')"
+ 	fi
+	#echo -e '\E[32m'"$is_any_firewall_enabled "
 }
 
 function get_firewall_status(){
-	if [ "${usefw}" == "y" ] ; then
-		get_firewall_status="NA"
-		#Is this better and does it work?
-		if command -v $fwbeingused >/dev/null; then
-			get_firewall_status=$(systemctl is-active $fwbeingused)
-		else
-			get_firewall_status="Firewall config not complete."
-		fi
-		
-		# if [ "${fwused}" == "a" ] ; then
-		# 	if command -v arptables >/dev/null; then get_firewall_status=$(systemctl is-active arptables) ; fi			
-		# elif [ "${fwused}" == "e" ] ; then
-		# 	if command -v ebtables >/dev/null; then get_firewall_status=$(systemctl is-active ebtables) ; fi			
-		# elif [ "${fwused}" == "f" ] ; then
-		# 	if command -v firewalld >/dev/null; then get_firewall_status=$(systemctl is-active firewalld) ; fi
-		# elif [ "${fwused}" == "i" ] ; then
-		# 	if command -v iptables >/dev/null; then get_firewall_status=$(systemctl is-active iptables) ; fi
-		# 	#if command -v ip6tables >/dev/null; then get_firewall_status=$(systemctl is-active ip6tables) ; fi
-		# elif [ "${fwused}" == "u" ] ; then
-		# 	if command -v ufw >/dev/null; then get_firewall_status=$(systemctl is-active ufw) ; fi
-		# else
-		# 	get_firewall_status="Error"
-		# fi	
-	else
-		get_firewall_status="Firewall Admin not enabled."
-	fi
-	echo -e '\E[32m'"$get_firewall_status "
+        if [ "$usefw" == "y" ] ; then
+
+                is_admin_firewall_enabled
+
+                if [ "$is_admin_firewall_enabled" == "enabled" ] ; then
+                        get_firewall_status="NA"
+                        #Is this better and does it work?
+                        if command -v $fwbeingused >/dev/null; then
+                                get_firewall_status=$(systemctl is-active $fwbeingused)
+                        else
+                                get_firewall_status="Error"
+                        fi
+                else
+
+                        get_firewall_status="NotEnabled"
+                fi
+        else
+
+                get_firewall_status="NoFWAdmin"
+        fi
+        echo -e '\E[32m'"$get_firewall_status "
 }
 
+
 function get_firewall_substate(){
-
 	if [ "${usefw}" == "y" ] ; then
-		get_firewall_substate="NA"
-		#Is this better and does it work?
-		if command -v $fwbeingused >/dev/null; then
-			get_firewall_substate=$(systemctl show -p SubState ${fwbeingused})
+		is_admin_firewall_enabled
+        if [ "$is_admin_firewall_enabled" == "enabled" ] ; then
+			get_firewall_substate="NA"
+			#Is this better and does it work?
+			if command -v $fwbeingused >/dev/null; then
+				get_firewall_substate=$(systemctl show -p SubState ${fwbeingused})
+			else
+				get_firewall_substate="Error"
+			fi
 		else
-			get_firewall_substate="Firewall config not complete."
+			get_firewall_substate="NotEnabled"
 		fi
-
-		#if [ "${fwused}" == "a" ] ; then
-		#	if command -v arptables >/dev/null; then get_firewall_substate=$(systemctl show -p SubState arptables) ; fi
-		#elif [ "${fwused}" == "e" ] ; then
-		#	if command -v ebtables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState ebtables) ; fi
-		#elif [ "${fwused}" == "f" ] ; then
-		#	if command -v firewalld >/dev/null; then get_firewall_substate=$(systemctl show -p SubState firewalld) ; fi
-		#elif [ "${fwused}" == "i" ] ; then
-		#	if command -v iptables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState iptables) ; fi		
-		#	# if command -v ip6tables >/dev/null; then  get_firewall_substate=$(systemctl show -p SubState ip6tables) ; fi
-		#elif [ "${fwused}" == "u" ] ; then
-		#	if command -v ufw >/dev/null; then get_firewall_substate=$(systemctl show -p SubState ufw) ; fi
-		#else
-		#	get_firewall_status="Error"
-		#fi
-		
 	else
-		get_firewall_substate="Firewall Admin not enabled."
+		get_firewall_substate="NoFWAdmin"
 	fi
 	echo -e '\E[32m'"$get_firewall_substate "
 }
@@ -1567,7 +1551,6 @@ function disable_all_firewalls(){
 	echo -e '\E[32m'"$disable_all_firewalls "
 }
 
-
 function add_Valheim_server_public_ports(){
 	if [ "${usefw}" == "y" ] ; then 
 		if [ "${fwbeingused}" == "fierwalld" ] ; then
@@ -1586,7 +1569,6 @@ function add_Valheim_server_public_ports(){
 		fi	
 	fi
 }
-
 
 function remove_Valheim_server_public_ports(){
 	if [ "${usefw}" == "y" ] ; then 
@@ -1736,6 +1718,15 @@ function remove_firewalld_public_service(){
 ##################CHANGE VALHEIM START CONFIG START#####################
 ########################################################################
 function get_current_config() {
+
+	if [ -f "$worldfilelist" ]; then
+		unset worldlistarray && readarray -t worldlistarray < $worldfilelist
+		set_world_server
+	else
+		newinstall = "y"
+		valheim_server_install 
+	fi
+
 	set_steamexe
 
     currentDisplayName=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
@@ -1744,23 +1735,6 @@ function get_current_config() {
     currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
     currentPublicSet=$(perl -n -e '/\-public "([0-1])"? \-savedir/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
     currentSaveDir=$(perl -n -e '/\-savedir "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
-	
-    if [ "$debugmsg" == "y" ] ; then
-            echo "$currentDisplayName"
-            echo "$currentWorldName"
-            echo "$currentPort"
-            echo "$currentPublicSet"
-            echo "$currentPassword"
-            echo "$currentSaveDir"
-    fi
-	
-	if [ -f "$worldfilelist" ]; then
-		unset worldlistarray && readarray -t worldlistarray < $worldfilelist
-		set_world_server
-	else
-		newinstall = "y"
-		valheim_server_install 
-	fi
 
 }
 
@@ -1771,6 +1745,7 @@ function print_current_config() {
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_LOCAL_WORLD_NAME_INFO"
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_ACCESS_PASSWORD $(tput setaf 2)${currentPassword} $(tput setaf 9) "
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_LISTING $(tput setaf 2)${currentPublicSet}  $(tput setaf 9) "
+    echo "This is the save path: $(tput setaf 2)${currentSaveDir}  $(tput setaf 9) "
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_LISTING_INFO"
 }
 function set_config_defaults() {
@@ -1782,6 +1757,7 @@ function set_config_defaults() {
     setcurrentWorldName=$currentWorldName
     setCurrentPassword=$currentPassword
     setCurrentPublicSet=$currentPublicSet
+	#setCurrentSaveDir=$currentSaveDir
 }
 function write_config_and_restart() {
     tput setaf 1; echo "$FUNCTION_WRITE_CONFIG_RESTART_INFO" ; tput setaf 9;
@@ -2579,7 +2555,7 @@ clear
 fi
 }
 
-################################################################# NEEDS TESTING AND VERIFICATION worldSaves vs server_saveddir conflicts? #############################################################	 
+
 function build_valw_bepinex_configuration_file() {
   cat > ${valheimInstallPath}/${worldname}/start_valw_bepinex.sh <<'EOF'
 #!/bin/sh
@@ -2837,7 +2813,6 @@ function set_world_server() {
 	request99="n"
 	clear
 }
-
 function currentHostName(){
 var="$(hostname)"
 echo $var
@@ -2875,7 +2850,7 @@ $(ColorPurple '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"       
 echo -ne "
 $(ColorPurple '╠═══════════════════════════════════════════════')"
 echo -ne "
-$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME " ${currentHostName}
+$(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME " ${currentDisplayName}
 echo -ne " 
 $(ColorPurple '║') $(are_you_connected)
 $(ColorPurple '║')" $(display_public_IP)
@@ -2913,7 +2888,7 @@ echo -ne "
 $(ColorCyan '╠═══════════════════════════════════════════════')
 $(ColorCyan '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_OFFICIAL_BUILD"'')" $(check_official_valheim_release_build)
 echo -ne "
-$(ColorCyan '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')" $(check_local_valheim_build)
+$(ColorCyan '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')"        $(check_local_valheim_build)
 echo -ne "
 $(ColorCyan '╠═══════════════════════════════════════════════')"
 echo -ne "
@@ -2980,6 +2955,7 @@ $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LD_SEVER_SESSION ${worldname}
 $(ColorOrange '║') 
 $(ColorOrange '╚═══════════════════════════════════════════════════════════')"
 }
+
 ## Notes: FUNCTION_HEADER_MENU_INFO_SERVER_UFW_SUBSTATE is missing in nls files.
 
 # Sub Server Menu System
@@ -3006,7 +2982,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 }
 
 function firewall_admin_menu() {
-
+	menu_header
 	if [ "${usefw}" == "n" ] ; then
 		echo ""
 		echo "The firewall admin system is not enabled."
@@ -3017,43 +2993,47 @@ function firewall_admin_menu() {
 		menu
 	else
 		echo -ne "
-$(ColorOrange ''"Valheim Server Firewall Infomation and control Center"'')
-$(ColorOrange '------------------------------------------------------------')"
-is_firewall_installed
-is_firewall_enabled
+$(ColorOrange '"╔══Valheim Server Firewall Infomation and control Center═══╗"'')
+$(ColorOrange '║~~~~~~~~~~~~~~~~~~')$(ColorLightGreen '-Njord Menu-')$(ColorCyan '~~~~~~~~~~~~~~~~~║')
+$(ColorOrange '╠═══════════════════════════════════════════════╝')"
+is_admin_firewall_installed
+is_admin_firewall_enabled
+is_any_firewall_installed
+is_any_firewall_enabled
 		echo -ne "
-$(ColorOrange '------------------------------------------------------------')
-$(ColorOrange ''"FireWallD actions for this Valheim server"'')
-$(ColorOrange '------------------------------------------------------------')
-$(ColorOrange '-')$(ColorGreen '1)') Show system status            
-$(ColorOrange '-')$(ColorGreen '2)') Show system substate          
-$(ColorOrange '-')$(ColorGreen '3)') Dump all information on the firewall 
-$(ColorOrange '-')$(ColorGreen '4)') Add the Steam ports to the firewall
-$(ColorOrange '-')$(ColorGreen '5)') Remove the Steam ports from the firewall
-$(ColorOrange '-')$(ColorGreen '6)') Add this Valheim service port to the firewall
-$(ColorOrange '-')$(ColorGreen '7)') Remove this Valheim service port from the firewall "
+$(ColorOrange '╠═══════════════════════════════════════════════')
+$(ColorOrange '║ "FireWallD actions for this Valheim server"'')
+$(ColorOrange '╠═══════════════════════════════════════════════')
+$(ColorOrange '║ ')$(ColorGreen '1)') Show system status            
+$(ColorOrange '║ ')$(ColorGreen '2)') Show system substate          
+$(ColorOrange '║ ')$(ColorGreen '3)') Dump all information on the firewall 
+$(ColorOrange '║ ')$(ColorGreen '4)') Add the Steam ports to the firewall
+$(ColorOrange '║ ')$(ColorGreen '5)') Remove the Steam ports from the firewall
+$(ColorOrange '║ ')$(ColorGreen '6)') Add this Valheim service port to the firewall
+$(ColorOrange '║ ')$(ColorGreen '7)') Remove this Valheim service port from the firewall "
 		if [ "${fwbeingused}" == "firewalld" ] ; then
 		echo -ne "
-$(ColorOrange '------------------------------------------------------------')
+$(ColorOrange '╠═══════════════════════════════════════════════')
 $(ColorOrange ''"Specifc to FireWallD for this Valheim world."'')
-$(ColorOrange '------------------------------------------------------------')
-$(ColorOrange '-')$(ColorGreen '50)') Create the service file
-$(ColorOrange '-')$(ColorGreen '51)') Delete the service file
-$(ColorOrange '-')$(ColorGreen '52)') Add the public service  
-$(ColorOrange '-')$(ColorGreen '53)') Remove the public service for Valheim server "
+$(ColorOrange '╠═══════════════════════════════════════════════')
+$(ColorOrange '║ ')$(ColorGreen '50)') Create the service file
+$(ColorOrange '║ ')$(ColorGreen '51)') Delete the service file
+$(ColorOrange '║ ')$(ColorGreen '52)') Add the public service  
+$(ColorOrange '║ ')$(ColorGreen '53)') Remove the public service for Valheim server "
 		fi
 		echo -ne "
-$(ColorOrange '------------------------------------------------------------')
-$(ColorOrange ''"To help verify/install perfered firewall system"'')
-$(ColorOrange '------------------------------------------------------------')
-$(ColorOrange '-')$(ColorGreen '100)') Verify/install the perfered firewall system.
-$(ColorOrange '-')$(ColorGreen '101)') Verify/enable the prefered firewall system.
-$(ColorOrange '-')$(ColorGreen '102)') Stop all known firewall systems.             
-$(ColorOrange '------------------------------------------------------------')
-$(ColorOrange '-')$(ColorGreen '0)') "$RETURN_MAIN_MENU."
-$(ColorOrange '------------------------------------------------------------')
-$(ColorOrange ''"$DRAW60"'')
-$(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
+$(ColorOrange '╠═══════════════════════════════════════════════')
+$(ColorOrange '║ "To help verify/install perfered firewall system"'')
+$(ColorOrange '╠═══════════════════════════════════════════════')
+$(ColorOrange '║ ')$(ColorGreen '100)') Verify/install the perfered firewall system.
+$(ColorOrange '║ ')$(ColorGreen '101)') Verify/enable the prefered firewall system.
+$(ColorOrange '║ ')$(ColorGreen '102)') Stop all known firewall systems.             
+$(ColorOrange '╠═══════════════════════════════════════════════')
+$(ColorOrange '║ ')$(ColorGreen '0)') "$RETURN_MAIN_MENU."
+$(ColorOrange '╠═══════════════════════════════════════════════')
+$(ColorOrange '║ "$DRAW60"'')
+$(ColorPurple '║ "$CHOOSE_MENU_OPTION"'')
+$(ColorPurple '╚═══════════════════════════════════════════════')"
 		read a
 		case $a in
 	    1) get_firewall_status ; firewall_admin_menu ;;
@@ -3067,9 +3047,9 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 		51) delete_firewalld_service_file ; firewall_admin_menu ;;
 		52) add_firewalld_public_service ; firewall_admin_menu ;;
 		53) remove_firewalld_public_service ; firewall_admin_menu ;;
-		#97) is_firewall_installed ; firewall_admin_menu ;;
-		#98) is_firewall_enabled ; firewall_admin_menu ;;
-		99) disable_all_firewalls ; firewall_admin_menu ;;
+		100) is_admin_firewall_installed ; firewall_admin_menu ;;
+		101) is_admin_firewall_enabled ; firewall_admin_menu ;;
+		102) disable_all_firewalls ; firewall_admin_menu ;;
         0) menu ; menu ;;
 		*)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; firewall_admin_menu ;;
 		esac
@@ -3091,7 +3071,7 @@ $(ColorOrange '-')$(ColorGreen ' 3)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_WOR
 $(ColorOrange '-')$(ColorGreen ' 4)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_SYSTEM_INFO
 $(ColorOrange '-')$(ColorGreen ' 5)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_NETWORK_INFO
 $(ColorOrange '-')$(ColorGreen ' 6)') $FUNCTION_VALHEIM_TECH_SUPPORT_DISPLAY_CONNECTED_PLAYER_HISTORY
-$(ColorOrange '-')$(ColorGreen ' 7)') Show World Seed (beta)
+$(ColorOrange '-')$(ColorGreen ' 7)') Show World Seed
 $(ColorOrange '-')$(ColorGreen ' 8)') System preformance (TOP)
 $(ColorOrange '------------------------------------------------------------')
 $(ColorOrange '-')$(ColorGreen ' 0)') "$RETURN_MAIN_MENU"
@@ -3106,7 +3086,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 			5) display_network_info ; tech_support ;;
 	        6) display_player_history ; tech_support ;;
 			7) get_worldseed ; tech_support ;;
-			8) top ; tech_support ;; 			
+			8) top -u steam ; tech_support ;; 			
 			0) menu ; menu ;;
 		    *)  echo -ne " $(ColorRed ''"$WRONG_MENU_OPTION"'')" ; tech_support ;;
         esac
@@ -3128,9 +3108,9 @@ $(ColorOrange ''"$FUNCTION_MAIN_MENU_OFFICAL_VALHEIM_HEADER"'')
 $(ColorOrange '-')$(ColorGreen ' 5)') $FUNCTION_MAIN_MENU_CHECK_APPLY_VALHEIM_UPDATES
 $(ColorOrange ''"$FUNCTION_MAIN_MENU_EDIT_VALHEIM_CONFIG_HEADER"'')
 $(ColorOrange '-')$(ColorGreen ' 6)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_DISPLAY_CONFIG
-$(ColorOrange '-')$(ColorGreen ' 7)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_CHANGE_PUBLIC_NAME
-$(ColorOrange '-')$(ColorGreen ' 8)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_CHANGE_SERVER_PORT
-$(ColorOrange '-')$(ColorGreen ' 9)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_CHANGE_WORLD_NAME
+$(ColorOrange '-')$(ColorGreen ' 7)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_CHANGE_WORLD_NAME
+$(ColorOrange '-')$(ColorGreen ' 8)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_CHANGE_PUBLIC_NAME
+$(ColorOrange '-')$(ColorGreen ' 9)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_CHANGE_SERVER_PORT
 $(ColorOrange '-')$(ColorGreen ' 10)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_CHANGE_ACCESS_PASS
 $(ColorOrange '-')$(ColorGreen ' 11)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_ENABLE_PUBLIC_LISTING
 $(ColorOrange '-')$(ColorGreen ' 12)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_DISABLE_PUBLIC_LISTING
@@ -3159,9 +3139,9 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 			4) firewall_admin_menu ; menu ;; 
 			5) confirm_check_apply_server_updates ; menu ;;	
 			6) display_full_config ; menu ;;
-			7) change_default_server_port ; menu ;;
+			7) change_local_world_name ; menu ;;
 			8) change_public_display_name ; menu ;;		
-			9) change_local_world_name ; menu ;;
+			9) change_default_server_port ; menu ;;
 			10) change_server_access_password ; menu ;;
 			11) write_public_on_config_and_restart ; menu ;;
 			12) write_public_off_config_and_restart ; menu ;;
