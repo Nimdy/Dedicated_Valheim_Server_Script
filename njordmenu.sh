@@ -407,6 +407,15 @@ $(ColorRed ''"$DRAW60"'')"
 	echo ""
 	
     if [ "$confirmStartInstall" == "y" ]; then
+		tput setaf 2; echo "Thank you for using the Njord Menu system." ; tput setaf 9; 
+		tput setaf 2; echo "This appears to be the frist time the menu has" ; tput setaf 9; 
+		tput setaf 2; echo "been run on this system." ; tput setaf 9; 
+		tput setaf 2; echo "Installing the first Valheim server started." ; tput setaf 9; 
+	fi
+		echo -ne "
+$(ColorRed ''"$DRAW60"'')"
+
+    if [ "$confirmStartInstall" == "y" ]; then
 		echo ""
 		# Linux updates.
         echo "Press Y(yes) or N(no)"
@@ -1176,6 +1185,15 @@ function display_start_valheim() {
     echo ""
 }
 
+
+# Display Valheim Start Configuration
+function display_start_valheim() {
+    clear
+    echo ""
+    sudo cat ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
+    echo ""
+}
+
 # Display Valheim World Data Folder
 function display_world_data_folder() {
     clear
@@ -1230,8 +1248,6 @@ clear
     sudo grep *HAND* /var/log/syslog*
     echo ""
 }
-
-################ STILL NOT WORKING FOR UBUNTU!!!!! HACKERS!!!! DOGE COIN!!!
 
 function get_worldseed(){
 	#worldseed=$(cat > ${worldpath}/${worldname}/${serverdisplayname}.fwl)
@@ -2932,7 +2948,7 @@ $(ColorOrange '║')" $(display_local_IP)
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
 	echo -ne "
-$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW " $(get_firewall_status)
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(get_firewall_status)
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW_SUBSTATE -- substatus" $(get_firewall_substate) 
 	echo -ne "
