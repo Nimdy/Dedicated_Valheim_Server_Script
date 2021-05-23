@@ -2685,6 +2685,69 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'')"
 ###############################################################FINISH BEPINEX MOD SECTION##############################################################
 #######################################################################################################################################################
 
+
+
+########################################################################
+###############UPGRADE FROM OLD MENUS to NJORD MENU ####################
+########################################################################
+
+
+### This function is for people upgrading from the old menu system to the new menu system
+### The function will restruc the whole file system for the Valheim Install directories
+function get_current_config_upgrade_menu() {
+        echo "Rebuilding Configuration Files for New Njord Menu"
+	echo "Stopping Valheim Services"
+	systemctl stop valheimserver.service
+	echo "Waiting 5 seconds for complete shutdown"
+	sleep 5
+	#Check for worlds.txt that holds all the Worlds running on a server
+        [ -f "$worldfilelist" ] || perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' /home/steam/valheimserver/start_valheim.sh > /home/steam/worlds.txt
+	sleep 1
+	chown steam:steam /home/steam/worlds.txt
+        setNewWorldNamePathing=$(cat /home/steam/worlds.txt)
+	mkdir ${valheimInstallPath}/${setNewWorldNamePathing}
+	rsync -a --exclude ${setNewWorldNamePathing} ${valheimInstallPath}/ /home/steam/valheimserver/${setNewWorldNamePathing}
+	sleep 1
+	find ${valheimInstallPath} -mindepth 1 -maxdepth 1 -type d,f -not -name ${setNewWorldNamePathing} -exec rm -Rf '{}' \; 
+	sleep 1
+	# Rename the old startup script to match the current worldname and change to the new start up world name script
+	mv ${valheimInstallPath}/${setNewWorldNamePathing}/start_valheim.sh ${valheimInstallPath}/${setNewWorldNamePathing}/start_valheim_${setNewWorldNamePathing}.sh
+        # Delete Old Service Files
+        find . -name valheimserver.service -exec echo rm -rf {} \;	
+        # Set Temp WorldName VAR for Service File
+	worldname=$(cat /home/steam/worlds.txt)
+	# Build new Service File
+cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF
+[Unit]
+Description=Valheim Server
+Wants=network-online.target
+After=syslog.target network.target nss-lookup.target network-online.target
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+StartLimitInterval=60s
+StartLimitBurst=3
+User=steam
+Group=steam
+ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath}/${worldname} +app_update 896660 validate +exit
+ExecStart=${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
+ExecReload=/bin/kill -s HUP \$MAINPID
+KillSignal=SIGINT
+WorkingDirectory=${valheimInstallPath}/${worldname}
+LimitNOFILE=100000
+[Install]
+WantedBy=multi-user.target
+EOF
+       # Reset Permissions and Ownership to Steam DIR
+       chown steam:steam /home/steam/worlds.txt
+       # Start New Services
+       systemctl start valheimserver_${worldname}.service
+       echo "Upgrade Complete"
+       echo "Please restart the Njord Menu and select your world"
+       
+}
+
 ########################################################################
 ########################MENUS STATUS VARIBLES START ####################
 ########################################################################
@@ -3135,7 +3198,10 @@ $(ColorOrange ''"$FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_HEADER"'')
 $(ColorOrange '-')$(ColorGreen ' 19)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG_YES
 $(ColorOrange '-')$(ColorGreen ' 20)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG_YES_BEP
 $(ColorOrange ''"$DRAW60"'')
-$(ColorOrange '-')$(ColorGreen ' 99)') $FUNCTION_MAIN_MENU_LD_CHANGE_SESSION_CURRENT_WORLD
+$(ColorOrange '-')$(ColorGreen ' 99)') " $FUNCTION_MAIN_MENU_LD_CHANGE_SESSION_CURRENT_WORLD
+[ -f "$worldfilelist" ] || echo -ne "
+$(ColorOrange '-')$(ColorGreen ' 0000)') " Upgrade Old Menu to New Njord Menu
+echo -ne "
 $(ColorOrange ''"$DRAW60"'')
 $(ColorGreen ' 0)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_EXIT
 $(ColorOrange ''"$DRAW60"'')
@@ -3163,6 +3229,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 			19) mods_menu ; mods_menu ;;
 			20) bepinex_menu ; bepinex_menu ;;			
 			99) request99="y" ; set_world_server ; menu ;;
+			0000) get_current_config_upgrade_menu ; menu ;;
 			0) exit 0 ;;
 			*)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
         esac
