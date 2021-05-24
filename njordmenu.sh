@@ -396,30 +396,6 @@ function build_configuration_env_files_set_permissions(){
 function valheim_server_install() {
     clear
     echo ""
-    echo -ne "
-$(ColorOrange ''"$INSTALLVALSERVER"'')
-$(ColorRed ''"$DRAW60"'')"
-	echo ""
-	tput setaf 2; echo "$CONFIRMVALINSTALL" ; tput setaf 9; 
-	tput setaf 2; echo "$CONFIRMVALINSTALL_1" ; tput setaf 9; 
-	echo -ne "
-$(ColorRed ''"$DRAW60"'')"
-	echo ""
-	
-#    if [ "$confirmStartInstall" == "y" ]; then
-#		tput setaf 2; echo "Thank you for using the Njord Menu system." ; tput setaf 9; 
-#		tput setaf 2; echo "This appears to be the frist time the menu has" ; tput setaf 9; 
-#		tput setaf 2; echo "been run on this system." ; tput setaf 9; 
-#		tput setaf 2; echo "Installing the first Valheim server started." ; tput setaf 9; 
-#	fi
-#		echo -ne "
-#$(ColorRed ''"$DRAW60"'')"
-#
- #   if [ "$confirmStartInstall" == "y" ]; then
-		echo ""
-		# Linux updates.
-        echo "Press Y(yes) or N(no)"
-        read -p "Is this a brand new install" newinstall
 		if [ "$newinstall" == "y" ]; then
 			tput setaf 2; echo "Thank you for using the Njord Menu system." ; tput setaf 9; 
 			tput setaf 2; echo "This appears to be the frist time the menu has" ; tput setaf 9; 
@@ -575,10 +551,9 @@ EOF
 		tput setaf 2; echo "$INSTALL_BUILD_FINISH_THANK_YOU" ; tput setaf 9;
 		echo ""
 		echo ""    
-    else
-		echo "$INSTALL_BUILD_CANCEL"
-	fi
+
 }
+
 ########################################################################
 #####################Install Valheim Server END#########################
 ########################################################################
