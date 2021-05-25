@@ -2690,7 +2690,18 @@ function get_current_config_upgrade_menu() {
 	    sleep 1
 	    # Rename the old startup script to match the current worldname and change to the new start up world name script
 	    mv ${valheimInstallPath}/${setNewWorldNamePathing}/start_valheim.sh ${valheimInstallPath}/${setNewWorldNamePathing}/start_valheim_${setNewWorldNamePathing}.sh
-
+        # Rebuild start_valheim configuration file adding -savedir startup flag
+        get_current_config
+  cat > ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh <<EOF
+#!/bin/bash
+export templdpath=\$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
+export SteamAppId=892970
+# Tip: Make a local copy of this script to avoid it being overwritten by steam.
+# NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
+./valheim_server.x86_64 -name "${currentDisplayName}" -port ${currentPort} -nographics -batchmode -world "${currentWorldName}" -password "${currentPassword}" -public "${currentPublicSet}" -savedir "${worldpath}/${worldname}"
+export LD_LIBRARY_PATH=\$templdpath
+EOF
         # Delete Old Service Files
         find . -name valheimserver.service -exec rm -rf {} \;	
         # Set Temp WorldName VAR for Service File
