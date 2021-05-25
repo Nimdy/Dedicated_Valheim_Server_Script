@@ -3018,7 +3018,7 @@ $(ColorOrange '║')" $(display_public_IP)
 	echo -ne "
 $(ColorOrange '║')" $(display_local_IP) 
 	echo -ne "
-$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " 	echo -ne " $(ColorGreen ''" ${currentPort}"'')"
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_status)
 	echo -ne " 
