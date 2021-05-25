@@ -3009,9 +3009,9 @@ $(ColorOrange '╠════════════════════�
 $(ColorOrange '║'" $FUNCTION_HEADER_MENU_INFO_VALHEIM_OFFICIAL_BUILD"'')" $(check_official_valheim_release_build)
 	echo -ne "
 $(ColorOrange '║'" $FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ') $(check_local_valheim_build)
-$(ColorOrange '║')" $FUNCTION_HEADER_MENU_INFO_LD_SEVER_SESSION ${worldname}
+$(ColorOrange '║')" $FUNCTION_HEADER_MENU_INFO_LD_SEVER_SESSION $(ColorGreen ''"${worldname}"'')
 	echo -ne "
-$(ColorOrange '║')" $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
+$(ColorOrange '║')" $FUNCTION_HEADER_MENU_INFO_SERVER_NAME $(ColorGreen ''"${currentDisplayName}"'')
 	echo -ne " 
 $(ColorOrange '║') $(are_you_connected)
 $(ColorOrange '║')" $(display_public_IP)
@@ -3033,8 +3033,6 @@ $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(get_firewall_statu
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW_SUBSTATE -- substatus" $(get_firewall_substate) 
 	echo -ne "
 $(ColorOrange '║') Is the port added to the firewall? " $(is_port_added_firewall)
-	echo -ne " 
-$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(display_public_status_on_or_off)
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_CURRENT_NJORD_RELEASE $(check_menu_script_repo)
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_NJORD_VERSION ${mversion}
