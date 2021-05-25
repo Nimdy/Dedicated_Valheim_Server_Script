@@ -70,12 +70,11 @@ clear
 valheimInstallPath=/home/steam/valheimserver
 ### Valheim World Data Path(Default)
 worldpath=/home/steam/.config/unity3d/IronGate/Valheim
-### Keeps a list of created Valheim Worlds
 worldfilelist=/home/steam/worlds.txt
 ### Backup Directory ( Default )
 backupPath=/home/steam/backups
 ###
-###  Configs for Advance Users ###
+
 ### This option is only for the steamcmd install where it 
 ### is not included in the "steam" client install ... ie RH/OEL-yum
 ### Set this to delete all files from the /home/steam/steamcmd directory to install steamcmd fresh.
@@ -378,7 +377,6 @@ function valheim_server_public_access_password() {
 			tput setaf 2; echo "$SERVER_ACCESS_PASSWORD_ERROR_1" ; tput setaf 9;
 		done
 }
-
 function build_configuration_env_files_set_permissions(){		
 		#Populate Admin/config files
 		echo "$DRAW60" >> /home/steam/serverSetup.txt
@@ -395,7 +393,6 @@ function build_configuration_env_files_set_permissions(){
 		chown steam:steam /home/steam/*.txt
 		clear
 }
-
 function valheim_server_install() {
     clear
     echo ""
@@ -414,7 +411,7 @@ function valheim_server_install() {
 			build_configuration_env_files_set_permissions
 			Install_steamcmd_client
 		else 
-			#for adding another valheim install on the same server skipping steam user creation
+			#add server valheim server skipping steam user creation
 			valheim_server_public_server_display_name
 			valheim_server_local_world_name
 			valheim_server_public_valheim_port
@@ -599,7 +596,7 @@ function linux_server_update() {
     fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1
-	# Nimdy: check for updates and upgrade the system auto yes 
+	# Nimby: check for updates and upgrade the system auto yes 
 	#        WTF is curl not installed by default... come on man!
     tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
@@ -1744,7 +1741,7 @@ function set_config_defaults() {
     setcurrentWorldName=$currentWorldName
     setCurrentPassword=$currentPassword
     setCurrentPublicSet=$currentPublicSet
-    setCurrentSaveDir=$currentSaveDir
+	#setCurrentSaveDir=$currentSaveDir
 }
 function write_config_and_restart() {
     tput setaf 1; echo "$FUNCTION_WRITE_CONFIG_RESTART_INFO" ; tput setaf 9;
@@ -2674,28 +2671,27 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'')"
 ### The function will restruc the whole file system for the Valheim Install directories
 function get_current_config_upgrade_menu() {
         echo "Rebuilding Configuration Files for New Njord Menu"
-        echo "Stopping Valheim Services"
-	    systemctl stop valheimserver.service
-	    echo "Waiting 5 seconds for complete shutdown"
-	    sleep 5
-	    #Check for worlds.txt that holds all the Worlds running on a server
+	echo "Stopping Valheim Services"
+	systemctl stop valheimserver.service
+	echo "Waiting 5 seconds for complete shutdown"
+	sleep 5
+	#Check for worlds.txt that holds all the Worlds running on a server
         [ -f "$worldfilelist" ] || perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' /home/steam/valheimserver/start_valheim.sh > /home/steam/worlds.txt
-	    sleep 1
-	    chown steam:steam /home/steam/worlds.txt
+	sleep 1
+	chown steam:steam /home/steam/worlds.txt
         setNewWorldNamePathing=$(cat /home/steam/worlds.txt)
-	    mkdir ${valheimInstallPath}/${setNewWorldNamePathing}
-	    rsync -a --exclude ${setNewWorldNamePathing} ${valheimInstallPath}/ /home/steam/valheimserver/${setNewWorldNamePathing}
-	    sleep 1
-	    find ${valheimInstallPath} -mindepth 1 -maxdepth 1 -type d,f -not -name ${setNewWorldNamePathing} -exec rm -Rf '{}' \; 
-	    sleep 1
-	    # Rename the old startup script to match the current worldname and change to the new start up world name script
-	    mv ${valheimInstallPath}/${setNewWorldNamePathing}/start_valheim.sh ${valheimInstallPath}/${setNewWorldNamePathing}/start_valheim_${setNewWorldNamePathing}.sh
-
+	mkdir ${valheimInstallPath}/${setNewWorldNamePathing}
+	rsync -a --exclude ${setNewWorldNamePathing} ${valheimInstallPath}/ /home/steam/valheimserver/${setNewWorldNamePathing}
+	sleep 1
+	find ${valheimInstallPath} -mindepth 1 -maxdepth 1 -type d,f -not -name ${setNewWorldNamePathing} -exec rm -Rf '{}' \; 
+	sleep 1
+	# Rename the old startup script to match the current worldname and change to the new start up world name script
+	mv ${valheimInstallPath}/${setNewWorldNamePathing}/start_valheim.sh ${valheimInstallPath}/${setNewWorldNamePathing}/start_valheim_${setNewWorldNamePathing}.sh
         # Delete Old Service Files
-        find . -name valheimserver.service -exec rm -rf {} \;	
+        find . -name valheimserver.service -exec echo rm -rf {} \;	
         # Set Temp WorldName VAR for Service File
-	    worldname=$(cat /home/steam/worlds.txt)
-	    # Build new Service File
+	worldname=$(cat /home/steam/worlds.txt)
+	# Build new Service File
 cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF
 [Unit]
 Description=Valheim Server
@@ -2720,16 +2716,10 @@ WantedBy=multi-user.target
 EOF
        # Reset Permissions and Ownership to Steam DIR
        chown steam:steam /home/steam/worlds.txt
-       mkdir ${worldpath}/${worldname}
-       cp ${worldpath}/worlds/${worldname}.db ${worldpath}/${worldname}/worlds/
-       cp ${worldpath}/worlds/${worldname}.fwl ${worldpath}/${worldname}/worlds/
-       # Set steam permissions again for double check to everything within the /home/steam/ directory
-       chown steam:steam -Rf /home/steam/*
        # Start New Services
        systemctl start valheimserver_${worldname}.service
        echo "Upgrade Complete"
        echo "Please restart the Njord Menu and select your world"
-       sleep 3
        
 }
 
@@ -2776,8 +2766,8 @@ echo $latestScript
 }
 
 function display_public_status_on_or_off() {
-    currentPublicStatus=$(perl -n -e '/\-public "([0-1])"? \-savedir/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
-    if [[ $currentPublicStatus == 1 ]]; then 
+currentPortCheck=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+    if [[ $currentPortCheck == 1 ]]; then 
       echo "$ECHO_ON"
     else
       echo "$ECHO_OFF"
@@ -2870,22 +2860,6 @@ function set_world_server() {
 	request99="n"
 	clear
 }
-
-### Port Validation for creating additional Valheim installs
-function validateUsedValheimPorts(){
-starting_port=2459
-ending_port=2600
-
-for i in $(seq $starting_port $ending_port); do
-    if ! [[ $(sudo netstat -plnt | grep ":$i") ]]; then
-        echo "$i not in use, Recommend choosing this one"
-        break
-    elif [ "$i" == "$ending_port" ]; then
-        echo "no ports to use"
-    fi
-done
-}
-
 function currentHostName(){
 var="$(hostname)"
 echo $var
