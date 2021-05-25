@@ -2818,7 +2818,7 @@ echo -e '\E[32m'"$server_substate "
 }
 
 function are_you_connected() {
-ping -c 1 google.com &> /dev/null && echo "$INTERNET_MSG $tecreset" $(ColorGreen ''"$INTERNET_MSG_CONNECTED"'') || echo "$INTERNET_MSG $tecreset $(ColorRed ''"$INTERNET_MSG_DISCONNECTED"'')
+ping -c 1 google.com &> /dev/null && echo "$INTERNET_MSG $tecreset" $(ColorGreen ''"$INTERNET_MSG_CONNECTED"'') || echo "$INTERNET_MSG $tecreset" $(ColorRed ''"$INTERNET_MSG_DISCONNECTED"'')
 }
 
 function are_mods_enabled() {
