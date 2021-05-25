@@ -72,9 +72,6 @@ valheimInstallPath=/home/steam/valheimserver
 worldpath=/home/steam/.config/unity3d/IronGate/Valheim
 ### Keeps a list of created Valheim Worlds
 worldfilelist=/home/steam/worlds.txt
-### Keeps a list of created Valheim used ports
-### This is help prevent port conflicts, if creating multipule Valheim installs on one server
-usedValheimPorts=/home/steam/usedports.txt
 ### Backup Directory ( Default )
 backupPath=/home/steam/backups
 ###
@@ -417,7 +414,7 @@ function valheim_server_install() {
 			build_configuration_env_files_set_permissions
 			Install_steamcmd_client
 		else 
-			#add server valheim server skipping steam user creation
+			#for adding another valheim install on the same server skipping steam user creation
 			valheim_server_public_server_display_name
 			valheim_server_local_world_name
 			valheim_server_public_valheim_port
@@ -2870,9 +2867,16 @@ function set_world_server() {
 
 ### Port Validation for creating additional Valheim installs
 function validateUsedValheimPorts(){
-lines=$(cat ${usedValheimPorts})
-for line in $lines; do
-        echo "${usedValheimPorts}"
+starting_port=2459
+ending_port=2600
+
+for i in $(seq $starting_port $ending_port); do
+    if ! [[ $(sudo netstat -plnt | grep ":$i") ]]; then
+        echo "$i not in use, Recommend choosing this one"
+        break
+    elif [ "$i" == "$ending_port" ]; then
+        echo "no ports to use"
+    fi
 done
 }
 
