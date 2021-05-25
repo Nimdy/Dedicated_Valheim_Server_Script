@@ -1706,13 +1706,13 @@ function remove_firewalld_public_service(){
 ########################################################################
 function get_current_config() {
 
-	if [ -f "$worldfilelist" ]; then
-		unset worldlistarray && readarray -t worldlistarray < $worldfilelist
+	[ -f "$worldfilelist" ] || unset worldlistarray && readarray -t worldlistarray < $worldfilelist
 		set_world_server
-	else
-		newinstall = "y"
-		valheim_server_install 
-	fi
+    # Rework later for auto detecting fresh install... upgrading from old menu to new menu just pushes this.... not what we want upgraders to experience    
+	#else
+	#	newinstall = "y"
+	#	valheim_server_install 
+	#fi
 
 	set_steamexe
 
@@ -2736,6 +2736,9 @@ EOF
        cp ${worldpath}/worlds/${worldname}.fwl ${worldpath}/${worldname}/worlds/
        # Set steam permissions again for double check to everything within the /home/steam/ directory
        chown steam:steam -Rf /home/steam/*
+       # Reload daemon services to clear out old valheimserver.service
+       systemctl daemon-reload
+       sleep 1
        # Start New Services
        systemctl start valheimserver_${worldname}.service
        echo "Upgrade Complete"
