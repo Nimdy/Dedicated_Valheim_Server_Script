@@ -70,11 +70,15 @@ clear
 valheimInstallPath=/home/steam/valheimserver
 ### Valheim World Data Path(Default)
 worldpath=/home/steam/.config/unity3d/IronGate/Valheim
+### Keeps a list of created Valheim Worlds
 worldfilelist=/home/steam/worlds.txt
+### Keeps a list of created Valheim used ports
+### This is help prevent port conflicts, if creating multipule Valheim installs on one server
+usedValheimPorts=/home/steam/usedports.txt
 ### Backup Directory ( Default )
 backupPath=/home/steam/backups
 ###
-
+###  Configs for Advance Users ###
 ### This option is only for the steamcmd install where it 
 ### is not included in the "steam" client install ... ie RH/OEL-yum
 ### Set this to delete all files from the /home/steam/steamcmd directory to install steamcmd fresh.
@@ -377,6 +381,7 @@ function valheim_server_public_access_password() {
 			tput setaf 2; echo "$SERVER_ACCESS_PASSWORD_ERROR_1" ; tput setaf 9;
 		done
 }
+
 function build_configuration_env_files_set_permissions(){		
 		#Populate Admin/config files
 		echo "$DRAW60" >> /home/steam/serverSetup.txt
@@ -393,6 +398,7 @@ function build_configuration_env_files_set_permissions(){
 		chown steam:steam /home/steam/*.txt
 		clear
 }
+
 function valheim_server_install() {
     clear
     echo ""
@@ -596,7 +602,7 @@ function linux_server_update() {
     fi
     tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
     sleep 1
-	# Nimby: check for updates and upgrade the system auto yes 
+	# Nimdy: check for updates and upgrade the system auto yes 
 	#        WTF is curl not installed by default... come on man!
     tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
@@ -1741,7 +1747,7 @@ function set_config_defaults() {
     setcurrentWorldName=$currentWorldName
     setCurrentPassword=$currentPassword
     setCurrentPublicSet=$currentPublicSet
-	#setCurrentSaveDir=$currentSaveDir
+
 }
 function write_config_and_restart() {
     tput setaf 1; echo "$FUNCTION_WRITE_CONFIG_RESTART_INFO" ; tput setaf 9;
@@ -2720,6 +2726,7 @@ EOF
        systemctl start valheimserver_${worldname}.service
        echo "Upgrade Complete"
        echo "Please restart the Njord Menu and select your world"
+       sleep 3
        
 }
 
@@ -2860,6 +2867,15 @@ function set_world_server() {
 	request99="n"
 	clear
 }
+
+### Port Validation for creating additional Valheim installs
+function validateUsedValheimPorts(){
+lines=$(cat ${usedValheimPorts})
+for line in $lines; do
+        echo "${usedValheimPorts}"
+done
+}
+
 function currentHostName(){
 var="$(hostname)"
 echo $var
