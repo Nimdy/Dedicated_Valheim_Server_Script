@@ -3014,7 +3014,8 @@ $(ColorOrange '║')" $FUNCTION_HEADER_MENU_INFO_LD_SEVER_SESSION ${worldname}
 $(ColorOrange '║')" $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
 	echo -ne " 
 $(ColorOrange '║') $(are_you_connected)
-$(ColorOrange '║') $(display_public_IP)
+$(ColorOrange '║')" $(display_public_IP)
+	echo -ne "
 $(ColorOrange '║') $(display_local_IP)
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_status)
 	echo -ne " 
