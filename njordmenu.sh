@@ -309,8 +309,7 @@ function valheim_server_public_valheim_port() {
 			#### IE:  World Names and Ports currently in use:
 			####  World Name: Example World Ports Used: 2456-2458
 			####  World Name: Example 2    Ports Used: 2359-2461
-			tput setaf 1; echo "If you are adding more than one Valheim Server do not use ports 2456,2457 and 2458." ; tput setaf 9;
-			tput setaf 1; echo "Please use 2460 or 2470 or 2480" ; tput setaf 9;
+			
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 		echo ""
 			while true; do
@@ -1708,7 +1707,7 @@ function remove_firewalld_public_service(){
 function get_current_config() {
 
 	[ -f "$worldfilelist" ] || unset worldlistarray && readarray -t worldlistarray < $worldfilelist
-		set_world_server
+	set_world_server
     # Rework later for auto detecting fresh install... upgrading from old menu to new menu just pushes this.... not what we want upgraders to experience    
 	#else
 	#	newinstall = "y"
@@ -3229,7 +3228,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 			3) server_install_menu ; menu ;;
 			4) firewall_admin_menu ; menu ;; 
 			5) confirm_check_apply_server_updates ; menu ;;	
-			6) display_full_config ; menu ;;
+			6) display_full_config ; echo "BACK TO MENU IN 5 SECONDS" ; sleep 5 ; menu ;;
 			7) change_local_world_name ; menu ;;
 			8) change_public_display_name ; menu ;;		
 			9) change_default_server_port ; menu ;;
