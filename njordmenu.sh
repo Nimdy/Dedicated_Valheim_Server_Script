@@ -2735,7 +2735,7 @@ EOF
        cp ${worldpath}/worlds/${worldname}.db ${worldpath}/${worldname}/worlds/
        cp ${worldpath}/worlds/${worldname}.fwl ${worldpath}/${worldname}/worlds/
        # Set steam permissions again for double check to everything within the /home/steam/ directory
-       chown steam:steam -Rf /home/steam/*
+       chown -Rf steam:steam /home/steam/*
        # Reload daemon services to clear out old valheimserver.service
        systemctl daemon-reload
        sleep 1
