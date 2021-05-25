@@ -2776,8 +2776,8 @@ echo $latestScript
 }
 
 function display_public_status_on_or_off() {
-currentPortCheck=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
-    if [[ $currentPortCheck == 1 ]]; then 
+    currentPublicStatus=$(perl -n -e '/\-public "([0-1])"? \-savedir/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+    if [[ $currentPublicStatus == 1 ]]; then 
       echo "$ECHO_ON"
     else
       echo "$ECHO_OFF"
