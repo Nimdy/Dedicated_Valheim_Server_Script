@@ -3006,20 +3006,19 @@ echo -ne "
 $(ColorOrange '╔══════════════════════════════════════════════════════════╗')
 $(ColorOrange '║~~~~~~~~~~*****~~~~~~~~-Njord Menu-~~~~~~~~~*****~~~~~~~~~║')
 $(ColorOrange '╠══════════════════════════════════════════════════════════╝')
-$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_OFFICIAL_BUILD"'')" $(check_official_valheim_release_build)
+$(ColorOrange '║'"$FUNCTION_HEADER_MENU_INFO_VALHEIM_OFFICIAL_BUILD"'')" $(check_official_valheim_release_build)
 	echo -ne "
-$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ') $(check_local_valheim_build)
-$(ColorOrange '║') " $FUNCTION_HEADER_MENU_INFO_LD_SEVER_SESSION ${worldname}
+$(ColorOrange '║'"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ') $(check_local_valheim_build)
+$(ColorOrange '║')"$FUNCTION_HEADER_MENU_INFO_LD_SEVER_SESSION ${worldname}
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
+	echo -ne " 
+$(ColorOrange '║') $(are_you_connected)
+$(ColorOrange '║') $(display_public_IP)
+$(ColorOrange '║')" $(display_local_IP)
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_status)
 	echo -ne " 
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_SUBSTATE" $(server_substate)
-	echo -ne " 
-$(ColorOrange '║') $(are_you_connected)
-$(ColorOrange '║')" $(display_public_IP)
-	echo -ne "
-$(ColorOrange '║')" $(display_local_IP)
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT " ${currentPort}
 	echo -ne "
@@ -3035,7 +3034,7 @@ $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_CURRENT_NJORD_RELEASE $(check_me
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_NJORD_VERSION ${mversion}
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_LD_VERSION ${ldversion}
 $(ColorOrange '║') 
-$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LD_SEVER_SESSION ${worldname}
+$(ColorOrange '║')
 $(ColorOrange '║') 
 $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO"'')
 $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_1"'')
