@@ -3013,8 +3013,8 @@ $(ColorOrange '║')" $FUNCTION_HEADER_MENU_INFO_LD_SEVER_SESSION $(ColorGreen '
 	echo -ne "
 $(ColorOrange '║')" $FUNCTION_HEADER_MENU_INFO_SERVER_NAME $(ColorGreen ''"${currentDisplayName}"'')
 	echo -ne " 
-$(ColorOrange '║') $(are_you_connected)
-$(ColorOrange '║')" $(display_public_IP)
+$(ColorOrange '║') $(ColorGreen ''"$(are_you_connected)"'')
+$(ColorOrange '║')" $(ColorGreen ''"$(display_public_IP)"'')
 	echo -ne "
 $(ColorOrange '║')" $(display_local_IP) 
 	echo -ne "
