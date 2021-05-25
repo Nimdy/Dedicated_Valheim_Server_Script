@@ -3025,7 +3025,8 @@ $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(ColorGreen ''"$(
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_status)
 	echo -ne " 
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_SUBSTATE" $(server_substate)
-$(ColorOrange '╠═══════════════════════════════════════════════════════════')
+	echo -ne " 
+$(ColorOrange '╠═══════════════════════════════════════════════════════════')"
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(get_firewall_status)
 	echo -ne "
