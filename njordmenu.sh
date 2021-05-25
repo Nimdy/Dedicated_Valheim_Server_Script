@@ -3006,13 +3006,10 @@ echo -ne "
 $(ColorOrange '╔══════════════════════════════════════════════════════════╗')
 $(ColorOrange '║~~~~~~~~~~*****~~~~~~~~-Njord Menu-~~~~~~~~~*****~~~~~~~~~║')
 $(ColorOrange '╠══════════════════════════════════════════════════════════╝')
-$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO"'')
-$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_1"'')
-$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_2"'')
-$(ColorOrange '║')
 $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_OFFICIAL_BUILD"'')" $(check_official_valheim_release_build)
 	echo -ne "
-$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ')" $(check_local_valheim_build)
+$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_VALHEIM_LOCAL_BUILD"' ') $(check_local_valheim_build)
+$(ColorOrange '║') " $FUNCTION_HEADER_MENU_INFO_LD_SEVER_SESSION ${worldname}
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME ${currentDisplayName}
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_status)
@@ -3040,6 +3037,9 @@ $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_LD_VERSION ${ldversion}
 $(ColorOrange '║') 
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LD_SEVER_SESSION ${worldname}
 $(ColorOrange '║') 
+$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO"'')
+$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_1"'')
+$(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_2"'')
 $(ColorOrange '╚═══════════════════════════════════════════════════════════')"
 }
 
