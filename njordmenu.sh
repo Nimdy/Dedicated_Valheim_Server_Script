@@ -1744,7 +1744,7 @@ function set_config_defaults() {
     setcurrentWorldName=$currentWorldName
     setCurrentPassword=$currentPassword
     setCurrentPublicSet=$currentPublicSet
-
+    setCurrentSaveDir=$currentSaveDir
 }
 function write_config_and_restart() {
     tput setaf 1; echo "$FUNCTION_WRITE_CONFIG_RESTART_INFO" ; tput setaf 9;
@@ -2674,27 +2674,28 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'')"
 ### The function will restruc the whole file system for the Valheim Install directories
 function get_current_config_upgrade_menu() {
         echo "Rebuilding Configuration Files for New Njord Menu"
-	echo "Stopping Valheim Services"
-	systemctl stop valheimserver.service
-	echo "Waiting 5 seconds for complete shutdown"
-	sleep 5
-	#Check for worlds.txt that holds all the Worlds running on a server
+        echo "Stopping Valheim Services"
+	    systemctl stop valheimserver.service
+	    echo "Waiting 5 seconds for complete shutdown"
+	    sleep 5
+	    #Check for worlds.txt that holds all the Worlds running on a server
         [ -f "$worldfilelist" ] || perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' /home/steam/valheimserver/start_valheim.sh > /home/steam/worlds.txt
-	sleep 1
-	chown steam:steam /home/steam/worlds.txt
+	    sleep 1
+	    chown steam:steam /home/steam/worlds.txt
         setNewWorldNamePathing=$(cat /home/steam/worlds.txt)
-	mkdir ${valheimInstallPath}/${setNewWorldNamePathing}
-	rsync -a --exclude ${setNewWorldNamePathing} ${valheimInstallPath}/ /home/steam/valheimserver/${setNewWorldNamePathing}
-	sleep 1
-	find ${valheimInstallPath} -mindepth 1 -maxdepth 1 -type d,f -not -name ${setNewWorldNamePathing} -exec rm -Rf '{}' \; 
-	sleep 1
-	# Rename the old startup script to match the current worldname and change to the new start up world name script
-	mv ${valheimInstallPath}/${setNewWorldNamePathing}/start_valheim.sh ${valheimInstallPath}/${setNewWorldNamePathing}/start_valheim_${setNewWorldNamePathing}.sh
+	    mkdir ${valheimInstallPath}/${setNewWorldNamePathing}
+	    rsync -a --exclude ${setNewWorldNamePathing} ${valheimInstallPath}/ /home/steam/valheimserver/${setNewWorldNamePathing}
+	    sleep 1
+	    find ${valheimInstallPath} -mindepth 1 -maxdepth 1 -type d,f -not -name ${setNewWorldNamePathing} -exec rm -Rf '{}' \; 
+	    sleep 1
+	    # Rename the old startup script to match the current worldname and change to the new start up world name script
+	    mv ${valheimInstallPath}/${setNewWorldNamePathing}/start_valheim.sh ${valheimInstallPath}/${setNewWorldNamePathing}/start_valheim_${setNewWorldNamePathing}.sh
+
         # Delete Old Service Files
-        find . -name valheimserver.service -exec echo rm -rf {} \;	
+        find . -name valheimserver.service -exec rm -rf {} \;	
         # Set Temp WorldName VAR for Service File
-	worldname=$(cat /home/steam/worlds.txt)
-	# Build new Service File
+	    worldname=$(cat /home/steam/worlds.txt)
+	    # Build new Service File
 cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF
 [Unit]
 Description=Valheim Server
@@ -2719,6 +2720,11 @@ WantedBy=multi-user.target
 EOF
        # Reset Permissions and Ownership to Steam DIR
        chown steam:steam /home/steam/worlds.txt
+       mkdir ${worldpath}/${worldname}
+       cp ${worldpath}/worlds/${worldname}.db ${worldpath}/${worldname}/worlds/
+       cp ${worldpath}/worlds/${worldname}.fwl ${worldpath}/${worldname}/worlds/
+       # Set steam permissions again for double check to everything within the /home/steam/ directory
+       chown steam:steam -Rf /home/steam/*
        # Start New Services
        systemctl start valheimserver_${worldname}.service
        echo "Upgrade Complete"
