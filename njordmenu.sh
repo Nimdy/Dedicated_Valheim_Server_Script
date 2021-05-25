@@ -309,7 +309,8 @@ function valheim_server_public_valheim_port() {
 			#### IE:  World Names and Ports currently in use:
 			####  World Name: Example World Ports Used: 2456-2458
 			####  World Name: Example 2    Ports Used: 2359-2461
-			
+			tput setaf 1; echo "If you are adding more than one Valheim Server do not use ports 2456,2457 and 2458." ; tput setaf 9;
+			tput setaf 1; echo "Please use 2460 or 2470 or 2480" ; tput setaf 9;
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 		echo ""
 			while true; do
