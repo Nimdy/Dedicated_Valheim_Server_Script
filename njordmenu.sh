@@ -2799,11 +2799,11 @@ function display_public_status_on_or_off() {
 }
 function display_public_IP() {
 externalip=$(curl -s ipecho.net/plain;echo)
-echo "$EXTERNAL_IP $whateverzerowantstocalthis "$externalip ; tput setaf 9;
+echo "$EXTERNAL_IP $whateverzerowantstocalthis "$(ColorGreen ''"$externalip"'') ; tput setaf 9;
 }
 function display_local_IP() {
 internalip=$(hostname -I)
-echo "$INTERNAL_IP $mymommyboughtmeaputerforchristmas "$internalip ; tput setaf 9;
+echo -e '\E[32m'"$INTERNAL_IP $mymommyboughtmeaputerforchristmas "$internalip ; tput setaf 9;
 }
 
 function server_status(){
@@ -3013,8 +3013,8 @@ $(ColorOrange '║')" $FUNCTION_HEADER_MENU_INFO_LD_SEVER_SESSION $(ColorGreen '
 	echo -ne "
 $(ColorOrange '║')" $FUNCTION_HEADER_MENU_INFO_SERVER_NAME $(ColorGreen ''"${currentDisplayName}"'')
 	echo -ne " 
-$(ColorOrange '║') $(ColorGreen ''"$(are_you_connected)"'')
-$(ColorOrange '║')" $(ColorGreen ''"$(display_public_IP)"'')
+$(ColorOrange '║') $(are_you_connected)
+$(ColorOrange '║')" $(display_public_IP)
 	echo -ne "
 $(ColorOrange '║')" $(display_local_IP) 
 	echo -ne "
