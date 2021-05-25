@@ -3033,13 +3033,11 @@ $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(get_firewall_statu
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW_SUBSTATE -- substatus" $(get_firewall_substate) 
 	echo -ne "
 $(ColorOrange '║') Is the port added to the firewall? " $(is_port_added_firewall)
+	echo -ne " 
+$(ColorOrange '╠═══════════════════════════════════════════════════════════')"
 	echo -ne "
-$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_CURRENT_NJORD_RELEASE $(check_menu_script_repo)
-$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_NJORD_VERSION ${mversion}
-$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_LD_VERSION ${ldversion}
-$(ColorOrange '║') 
-$(ColorOrange '║')
-$(ColorOrange '║') 
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_CURRENT_NJORD_RELEASE $(ColorGreen ''"$(check_menu_script_repo)"'')
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_LOCAL_NJORD_VERSION $(ColorGreen ''"${mversion}"'')
 $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO"'')
 $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_1"'')
 $(ColorOrange '║ '"$FUNCTION_HEADER_MENU_INFO_2"'')
