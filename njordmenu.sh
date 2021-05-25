@@ -3019,10 +3019,13 @@ $(ColorOrange '║')" $(display_public_IP)
 $(ColorOrange '║')" $(display_local_IP) 
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT" $(ColorGreen ''"${currentPort}"'')
+	echo -ne " 
+$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST " $(ColorGreen ''"$(display_public_status_on_or_off)"'')
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_status)
 	echo -ne " 
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_SUBSTATE" $(server_substate)
+$(ColorOrange '╠═══════════════════════════════════════════════════════════')
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(get_firewall_status)
 	echo -ne "
