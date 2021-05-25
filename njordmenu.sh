@@ -2799,11 +2799,11 @@ function display_public_status_on_or_off() {
 }
 function display_public_IP() {
 externalip=$(curl -s ipecho.net/plain;echo)
-echo -e '\E[32m'"$EXTERNAL_IP $whateverzerowantstocalthis "$externalip ; tput setaf 9;
+echo "$EXTERNAL_IP $whateverzerowantstocalthis "$externalip ; tput setaf 9;
 }
 function display_local_IP() {
 internalip=$(hostname -I)
-echo -e '\E[32m'"$INTERNAL_IP $mymommyboughtmeaputerforchristmas "$internalip ; tput setaf 9;
+echo "$INTERNAL_IP $mymommyboughtmeaputerforchristmas "$internalip ; tput setaf 9;
 }
 
 function server_status(){
@@ -2818,7 +2818,7 @@ echo -e '\E[32m'"$server_substate "
 }
 
 function are_you_connected() {
-ping -c 1 google.com &> /dev/null && echo -e '\E[32m'"$INTERNET_MSG $tecreset $INTERNET_MSG_CONNECTED" || echo -e '\E[32m'"$INTERNET_MSG $tecreset $INTERNET_MSG_DISCONNECTED"
+ping -c 1 google.com &> /dev/null && echo "$INTERNET_MSG $tecreset $INTERNET_MSG_CONNECTED" || echo -e '\E[32m'"$INTERNET_MSG $tecreset $INTERNET_MSG_DISCONNECTED"
 }
 
 function are_mods_enabled() {
