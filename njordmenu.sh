@@ -3024,15 +3024,11 @@ $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST" $(ColorGreen ''"$(d
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_status) and $(server_substate)
 	echo -ne " 
-$(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_SUBSTATE" $(server_substate)
-	echo -ne " 
 $(ColorOrange '╠═══════════════════════════════════════════════════════════')"
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(get_firewall_status)
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW_SUBSTATE -- substatus" $(get_firewall_substate) 
-	echo -ne "
-$(ColorOrange '║') Is the port added to the firewall? " $(is_port_added_firewall)
 	echo -ne " 
 $(ColorOrange '╠═══════════════════════════════════════════════════════════')"
 	echo -ne "
