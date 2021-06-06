@@ -2709,7 +2709,7 @@ function get_current_config_upgrade_menu() {
         get_current_config
 		# Checks to see if the start server file already exists if so delete and rewrite
 		#[ -e ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh ] && rm  ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
-  cat >> ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh <<EOF
+  cat > ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh <<EOF
 #!/bin/bash
 export templdpath=\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
@@ -2728,7 +2728,7 @@ EOF
 	    worldname=$(cat /home/steam/worlds.txt)
 	    # Build new Service File
 		echo "Building new Valheim Server Service File"
-cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF
+cat > /lib/systemd/system/valheimserver_${worldname}.service <<EOF
 [Unit]
 Description=Valheim Server
 Wants=network-online.target
