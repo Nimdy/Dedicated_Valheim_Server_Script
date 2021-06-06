@@ -2678,21 +2678,38 @@ function get_current_config_upgrade_menu() {
 	    systemctl stop valheimserver.service
 	    echo "Waiting 5 seconds for complete shutdown"
 	    sleep 5
+		echo "Shutdown of Valheim Services complete"
+		echo "Making Folder Structure Backup"
+		cp -Rf /home/steam /home/steambackup
+		sleep 1
+		echo "Backup complete"
+		echo "Starting Njord Menu upgrade process"
+		echo "Creating world array file for future Valheim instance installs"
 	    #Check for worlds.txt that holds all the Worlds running on a server
         [ -f "$worldfilelist" ] || perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' /home/steam/valheimserver/start_valheim.sh > /home/steam/worlds.txt
 	    sleep 1
 	    chown steam:steam /home/steam/worlds.txt
+		echo "Worlds.txt file created"
         setNewWorldNamePathing=$(cat /home/steam/worlds.txt)
+		echo "Rebuilding folder structure for Valheim installs"
 	    mkdir ${valheimInstallPath}/${setNewWorldNamePathing}
+		echo "New Structure path created"
+		echo "Moving Valheim data to new folder structure"
 	    rsync -a --exclude ${setNewWorldNamePathing} ${valheimInstallPath}/ /home/steam/valheimserver/${setNewWorldNamePathing}
 	    sleep 1
+		echo "Valheim data successfully moved"
+		echo "Removing old Valheim data"
 	    find ${valheimInstallPath} -mindepth 1 -maxdepth 1 -type d,f -not -name ${setNewWorldNamePathing} -exec rm -Rf '{}' \; 
 	    sleep 1
+		echo "Removal of old Valheim data complete"
+		echo "Rebuilding Valheim Start up script and Valheim Service File"
 	    # Rename the old startup script to match the current worldname and change to the new start up world name script
 	    mv ${valheimInstallPath}/${setNewWorldNamePathing}/start_valheim.sh ${valheimInstallPath}/${setNewWorldNamePathing}/start_valheim_${setNewWorldNamePathing}.sh
         # Rebuild start_valheim configuration file adding -savedir startup flag
         get_current_config
-  cat > ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh <<EOF
+		# Checks to see if the start server file already exists if so delete and rewrite
+		#[ -e ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh ] && rm  ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
+  cat >> ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh <<EOF
 #!/bin/bash
 export templdpath=\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
@@ -2702,11 +2719,15 @@ export SteamAppId=892970
 ./valheim_server.x86_64 -name "${currentDisplayName}" -port "${currentPort}" -nographics -batchmode -world "${currentWorldName}" -password "${currentPassword}" -public "${currentPublicSet}" -savedir "${worldpath}/${worldname}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
+		echo "Rebuilding New Valheim startup script complete"
         # Delete Old Service Files
-        find . -name valheimserver.service -exec rm -rf {} \;	
+		echo "Deleting old Valheim Service File"
+        find /. -name valheimserver.service -exec echo rm -rf {} \;
+		echo "Old Valheim Service File deleted"
         # Set Temp WorldName VAR for Service File
 	    worldname=$(cat /home/steam/worlds.txt)
 	    # Build new Service File
+		echo "Building new Valheim Server Service File"
 cat >> /lib/systemd/system/valheimserver_${worldname}.service <<EOF
 [Unit]
 Description=Valheim Server
@@ -2729,21 +2750,22 @@ LimitNOFILE=100000
 [Install]
 WantedBy=multi-user.target
 EOF
-       # Reset Permissions and Ownership to Steam DIR
-       chown steam:steam /home/steam/worlds.txt
-       mkdir ${worldpath}/${worldname}
-       cp ${worldpath}/worlds/${worldname}.db ${worldpath}/${worldname}/worlds/
-       cp ${worldpath}/worlds/${worldname}.fwl ${worldpath}/${worldname}/worlds/
-       # Set steam permissions again for double check to everything within the /home/steam/ directory
-       chown -Rf steam:steam /home/steam/*
-       # Reload daemon services to clear out old valheimserver.service
-       systemctl daemon-reload
-       sleep 1
-       # Start New Services
-       systemctl start valheimserver_${worldname}.service
-       echo "Upgrade Complete"
-       echo "Please restart the Njord Menu and select your world"
-       sleep 3
+		echo "New Valheim Server Service File Created"
+    	# Reset Permissions and Ownership to Steam DIR
+    	chown steam:steam /home/steam/worlds.txt
+		echo "Moving ${worldname}.db and ${worldname}.fwl files to new location"
+    	mkdir ${worldpath}/${worldname}
+		rsync -a --exclude ${worldname} ${worldpath}/ /${worldpath}/${worldname}
+    	# Set steam permissions again for double check to everything within the /home/steam/ directory
+    	chown -Rf steam:steam /home/steam/*
+    	# Reload daemon services to clear out old valheimserver.service
+    	systemctl daemon-reload
+    	sleep 1
+    	# Start New Services
+    	systemctl start valheimserver_${worldname}.service
+    	echo "Upgrade Complete"
+    	echo "Please restart the Njord Menu and select your world"
+    	sleep 3
        
 }
 
