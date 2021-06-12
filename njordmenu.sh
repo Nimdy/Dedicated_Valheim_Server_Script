@@ -2956,6 +2956,7 @@ echo -ne "
 $(ColorPurple '╠═══════════════════════════════════════════════')"
 echo -ne "
 $(ColorPurple '║') $FUNCTION_HEADER_MENU_INFO_SERVER_NAME " ${currentDisplayName}
+echo -ne "
 $(ColorPurple '║')" $FUNCTION_HEADER_MENU_INFO_LD_SEVER_SESSION $(ColorGreen ''"${worldname}"'')
 echo -ne " 
 $(ColorPurple '║') $(are_you_connected)
