@@ -1963,8 +1963,6 @@ tput setaf 1; echo "$FUNCTION_VALHEIM_PLUS_BUILD_CONFIG_INFO" ; tput setaf 9;
 tput setaf 1; echo "$FUNCTION_VALHEIM_PLUS_BUILD_CONFIG_INFO_1" ; tput setaf 9; 
 # remove old Valheim Server Service
 [ -e /etc/systemd/system/valheimserver_${worldname}.service ] && rm /etc/systemd/system/valheimserver_${worldname}.service
-# remove past Valheim Server Service
-[ -e /lib/systemd/system/valheimserver_${worldname}.service ] && rm /lib/systemd/system/valheimserver_${worldname}.service
 sleep 1
 # Add new Valheim Server Service
 # Thanks @QuadeHale
@@ -2171,7 +2169,6 @@ cat > ${valheimInstallPath}/${worldname}/start_server_bepinex.sh <<'EOF'
 # ---- EDIT AS NEEDED ------
 executable_name="valheim_server.x86_64"
 worldname=$(pwd | cut -d'/' -f5)
-worldSaves="/home/steam/.config/unity3d/IronGate/Valheim/worlds/"
 
 # EDIT THIS: The name of the executable to run
 # LINUX: This is the name of the Unity game executable [preconfigured]
@@ -2296,7 +2293,7 @@ do
 	esac
 done
 
-"${VALHEIM_PLUS_PATH}/${executable_name}" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${worldSaves}${worldname}"
+"${VALHEIM_PLUS_PATH}/${executable_name}" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${server_savedir}"
 
 export LD_LIBRARY_PATH=$templdpath
 EOF
@@ -2559,7 +2556,6 @@ function build_valw_bepinex_configuration_file() {
 # LINUX: This is the name of the Unity game executable
 # MACOS: This is the name of the game app folder, including the .app suffix
 worldname=$(pwd | cut -d'/' -f5)
-worldSaves="/home/steam/.config/unity3d/IronGate/Valheim/worlds/"
 
 #importing server parms to BepInEx
 server_name="$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' start_valheim_${worldname}.sh)"
@@ -2594,7 +2590,7 @@ echo "Starting server PRESS CTRL-C to exit"
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: Minimum password length is 5 characters & Password cant be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-exec ./valheim_server.x86_64 -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${worldSaves}${worldname}"
+exec ./valheim_server.x86_64 -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${server_savedir}"
 EOF
 }
 
