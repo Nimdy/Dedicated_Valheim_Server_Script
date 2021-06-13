@@ -13,11 +13,10 @@
         <img src="https://img.shields.io/youtube/views/0YPLf7Bw5W4?style=social" /></a>
 </p>
 
-
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/16698453/112525212-f0d97900-8da0-11eb-955c-44dd4e48643e.png" />
+    <img src="https://user-images.githubusercontent.com/16698453/121806056-7a853e00-cc4e-11eb-9a7c-0d97ac63bb02.png" />
   <h3 align="center">Njord Menu 2.3.3-Lofn Updated: 4-APR-2021</h3>
 
   <p align="center">
