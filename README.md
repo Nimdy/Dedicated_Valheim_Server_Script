@@ -161,78 +161,54 @@ cd Dedicated_Valheim_Server_Script
 5. Give the script to execution permissions
 =
 ```sh
-sudo chmod +x menu.sh
-sudo chmod +x advancemenu.sh
+sudo chmod +x njordmenu.sh
 ```
-6. Set your preferred language for the menu.sh or advancemenu.sh. (If English, skip this step)
-=
-*No option = English
-*DE = German
-*FR = French
-*SP = Spanish
-```sh
-./menu.sh (no options required for english)
-./menu.sh DE
-./menu.sh FR
-./menu.sh SP
-```
-or
-```sh
-./advancemenu.sh (no options required for english)
-./advancemenu.sh DE
-./advancemenu.sh FR
-./advancemenu.sh SP
-```
-
-7. Launch the Menu System (Please run this as root first or a true user account with sudo permissions | DONT USE sudo -u | use sudo -i )
+6. Launch the Menu System (Please run this as root first or a true user account with sudo permissions | DONT USE sudo -u | use sudo -i )
 =
 ```sh
 To play Valheim without Mods
-./menu.sh
+./njordmenu.sh
 ```
-```sh
-To play Valheim vanilla or with mods provided by Valheim+ (other mods might work too, need testers)
-./advancemenu.sh
-```
+
 ![Main Menu](https://user-images.githubusercontent.com/16698453/112011875-f88ee880-8b28-11eb-9556-0cb8e9e1a6b1.PNG?raw=true "Main Menu")
 
-8. Select Option 3 - Install Valheim Server
+7. Select Option 3 - Install Valheim Server
 
 ![Valheim Server](https://user-images.githubusercontent.com/16698453/108992557-bee9cf80-7699-11eb-9659-7c67165ee408.PNG?raw=true "Install Valheim Server")
 
-9. Confirm you want to continue with the Valheim Install
+8. Confirm you want to continue with the Valheim Install
 
 ![Confirm Install](https://user-images.githubusercontent.com/16698453/108992559-bf826600-7699-11eb-947a-1f2f24dfedd9.PNG?raw=true "Confirm Valheim Server")
 
-10. Accept Default Action on Resolv Update. (Advanced users do what you wish)
+9. Accept Default Action on Resolv Update. (Advanced users do what you wish)
 
 ![Accept Default](https://user-images.githubusercontent.com/16698453/108992560-c01afc80-7699-11eb-82d8-8b80c71832f5.PNG?raw=true "Accept Default")
 
-11. Enter a Password for the newly created NONROOT local Steam account (This is not your Steam account, just a local account to run the Valheim Server)
+10. Enter a Password for the newly created NONROOT local Steam account (This is not your Steam account, just a local account to run the Valheim Server)
 
 ![Steam Password](https://user-images.githubusercontent.com/16698453/108992565-c01afc80-7699-11eb-95d3-87f9c15df1de.PNG?raw=true "Password Local Steam")
 
-12. Enter what you wish your Public Valheim Server display will be called
+11. Enter what you wish your Public Valheim Server display will be called
 
 ![Public Server Name](https://user-images.githubusercontent.com/16698453/108992566-c0b39300-7699-11eb-91ad-b085e5a0d1bc.PNG?raw=true "Public Server Name")
 
-13. Enter your local world name. This is the name your map data files will be called and what your World is called for those who play in it.
+12. Enter your local world name. This is the name your map data files will be called and what your World is called for those who play in it.
 
 ![Map Data Name](https://user-images.githubusercontent.com/16698453/108992570-c0b39300-7699-11eb-87fd-c135bfd5b4f8.PNG?raw=true "Map Data World Name")
 
-14. Enter the password required to connect to your server. This is required.
+13. Enter the password required to connect to your server. This is required.
 
 ![Server Password](https://user-images.githubusercontent.com/16698453/108992571-c14c2980-7699-11eb-925a-fb6d5bb5ce07.PNG?raw=true "Server Password")
 
-15. Your information is now saved for you later. A lot of people seem to forget this, so we added a little reminder. Keep this safe.
+14. Your information is now saved for you later. A lot of people seem to forget this, so we added a little reminder. Keep this safe.
 
 ![Server Configs](https://user-images.githubusercontent.com/16698453/108992573-c1e4c000-7699-11eb-8694-270431fa48d7.PNG?raw=true "Server Configs")
 
-16. That's it for the install! Now you need to setup your firewall rules. 
+15. That's it for the install! Now you need to setup your firewall rules. 
 
 ![Server Configs](https://user-images.githubusercontent.com/16698453/108993432-d8d7e200-769a-11eb-9a67-b8341d056d2f.PNG?raw=true "Server Configs")
 
-17. Now configure your firewalls to allow the game to connect. Click the wiki link listed below. 
+16. Now configure your firewalls to allow the game to connect. Click the wiki link listed below. 
 Allow ports 2456,2457,2458 (TCP/UDP) on your server. This might take you a while, if you never done it before. Don't worry, members in my discord and myself can help troubleshoot later
 **(DO NOT OVER LOOK THIS STEP)**
 
