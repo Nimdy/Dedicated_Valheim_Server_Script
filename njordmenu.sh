@@ -96,7 +96,7 @@ debugmsg="n"
 # if [ "$debugmsg" == "y" ] ; then echo "something" ; fi
 ###############################################################
 # Set Menu Version for menu display
-mversion="2.3.3-Lofn.beta"
+mversion="3.0-Lofn"
 ldversion="0.4.051120211500ET.dev"
 ###      -- Use are your own risk -- 
 ### dev   -- Still working on firewall code. 
@@ -2167,7 +2167,6 @@ cat > ${valheimInstallPath}/${worldname}/start_server_bepinex.sh <<'EOF'
 
 # -------- SETTINGS --------
 # ---- EDIT AS NEEDED ------
-executable_name="valheim_server.x86_64"
 worldname=$(pwd | cut -d'/' -f5)
 
 # EDIT THIS: The name of the executable to run
@@ -2555,6 +2554,8 @@ function build_valw_bepinex_configuration_file() {
 # EDIT THIS: The name of the executable to run
 # LINUX: This is the name of the Unity game executable
 # MACOS: This is the name of the game app folder, including the .app suffix
+export VALHEIM_BEP_SCRIPT="$(readlink -f "$0")"
+export VALHEIM_BEP_PATH="$(dirname "$VALHEIM_BEP_SCRIPT")"
 worldname=$(pwd | cut -d'/' -f5)
 
 #importing server parms to BepInEx
@@ -2590,7 +2591,7 @@ echo "Starting server PRESS CTRL-C to exit"
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: Minimum password length is 5 characters & Password cant be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-exec ./valheim_server.x86_64 -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${server_savedir}"
+"${VALHEIM_BEP_PATH}/${executable_name}" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${server_savedir}"
 EOF
 }
 
@@ -2794,7 +2795,7 @@ else
 # Check Local Valheim Build for menu display
 function check_local_valheim_build() {
 localValheimAppmanifest=${valheimInstallPath}/${worldname}/steamapps/appmanifest_896660.acf
-   if [[ -e $localValheimAppmanifest ]] ; then
+   if [[ -e $localValheimAppmanifest ]]; then
     localValheimBuild=$(grep buildid ${localValheimAppmanifest} | cut -d'"' -f4)
         echo $localValheimBuild
     else 
