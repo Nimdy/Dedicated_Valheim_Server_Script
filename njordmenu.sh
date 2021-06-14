@@ -96,7 +96,7 @@ debugmsg="n"
 # if [ "$debugmsg" == "y" ] ; then echo "something" ; fi
 ###############################################################
 # Set Menu Version for menu display
-mversion="2.3.3-Lofn.beta"
+mversion="3.0.0-Lofn's Love"
 ldversion="0.4.051120211500ET.dev"
 ###      -- Use are your own risk -- 
 ### dev   -- Still working on firewall code. 
