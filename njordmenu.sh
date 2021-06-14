@@ -1144,6 +1144,8 @@ function display_valheim_server_status() {
     echo ""
     sudo systemctl status --no-pager -l valheimserver_${worldname}.service
     echo ""
+    echo "Returning to menu in 5 Seconds"
+    sleep 5
 }
 
 ########################################################################
