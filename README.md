@@ -75,6 +75,7 @@
 ## About The Project
 
 [![Thumbnail](https://img.youtube.com/vi/E1oGIP0w06Q/0.jpg)](https://www.youtube.com/watch?v=E1oGIP0w06Q)
+
 How to video: https://www.youtube.com/watch?v=E1oGIP0w06Q
 
 * New EASY to use menu system to manage and install your Valheim Dedicated Server - Enjoy
