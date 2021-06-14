@@ -167,41 +167,19 @@ sudo ./njordmenu.sh
 ```
 7. Select Option 3 - Install Valheim Server or Add another Valheim Instance
 
-![Valheim Server](https://user-images.githubusercontent.com/16698453/108992557-bee9cf80-7699-11eb-9659-7c67165ee408.PNG?raw=true "Install Valheim Server")
+8. Enter a Password for the newly created NONROOT local Steam account (This is not your Steam account, just a local account to run the Valheim Server)
 
-8. Confirm you want to continue with the Valheim Install
+9. Enter what you wish your Public Valheim Server display will be called
 
-![Confirm Install](https://user-images.githubusercontent.com/16698453/108992559-bf826600-7699-11eb-947a-1f2f24dfedd9.PNG?raw=true "Confirm Valheim Server")
+10. Enter your local world name. This is the name your map data files will be called and what your World is called for those who play in it.
 
-9. Accept Default Action on Resolv Update. (Advanced users do what you wish)
+11. Enter the password required to connect to your server. This is required.
 
-![Accept Default](https://user-images.githubusercontent.com/16698453/108992560-c01afc80-7699-11eb-82d8-8b80c71832f5.PNG?raw=true "Accept Default")
+12. Your information is now saved for you later. A lot of people seem to forget this, so we added a little reminder. Keep this safe.
 
-10. Enter a Password for the newly created NONROOT local Steam account (This is not your Steam account, just a local account to run the Valheim Server)
+13. That's it for the install! Now you need to setup your firewall rules. 
 
-![Steam Password](https://user-images.githubusercontent.com/16698453/108992565-c01afc80-7699-11eb-95d3-87f9c15df1de.PNG?raw=true "Password Local Steam")
-
-11. Enter what you wish your Public Valheim Server display will be called
-
-![Public Server Name](https://user-images.githubusercontent.com/16698453/108992566-c0b39300-7699-11eb-91ad-b085e5a0d1bc.PNG?raw=true "Public Server Name")
-
-12. Enter your local world name. This is the name your map data files will be called and what your World is called for those who play in it.
-
-![Map Data Name](https://user-images.githubusercontent.com/16698453/108992570-c0b39300-7699-11eb-87fd-c135bfd5b4f8.PNG?raw=true "Map Data World Name")
-
-13. Enter the password required to connect to your server. This is required.
-
-![Server Password](https://user-images.githubusercontent.com/16698453/108992571-c14c2980-7699-11eb-925a-fb6d5bb5ce07.PNG?raw=true "Server Password")
-
-14. Your information is now saved for you later. A lot of people seem to forget this, so we added a little reminder. Keep this safe.
-
-![Server Configs](https://user-images.githubusercontent.com/16698453/108992573-c1e4c000-7699-11eb-8694-270431fa48d7.PNG?raw=true "Server Configs")
-
-15. That's it for the install! Now you need to setup your firewall rules. 
-
-![Server Configs](https://user-images.githubusercontent.com/16698453/108993432-d8d7e200-769a-11eb-9a67-b8341d056d2f.PNG?raw=true "Server Configs")
-
-16. Now configure your firewalls to allow the game to connect. Click the wiki link listed below. 
+14. Now configure your firewalls to allow the game to connect. Click the wiki link listed below. 
 Allow ports 2456,2457,2458 (TCP/UDP) on your server. This might take you a while, if you never done it before. Don't worry, members in my discord and myself can help troubleshoot later
 **(DO NOT OVER LOOK THIS STEP)**
 
