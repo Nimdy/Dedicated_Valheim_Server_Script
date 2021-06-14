@@ -2095,7 +2095,7 @@ clear
 	    [ ! -d "$dldir" ] && mkdir -p "$dldir"
             sleep 1
 	    TODAYMK="$(date +%Y-%m-%d-%T)"
-	    cp ${valheimInstallPath}/${worldname}/BepInEx/config/valheim_plus.cfg ${backupPath}/valheim_plus-$TODAYMK.cfg
+	    cp ${valheimInstallPath}/${worldname}/BepInEx/config/valheim_plus.cfg ${backupPath}/valheim_plus-${worldname}-$TODAYMK.cfg
 	    tput setaf 2; echo "$FUNCTION_VALHEIM_PLUS_UPDATE_DOWNLOADING_VPLUS" ; tput setaf 9; 
             install_valheim_plus
 	    sleep 2
@@ -2696,6 +2696,7 @@ function get_current_config_upgrade_menu() {
 	    sleep 1
 		echo "Valheim data successfully moved"
 		echo "Removing old Valheim data"
+		# removing and cleaning up the files left over from the rsync.... if any exist and ignore the removal of the new folder structure
 	    find ${valheimInstallPath} -mindepth 1 -maxdepth 1 -type d,f -not -name ${setNewWorldNamePathing} -exec rm -Rf '{}' \; 
 	    sleep 1
 		echo "Removal of old Valheim data complete"
@@ -2719,7 +2720,7 @@ EOF
 		echo "Rebuilding New Valheim startup script complete"
         # Delete Old Service Files
 		echo "Deleting old Valheim Service File"
-        find /. -name valheimserver.service -exec echo rm -rf {} \;
+        find /. -name valheimserver.service -exec rm -rf {} \;
 		echo "Old Valheim Service File deleted"
         # Set Temp WorldName VAR for Service File
 	    worldname=$(cat /home/steam/worlds.txt)
@@ -2761,7 +2762,7 @@ EOF
     	# Start New Services
     	systemctl start valheimserver_${worldname}.service
     	echo "Upgrade Complete"
-    	echo "Please restart the Njord Menu and select your world"
+    	echo "Please restart the Njord Menu"
     	sleep 3
        
 }
