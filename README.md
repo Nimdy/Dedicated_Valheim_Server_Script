@@ -148,7 +148,7 @@ cd /opt
 3. Download Easy Installer from Github - Nimdy (Zero Bandwidth)
 =
 ```sh
-sudo git clone https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
+git clone https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
 ```
 4. Change directory to Dedicated_Valheim_Server_Script
 =
@@ -165,10 +165,7 @@ sudo chmod +x njordmenu.sh
 ```sh
 sudo ./njordmenu.sh
 ```
-
-![Main Menu](https://user-images.githubusercontent.com/16698453/112011875-f88ee880-8b28-11eb-9556-0cb8e9e1a6b1.PNG?raw=true "Main Menu")
-
-7. Select Option 3 - Install Valheim Server
+7. Select Option 3 - Install Valheim Server or Add another Valheim Instance
 
 ![Valheim Server](https://user-images.githubusercontent.com/16698453/108992557-bee9cf80-7699-11eb-9659-7c67165ee408.PNG?raw=true "Install Valheim Server")
 
