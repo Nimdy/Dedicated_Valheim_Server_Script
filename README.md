@@ -77,13 +77,10 @@
 [![Thumbnail](https://img.youtube.com/vi/eW6Zi76Qymw/0.jpg)](https://www.youtube.com/watch?v=eW6Zi76Qymw)
 
 
-* New EASY to use menu system to manage your Valheim Dedicated Server - Enjoy
-* This Menu will also install your Valheim on your Linux Server - Enjoy
+* New EASY to use menu system to manage and install your Valheim Dedicated Server - Enjoy
 
-* My production server is 30 days solid as of (18FEB2021)
-* In game time is 890+ days |* Zero issues, zero crashes, zero cases of corrupted data. 
-
-* If you wish to Tip: https://www.patreon.com/zerobandwidth 
+* If you wish to Tip: https://www.patreon.com/zerobandwidth o
+* https://www.buymeacoffee.com/zerobandwidth
 * ETH: 0x691922a6b7d4005392Fb48A626B9ad17f68D66A5
 * VET: 0x6a2e7c13606e07d57664821a0d9920da75719c01
 
@@ -112,7 +109,7 @@ To get a local copy up and running follow these simple example steps.
   ```
 * Ubuntu Install
   ```sh
-  Ubuntu 18.04 LTS 64bit and Ubuntu 20.04 LTS (tested 10 FEB 2021)
+  Ubuntu 20.04 LTS
   ```
 * Putty 64bit for Windows User
   ```sh
@@ -131,7 +128,7 @@ To get a local copy up and running follow these simple example steps.
   ```
 * Minimal Requirements:
   ```sh
-  2CPU and 4GB RAM
+  2 CPU and 4GB RAM 
   
   You might be able to get it work with less but its a dice roll with any Cloud Services.  
   Also, once your world starts becoming explored and you start building stuff... You will wish you had the minimal requirements.
@@ -166,8 +163,7 @@ sudo chmod +x njordmenu.sh
 6. Launch the Menu System (Please run this as root first or a true user account with sudo permissions | DONT USE sudo -u | use sudo -i )
 =
 ```sh
-To play Valheim without Mods
-./njordmenu.sh
+sudo ./njordmenu.sh
 ```
 
 ![Main Menu](https://user-images.githubusercontent.com/16698453/112011875-f88ee880-8b28-11eb-9556-0cb8e9e1a6b1.PNG?raw=true "Main Menu")
