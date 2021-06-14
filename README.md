@@ -25,7 +25,7 @@
     <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://www.youtube.com/watch?v=eW6Zi76Qymw">View Demo</a>   
+    <a href="https://www.youtube.com/watch?v=E1oGIP0w06Q">View Demo</a>   
     ·
     <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/wiki/How-to-Update-Your-Valheim-Server">How to Update your Server</a>
     .
@@ -74,7 +74,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Thumbnail](https://img.youtube.com/vi/eW6Zi76Qymw/0.jpg)](https://www.youtube.com/watch?v=eW6Zi76Qymw)
+[![Thumbnail](https://img.youtube.com/vi/E1oGIP0w06Q/0.jpg)](https://www.youtube.com/watch?v=E1oGIP0w06Q)
 
 
 * New EASY to use menu system to manage and install your Valheim Dedicated Server - Enjoy
