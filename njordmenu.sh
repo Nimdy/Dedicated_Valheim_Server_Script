@@ -1178,7 +1178,7 @@ function display_start_valheim() {
 # Display Valheim World Data Folder
 function display_world_data_folder() {
     echo ""
-    sudo ls -lisa $worldpath/$worldname
+    sudo ls -lisa $worldpath/$worldname/worlds
     echo ""
     echo "Returning to menu in 5 Seconds"
     sleep 5
