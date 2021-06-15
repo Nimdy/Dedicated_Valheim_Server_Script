@@ -1140,7 +1140,6 @@ $(ColorRed ''"$DRAW60"'')"
 
 # Display Valheim Server Status
 function display_valheim_server_status() {
-    clear
     echo ""
     sudo systemctl status --no-pager -l valheimserver_${worldname}.service
     echo ""
@@ -1159,7 +1158,6 @@ function display_valheim_server_status() {
 
 # Display Valheim Vanilla Configuration File
 function display_start_valheim() {
-    clear
     echo ""
     sudo cat ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
     echo ""
@@ -1168,7 +1166,6 @@ function display_start_valheim() {
 
 # Display Valheim Start Configuration
 function display_start_valheim() {
-    clear
     echo ""
     sudo cat ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
     echo ""
@@ -1176,7 +1173,6 @@ function display_start_valheim() {
 
 # Display Valheim World Data Folder
 function display_world_data_folder() {
-    clear
     echo ""
     sudo ls -lisa $worldpath/$worldname
     echo ""
@@ -1184,7 +1180,6 @@ function display_world_data_folder() {
 
 # Print System INFOS
 function display_system_info() {
-	clear
 	echo ""
     echo -e "$DRAW80"
     echo -e "$FUNCTION_DISPLAY_SYSTEM_INFO_HEADER"
@@ -1214,7 +1209,6 @@ function display_system_info() {
 
 # PRINT NETWORK INFO
 function display_network_info() {
-clear
     echo ""
     sudo netstat -atunp | grep valheim
     echo ""
@@ -1222,7 +1216,6 @@ clear
 
 # Display History of Connected Players
 function display_player_history() {
-clear
     echo ""
     sudo grep ZDOID /var/log/syslog*
     sudo grep *HAND* /var/log/syslog*
@@ -1232,7 +1225,6 @@ clear
 function get_worldseed(){
 	#worldseed=$(cat > ${worldpath}/${worldname}/${serverdisplayname}.fwl)
 	worldseed=$(hexdump -s 9 -n 10 -e'2 "%_p"' ${worldpath}/${worldname}/worlds/${worldname}.fwl)
-    clear
     echo ""
 	echo -e '\E[32m'"$worldseed "
     echo ""
@@ -3094,7 +3086,7 @@ function firewall_admin_menu() {
 	if [ "${usefw}" == "n" ] ; then
 		echo ""
 		echo "The firewall admin system is not enabled."
-		echo "Please open the menu.sh file and modify the header parameters to enable."
+		echo "Please open the njordmenu.sh file and modify the header parameters to enable."
 		echo "Returning to main menu."
 		echo ""
 		sleep 2
