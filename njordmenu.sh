@@ -1161,6 +1161,8 @@ function display_start_valheim() {
     echo ""
     sudo cat ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
     echo ""
+    echo "Returning to menu in 5 Seconds"
+    sleep 5
 }
 
 
@@ -1169,6 +1171,8 @@ function display_start_valheim() {
     echo ""
     sudo cat ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
     echo ""
+    echo "Returning to menu in 5 Seconds"
+    sleep 5
 }
 
 # Display Valheim World Data Folder
@@ -1176,6 +1180,8 @@ function display_world_data_folder() {
     echo ""
     sudo ls -lisa $worldpath/$worldname
     echo ""
+    echo "Returning to menu in 5 Seconds"
+    sleep 5
 }
 
 # Print System INFOS
@@ -1205,6 +1211,8 @@ function display_system_info() {
     df -Ph | sed s/%//g | awk '{ if($5 > 80) print $0;}'
     echo -e "$DRAW80"
 	echo ""
+    echo "Returning to menu in 5 Seconds"
+    sleep 5
 }
 
 # PRINT NETWORK INFO
@@ -1212,6 +1220,8 @@ function display_network_info() {
     echo ""
     sudo netstat -atunp | grep valheim
     echo ""
+    echo "Returning to menu in 5 Seconds"
+    sleep 5
 }
 
 # Display History of Connected Players
@@ -1220,6 +1230,8 @@ function display_player_history() {
     sudo grep ZDOID /var/log/syslog*
     sudo grep *HAND* /var/log/syslog*
     echo ""
+    echo "Returning to menu in 5 Seconds"
+    sleep 5
 }
 
 function get_worldseed(){
@@ -1228,7 +1240,8 @@ function get_worldseed(){
     echo ""
 	echo -e '\E[32m'"$worldseed "
     echo ""
-	sleep 2
+    echo "Returning to menu in 5 Seconds - This might not be working 100% still testing"
+    sleep 5
 }
 
 ########################################################################
