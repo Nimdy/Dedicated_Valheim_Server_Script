@@ -2740,13 +2740,10 @@ cat > /etc/apache2/sites-available/njordgui.conf <<EOF
 <VirtualHost *:80>
     ServerAdmin admin@localhost
     ServerName NjordGUI
-#    ServerAlias www.Nexample.com
+#    ServerAlias www.changeMeIfYouWant.com
     DocumentRoot /var/www/njordgui/html
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
-
-    Alias /configs /var/www/njordgui/configs
-
 <Directory /var/www/njordgui/html/content>
         Options Indexes FollowSymLinks MultiViews
         AllowOverride All
