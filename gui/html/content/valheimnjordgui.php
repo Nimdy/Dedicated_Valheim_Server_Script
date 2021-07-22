@@ -1,5 +1,4 @@
 <?php
-session_start();
 // Verify user logged in, redirect to index if not
 session_start();
 require(dirname(__DIR__).'../../VSW-GUI-CONFIG');
