@@ -1,10 +1,20 @@
 Adding notes for auto installer from the Njord Menu
 
-git clone https://github.com/phpsysinfo/phpsysinfo.git
+cd /opt/
+git clone -b beta https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
+git clone https://github.com/phpsysinfo/phpsysinfo.git /opt/Dedicated_Valheim_Server_Script/gui/html/
 
-apt install php-xml
+Maybe just set apache to read html from /opt/Dedicated_Valheim_Server_Script/gui/html/
 
-other stuff
+edit and add ValheimGui
+
+/etc/apache2/sites-available/
+
+ <Directory /opt/Dedicated_Valheim_Server_Script/gui/html/>
+            Options Indexes FollowSymLinks
+            AllowOverride None
+            Require all granted
+ </Directory>
 
 
 ## Install instructions
@@ -15,7 +25,7 @@ These instrcutions assume you are working on Ubuntu server as outlined by Nimdy.
 2) Install PHP and Apache2
 
 ```
-sudo apt install php libapache2-mod-php
+sudo apt install php libapache2-mod-php php-xml
 ```
 
 Verify that the install was successful by putting the IP of the server in your web browser. You should see the default Apache2 Ubuntu page. If you have connection issues with this default page, you should verify that HTTP is enabled on the VM.
@@ -25,9 +35,9 @@ Note: If you click the little open arrow in the GCP VM management panel next to 
 3) Remove the default html folder from /var/www/ and then install repository to /var/www/
 
 ```
-sudo rm -R /var/www/
-cd ~
-git clone https://github.com/Peabo83/Valheim-Server-Web-GUI.git
+cd /opt/
+git clone -b beta https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
+git clone https://github.com/phpsysinfo/phpsysinfo.git /opt/Dedicated_Valheim_Server_Script/gui/html/
 sudo cp -R ~/Valheim-Server-Web-GUI/www/ /var/
 ```
 
