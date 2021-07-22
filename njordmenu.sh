@@ -2733,6 +2733,7 @@ EOF
 function build_njord_menu_gui() {
 
 #download required packages php and apache2 
+echo "downloading files for apache and php"
 sudo apt install php libapache2-mod-php php-xml -y
 #build 
 cat > /etc/apache2/sites-available/njordgui.conf <<EOF
@@ -2750,18 +2751,29 @@ cat > /etc/apache2/sites-available/njordgui.conf <<EOF
 </Directory>
 </VirtualHost>
 EOF
+sleep 1
 #Build Site with a2ensite
+echo "building apache configuration file for njord gui"
 [[ -f /etc/apache2/sites-available/000.default.conf ]] && mv /etc/apache2/sites-available/000.default.conf /etc/apache2/sites-available/000.default.template 
 a2ensite njordgui.conf
 #build 
+echo "making njord gui dir"
 mkdir /var/www/njordgui/
+sleep 1
+echo "building file system"
 cp -R /opt/Dedicated_Valheim_Server_Script/gui /var/www/njordgui
+sleep 1
+echo "pulling phpsysinfo"
 git clone https://github.com/phpsysinfo/phpsysinfo.git /var/www/njordgui/html/sys
+sleep 1
+echo "configuring phpsysinfo"
 mv /var/www/njordgui/html/sys/phpsysinfo.ini.new /var/www/njordgui/html/sys/phpsysinfo.ini
+echo "resetting permissions"
 chmod -R 755 /var/www
 chown -R www-data:www-data /var/www/njordgui
+echo "restarting apache"
 systemctl restart apache2
-
+echo "done"
 #stuff
 }
 
