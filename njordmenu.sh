@@ -2732,9 +2732,16 @@ EOF
 ########################################################################
 function build_njord_menu_gui() {
 
+#download required packages php and apache2 
 sudo apt install php libapache2-mod-php php-xml
 
+#build 
+apache configuration files
 
+#build 
+give www-data correct accesses and controls
+
+#stuff
 }
 
 
