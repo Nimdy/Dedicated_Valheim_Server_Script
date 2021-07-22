@@ -1,3 +1,12 @@
+Adding notes for auto installer from the Njord Menu
+
+git clone https://github.com/phpsysinfo/phpsysinfo.git
+
+apt install php-xml
+
+other stuff
+
+
 ## Install instructions
 These instrcutions assume you are working on Ubuntu server as outlined by Nimdy.
 
