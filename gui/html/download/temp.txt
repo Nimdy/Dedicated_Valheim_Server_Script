@@ -1,0 +1,1 @@
+This is only here because this directory needs to exist for uploads to work.
