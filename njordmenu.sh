@@ -2761,7 +2761,7 @@ echo "making njord gui dir"
 mkdir /var/www/njordgui/
 sleep 1
 echo "building file system"
-cp -R /opt/Dedicated_Valheim_Server_Script/gui /var/www/njordgui
+cp -R /opt/Dedicated_Valheim_Server_Script/gui/* /var/www/njordgui/
 sleep 1
 echo "pulling phpsysinfo"
 git clone https://github.com/phpsysinfo/phpsysinfo.git /var/www/njordgui/html/sys
