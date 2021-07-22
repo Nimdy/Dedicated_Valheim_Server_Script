@@ -2736,7 +2736,6 @@ function build_njord_menu_gui() {
 sudo apt install php libapache2-mod-php php-xml -y
 
 #build 
-apache configuration files
 cat > /etc/apache2/sites-available/njordgui.conf <<EOF
 <VirtualHost *:80>
     ServerAdmin admin@localhost
@@ -2746,8 +2745,11 @@ cat > /etc/apache2/sites-available/njordgui.conf <<EOF
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
-
 EOF
+
+#Build Site with a2ensite
+[[ -f /etc/apache2/sites-available/000.default.conf ]] && mv /etc/apache2/sites-available/000.default.conf /etc/apache2/sites-available/000.default.template 
+a2ensite njordgui.conf
 
 
 #build 
