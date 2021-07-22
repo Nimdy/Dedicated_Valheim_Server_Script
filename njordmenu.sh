@@ -2754,7 +2754,7 @@ EOF
 sleep 1
 #Build Site with a2ensite
 echo "building apache configuration file for njord gui"
-[[ -f /etc/apache2/sites-available/000.default.conf ]] && mv /etc/apache2/sites-available/000.default.conf /etc/apache2/sites-available/000.default.template 
+[[ -f /etc/apache2/sites-available/000-default.conf ]] && mv /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.template 
 a2ensite njordgui.conf
 #build 
 echo "making njord gui dir"
