@@ -2734,7 +2734,6 @@ function build_njord_menu_gui() {
 
 #download required packages php and apache2 
 sudo apt install php libapache2-mod-php php-xml -y
-
 #build 
 cat > /etc/apache2/sites-available/njordgui.conf <<EOF
 <VirtualHost *:80>
@@ -2751,18 +2750,15 @@ cat > /etc/apache2/sites-available/njordgui.conf <<EOF
 </Directory>
 </VirtualHost>
 EOF
-
 #Build Site with a2ensite
 [[ -f /etc/apache2/sites-available/000.default.conf ]] && mv /etc/apache2/sites-available/000.default.conf /etc/apache2/sites-available/000.default.template 
 a2ensite njordgui.conf
-
-
 #build 
-give www-data correct accesses and controls
-
+mkdir /var/www/njordgui/
+cp -R /opt/Dedicated_Valheim_Server_Script/gui /var/www/njordgui
 chmod -R 755 /var/www
-chown -R www-data:www-data /var/www/njordgui/html
-
+chown -R www-data:www-data /var/www/njordgui
+systemctl restart apache2
 
 #stuff
 }
