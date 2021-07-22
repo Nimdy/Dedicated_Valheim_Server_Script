@@ -18,7 +18,8 @@ $nonce = bin2hex(random_bytes('4'));
 // ini_set('session.cookie_samesite', 'strict');
 
 // Get the config file
-require '/var/www/VSW-GUI-CONFIG';
+// Get the config file
+require(dirname(__DIR__).'/VSW-GUI-CONFIG');
 
 session_start();
 if (!isset($_SESSION['PAGE'])) {
@@ -32,7 +33,8 @@ if(isset($_GET['logout'])) {
   exit;
 }
 
-require '/var/www/commands.php';
+require(dirname(__DIR__).'/commands.php');
+
 
 ?>
 <html>

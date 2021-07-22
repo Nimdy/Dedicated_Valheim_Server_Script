@@ -2740,8 +2740,8 @@ cat > /etc/apache2/sites-available/njordgui.conf <<EOF
 <VirtualHost *:80>
     ServerAdmin admin@localhost
     ServerName NjordGUI
-#    ServerAlias www.Nexample.com
-    DocumentRoot /var/www/njordgui/public_html
+#    ServerAlias www.changeMe.com
+    DocumentRoot /var/www/njordgui/html
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
@@ -2756,7 +2756,7 @@ a2ensite njordgui.conf
 give www-data correct accesses and controls
 
 chmod -R 755 /var/www
-chown -R www-data:www-data /var/www/njordgui/public_html
+chown -R www-data:www-data /var/www/njordgui/html
 
 
 #stuff
