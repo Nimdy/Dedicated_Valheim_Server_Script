@@ -1,4 +1,4 @@
-Adding notes for auto installer from the Njord Menu
+Adding notes for auto installer from the Njord Menu and for rewriting the readme instructions
 
 cd /opt/
 git clone -b beta https://github.com/Nimdy/Dedicated_Valheim_Server_Script.git
@@ -18,6 +18,9 @@ cat over this information:
  </Directory>
 
 launch website
+
+ENjoy....
+
 
 
 ## Install instructions
