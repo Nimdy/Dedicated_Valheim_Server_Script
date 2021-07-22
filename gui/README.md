@@ -40,7 +40,11 @@ www-data ALL=(ALL) NOPASSWD: systemctl start apache2
 www-data ALL=(ALL) NOPASSWD: systemctl status apache2
 www-data ALL=(ALL) NOPASSWD: systemctl restart apache2
 www-data ALL=(ALL) NOPASSWD: chown -Rf steam:steam /home/steam *
-maybe turn commands.php into commands.sh to allow all system functions to execute the commands only found in commands.sh
+
+
+
+maybe turn commands.php into commands.sh to allow all www-data to execute commands only found in commands.sh
+This might just be the best way
 www-data ALL=(ALL) NOPASSWD: /opt/Dedicated_Valheim_Server_Script/gui/commands.sh 
 
 ```
