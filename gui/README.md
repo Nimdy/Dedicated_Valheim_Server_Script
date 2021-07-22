@@ -23,7 +23,7 @@ launch website
 
 This will open your sudo file, add the following at the bottom:
 
-THIS NEEDS TO BE BETTER BELOW!!!! never give www-data SUDO with nopassword.... SECURITY matters
+THIS NEEDS TO BE BETTER BELOW!!!!
 ```
 # Valheim web server commands
 www-data                ALL=(ALL) NOPASSWD: ALL
