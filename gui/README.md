@@ -35,6 +35,10 @@ www-data ALL=(ALL) NOPASSWD: systemctl stop valheimserver_$worldname.service
 www-data ALL=(ALL) NOPASSWD: systemctl start valheimserver_$worldname.service
 www-data ALL=(ALL) NOPASSWD: systemctl status valheimserver_$worldname.service
 www-data ALL=(ALL) NOPASSWD: systemctl restart valheimserver_$worldname.service
+www-data ALL=(ALL) NOPASSWD: systemctl stop apache2
+www-data ALL=(ALL) NOPASSWD: systemctl start apache2
+www-data ALL=(ALL) NOPASSWD: systemctl status apache2
+www-data ALL=(ALL) NOPASSWD: systemctl restart apache2
 www-data ALL=(ALL) NOPASSWD: chown -Rf steam:steam /home/steam *
 maybe turn commands.php into commands.sh to allow all system functions to execute the commands only found in commands.sh
 www-data ALL=(ALL) NOPASSWD: /opt/Dedicated_Valheim_Server_Script/gui/commands.sh 
