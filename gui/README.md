@@ -21,6 +21,25 @@ launch website
 
 **MAKE SURE PHP DOES NOT HAVE WRITE OR OWNERSHIP TO FILES
 
+This will open your sudo file, add the following at the bottom:
+
+THIS NEEDS TO BE BETTER BELOW!!!! never give www-data SUDO with nopassword.... SECURITY matters
+```
+# Valheim web server commands
+www-data                ALL=(ALL) NOPASSWD: ALL
+```
+
+Do this instead.... needs testing
+```
+www-data ALL=(ALL) NOPASSWD: systemctl stop valheimserver_$worldname.service
+www-data ALL=(ALL) NOPASSWD: systemctl start valheimserver_$worldname.service
+www-data ALL=(ALL) NOPASSWD: systemctl status valheimserver_$worldname.service
+www-data ALL=(ALL) NOPASSWD: systemctl restart valheimserver_$worldname.service
+www-data ALL=(ALL) NOPASSWD: chown -Rf steam:steam /home/steam *
+maybe turn commands.php into commands.sh to allow all system functions to execute the commands only found in commands.sh
+www-data ALL=(ALL) NOPASSWD: /opt/Dedicated_Valheim_Server_Script/gui/commands.sh 
+
+```
 ENjoy....
 
 
