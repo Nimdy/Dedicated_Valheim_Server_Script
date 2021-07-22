@@ -10,34 +10,6 @@
 #### If you need anything, please visit our Discord Server: https://discord.gg/ejgQUfc
 #### *** GLHF - V/r, Zerobandwidth and Team
 ####
-###############################################################################################
-####
-#### File name: ldadvmenu.sh
-####
-###############################################################################################
-####
-#### Modifier: Lord/Ranger(Dumoss)
-#### Forked from: Njord advancemenu.ld (beta) Updated: 29-APR-2021
-####
-#### I would like to thank "Dr." Zerobandwidth "Frankenstein"
-#### and the development team of "Igor's" for putting 
-#### this wonderfull "monster" script together. :)
-####
-#### The main focus of this was to add Linux support for 
-#### Fedora-Cento-RHEL-OEL-yum/dnf based systems.
-#### 
-#### To allow control multiple Valheim servers running on a single node
-#### based on WORLDNAME and is installed under "${worldpath}/${worldname}"
-####
-#### TO have some simple firewall security control related to these systems. - (WIP)
-####
-#### *** - Dumoss
-####
-###############################################################################################
-###############################################################################################
-#### Current Options: DE=German, EN=English, FR=French, SP=Spanish"
-###############################################################################################
-###############################################################################################
 # All linux systems should have this 
 # If not .. <> install os-release
 source /etc/os-release
@@ -96,29 +68,8 @@ debugmsg="n"
 # if [ "$debugmsg" == "y" ] ; then echo "something" ; fi
 ###############################################################
 # Set Menu Version for menu display
-mversion="3.0.0-Lofns-Love"
+mversion="3.5.0-Lofns-Vision"
 ldversion="0.4.051120211500ET.dev"
-###      -- Use are your own risk -- 
-### dev   -- Still working on firewall code. 
-###       -- Currently adding ufw commands. 
-###       -- And then finish the firewall menu (make pro).
-### alpha -- Dev team review.
-### beta  -- Public Testing.
-###
-### Please note that this is a play ground file for me and 
-### allows Zerobandwidth do determine what to pull into the main advance(menu).sh file.
-### 
-### I have done a lot ( and still ) testing of this new code 
-### and it seams to be working as original intended, but
-### now for OEL/REL/Fedora and centos tested.
-###
-### If you are using the above server versions of Linux and the added repos cause issues,
-### I have provided the 3 most causes and fixes in the function ***linux_server_update*** text.
-###
-### I am still in design mode for the firewall stuff.
-### Current it works 99% for FireWallD only at this time.
-###
-### Other Linux flavors and firewall systems to be added.
 ########################################################################
 #############################Set COLOR VARS#############################
 ########################################################################
@@ -315,6 +266,7 @@ function valheim_server_public_valheim_port() {
 			while true; do
 				read -p "$FUNCTION_VALHEIM_SERVER_INSTALL_LD_SETPORTNEW_ENTER" portnumber
 				### write check if new port is = used ports => try again, error
+				# Add this function check later
 				#usedport="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' start_valheim_${worldname}.sh)"
 				[[ ${#portnumber} -ge 4 && ${#portnumber} -le 6 ]] && [[ $portnumber -gt 1024 && $portnumber -le 65530 ]] && [[ "$portnumber" =~ ^[[:alnum:]]+$ ]] & break
 			done	 
@@ -2774,8 +2726,20 @@ EOF
        
 }
 
+
 ########################################################################
-########################MENUS STATUS VARIBLES START ####################
+################### INSTALL GUI FROM NJORD MENU ########################
+########################################################################
+function build_njord_menu_gui() {
+
+sudo apt install php libapache2-mod-php php-xml
+
+
+}
+
+
+########################################################################
+#################### MENUS STATUS VARIBLES START #######################
 ########################################################################
 
 # Check Current Valheim REPO Build for menu display
@@ -3242,6 +3206,7 @@ $(ColorOrange ''"$DRAW60"'')
 $(ColorOrange '-')$(ColorGreen ' 99)') " $FUNCTION_MAIN_MENU_LD_CHANGE_SESSION_CURRENT_WORLD
 [ -f "$worldfilelist" ] || echo -ne "
 $(ColorOrange '-')$(ColorGreen ' 0000)') " Upgrade Old Menu to New Njord Menu
+$(ColorOrange '-')$(ColorGreen ' 1337)') " Install Njord Menu Web GUI
 echo -ne "
 $(ColorOrange ''"$DRAW60"'')
 $(ColorGreen ' 0)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_EXIT
@@ -3271,6 +3236,7 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 			20) bepinex_menu ; bepinex_menu ;;			
 			99) request99="y" ; set_world_server ; menu ;;
 			0000) get_current_config_upgrade_menu ; menu ;;
+			1337) build_njord_menu_gui ; menu ;;
 			0) exit 0 ;;
 			*)  echo -ne " $(ColorRed 'Wrong option.')" ; menu ;;
         esac
