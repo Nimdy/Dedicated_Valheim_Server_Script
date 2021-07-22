@@ -8,6 +8,7 @@ Maybe just set apache to read html from /opt/Dedicated_Valheim_Server_Script/gui
 
 edit and add ValheimGui
 
+cat over this information:
 /etc/apache2/sites-available/
 
  <Directory /opt/Dedicated_Valheim_Server_Script/gui/html/>
@@ -15,6 +16,8 @@ edit and add ValheimGui
             AllowOverride None
             Require all granted
  </Directory>
+
+launch website
 
 
 ## Install instructions
