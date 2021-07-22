@@ -2733,13 +2733,29 @@ EOF
 function build_njord_menu_gui() {
 
 #download required packages php and apache2 
-sudo apt install php libapache2-mod-php php-xml
+sudo apt install php libapache2-mod-php php-xml -y
 
 #build 
 apache configuration files
+cat > /etc/apache2/sites-available/njordgui.conf <<EOF
+<VirtualHost *:80>
+    ServerAdmin admin@localhost
+    ServerName NjordGUI
+#    ServerAlias www.Nexample.com
+    DocumentRoot /var/www/njordgui/public_html
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+EOF
+
 
 #build 
 give www-data correct accesses and controls
+
+chmod -R 755 /var/www
+chown -R www-data:www-data /var/www/njordgui/public_html
+
 
 #stuff
 }
