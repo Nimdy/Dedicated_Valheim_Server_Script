@@ -19,6 +19,8 @@ cat over this information:
 
 launch website
 
+**MAKE SURE PHP DOES NOT HAVE WRITE OR OWNERSHIP TO FILES
+
 ENjoy....
 
 
