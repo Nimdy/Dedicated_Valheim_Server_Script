@@ -2756,6 +2756,8 @@ a2ensite njordgui.conf
 #build 
 mkdir /var/www/njordgui/
 cp -R /opt/Dedicated_Valheim_Server_Script/gui /var/www/njordgui
+git clone https://github.com/phpsysinfo/phpsysinfo.git /var/www/njordgui/html/sys
+mv /var/www/njordgui/html/sys/phpsysinfo.ini.new /var/www/njordgui/html/sys/phpsysinfo.ini
 chmod -R 755 /var/www
 chown -R www-data:www-data /var/www/njordgui
 systemctl restart apache2
