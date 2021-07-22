@@ -20,7 +20,7 @@ $_SESSION['PAGE'] = 'modsmenu';
 <h1>MODS MENU</h1>
 <?php
 // Get the config file
-require '/var/www/VSW-GUI-CONFIG';
+require(dirname(__DIR__).'../../VSW-GUI-CONFIG');
 // Upload a Mod
 ?>
 <br>

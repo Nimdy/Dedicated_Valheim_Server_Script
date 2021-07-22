@@ -287,7 +287,7 @@ class FeedException extends Exception
 
 
 $_SESSION['PAGE'] = 'notifications';
-
+// Respect to @zma GITHUB
 // Check http://www.systutorials.com/136102/a-php-function-for-fetching-rss-feed-and-outputing-feed-items-as-html/ for description
 
 // RSS to HTML
