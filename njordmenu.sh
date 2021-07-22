@@ -3206,7 +3206,7 @@ $(ColorOrange ''"$DRAW60"'')
 $(ColorOrange '-')$(ColorGreen ' 99)') " $FUNCTION_MAIN_MENU_LD_CHANGE_SESSION_CURRENT_WORLD
 [ -f "$worldfilelist" ] || echo -ne "
 $(ColorOrange '-')$(ColorGreen ' 0000)') " Upgrade Old Menu to New Njord Menu
-$(ColorOrange '-')$(ColorGreen ' 1337)') " Install Njord Menu GUI
+$(ColorOrange '-')$(ColorGreen ' 1337)') " Install Njord Menu Web GUI
 echo -ne "
 $(ColorOrange ''"$DRAW60"'')
 $(ColorGreen ' 0)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_EXIT
