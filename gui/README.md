@@ -7,8 +7,10 @@ Launch in the web browser
 
 
 Need to work the www-data so it only can use functions outline within the commands.php script
+
 -Service stop, start, restart, status (Valheim...etc)
--Work Valheim+ information (is using)
+
+-Work Valheim+ information (if using)
 -Work Bepindex install, remove, display mods (if using)
 
 Add whatever we think needs to be added to make it awesome and user friendly
