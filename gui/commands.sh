@@ -10,3 +10,12 @@ $valheimStatus = sudo systemctl status valheimserver_*
 
 $valheimCopy = sudo cp -R /home/steam/*
 $valheimSteamPermissions = sudo chown -Rf steam:steam /home/steam/*
+
+
+sudo systemctl start valheimserver_*
+sudo systemctl stop valheimserver_*
+sudo systemctl restart valheimserver_*
+sudo systemctl status valheimserver_*
+
+sudo cp -R /home/steam/*
+sudo chown -Rf steam:steam /home/steam/*
