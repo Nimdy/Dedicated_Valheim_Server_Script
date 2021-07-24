@@ -2772,7 +2772,7 @@ echo "resetting permissions"
 chmod -R 755 /var/www
 chown -R www-data:www-data /var/www/njordgui
 echo "setting Sudoer configurations for www-data DEV TESTs"
-echo 'www-data   ALL=(ALL) NOPASSWD: /usr/bin/*,/var/www/njordgui/commands.php >> /etc/sudoers
+echo 'www-data   ALL=(ALL) NOPASSWD: /usr/bin/*,/var/www/njordgui/commands.php >> /etc/sudoers'
 echo "restarting apache"
 systemctl restart apache2
 echo "done"
