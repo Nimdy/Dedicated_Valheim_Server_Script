@@ -7,7 +7,7 @@
 	$password = 'ch4n93m3';
 	$random1 = 'secret_key1';
 	$random2 = 'secret_key2';
-	$hash = md5($random1.$pass.$random2); 
+	$hash = md5($random1.$password.$random2); 
 	$self = $_SERVER['REQUEST_URI'];
 
 	// Hits ipecho.net to get the VM's actual IP
