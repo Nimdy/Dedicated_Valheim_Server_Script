@@ -3,7 +3,7 @@
 if (!isset($_SESSION)) {
   session_start();
 }
-require(dirname(__DIR__, 2).'/VSW-GUI-CONFIG');
+require(dirname(__DIR__).'../../VSW-GUI-CONFIG');
 if (!isset($_SESSION['login']) || $_SESSION['login'] != $hash) {
 	header("Location: $_SERVER[PHP_SELF]");
 	exit();
