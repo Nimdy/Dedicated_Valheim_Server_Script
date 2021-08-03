@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
 // Set a nonce value for CSP script verification
 $nonce = bin2hex(random_bytes('4'));
 
@@ -18,7 +21,6 @@ $nonce = bin2hex(random_bytes('4'));
 // ini_set('session.cookie_samesite', 'strict');
 
 // Get the config file
-// Get the config file
 require(dirname(__DIR__).'/VSW-GUI-CONFIG');
 
 session_start();
@@ -32,9 +34,6 @@ if(isset($_GET['logout'])) {
   header("Location: $_SERVER[PHP_SELF]");
   exit;
 }
-
-require(dirname(__DIR__).'/commands.php');
-
 
 ?>
 <html>
@@ -98,7 +97,7 @@ require(dirname(__DIR__).'/commands.php');
     // *************************************** //
     // ********** Logged In Content ********** //
     // *************************************** //
-  
+      require(dirname(__DIR__).'/commands.php');
     // Version Control
         $url = "https://raw.githubusercontent.com/Peabo83/Valheim-Server-Web-GUI/main/.gitignore/version";
         $latest_version = file_get_contents($url);
@@ -106,7 +105,7 @@ require(dirname(__DIR__).'/commands.php');
         if ($version == $latest_version) {
           // DO NOTHING
         } else {
-          echo "<div class='row alert alert-danger' role='alert'><div class='col-12'><span class='glyphicon glyphicon-warning-sign'></span> Your version of this GUI is out out of date. (current version: ".$version." - latest version:<a href='https://github.com/Peabo83/Valheim-Server-Web-GUI'>".$latest_version."</a>)</div></div>";
+          echo "<div class='row alert alert-danger no-gutters' role='alert'><div class='col-12'><span class='glyphicon glyphicon-warning-sign'></span> Your version of this GUI is out out of date. (current version: ".$version." - latest version:<a href='https://github.com/Peabo83/Valheim-Server-Web-GUI'>".$latest_version."</a>)</div></div>";
         }
     // End Version Control
 ?>
@@ -165,7 +164,7 @@ require(dirname(__DIR__).'/commands.php');
             </div><div class="menu-text-item transition">Valheim Server Logs</div>
           </div>
 
-      </div>
+      </div> 
       <div id="main" class="transition">
         <div id="content">
           <?php 

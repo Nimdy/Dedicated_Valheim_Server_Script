@@ -1,7 +1,7 @@
 <?php
 // Verify user logged in, redirect to index if not
 session_start();
-require(dirname(__DIR__).'../../VSW-GUI-CONFIG');
+require '/var/www/VSW-GUI-CONFIG';
 if (!isset($_SESSION['login']) || $_SESSION['login'] != $hash) {
   header("Location: /index.php");
   exit();
@@ -287,7 +287,7 @@ class FeedException extends Exception
 
 
 $_SESSION['PAGE'] = 'notifications';
-// Respect to zma @github
+
 // Check http://www.systutorials.com/136102/a-php-function-for-fetching-rss-feed-and-outputing-feed-items-as-html/ for description
 
 // RSS to HTML

@@ -1,21 +1,17 @@
 <?php
-	// Verify user logged in, redirect to index if not
-	session_start();
-	require(dirname(__DIR__).'../../VSW-GUI-CONFIG');
-	if (!isset($_SESSION['login']) || $_SESSION['login'] != $hash) {
-		header("Location: /index.php");
-		exit();
-	}
-?>
-<script type="text/javascript">
-	$(function() {
-		$(".hide-to-fade").fadeIn(300);
-	});
-</script>
-<?php
-	$_SESSION['PAGE'] = 'playeroptions';
+// Verify user logged in, redirect to index if not
+if (!isset($_SESSION)) {
+  session_start();
+}
+require(dirname(__DIR__, 2).'/VSW-GUI-CONFIG');
+if (!isset($_SESSION['login']) || $_SESSION['login'] != $hash) {
+	header("Location: $_SERVER[PHP_SELF]");
+	exit();
+}
 
-	function get_username($steamID) {
+$_SESSION['PAGE'] = 'playeroptions';
+
+function get_username($steamID) {
 		// Get username from steamfinder
     	$url = "https://steamidfinder.com/lookup/" . $steamID;
     	$fp = file_get_contents($url);
@@ -25,35 +21,45 @@
         return $user_name;
 	}
 
-	function print_button($steamID, $username, $admin, $banned, $allowed, $style, $world_name) {
-		echo '<div class="btn-group" role="group">
-				<button type="button" class="btn ' . $style . ' dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' . $username . '</button>
-			    <ul class="dropdown-menu">
-			    	<header>' . $steamID . '</header>';
-			    	echo '<a href="https://steamidfinder.com/lookup/' . $steamID . '" target="_blank"><li>View on Steamfinder</li></a>';
-			    	if ($admin == '0') {
-			    		echo '<a href="?add_admin=' . $steamID . '&world_name=' . $world_name . '"><li>Make Admin</li></a>';
-			    	} else {
-			    		echo '<a href="?remove_admin=' . $steamID . '&world_name=' . $world_name . '"><li>Remove Admin</li></a>';
-			    	}
-			    	if ($banned == '0') {
-			    		echo '<a href="?add_ban=' . $steamID . '&world_name=' . $world_name . '"><li>Ban User</li></a>';
-			    	} else {
-			    		echo '<a href="?remove_ban=' . $steamID . '&world_name=' . $world_name . '"><li>Remove Ban</li></a>';
-			    	}
-			    	if ($allowed == '0') {
-			    		echo '<a href="?add_allow=' . $steamID . '&world_name=' . $world_name . '"><li>Add to Allow</li></a>';
-			    	} else {
-			    		echo '<a href="?remove_allow=' . $steamID . '&world_name=' . $world_name . '"><li>Remove Allow</li></a>';
-			    	}
-		echo '	</ul>
-			  </div>';
-		//}
-	}
+function print_button($steamID, $username, $admin, $banned, $allowed, $style, $world_name) {
+	echo '<div class="btn-group" role="group">
+			<button type="button" class="btn ' . $style . ' dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' . $username . '</button>
+		    <ul class="dropdown-menu">
+		    	<header>' . $steamID . '</header>';
+		    	echo '<a href="https://steamidfinder.com/lookup/' . $steamID . '" target="_blank"><li>View on Steamfinder</li></a>';
+		    	if ($admin == '0') {
+		    		echo '<a href="?add_admin=' . $steamID . '&world_name=' . $world_name . '"><li>Make Admin</li></a>';
+		    	} else {
+		    		echo '<a href="?remove_admin=' . $steamID . '&world_name=' . $world_name . '"><li>Remove Admin</li></a>';
+		    	}
+		    	if ($banned == '0') {
+		    		echo '<a href="?add_ban=' . $steamID . '&world_name=' . $world_name . '"><li>Ban User</li></a>';
+		    	} else {
+		    		echo '<a href="?remove_ban=' . $steamID . '&world_name=' . $world_name . '"><li>Remove Ban</li></a>';
+		    	}
+		    	if ($allowed == '0') {
+		    		echo '<a href="?add_allow=' . $steamID . '&world_name=' . $world_name . '"><li>Add to Allow</li></a>';
+		    	} else {
+		    		echo '<a href="?remove_allow=' . $steamID . '&world_name=' . $world_name . '"><li>Remove Allow</li></a>';
+		    	}
+	echo '	</ul>
+		  </div>';
+	//}
+}
 
-	$all_users = array();
+$all_users = array();
+?>
+<script type="text/javascript">
+	$(function() {
+		$(".hide-to-fade").fadeIn(300);
+	});
+</script>
+<div class="hide-to-fade">
+<h1>Player Options</h1>
 
-	foreach ($world_array as $key => $value) {
+<?php
+
+foreach ($world_array as $key => $value) {
 		
 		// Sterilize variables
 		$all_users = array();
@@ -73,11 +79,11 @@
 		echo '<div class="row world-item"><div class="col-md-12"><h2><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> ' . $world_name . '</h2>';
 
 		// Verify world .JSON file exists, if not, create it and set string value
-		if (file_exists("/var/www/" . $world_name . ".json")) {
-			$string = file_get_contents("/var/www/" . $world_name . ".json");
+		if (file_exists(dirname(__DIR__, 2) . '/' . $world_name . ".json")) {
+			$string = file_get_contents(dirname(__DIR__, 2) . '/' . $world_name . ".json");
 		} else {
 			$json_data = '';
-			file_put_contents('/var/www/' . $world_name . '.json', $json_data);
+			file_put_contents(dirname(__DIR__, 2) . '/' . $world_name . '.json', $json_data);
 			$string = '';
 		}
 
@@ -197,14 +203,14 @@
 			} else {
 				$json_data = '';
 				$json_data = json_encode($all_users);
-				file_put_contents('/var/www/' . $world_name . '.json', $json_data);
+				file_put_contents(dirname(__DIR__, 2) . '/' . $world_name . '.json', $json_data);
 			}
 
 		}
 		// END IF
 
 		// Reload the JSON data so the page loads cleanly
-		$string = file_get_contents("/var/www/" . $world_name . ".json");
+		$string = file_get_contents(dirname(__DIR__, 2) . '/' . $world_name . ".json");
 		$json_a = json_decode($string, true);		
 
 		foreach ($json_a as $key => $value) {
@@ -303,3 +309,5 @@
 	}
 
 ?>
+
+</div>

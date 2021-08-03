@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (!isset($_SESSION)) {
+  session_start();
+}
+
 // Verify user logged in, redirect to index if not
 require(dirname(__DIR__).'../../VSW-GUI-CONFIG');
 if (!isset($_SESSION['login']) || $_SESSION['login'] != $hash) {
@@ -20,18 +23,34 @@ if ($verify == '' || $verify == null) {
 <script type="text/javascript">
 	$(function() {
 		$(".hide-to-fade").fadeIn(300);
+
+    $(".server-function").click(function() {
+      $("#loading-background").removeClass("hidden");
+    });
+
 	});
 </script>
 
 <!-- ALERT NOTICE -->
-        <div class="alert alert-danger alert-dismissible <?php if(!isset($warning)){ echo 'hidden'; } ?>" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <div id="alert_content">
-            <!-- ALERT CONTENT -->
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <?php if(isset($warning)){ echo $warning; } ?>
-          </div>
-        </div>
+  <div class="alert alert-danger alert-dismissible <?php if(!isset($warning)){ echo 'hidden'; } ?>" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <div id="alert_content">
+      <!-- ALERT CONTENT -->
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <?php if(isset($warning)){ echo $warning; } ?>
+    </div>
+  </div>
 <!-- END ALERT -->
+
+<!-- LOADING SCREEN -->
+  <div id="loading-background" class="hidden">
+    <div id="loading-body" class="panel panel-default">
+      <div class="spinner-grow text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+        Server Executing Command, Please wait.
+    </div>
+  </div>
+<!-- END LOADING SCREEN -->
 
 <div class="hide-to-fade">
 <h1>SERVER COMMANDS</h1>
@@ -46,7 +65,7 @@ foreach ($world_array as $key => $value) {
   $startup_line = strstr($info, '-name');
   $startup_array = explode(' ', $startup_line);
   $port = 'ERROR';
-  $public = 'ERROR';
+  $public_status = 'ERROR';
   foreach ($startup_array as $key => $value) {
     $next_key = $key + 1;
     switch ($value) {
@@ -116,9 +135,11 @@ foreach ($world_array as $key => $value) {
   }
 
   // Print the World command bar
-  echo '<h2 style="margin-top:24px;">' . $world_name . '</h2>
+  echo '
+  <div class="world-item">
+  <h2 style="margin-top:24px;"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> ' . $world_name . '</h2>
         <div class="alert alert-' . $alert_class . ' role="alert">
-          <div class="col-' . $text_row . 'h6"><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span> ' . $active . '</div>
+          <div class="col-7"><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span> ' . $active . '</div>
         </div>
         <div class="row no-gutters">
           <div class="col-md-3">
@@ -140,7 +161,8 @@ foreach ($world_array as $key => $value) {
           <button class="btn btn-warning server-function" onclick="location.href=\'index.php?restart=true&value=' . $world_name . '\';" ' . $public_attr . '>Restart</button> 
           <button class="btn btn-' . $no_download_class . '" ' . $no_download . ' onclick="location.href=\'index.php?download_db=true&value=' . $world_name . '\';">Download DB</button> 
           <button class="btn btn-' . $no_download_class . '" ' . $no_download . ' onclick="location.href=\'index.php?download_fwl=true&value=' . $world_name . '\';">Download FWL</button>
-        </div>';
+        </div>
+      </div>';
 }
 ?>
 

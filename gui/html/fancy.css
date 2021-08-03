@@ -155,9 +155,44 @@ h1 {
 	top: -.2rem;
 	margin-right: .5rem;
 }
+.right {
+	float: right;
+	text-align: right;
+}
 #log-output {
 	font-family: 'Ubuntu Mono';
 	font-size: 1rem;
+}
+#loading-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 998;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.filename {
+	padding-top: 1.2rem;
+}
+.mod-world-item li {
+	text-align: center;
+	padding: 1rem	;
+}
+.mod-world-item li:hover {
+	background-color: grey;
+	cursor: pointer;
+}
+#loading-body {
+  position: fixed;
+  top: 25vh;
+  left: 35vw;
+  width: 30vw;
+  overflow: hidden;
+  z-index: 999;
+  padding: 4vw;
+  background-color: black;
 }
 #loading {
 	font-size: 2rem;
@@ -168,6 +203,15 @@ h1 {
 	height: 4rem;
 	position: relative;
 	top: .5rem;
+}
+.world-item {
+	background-color: #1e1e26;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+.world-item .row:nth-child(odd){
+	background-color: #22222e;
 }
 .panel, .thumbnail {
 	background-color: unset;
@@ -267,6 +311,10 @@ h1 {
     border-left: .3em solid transparent;
 }
 
+.alert-danger {
+	background-color: #ec250d;
+	background-image:  unset;
+}
 
 .open>.dropdown-toggle.btn-info:focus, .open>.dropdown-toggle.btn-info:hover {
 	background-image: linear-gradient(to bottom left, #1d8cf8, #3358f4, #1d8cf8);

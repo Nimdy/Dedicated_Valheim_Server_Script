@@ -1,6 +1,8 @@
 <?php
 // Verify user logged in, redirect to index if not
-session_start();
+if (!isset($_SESSION)) {
+  session_start();
+}
 require(dirname(__DIR__).'../../VSW-GUI-CONFIG');
 if (!isset($_SESSION['login']) || $_SESSION['login'] != $hash) {
   header("Location: /index.php");
