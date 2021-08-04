@@ -63,7 +63,6 @@ h1 {
 	width: 100%;
 }
 #collapse, #logout {
-	display: inline-block;
 	font-weight: bold;
 	cursor: pointer;
 	float: left;
@@ -106,6 +105,10 @@ h1 {
  	-ms-animation-iteration-count: 1;
  	-webkit-animation-timing-function: ease-in-out;
 	-ms-animation-timing-function: ease-in-out;
+	animation-name: wiggle;
+	animation-duration: 500ms;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in-out;
 }
 .circle {
 	background-color: #1e1e26;
@@ -114,7 +117,6 @@ h1 {
 	width: 35px;
 	height: 35px;
 	margin-top: 4px;
-	float: left;
 }
 .circle svg {
 	font-size: 18px;
@@ -127,7 +129,6 @@ h1 {
 .menu-text-item {
 	display: inline-block;
 	padding-left: 6px;
-	float: left;
 	padding-top: 10px;
 }
 .menu-text-item.collapsed {
