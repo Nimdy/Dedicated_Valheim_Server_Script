@@ -105,14 +105,20 @@ if(isset($_GET['logout'])) {
         if ($version == $latest_version) {
           // DO NOTHING
         } else {
-          echo "<div class='row alert alert-danger no-gutters' role='alert'><div class='col-12'><span class='glyphicon glyphicon-warning-sign'></span> Your version of this GUI is out out of date. (current version: ".$version." - latest version:<a href='https://github.com/Peabo83/Valheim-Server-Web-GUI'>".$latest_version."</a>)</div></div>";
+          echo "<div class='row alert alert-danger no-gutters' role='alert'><div class='col-12'><span class='glyphicon glyphicon-warning-sign'></span> Your version of the Njord Menu is out out of date. (GUI version: ".$version." - latest version:<a href='https://github.com/Nimdy/Dedicated_Valheim_Server_Script'>".$latest_version."</a>)</div></div>";
         }
     // End Version Control
+
+    // Password Update Check
+        if ($password == 'ch4n93m3') {
+          echo "<div class='row alert alert-danger no-gutters' role='alert'><div class='col-12'><center><span class='glyphicon glyphicon-warning-sign'></span> Please update the GUI login password: <form action='index.php' method='get' class='pass_form'><input type='text' name='password_update' class='password_box'><input type='submit' class='btn btn-success password_btn'></form></center></div></div>";
+        }
+    // End Password Update Check
 ?>
   <div id="gui-container">
       <div id="navbar" class="transition">
         <div id="menu_image">
-          <img src="njord_menu.png">
+          <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/" target="_blank"><img src="njord_menu.png"></a>
         </div>
         <div id="collapse-menu-item" class="row">
           <div class="col-6">
@@ -134,10 +140,10 @@ if(isset($_GET['logout'])) {
             <div class="menu-text-item transition">Server Commands</div>
           </div>
 
-          <div class="menu-item" id="discordmenu">
+<!--           <div class="menu-item" id="discordmenu">
             <div class="circle"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M297.216 243.2c0 15.616-11.52 28.416-26.112 28.416-14.336 0-26.112-12.8-26.112-28.416s11.52-28.416 26.112-28.416c14.592 0 26.112 12.8 26.112 28.416zm-119.552-28.416c-14.592 0-26.112 12.8-26.112 28.416s11.776 28.416 26.112 28.416c14.592 0 26.112-12.8 26.112-28.416.256-15.616-11.52-28.416-26.112-28.416zM448 52.736V512c-64.494-56.994-43.868-38.128-118.784-107.776l13.568 47.36H52.48C23.552 451.584 0 428.032 0 398.848V52.736C0 23.552 23.552 0 52.48 0h343.04C424.448 0 448 23.552 448 52.736zm-72.96 242.688c0-82.432-36.864-149.248-36.864-149.248-36.864-27.648-71.936-26.88-71.936-26.88l-3.584 4.096c43.52 13.312 63.744 32.512 63.744 32.512-60.811-33.329-132.244-33.335-191.232-7.424-9.472 4.352-15.104 7.424-15.104 7.424s21.248-20.224 67.328-33.536l-2.56-3.072s-35.072-.768-71.936 26.88c0 0-36.864 66.816-36.864 149.248 0 0 21.504 37.12 78.08 38.912 0 0 9.472-11.52 17.152-21.248-32.512-9.728-44.8-30.208-44.8-30.208 3.766 2.636 9.976 6.053 10.496 6.4 43.21 24.198 104.588 32.126 159.744 8.96 8.96-3.328 18.944-8.192 29.44-15.104 0 0-12.8 20.992-46.336 30.464 7.68 9.728 16.896 20.736 16.896 20.736 56.576-1.792 78.336-38.912 78.336-38.912z"></path></svg></div>
             <div class="menu-text-item transition">Discord Menu</div>
-          </div>
+          </div>  -->
 
           <div class="menu-item" id="worldmapandseed">
             <div class="circle"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 496 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm200 248c0 22.5-3.9 44.2-10.8 64.4h-20.3c-4.3 0-8.4-1.7-11.4-4.8l-32-32.6c-4.5-4.6-4.5-12.1.1-16.7l12.5-12.5v-8.7c0-3-1.2-5.9-3.3-8l-9.4-9.4c-2.1-2.1-5-3.3-8-3.3h-16c-6.2 0-11.3-5.1-11.3-11.3 0-3 1.2-5.9 3.3-8l9.4-9.4c2.1-2.1 5-3.3 8-3.3h32c6.2 0 11.3-5.1 11.3-11.3v-9.4c0-6.2-5.1-11.3-11.3-11.3h-36.7c-8.8 0-16 7.2-16 16v4.5c0 6.9-4.4 13-10.9 15.2l-31.6 10.5c-3.3 1.1-5.5 4.1-5.5 7.6v2.2c0 4.4-3.6 8-8 8h-16c-4.4 0-8-3.6-8-8s-3.6-8-8-8H247c-3 0-5.8 1.7-7.2 4.4l-9.4 18.7c-2.7 5.4-8.2 8.8-14.3 8.8H194c-8.8 0-16-7.2-16-16V199c0-4.2 1.7-8.3 4.7-11.3l20.1-20.1c4.6-4.6 7.2-10.9 7.2-17.5 0-3.4 2.2-6.5 5.5-7.6l40-13.3c1.7-.6 3.2-1.5 4.4-2.7l26.8-26.8c2.1-2.1 3.3-5 3.3-8 0-6.2-5.1-11.3-11.3-11.3H258l-16 16v8c0 4.4-3.6 8-8 8h-16c-4.4 0-8-3.6-8-8v-20c0-2.5 1.2-4.9 3.2-6.4l28.9-21.7c1.9-.1 3.8-.3 5.7-.3C358.3 56 448 145.7 448 256zM130.1 149.1c0-3 1.2-5.9 3.3-8l25.4-25.4c2.1-2.1 5-3.3 8-3.3 6.2 0 11.3 5.1 11.3 11.3v16c0 3-1.2 5.9-3.3 8l-9.4 9.4c-2.1 2.1-5 3.3-8 3.3h-16c-6.2 0-11.3-5.1-11.3-11.3zm128 306.4v-7.1c0-8.8-7.2-16-16-16h-20.2c-10.8 0-26.7-5.3-35.4-11.8l-22.2-16.7c-11.5-8.6-18.2-22.1-18.2-36.4v-23.9c0-16 8.4-30.8 22.1-39l42.9-25.7c7.1-4.2 15.2-6.5 23.4-6.5h31.2c10.9 0 21.4 3.9 29.6 10.9l43.2 37.1h18.3c8.5 0 16.6 3.4 22.6 9.4l17.3 17.3c3.4 3.4 8.1 5.3 12.9 5.3H423c-32.4 58.9-93.8 99.5-164.9 103.1z"></path></svg></div>
@@ -180,6 +186,7 @@ if(isset($_GET['logout'])) {
     display_login_form();
   }
   function display_login_form() { ?>
+  <div class="row no-gutters">
     <form action="index.php" method='post'>
       <div id="navbar" class="transition login">
         <div class="row">
@@ -190,12 +197,19 @@ if(isset($_GET['logout'])) {
             <input type="text" name="username" id="username" class="form-control" placeholder="Username">
             <input type="password" name="password" id="password" class="form-control" placeholder="Password">
             <input class="btn btn-success right" type="submit" name="submit" value="submit">
-            </form>
           </div>
         </div>
-        </div>
       </div>
-    </div>
+    </form>
+  </div>
+    <?php
+      require(dirname(__DIR__).'/VSW-GUI-CONFIG');
+      foreach ($world_array as $key => $value) {
+        if (file_exists(dirname(__DIR__) . "/html/public/" . $value . ".zip")) {
+          echo "<div class='row no-gutters world-mod-zip'><a href='/public/".$value.".zip'><button class='btn btn-success'>Download Mods for ".$value."</button></a></div>";
+        } 
+      }
+    ?>
   <?php } ?>
 
 </body>

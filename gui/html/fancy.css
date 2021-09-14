@@ -63,6 +63,7 @@ h1 {
 	width: 100%;
 }
 #collapse, #logout {
+	display: inline-block;
 	font-weight: bold;
 	cursor: pointer;
 	float: left;
@@ -92,6 +93,7 @@ h1 {
 	padding-left: 21px;
 	cursor: pointer;
 	display: inline-block;
+	width: 100%;
 }
 .menu-item:hover {
 	color: #d1d1d1;
@@ -105,10 +107,16 @@ h1 {
  	-ms-animation-iteration-count: 1;
  	-webkit-animation-timing-function: ease-in-out;
 	-ms-animation-timing-function: ease-in-out;
-	animation-name: wiggle;
-	animation-duration: 500ms;
-	animation-iteration-count: 1;
-	animation-timing-function: ease-in-out;
+}
+.pass_form {
+	display: inline-block;
+	margin: 0;
+}
+.password_box {
+	color: black;
+}
+.btn.password_btn {
+	padding: 4px;
 }
 .circle {
 	background-color: #1e1e26;
@@ -117,6 +125,7 @@ h1 {
 	width: 35px;
 	height: 35px;
 	margin-top: 4px;
+	float: left;
 }
 .circle svg {
 	font-size: 18px;
@@ -129,6 +138,7 @@ h1 {
 .menu-text-item {
 	display: inline-block;
 	padding-left: 6px;
+	float: left;
 	padding-top: 10px;
 }
 .menu-text-item.collapsed {
@@ -194,6 +204,9 @@ h1 {
   z-index: 999;
   padding: 4vw;
   background-color: black;
+}
+.world-mod-zip {
+	padding-left: 18px;
 }
 #loading {
 	font-size: 2rem;

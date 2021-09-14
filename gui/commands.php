@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?php
 
 function GetWorldName() {
@@ -18,6 +17,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == $hash) {
     header("Location: $_SERVER[PHP_SELF]");
     exit;
   }
+
   if (isset($_GET['stop'])) {
     $value = htmlspecialchars($_GET['value']);
     $command = 'sudo systemctl stop valheimserver_' . $value . '.service';
@@ -25,12 +25,14 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == $hash) {
     header("Location: $_SERVER[PHP_SELF]");
     exit;
   }
+
   if (isset($_GET['restart'])) {
     $value = htmlspecialchars($_GET['value']);
     $info = exec('sudo systemctl restart valheimserver_' . $value . '.service');
     header("Location: $_SERVER[PHP_SELF]");
     exit;
   }
+
   if (isset($_GET['download_db'])) {
     $value = htmlspecialchars($_GET['value']);
     if (file_exists("/home/steam/.config/unity3d/IronGate/Valheim/".$value."/worlds/".$value.".db")) {
@@ -49,6 +51,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == $hash) {
       exit;
     }
   }
+
   if (isset($_GET['download_fwl'])) {
     $value = htmlspecialchars($_GET['value']);
     $command = exec('sudo cp -R /home/steam/.config/unity3d/IronGate/Valheim/' . $value . '/worlds/'. $value . '.fwl '. dirname(__DIR__) . '/njordgui/html/download/');
@@ -210,15 +213,17 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == $hash) {
     header("Location: $_SERVER[PHP_SELF]");
     exit;
   }
+
   if (isset($_GET['remove_MOD'])) {
     $world_name = htmlspecialchars($_GET['world_name']);
     $mod_file = str_replace('"', "", $_GET['remove_MOD']);
     $mod_file = str_replace("'", "", $mod_file);
     $full_command = "sudo rm /home/steam/valheimserver/" . $world_name . "/BepInEx/plugins/" . $mod_file;
     $command = exec($full_command);
-    header("Location: $_SERVER[PHP_SELF]?n=" . $full_command);
+    header("Location: $_SERVER[PHP_SELF]");
     exit;
   }
+
   if (isset($_GET['PUSH'])) {
     $file_to_push = str_replace('"', "", $_GET['PUSH']);
     $file_to_push = str_replace("'", "", $file_to_push);
@@ -230,7 +235,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == $hash) {
       $full_command = "sudo -u steam unzip -o " . dirname(__DIR__) . "/njordgui/html/plugins/".$file_to_push." -d /home/steam/valheimserver/" . $world_name . "/BepInEx/plugins/";
       $command = exec($full_command);
     }
-    header("Location: $_SERVER[PHP_SELF]" . "?command=" . $full_command);
+    header("Location: $_SERVER[PHP_SELF]");
   }
 
   if (isset($_POST['upload'])) {
@@ -260,32 +265,40 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == $hash) {
     }
   }
 
-    if (isset($_GET['ID_to_Verify'] )) {
-      $ID_to_Verify = preg_replace("/[^0-9]/", "", $_GET['ID_to_Verify'] );
-      $world_name = htmlspecialchars($_GET['world_name']);
-      $json_file = dirname(__DIR__) . '/njordgui/' . $world_name . '.json';
+  if (isset($_GET['ID_to_Verify'] )) {
+    $ID_to_Verify = preg_replace("/[^0-9]/", "", $_GET['ID_to_Verify'] );
+    $world_name = htmlspecialchars($_GET['world_name']);
+    $json_file = dirname(__DIR__) . '/njordgui/' . $world_name . '.json';
 
-      if ($world_name == '') {
-        exit;
-      }
-      $url = "https://steamidfinder.com/lookup/" . $ID_to_Verify;
-      $fp = file_get_contents($url);
-      $res = preg_match("/name <code>(.*)<\/code>/siU", $fp, $title_matches);
-      $title_array = explode(" ", $title_matches[1]);
-      if ($title_array[0] == "steam" || $title_array[0] == "404" || $title_array[0] == "" || $title_array[0] == "Steam") {
-        // Do Nothing
-        echo 'THERE WAS AN ERROR.';
-      } else {
-        $string = file_get_contents( $json_file );
-        $json_a = json_decode($string, true);
-        // build user array
-        $user_array = array('username' => $title_array[0], 'admin' => '0', 'banned' => '0', 'allowed' => '0');
-        // add user array to all_users
-        $json_a[$ID_to_Verify] = $user_array;
-        $json_a = json_encode($json_a);
-        file_put_contents( $json_file, $json_a);
-      }
+    if ($world_name == '') {
+      exit;
+    }
+    $url = "https://steamidfinder.com/lookup/" . $ID_to_Verify;
+    $fp = file_get_contents($url);
+    $res = preg_match("/name <code>(.*)<\/code>/siU", $fp, $title_matches);
+    $title_array = explode(" ", $title_matches[1]);
+    if ($title_array[0] == "steam" || $title_array[0] == "404" || $title_array[0] == "" || $title_array[0] == "Steam") {
+      // Do Nothing
+      echo 'THERE WAS AN ERROR.';
+    } else {
+      $string = file_get_contents( $json_file );
+      $json_a = json_decode($string, true);
+      // build user array
+      $user_array = array('username' => $title_array[0], 'admin' => '0', 'banned' => '0', 'allowed' => '0');
+      // add user array to all_users
+      $json_a[$ID_to_Verify] = $user_array;
+      $json_a = json_encode($json_a);
+      file_put_contents( $json_file, $json_a);
+    }
   header("Location: $_SERVER[PHP_SELF]");
+  }
+
+  if (isset($_GET['password_update'])) {
+    $clean_pass = filter_var($_GET['password_update'], FILTER_SANITIZE_SPECIAL_CHARS);
+    $string = file_get_contents(dirname(__DIR__) . "/njordgui/VSW-GUI-CONFIG");
+    $updated_string = str_replace("ch4n93m3",$clean_pass,$string);
+    file_put_contents(dirname(__DIR__) . '/njordgui/VSW-GUI-CONFIG', $updated_string);
+    header("Location: $_SERVER[PHP_SELF]");
   }
 }
 
