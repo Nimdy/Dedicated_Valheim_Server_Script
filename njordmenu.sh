@@ -68,7 +68,7 @@ debugmsg="n"
 # if [ "$debugmsg" == "y" ] ; then echo "something" ; fi
 ###############################################################
 # Set Menu Version for menu display
-mversion="3.5.0-Lofns-Vision"
+mversion="3.5.1-Lofns-Vision"
 ldversion="0.4.051120211500ET.dev"
 ########################################################################
 #############################Set COLOR VARS#############################
