@@ -17,6 +17,8 @@ Add whatever we think needs to be added to make it awesome and user friendly
 # Is this be best way to secure it?? NO its a huge security punching bag... but we need to do something
 # Valheim www-data entry for sudoers
 
+escapeshellcmd(string $command): string
+
 ```
 www-data   ALL=(ALL) NOPASSWD: /usr/bin/*,/var/www/njordgui/commands.php
 ```
