@@ -19,6 +19,8 @@ Add whatever we think needs to be added to make it awesome and user friendly
 
 escapeshellcmd(string $command): string
 
+exec(escapeshellcmd("ping -c 4 " . escapeshellarg($_GET['host'])), $output);
+
 ```
 www-data   ALL=(ALL) NOPASSWD: /usr/bin/*,/var/www/njordgui/commands.php
 ```
