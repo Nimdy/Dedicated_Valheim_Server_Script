@@ -401,7 +401,7 @@ function valheim_server_install() {
     echo ""
 		if [ "$newinstall" == "y" ]; then
 			tput setaf 2; echo "Thank you for using the Njord Menu system." ; tput setaf 9; 
-			tput setaf 2; echo "This appears to be the frist time the menu has" ; tput setaf 9; 
+			tput setaf 2; echo "This appears to be the first time the menu has" ; tput setaf 9; 
 			tput setaf 2; echo "been run on this system." ; tput setaf 9; 
 			tput setaf 2; echo "Installing the first Valheim server started." ; tput setaf 9; 
 			linux_server_update
