@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 
 function GetWorldName() {
@@ -9,26 +10,33 @@ function GetWorldName() {
     return $world_name;
 }
 
+function checkLogs() {
+	$cmd = escapeshellcmd('grep "Got connection SteamID\|Closing socket\|has wrong password\|Got character ZDOID from\|World saved\|- Completed reload, in\|Valheim Server.\|has incompatible version,\|is blacklisted or not in whitelist" /var/log/syslog');
+	exec(escapeshellcmd($cmd));
+}
+
 // Verify user then check $_GET values for issued server commands
 if (isset($_SESSION['login']) && $_SESSION['login'] == $hash) {
   if (isset($_GET['start'])) {
     $value = htmlspecialchars($_GET['value']);
-    $info = exec('sudo systemctl start valheimserver_' . $value . '.service');
+    $command = 'sudo systemctl start valheimserver_' . $value . '.service';
+    $info = exec(escapeshellcmd($command));
     header("Location: $_SERVER[PHP_SELF]");
     exit;
   }
 
   if (isset($_GET['stop'])) {
     $value = htmlspecialchars($_GET['value']);
-    $command = 'sudo systemctl stop valheimserver_' . $value . '.service';
-    $info = exec($command);
+    $command = 'sudo /usr/bin/systemctl stop valheimserver_' . $value . '.service';
+    $info = exec(escapeshellcmd($command));
     header("Location: $_SERVER[PHP_SELF]");
     exit;
   }
 
   if (isset($_GET['restart'])) {
     $value = htmlspecialchars($_GET['value']);
-    $info = exec('sudo systemctl restart valheimserver_' . $value . '.service');
+    $command = 'sudo systemctl restart valheimserver_' . $value . '.service';
+    $info = exec(escapeshellcmd($command));
     header("Location: $_SERVER[PHP_SELF]");
     exit;
   }
@@ -36,7 +44,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == $hash) {
   if (isset($_GET['download_db'])) {
     $value = htmlspecialchars($_GET['value']);
     if (file_exists("/home/steam/.config/unity3d/IronGate/Valheim/".$value."/worlds/".$value.".db")) {
-      $command = exec('sudo cp -R /home/steam/.config/unity3d/IronGate/Valheim/' . $value . '/worlds/'. $value . '.db ' . dirname(__DIR__) . '/njordgui/html/download/');
+     # $command = shell_exec('sudo cp -R /home/steam/.config/unity3d/IronGate/Valheim/' . $value . '/worlds/'. $value . '.db ' . dirname(__DIR__) . '/njordgui/html/download/');
+      $command = 'sudo /usr/bin/cp -R /home/steam/.config/unity3d/IronGate/Valheim/' . $value . '/worlds/'. $value . '.db ' . dirname(__DIR__) . '/njordgui/html/download/';
+      $info = exec(escapeshellcmd($command));
       $dir = dirname(__DIR__) . '/njordgui/html/download/';
       $files = scandir($dir);
       foreach ($files as $key => $value) {
@@ -54,25 +64,30 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == $hash) {
 
   if (isset($_GET['download_fwl'])) {
     $value = htmlspecialchars($_GET['value']);
-    $command = exec('sudo cp -R /home/steam/.config/unity3d/IronGate/Valheim/' . $value . '/worlds/'. $value . '.fwl '. dirname(__DIR__) . '/njordgui/html/download/');
-    $dir    = dirname(__DIR__) . '/njordgui/html/download/';
-    $files = scandir($dir);
-    foreach ($files as $key => $value) {
-      $ext  = (new SplFileInfo($value))->getExtension();
-      if ($ext == 'fwl' ) {
-        header('location: /download/'.$value);
-        exit;
+    if (file_exists("/home/steam/.config/unity3d/IronGate/Valheim/".$value."/worlds/".$value.".fwl")) {
+      $command = 'sudo cp -R /home/steam/.config/unity3d/IronGate/Valheim/' . $value . '/worlds/'. $value . '.fwl ' . dirname(__DIR__) . '/njordgui/html/download/';
+      $info = exec(escapeshellcmd($command));
+      $dir = dirname(__DIR__) . '/njordgui/html/download/';
+      $files = scandir($dir);
+      foreach ($files as $key => $value) {
+        $ext  = (new SplFileInfo($value))->getExtension();
+        if ($ext == 'fwl' ) {
+          header('location: /download/'. $value);
+          exit;
+        }
       }
+    } else {
+      header("Location: $_SERVER[PHP_SELF]");
+#trigger_error('Error: No .fwl file found, check permissions and try again.');
+      exit;
     }
-    trigger_error('Error: No .fwl file found, check permissions and try again.');
-    exit;
   }
 
   if (isset($_GET['add_admin'])) {
     $world_name = GetWorldName();
     $ID = preg_replace("/[^0-9]/", "", $_GET['add_admin'] );
     $full_command = "sudo echo '".$ID."' | sudo tee -a /home/steam/.config/unity3d/IronGate/Valheim/" . $world_name . "/adminlist.txt";
-    $command = exec($full_command);
+    $command = exec(escapeshellcmd($full_command));
     $string = file_get_contents(dirname(__DIR__) . "/njordgui/" . $world_name . ".json");
     $json_a = json_decode($string, true);
     // Find entry and edit
@@ -94,8 +109,8 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == $hash) {
   if (isset($_GET['remove_admin'])) {
     $world_name = GetWorldName();
     $ID = preg_replace("/[^0-9]/", "", $_GET['remove_admin'] );
-    $full_command = "sudo sed -i '/^".$ID."/d' /home/steam/.config/unity3d/IronGate/Valheim/" . $world_name . "/adminlist.txt";
-    $command = exec($full_command);
+    $full_command = "sed -i '/^".$ID."/d' /home/steam/.config/unity3d/IronGate/Valheim/" . $world_name . "/adminlist.txt";
+    $command = exec(escapeshellcmd($full_command));
     $string = file_get_contents(dirname(__DIR__) . '/njordgui/' . $world_name . ".json");
     $json_a = json_decode($string, true);
     // Find entry and edit
@@ -117,8 +132,8 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == $hash) {
   if (isset($_GET['add_ban'])) {
     $world_name = GetWorldName();
     $ID = preg_replace("/[^0-9]/", "", $_GET['add_ban'] );
-    $full_command = "sudo echo '".$ID."' | sudo tee -a /home/steam/.config/unity3d/IronGate/Valheim/" . $world_name . "/bannedlist.txt";
-    $command = exec($full_command);
+    $full_command = "echo '".$ID."' | tee -a /home/steam/.config/unity3d/IronGate/Valheim/" . $world_name . "/bannedlist.txt";
+    $command = exec(escapeshellcmd($full_command));
     $string = file_get_contents(dirname(__DIR__) . '/njordgui/' . $world_name . ".json");
     $json_a = json_decode($string, true);
     // Find entry and edit
@@ -140,8 +155,8 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == $hash) {
   if (isset($_GET['remove_ban'])) {
     $world_name = GetWorldName();
     $ID = preg_replace("/[^0-9]/", "", $_GET['remove_ban'] );
-    $full_command = "sudo sed -i '/^".$ID."/d' /home/steam/.config/unity3d/IronGate/Valheim/" . $world_name . "/bannedlist.txt";
-    $command = exec($full_command);
+    $full_command = "sed -i '/^".$ID."/d' /home/steam/.config/unity3d/IronGate/Valheim/" . $world_name . "/bannedlist.txt";
+    $command = exec(ecsapeshellcmd($full_command));
     $string = file_get_contents(dirname(__DIR__) . '/njordgui/' . $world_name . ".json");
     $json_a = json_decode($string, true);
     // Find entry and edit
@@ -163,8 +178,8 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == $hash) {
   if (isset($_GET['add_allow'])) {
     $world_name = GetWorldName();
     $ID = preg_replace("/[^0-9]/", "", $_GET['add_allow'] );
-    $full_command = "sudo echo '".$ID."' | sudo tee -a /home/steam/.config/unity3d/IronGate/Valheim/" . $world_name . "/permittedlist.txt";
-    $command = exec($full_command);
+    $full_command = "echo '".$ID."' | tee -a /home/steam/.config/unity3d/IronGate/Valheim/" . $world_name . "/permittedlist.txt";
+    $command = exec(escapeshellcmd($full_command));
     $string = file_get_contents(dirname(__DIR__) . '/njordgui/' . $world_name . ".json");
     $json_a = json_decode($string, true);
     // Find entry and edit
@@ -186,8 +201,8 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == $hash) {
   if (isset($_GET['remove_allow'])) {
     $world_name = GetWorldName();
     $ID = preg_replace("/[^0-9]/", "", $_GET['remove_allow'] );
-    $full_command = "sudo sed -i '/^".$ID."/d' /home/steam/.config/unity3d/IronGate/Valheim/" . $world_name . "/permittedlist.txt";
-    $command = exec($full_command);
+    $full_command = "sed -i '/^".$ID."/d' /home/steam/.config/unity3d/IronGate/Valheim/" . $world_name . "/permittedlist.txt";
+    $command = exec(escapeshellcmd($full_command));
     $string = file_get_contents(dirname(__DIR__) . '/njordgui/' . $world_name . ".json");
     $json_a = json_decode($string, true);
     // Find entry and edit
@@ -218,8 +233,8 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == $hash) {
     $world_name = htmlspecialchars($_GET['world_name']);
     $mod_file = str_replace('"', "", $_GET['remove_MOD']);
     $mod_file = str_replace("'", "", $mod_file);
-    $full_command = "sudo rm /home/steam/valheimserver/" . $world_name . "/BepInEx/plugins/" . $mod_file;
-    $command = exec($full_command);
+    $full_command = "rm /home/steam/valheimserver/" . $world_name . "/BepInEx/plugins/" . $mod_file;
+    $command = exec(escapeshellcmd($full_command));
     header("Location: $_SERVER[PHP_SELF]");
     exit;
   }
@@ -232,8 +247,8 @@ if (isset($_SESSION['login']) && $_SESSION['login'] == $hash) {
     $file_path = dirname(__DIR__) . "/njordgui/html/plugins/".$file_to_push;
     if (file_exists($file_path)) {
       // Add ZIP file verification   unzip -t <file>
-      $full_command = "sudo -u steam unzip -o " . dirname(__DIR__) . "/njordgui/html/plugins/".$file_to_push." -d /home/steam/valheimserver/" . $world_name . "/BepInEx/plugins/";
-      $command = exec($full_command);
+      $full_command = "-u steam unzip -o " . dirname(__DIR__) . "/njordgui/html/plugins/".$file_to_push." -d /home/steam/valheimserver/" . $world_name . "/BepInEx/plugins/";
+      $command = exec(escapeshellcmd($full_command));
     }
     header("Location: $_SERVER[PHP_SELF]");
   }

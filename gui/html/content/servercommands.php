@@ -13,8 +13,8 @@ $_SESSION['PAGE'] = 'servercommands';
 
 
 // Verify www-data has been added to the sudoer file
-$exec = 'sudo grep "www-data" /etc/sudoers';
-$verify = shell_exec($exec);
+$exec = 'sudo /usr/bin/grep "www-data" /etc/sudoers';
+$verify = shell_exec(escapeshellcmd($exec));
 if ($verify == '' || $verify == null) {
   $warning = 'www-data permissions not found, server commands may not function.';
 }
@@ -60,7 +60,7 @@ foreach ($world_array as $key => $value) {
 
   $world_name = htmlspecialchars($value);
   $exec = 'systemctl status --no-pager -l valheimserver_' . $world_name . '.service';
-  $info = shell_exec($exec);
+  $info = shell_exec(escapeshellcmd($exec));
 
   $startup_line = strstr($info, '-name');
   $startup_array = explode(' ', $startup_line);

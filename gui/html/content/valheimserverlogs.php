@@ -6,7 +6,7 @@ if (!isset($_SESSION)) {
 }
 require(dirname(__DIR__).'../../VSW-GUI-CONFIG');
 if (!isset($_SESSION['login']) || $_SESSION['login'] != $hash) {
-  header("Location: /index.php");
+	header("Location: /index.php");
   exit();
 }
 $_SESSION['PAGE'] = 'valheimserverlogs';
@@ -20,7 +20,7 @@ $_SESSION['PAGE'] = 'valheimserverlogs';
 <h1>VALHEIM SERVER LOGS</h1>
 <div id="log-output">
 <?php
-  $log = shell_exec('sudo grep "Got connection SteamID\|Closing socket\|has wrong password\|Got character ZDOID from\|World saved\|- Completed reload, in\|Valheim Server.\|has incompatible version,\|is blacklisted or not in whitelist" /var/log/syslog');
+  $log = shell_exec('/usr/bin/grep "Got connection SteamID\|Closing socket\|has wrong password\|Got character ZDOID from\|World saved\|- Completed reload, in\|Valheim Server.\|has incompatible version,\|is blacklisted or not in whitelist" /var/log/syslog');
   $log_array = explode("\n", $log);
   foreach ($log_array as $key => $value) {
     echo $value . "<br>";
