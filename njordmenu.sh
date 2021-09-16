@@ -1009,7 +1009,7 @@ function check_apply_server_updates_beta() {
     echo ""
     echo "Downloading Official Valheim Repo Log Data for comparison only"
     find "/home" "/root" -wholename "*/.steam/appcache/appinfo.vdf" | xargs -r rm -f --
-    repoValheim=$($steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4)
+    repoValheim=$(steamcmd +login anonymous +app_info_update 1 +app_info_print 896660 +quit | grep -A10 branches | grep -A2 public | grep buildid | cut -d'"' -f4)
     echo "Official Valheim-: $repoValheim"
     localValheim=$(grep buildid ${valheimInstallPath}/${worldname}/steamapps/appmanifest_896660.acf | cut -d'"' -f4)
     echo "Local Valheim Ver: $localValheim"
