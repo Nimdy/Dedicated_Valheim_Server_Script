@@ -554,7 +554,7 @@ function linux_server_update() {
 	# Nimdy: check for updates and upgrade the system auto yes 
 	#        WTF is curl not installed by default... come on man!
     tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES" ; tput setaf 9;
-    if command -v apt-get >/dev/null; then
+    if command -v apt >/dev/null; then
         sudo apt install lib32gcc1 libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl isof -y
     #elif command -v dnf >/dev/null; then
 	# Seams RH went to dnf as well in RHEL8
@@ -2761,7 +2761,9 @@ echo "making njord gui dir"
 mkdir /var/www/njordgui/
 sleep 1
 echo "building file system"
-cp -R /opt/Dedicated_Valheim_Server_Script/gui/* /var/www/njordgui/
+#copy required web files into /var/www/njordgui
+cwd=$(pwd)
+cp -R $cwd/gui/* /var/www/njordgui/
 sleep 1
 echo "pulling phpsysinfo"
 git clone https://github.com/phpsysinfo/phpsysinfo.git /var/www/njordgui/html/sys
