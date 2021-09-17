@@ -1,0 +1,18 @@
+<?php
+// *************************************** //
+// *              VARIABLES              * //
+// *************************************** //
+	$version = '1.01';
+	$username = 'Default_Admin';
+	$password = 'ch4n93m3';
+	$random1 = 'secret_key1';
+	$random2 = 'secret_key2';
+	$hash = md5($random1.$password.$random2); 
+	$self = $_SERVER['REQUEST_URI'];
+
+	// Hits ipecho.net to get the VM's actual IP
+	$realIP = file_get_contents("http://ipecho.net/plain");
+
+	// Build $world_array from txt file
+	$world_array = file("/home/steam/worlds.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+?>
