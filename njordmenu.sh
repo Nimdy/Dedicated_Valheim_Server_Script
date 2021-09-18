@@ -14,7 +14,6 @@
 # If not .. <> install os-release
 source /etc/os-release
 
-
 if [ "$1" == "" ] 
 then 
 	LANGUAGE=EN
