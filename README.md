@@ -1,5 +1,6 @@
 <p align="center">
     BETA Branch has the web GUI we are working on. Please feel free to help us make it awesome. Only use the BETA branch, if you know what you are doing. 
+    
     <a href="https://discord.gg/ejgQUfc" alt="Discord">
         <img src="https://img.shields.io/discord/531841983229198375?color=blue&label=Discord&logoColor=blue&style=social" /></a>
     <a href="https://github.com/Nimdy/Dedicated_Valheim_Server_Script/graphs/contributors" alt="Contributors">
