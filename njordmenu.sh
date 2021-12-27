@@ -96,7 +96,7 @@ debugmsg="n"
 # if [ "$debugmsg" == "y" ] ; then echo "something" ; fi
 ###############################################################
 # Set Menu Version for menu display
-mversion="3.0.1-Lofns-Love"
+mversion="3.0.2-Lofns-Love"
 ldversion="0.4.051120211500ET.dev"
 ###      -- Use are your own risk -- 
 ### dev   -- Still working on firewall code. 
@@ -1227,8 +1227,8 @@ function display_network_info() {
 # Display History of Connected Players
 function display_player_history() {
     echo ""
-    sudo grep ZDOID /var/log/syslog*
-    sudo grep *HAND* /var/log/syslog*
+    grep ZDOID ${worldpath}/${worldname}/valheim_server.log
+    grep *HAND* ${worldpath}/${worldname}/valheim_server.log
     echo ""
     echo "Returning to menu in 5 Seconds"
     sleep 5
