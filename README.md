@@ -17,7 +17,7 @@
 <br />
 <p align="center">
     <img src="https://user-images.githubusercontent.com/16698453/121806056-7a853e00-cc4e-11eb-9a7c-0d97ac63bb02.png" />
-  <h3 align="center">Njord Menu 3.0.2 "Lofn's Love" Last Validation -> 30-JUL-2022</h3>
+  <h3 align="center">Njord Menu 3.0.2 "Lofn's Love" Last Validation -> 15-SEP-2022</h3>
 
   <p align="center">
     So easy a Viking can do it!
