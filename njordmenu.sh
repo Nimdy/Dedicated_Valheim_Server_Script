@@ -1858,17 +1858,17 @@ function change_public_display_name() {
 function change_crossplay_status() {
     get_current_config
     set_config_defaults
+	currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+
     echo ""
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     tput setaf 2; echo "You are about to change the crossplay options" ; tput setaf 9;
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-		if $currentCrossplayStatus = 1; then
-			tput setaf 1; echo "Crossplay is currently Enabled" ; tput setaf 9;
-			echo ""
-		elif $currentCrossplayStatus = 0; then
-			tput setaf 1; echo "Crossplay is currently Disabled" ; tput setaf 9;
-			echo ""
-		fi    
+		if [ "$currentCrossplayStatus" == "1" ]; then
+		tput setaf 1; echo "Crossplay is currently set to: $(tput setaf 2)${currentCrossplayStatus} Enabled  $(tput setaf 9) " ; tput setaf 9;
+	else
+		tput setaf 1; echo "Crossplay is currently set to: $(tput setaf 1)${currentCrossplayStatus} Disabled $(tput setaf 9) " ; tput setaf 9;
+	fi
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     echo ""
     read -p "Please enter 1 to Enable Crossplay or 0 to Disable Crossplay: " setCurrentCrossplayStatus
