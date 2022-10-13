@@ -284,14 +284,13 @@ function valheim_server_enable_crossplay() {
 		read -p "Please select a option from above" enableDisableCrossplay
 		tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
 		echo ""
-		if [ "$enableDisableCrossplay" = "1" ] then
+		if $enableDisableCrossplay = 1;  then
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 			tput setaf 1; echo "You entered" $enableDisableCrossplay ; tput setaf 9;
 			tput setaf 1; echo "Crossplay will be enabled" ; tput setaf 9;
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 			echo ""
-		fi
-		if [ "$enableDisableCrossplay" = "0" ] then
+		elif $enableDisableCrossplay = 0; then
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 			tput setaf 1; echo "You entered" $enableDisableCrossplay ; tput setaf 9;
 			tput setaf 1; echo "Crossplay will be disabled" ; tput setaf 9;
@@ -447,6 +446,7 @@ function valheim_server_install() {
 			valheim_server_local_world_name
 			portnumber=2456
 			valheim_server_public_listing
+			valheim_server_enable_crossplay
 			valheim_server_public_access_password
 			build_configuration_env_files_set_permissions
 			Install_steamcmd_client
@@ -456,6 +456,7 @@ function valheim_server_install() {
 			valheim_server_local_world_name
 			valheim_server_public_valheim_port
 			valheim_server_public_listing
+			valheim_server_enable_crossplay
 			valheim_server_public_access_password
 			build_configuration_env_files_set_permissions
 		fi
@@ -1864,19 +1865,16 @@ function change_crossplay_status() {
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-		if [ "$currentCrossplayStatus" = "1" ] then
+		if $currentCrossplayStatus = 1; then
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 			tput setaf 1; echo "Crossplay is currently Enabled" ; tput setaf 9;
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 			echo ""
-		fi
-		if [ "$currentCrossplayStatus" = "0" ] then
+		elif $currentCrossplayStatus = 0; then
 			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 			tput setaf 1; echo "Crossplay is currently Disabled" ; tput setaf 9;
-			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-			echo ""
-		fi    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-	echo
+		fi    
+    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     echo ""
     read -p "Please enter 1 to Enable Crossplay or 0 to Disable Crossplay" setCurrentCrossplayStatus
     echo ""
