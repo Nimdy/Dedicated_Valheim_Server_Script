@@ -85,8 +85,7 @@ How to video: https://www.youtube.com/watch?v=E1oGIP0w06Q
 
 * If you wish to Tip: https://www.patreon.com/zerobandwidth o
 * https://www.buymeacoffee.com/zerobandwidth
-* ETH: 0x691922a6b7d4005392Fb48A626B9ad17f68D66A5
-* VET: 0x6a2e7c13606e07d57664821a0d9920da75719c01
+
 
 ## Discord for Tech Support https://discord.gg/ejgQUfc
 
