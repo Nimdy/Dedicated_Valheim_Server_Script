@@ -1880,6 +1880,9 @@ function change_crossplay_status() {
     echo ""
     tput setaf 1; echo "Crossplay option new settings" ${setCurrentCrossplayStatus} ; tput setaf 9;
     echo ""
+	tput setaf 1; echo "WARNING:  Alot of people are having issues with Crossplay... this has nothing to do with the script." ; tput setaf 9;
+	tput setaf 1; echo "We will update configs if needed, when the community has it 100% figured out.  If it doesnt work for you congratz!" ; tput setaf 9;
+	echo ""
     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
     echo ""
     read -p "$PLEASE_CONFIRM" confirmCrossplayStatusChange
