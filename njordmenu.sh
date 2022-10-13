@@ -267,39 +267,6 @@ function valheim_server_public_server_display_name() {
 		echo ""
 }
 
-function valheim_server_enable_crossplay() {
-	# set crossplay
-	# 1 = Enable CrossPlay
-	# 0 = Disable CrossPlay
-		echo ""
-		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-		tput setaf 2; echo "Do you wish to enable crossplay?" ; tput setaf 9;
-		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-		tput setaf 1; echo "Crossplay will allow you to play with others on different platforms" ; tput setaf 9;
-		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-		tput setaf 2; echo "Enter 1 to enable crossplay" ; tput setaf 9;
-		tput setaf 1; echo "Enter 0 to disable crossplay" ; tput setaf 9;
-		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-		echo ""
-		read -p "Please select a option from above" enableDisableCrossplay
-		tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
-		echo ""
-		if $enableDisableCrossplay = 1;  then
-			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-			tput setaf 1; echo "You entered" $enableDisableCrossplay ; tput setaf 9;
-			tput setaf 1; echo "Crossplay will be enabled" ; tput setaf 9;
-			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-			echo ""
-		elif $enableDisableCrossplay = 0; then
-			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-			tput setaf 1; echo "You entered" $enableDisableCrossplay ; tput setaf 9;
-			tput setaf 1; echo "Crossplay will be disabled" ; tput setaf 9;
-			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-			echo ""
-		fi
- 
-}
-
 
 function valheim_server_local_world_name() {
 	# Set world name function that will be used for .db and .fwl files
@@ -384,6 +351,39 @@ function valheim_server_public_listing() {
 		tput setaf 2; echo "$CREDS_DISPLAY_CREDS_PRINT_OUT_SHOW_PUBLIC $publicList " ; tput setaf 9; 
 		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
 		echo ""
+}
+
+function valheim_server_enable_crossplay() {
+	# set crossplay
+	# 1 = Enable CrossPlay
+	# 0 = Disable CrossPlay
+		echo ""
+		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+		tput setaf 2; echo "Do you wish to enable crossplay?" ; tput setaf 9;
+		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+		tput setaf 1; echo "Crossplay will allow you to play with others on different platforms" ; tput setaf 9;
+		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+		tput setaf 2; echo "Enter 1 to enable crossplay" ; tput setaf 9;
+		tput setaf 1; echo "Enter 0 to disable crossplay" ; tput setaf 9;
+		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+		echo ""
+		read -p "Please select a option from above: " enableDisableCrossplay
+		tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+		echo ""
+		if $enableDisableCrossplay = 1;  then
+			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+			tput setaf 1; echo "You entered" $enableDisableCrossplay ; tput setaf 9;
+			tput setaf 1; echo "Crossplay will be enabled" ; tput setaf 9;
+			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+			echo ""
+		elif $enableDisableCrossplay = 0; then
+			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+			tput setaf 1; echo "You entered" $enableDisableCrossplay ; tput setaf 9;
+			tput setaf 1; echo "Crossplay will be disabled" ; tput setaf 9;
+			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+			echo ""
+		fi
+ 
 }
 
 
