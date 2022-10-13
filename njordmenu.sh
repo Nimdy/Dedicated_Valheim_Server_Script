@@ -96,7 +96,7 @@ debugmsg="n"
 # if [ "$debugmsg" == "y" ] ; then echo "something" ; fi
 ###############################################################
 # Set Menu Version for menu display
-mversion="3.0.2-Lofns-Love"
+mversion="3.1.0-Lofns-Kiss"
 ldversion="0.4.051120211500ET.dev"
 ###      -- Use are your own risk -- 
 ### dev   -- Still working on firewall code. 
@@ -267,6 +267,7 @@ function valheim_server_public_server_display_name() {
 		echo ""
 }
 
+
 function valheim_server_local_world_name() {
 	# Set world name function that will be used for .db and .fwl files
 		echo ""
@@ -352,6 +353,40 @@ function valheim_server_public_listing() {
 		echo ""
 }
 
+function valheim_server_enable_crossplay() {
+	# set crossplay
+	# 1 = Enable CrossPlay
+	# 0 = Disable CrossPlay
+		echo ""
+		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+		tput setaf 2; echo "Do you wish to enable crossplay?" ; tput setaf 9;
+		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+		tput setaf 1; echo "Crossplay will allow you to play with others on different platforms" ; tput setaf 9;
+		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+		tput setaf 2; echo "Enter 1 to enable crossplay" ; tput setaf 9;
+		tput setaf 1; echo "Enter 0 to disable crossplay" ; tput setaf 9;
+		tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+		echo ""
+		read -p "Please select a option from above: " enableDisableCrossplay
+		tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+		echo ""
+		if $enableDisableCrossplay = 1;  then
+			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+			tput setaf 1; echo "You entered" $enableDisableCrossplay ; tput setaf 9;
+			tput setaf 1; echo "Crossplay will be enabled" ; tput setaf 9;
+			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+			echo ""
+		elif $enableDisableCrossplay = 0; then
+			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+			tput setaf 1; echo "You entered" $enableDisableCrossplay ; tput setaf 9;
+			tput setaf 1; echo "Crossplay will be disabled" ; tput setaf 9;
+			tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+			echo ""
+		fi
+ 
+}
+
+
 function valheim_server_public_access_password() {
 	# added security for password complex
 		echo ""        
@@ -388,6 +423,7 @@ function build_configuration_env_files_set_permissions(){
 		echo $CREDS_DISPLAY_CREDS_PRINT_OUT_PORT_USED $portnumber >> /home/steam/serverSetup.txt
 		echo $CREDS_DISPLAY_CREDS_PRINT_OUT_ACCESS_PASS $password >> /home/steam/serverSetup.txt
 		echo $CREDS_DISPLAY_CREDS_PRINT_OUT_SHOW_PUBLIC $publicList >> /home/steam/serverSetup.txt
+		echo "CrossPlay Option 1 = Enabled - 0 = Disabled" $enableDisableCrossplay>> /home/steam/serverSetup.txt
 		echo "$DRAW60" >> /home/steam/serverSetup.txt
 		sleep 1
 		echo $worldname  >> /home/steam/worlds.txt
@@ -410,6 +446,7 @@ function valheim_server_install() {
 			valheim_server_local_world_name
 			portnumber=2456
 			valheim_server_public_listing
+			valheim_server_enable_crossplay
 			valheim_server_public_access_password
 			build_configuration_env_files_set_permissions
 			Install_steamcmd_client
@@ -419,6 +456,7 @@ function valheim_server_install() {
 			valheim_server_local_world_name
 			valheim_server_public_valheim_port
 			valheim_server_public_listing
+			valheim_server_enable_crossplay
 			valheim_server_public_access_password
 			build_configuration_env_files_set_permissions
 		fi
@@ -483,7 +521,7 @@ export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: Minimum password length is 5 characters & Password cant be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${displayname}" -port "${portnumber}" -nographics -batchmode -world "${worldname}" -password "${password}" -public "${publicList}" -savedir "${worldpath}/${worldname}" -logfile "${worldpath}/${worldname}/valheim_server.log"
+./valheim_server.x86_64 -name "${displayname}" -port "${portnumber}" -nographics -batchmode -world "${worldname}" -password "${password}" -public "${publicList}" -savedir "${worldpath}/${worldname}" -logfile "${worldpath}/${worldname}/valheim_server.log" -crossplay "${enableDisableCrossplay}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
@@ -1729,7 +1767,8 @@ function get_current_config() {
     currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
     currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"? \-savedir/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
 	currentSaveDir=$(perl -n -e '/\-savedir "?([^"]+)"? \-logfile/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
-    currentLogfileDir=$(perl -n -e '/\-logfile "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+    currentLogfileDir=$(perl -n -e '/\-logfile "?([^"]+)"? \-crossplay/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+	currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
 
 }
 
@@ -1741,6 +1780,7 @@ function print_current_config() {
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_ACCESS_PASSWORD $(tput setaf 2)${currentPassword} $(tput setaf 9) "
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_LISTING $(tput setaf 2)${currentPublicSet}  $(tput setaf 9) "
     echo "This is the save path: $(tput setaf 2)${currentSaveDir}  $(tput setaf 9) "
+    echo "Crossplay is currently set to: $(tput setaf 2)${currentCrossplayStatus} <---- 1 = Enabled 0 = Disabled $(tput setaf 9) "
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_LISTING_INFO"
 }
 function set_config_defaults() {
@@ -1754,6 +1794,7 @@ function set_config_defaults() {
     setCurrentPublicSet=$currentPublicSet
     setCurrentSaveDir=$currentSaveDir
 	setCurrentLogfileDir=$currentLogfileDir
+	setCurrentCrossplayStatus=$currentCrossplayStatus
 }
 function write_config_and_restart() {
     tput setaf 1; echo "$FUNCTION_WRITE_CONFIG_RESTART_INFO" ; tput setaf 9;
@@ -1766,7 +1807,7 @@ export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
 
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${currentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${setCurrentLogfileDir}" -logappend -logflush 
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${currentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${setCurrentLogfileDir}" -logappend -logflush  -crossplay "${setCurrentCrossplayStatus}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
    echo "$FUNCTION_WRITE_CONFIG_RESTART_SET_PERMS" ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
@@ -1813,7 +1854,49 @@ function change_public_display_name() {
         clear
     fi
 }
-    
+
+function change_crossplay_status() {
+    get_current_config
+    set_config_defaults
+	currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+
+    echo ""
+    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    tput setaf 2; echo "You are about to change the crossplay options" ; tput setaf 9;
+    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+		if [ "$currentCrossplayStatus" == "1" ]; then
+		tput setaf 1; echo "Crossplay is currently set to: $(tput setaf 2)${currentCrossplayStatus} Enabled  $(tput setaf 9) " ; tput setaf 9;
+	else
+		tput setaf 1; echo "Crossplay is currently set to: $(tput setaf 1)${currentCrossplayStatus} Disabled $(tput setaf 9) " ; tput setaf 9;
+	fi
+    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    echo ""
+    read -p "Please enter 1 to Enable Crossplay or 0 to Disable Crossplay: " setCurrentCrossplayStatus
+    echo ""
+    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    echo ""
+    tput setaf 5; echo "Crossplay option old settings" ${currentCrossplayStatus} ; tput setaf 9;
+    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    echo ""
+    tput setaf 1; echo "Crossplay option new settings" ${setCurrentCrossplayStatus} ; tput setaf 9;
+    echo ""
+	tput setaf 1; echo "WARNING:  Alot of people are having issues with Crossplay... this has nothing to do with the script." ; tput setaf 9;
+	tput setaf 1; echo "We will update configs if needed, when the community has it 100% figured out.  If it doesnt work for you congratz!" ; tput setaf 9;
+	echo ""
+    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    echo ""
+    read -p "$PLEASE_CONFIRM" confirmCrossplayStatusChange
+    #if y, then continue, else cancel
+    if [ "$confirmCrossplayStatusChange" == "y" ]; then
+        write_config_and_restart
+    else
+        echo "Updating Crossplay option cancelled"
+        sleep 3
+        clear
+    fi
+}
+
+
 function change_default_server_port() {
     get_current_config
     print_current_config
@@ -1857,6 +1940,7 @@ function change_local_world_name() {
 
 	echo ""
 	echo "$FUNCTION_CHANGE_LOCAL_WORLD_NAME_MSG"
+	echo "Advance Users do this manually because you know the errors can be catastrophic"
 	echo ""
 
 ##### Placing in for compare of adv menu.
@@ -2828,6 +2912,16 @@ function display_public_status_on_or_off() {
       echo "$ECHO_OFF"
   fi
 }
+
+function display_crossplay_status() {
+	currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+	if [ "$currentCrossplayStatus" == "1" ]; then 
+	  echo  $(ColorGreen ''"Enabled"'')
+	else
+	  echo  $(ColorRed ''"Disabled"'')
+  fi
+}
+
 function display_public_IP() {
 externalip=$(curl -s ipecho.net/plain;echo)
 echo "$EXTERNAL_IP $whateverzerowantstocalthis "$(ColorGreen ''"$externalip"'') ; tput setaf 9;
@@ -3056,6 +3150,8 @@ $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_PORT" $(ColorGreen ''"${c
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST" $(ColorGreen ''"$(display_public_status_on_or_off)"'')
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_status) and $(server_substate)
+	echo -ne "
+$(ColorOrange '║') Crossplay status:" $(display_crossplay_status)
 	echo -ne " 
 $(ColorOrange '╠═══════════════════════════════════════════════════════════')"
 	echo -ne "
@@ -3231,17 +3327,18 @@ $(ColorOrange '-')$(ColorGreen ' 9)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_CHANGE_SE
 $(ColorOrange '-')$(ColorGreen ' 10)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_CHANGE_ACCESS_PASS
 $(ColorOrange '-')$(ColorGreen ' 11)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_ENABLE_PUBLIC_LISTING
 $(ColorOrange '-')$(ColorGreen ' 12)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_DISABLE_PUBLIC_LISTING
+$(ColorOrange '-')$(ColorGreen ' 13)') Set Crossplay options
 $(ColorOrange ''"$DRAW60"'')
-$(ColorOrange '-')$(ColorGreen ' 13)') $FUNCTION_ADMIN_TOOLS_MENU_STOP_SERVICE
-$(ColorOrange '-')$(ColorGreen ' 14)') $FUNCTION_ADMIN_TOOLS_MENU_START_SERVICE
-$(ColorOrange '-')$(ColorGreen ' 15)') $FUNCTION_ADMIN_TOOLS_MENU_RESTART_SERVICE
-$(ColorOrange '-')$(ColorGreen ' 16)') $FUNCTION_ADMIN_TOOLS_MENU_STATUS_SERVICE
+$(ColorOrange '-')$(ColorGreen ' 14)') $FUNCTION_ADMIN_TOOLS_MENU_STOP_SERVICE
+$(ColorOrange '-')$(ColorGreen ' 15)') $FUNCTION_ADMIN_TOOLS_MENU_START_SERVICE
+$(ColorOrange '-')$(ColorGreen ' 16)') $FUNCTION_ADMIN_TOOLS_MENU_RESTART_SERVICE
+$(ColorOrange '-')$(ColorGreen ' 17)') $FUNCTION_ADMIN_TOOLS_MENU_STATUS_SERVICE
 $(ColorOrange ''"$DRAW60"'')
-$(ColorOrange '-')$(ColorGreen ' 17)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_BACKUP_WORLD_DATA
-$(ColorOrange '-')$(ColorGreen ' 18)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_RESTORE_WORLD_DATA
+$(ColorOrange '-')$(ColorGreen ' 18)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_BACKUP_WORLD_DATA
+$(ColorOrange '-')$(ColorGreen ' 19)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_RESTORE_WORLD_DATA
 $(ColorOrange ''"$FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_HEADER"'')
-$(ColorOrange '-')$(ColorGreen ' 19)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG_YES
-$(ColorOrange '-')$(ColorGreen ' 20)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG_YES_BEP
+$(ColorOrange '-')$(ColorGreen ' 20)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG_YES
+$(ColorOrange '-')$(ColorGreen ' 21)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG_YES_BEP
 $(ColorOrange ''"$DRAW60"'')
 $(ColorOrange '-')$(ColorGreen ' 99)') " $FUNCTION_MAIN_MENU_LD_CHANGE_SESSION_CURRENT_WORLD
 [ -f "$worldfilelist" ] || echo -ne "
@@ -3265,14 +3362,15 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 			10) change_server_access_password ; menu ;;
 			11) write_public_on_config_and_restart ; menu ;;
 			12) write_public_off_config_and_restart ; menu ;;
-			13) stop_valheim_server ; menu ;;
-			14) start_valheim_server ; menu ;;
-			15) restart_valheim_server ; menu ;;
-			16) display_valheim_server_status ; menu ;;
-			17) backup_world_data ; menu ;;
-			18) restore_world_data ; menu ;;
-			19) mods_menu ; mods_menu ;;
-			20) bepinex_menu ; bepinex_menu ;;			
+			13) change_crossplay_status ; menu ;;
+			14) stop_valheim_server ; menu ;;
+			15) start_valheim_server ; menu ;;
+			16) restart_valheim_server ; menu ;;
+			17) display_valheim_server_status ; menu ;;
+			18) backup_world_data ; menu ;;
+			19) restore_world_data ; menu ;;
+			20) mods_menu ; mods_menu ;;
+			21) bepinex_menu ; bepinex_menu ;;			
 			99) request99="y" ; set_world_server ; menu ;;
 			0000) get_current_config_upgrade_menu ; menu ;;
 			0) exit 0 ;;
