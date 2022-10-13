@@ -2916,7 +2916,8 @@ function display_public_status_on_or_off() {
 }
 
 function display_crossplay_status() {
-	currentCrossplayStatus=$(perl -n -e '/\-crossplay "([0-1])"? \-savedir/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+	currentCrossplayStatus=	$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+
 	if [[ $currentCrossplayStatus == 1 ]]; then 
 	  echo "Crossplay:" $(ColorGreen ''"Enabled"'')
 	else
@@ -3329,17 +3330,18 @@ $(ColorOrange '-')$(ColorGreen ' 9)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_CHANGE_SE
 $(ColorOrange '-')$(ColorGreen ' 10)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_CHANGE_ACCESS_PASS
 $(ColorOrange '-')$(ColorGreen ' 11)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_ENABLE_PUBLIC_LISTING
 $(ColorOrange '-')$(ColorGreen ' 12)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_DISABLE_PUBLIC_LISTING
+$(ColorOrange '-')$(ColorGreen ' 13)') Set Crossplay options
 $(ColorOrange ''"$DRAW60"'')
-$(ColorOrange '-')$(ColorGreen ' 13)') $FUNCTION_ADMIN_TOOLS_MENU_STOP_SERVICE
-$(ColorOrange '-')$(ColorGreen ' 14)') $FUNCTION_ADMIN_TOOLS_MENU_START_SERVICE
-$(ColorOrange '-')$(ColorGreen ' 15)') $FUNCTION_ADMIN_TOOLS_MENU_RESTART_SERVICE
-$(ColorOrange '-')$(ColorGreen ' 16)') $FUNCTION_ADMIN_TOOLS_MENU_STATUS_SERVICE
+$(ColorOrange '-')$(ColorGreen ' 14)') $FUNCTION_ADMIN_TOOLS_MENU_STOP_SERVICE
+$(ColorOrange '-')$(ColorGreen ' 15)') $FUNCTION_ADMIN_TOOLS_MENU_START_SERVICE
+$(ColorOrange '-')$(ColorGreen ' 16)') $FUNCTION_ADMIN_TOOLS_MENU_RESTART_SERVICE
+$(ColorOrange '-')$(ColorGreen ' 17)') $FUNCTION_ADMIN_TOOLS_MENU_STATUS_SERVICE
 $(ColorOrange ''"$DRAW60"'')
-$(ColorOrange '-')$(ColorGreen ' 17)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_BACKUP_WORLD_DATA
-$(ColorOrange '-')$(ColorGreen ' 18)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_RESTORE_WORLD_DATA
+$(ColorOrange '-')$(ColorGreen ' 18)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_BACKUP_WORLD_DATA
+$(ColorOrange '-')$(ColorGreen ' 19)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_RESTORE_WORLD_DATA
 $(ColorOrange ''"$FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_HEADER"'')
-$(ColorOrange '-')$(ColorGreen ' 19)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG_YES
-$(ColorOrange '-')$(ColorGreen ' 20)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG_YES_BEP
+$(ColorOrange '-')$(ColorGreen ' 20)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG_YES
+$(ColorOrange '-')$(ColorGreen ' 21)') $FUNCTION_MAIN_MENU_EDIT_VALHEIM_MODS_MSG_YES_BEP
 $(ColorOrange ''"$DRAW60"'')
 $(ColorOrange '-')$(ColorGreen ' 99)') " $FUNCTION_MAIN_MENU_LD_CHANGE_SESSION_CURRENT_WORLD
 [ -f "$worldfilelist" ] || echo -ne "
@@ -3363,14 +3365,15 @@ $(ColorPurple ''"$CHOOSE_MENU_OPTION"'') "
 			10) change_server_access_password ; menu ;;
 			11) write_public_on_config_and_restart ; menu ;;
 			12) write_public_off_config_and_restart ; menu ;;
-			13) stop_valheim_server ; menu ;;
-			14) start_valheim_server ; menu ;;
-			15) restart_valheim_server ; menu ;;
-			16) display_valheim_server_status ; menu ;;
-			17) backup_world_data ; menu ;;
-			18) restore_world_data ; menu ;;
-			19) mods_menu ; mods_menu ;;
-			20) bepinex_menu ; bepinex_menu ;;			
+			13) change_crossplay_status ; menu ;;
+			14) stop_valheim_server ; menu ;;
+			15) start_valheim_server ; menu ;;
+			16) restart_valheim_server ; menu ;;
+			17) display_valheim_server_status ; menu ;;
+			18) backup_world_data ; menu ;;
+			19) restore_world_data ; menu ;;
+			20) mods_menu ; mods_menu ;;
+			21) bepinex_menu ; bepinex_menu ;;			
 			99) request99="y" ; set_world_server ; menu ;;
 			0000) get_current_config_upgrade_menu ; menu ;;
 			0) exit 0 ;;
