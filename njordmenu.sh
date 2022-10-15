@@ -713,7 +713,7 @@ function linux_server_update() {
     #update system again
     tput setaf 1; echo "$CHECK_FOR_UPDATES_AGAIN" ; tput setaf 9;
     if command -v apt-get >/dev/null; then
-        sudo apt update
+		sudo apt update && apt install -y libpulse-dev libatomic1 libc6
     elif command -v yum >/dev/null; then
 		#elif command -v dnf >/dev/null; then
 		if [[ "$ID" == "fedora" ]] || [[ ( "$ID" == "centos" || "$ID" == "ol" || "$ID" == "rhel" ) && "${VERSION:0:1}" == "8" ]] ; then
