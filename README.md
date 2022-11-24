@@ -141,7 +141,7 @@ To get a local copy up and running follow these simple example steps.
 1. Verify GIT and Net Tools is installed
 =
 ```sh
-sudo apt install -y git net-tools
+sudo apt update && install git net-tools
 ```
 2. Change directory to OPT for installation script (Advance User do what you wish)
 =
