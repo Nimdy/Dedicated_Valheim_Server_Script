@@ -96,7 +96,7 @@ debugmsg="n"
 # if [ "$debugmsg" == "y" ] ; then echo "something" ; fi
 ###############################################################
 # Set Menu Version for menu display
-mversion="3.1.1-Lofns-Kiss"
+mversion="3.2.0-Lofns-Mist"
 ldversion="0.4.051120211500ET.dev"
 ###      -- Use are your own risk -- 
 ### dev   -- Still working on firewall code. 
@@ -1239,7 +1239,7 @@ function display_player_history() {
 
 function get_worldseed(){
 	#worldseed=$(cat > ${worldpath}/${worldname}/${serverdisplayname}.fwl)
-	worldseed=$(hexdump -s 9 -n 10 -e'2 "%_p"' ${worldpath}/${worldname}/worlds/${worldname}.fwl)
+	worldseed=$(hexdump -s 9 -n 10 -e'2 "%_p"' ${worldpath}/${worldname}/worlds_local/${worldname}.fwl)
     echo ""
 	echo -e '\E[32m'"$worldseed "
     echo ""
