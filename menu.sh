@@ -340,7 +340,7 @@ sleep 1
 #Download Valheim from steam
 tput setaf 1; echo "$INSTALL_BUILD_DOWNLOAD_INSTALL_STEAM_VALHEIM" ; tput setaf 9;
 sleep 1
-/home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
+/home/steam/steamcmd +force_install_dir +login anonymous ${valheimInstallPath} +app_update 896660 validate +exit
 tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 sleep 1
 #build config for start_valheim.sh
@@ -392,7 +392,7 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
+ExecStartPre=/home/steam/steamcmd +force_install_dir +login anonymous ${valheimInstallPath} +app_update 896660 validate +exit
 ExecStart=${valheimInstallPath}/start_valheim.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
@@ -564,7 +564,7 @@ echo ""
 #if y, then continue, else cancel
 if [ "$confirmOfficialUpdates" == "y" ]; then
     tput setaf 2; echo "$FUNCTION_INSTALL_VALHEIM_UPDATE_APPLY_INFO" ; tput setaf 9; 
-    /home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
+    /home/steam/steamcmd +force_install_dir +login anonymous ${valheimInstallPath} +app_update 896660 validate +exit
     chown -R steam:steam ${valheimInstallPath}
     echo ""
 else
@@ -600,7 +600,7 @@ function check_apply_server_updates_beta() {
 #    echo ""
 #    echo "$FUNCTION_APPLY_SERVER_UPDATES"
 #      [ ! -d /opt/valheimtemp ] && mkdir -p /opt/valheimtemp
-#      /home/steam/steamcmd +login anonymous +force_install_dir /opt/valheimtemp +app_update 896660 validate +exit
+#      /home/steam/steamcmd +force_install_dir +login anonymous /opt/valheimtemp +app_update 896660 validate +exit
 #      sed -e 's/[\t ]//g;/^$/d' /opt/valheimtemp/steamapps/appmanifest_896660.acf > appmanirepo.log
 #      repoValheim=$(sed -n '11p' appmanirepo.log)
 #      echo "$FUNCTION_APPLY_SERVER_UPDATES_OFFICIAL_VALHEIM_REPO $repoValheim"
