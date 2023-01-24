@@ -335,7 +335,7 @@ sleep 1
 #Download Valheim from steam
 tput setaf 1; echo "$INSTALL_BUILD_DOWNLOAD_INSTALL_STEAM_VALHEIM" ; tput setaf 9;
 sleep 1
-/home/steam/steamcmd +force_install_dir +login anonymous ${valheimInstallPath} +app_update 896660 validate +exit
+/home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
 tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
 sleep 1
 #build config for start_valheim.sh
@@ -387,7 +387,7 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=/home/steam/steamcmd +force_install_dir +login anonymous ${valheimInstallPath} +app_update 896660 validate +exit
+ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
 ExecStart=${valheimInstallPath}/start_valheim.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
@@ -561,7 +561,7 @@ echo ""
 #if y, then continue, else cancel
 if [ "$confirmOfficialUpdates" == "y" ]; then
     tput setaf 2; echo "$FUNCTION_INSTALL_VALHEIM_UPDATE_APPLY_INFO" ; tput setaf 9; 
-    /home/steam/steamcmd +force_install_dir +login anonymous ${valheimInstallPath} +app_update 896660 validate +exit
+    /home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
     chown -R steam:steam ${valheimInstallPath}
     echo ""
 else
@@ -1124,7 +1124,7 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=/home/steam/steamcmd +force_install_dir +login anonymous ${valheimInstallPath} +app_update 896660 validate +exit
+ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
 EOF
 if [ "$valheimVanilla" == "1" ]; then
    echo "$FUNCTION_VALHEIM_PLUS_BUILD_CONFIG_SET_VANILLA"
@@ -1529,7 +1529,7 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=/home/steam/steamcmd +force_install_dir +login anonymous ${valheimInstallPath} +app_update 896660 validate +exit
+ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
 EOF
 if [ "$valheimVanilla" == "1" ]; then
    echo "$FUNCTION_BEPINEX_BUILD_CONFIG_SET_VANILLA"
