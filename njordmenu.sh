@@ -2904,11 +2904,13 @@ function display_last_join_code() {
   if [ -n "$currentGameCode" ]; then
     # Extract the last six digits and store them in 'joinCode'
     joinCode=$(echo "$currentGameCode" | grep -oP '(?<=join code )[0-9]{6}')
+	grep -oP '(?<=join code )[0-9]{6}'
 
     echo "Last join code found:"
     echo "$joinCode"
   else
     echo "No join code found."
+	echo "$joinCode"
   fi
 }
 
