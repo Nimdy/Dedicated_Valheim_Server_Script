@@ -3121,7 +3121,7 @@ $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_PUBLIC_LIST" $(ColorGreen ''"$(d
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_status) and $(server_substate)
 	echo -ne "
-$(ColorOrange '║') Crossplay status: $(currentCrossplayStatus)	
+$(ColorOrange '║') Crossplay status:" $(currentCrossplayStatus)	
 echo -ne " 
 $(ColorOrange '╠═══════════════════════════════════════════════════════════')"
 	echo -ne "
