@@ -2899,7 +2899,7 @@ function display_last_join_code() {
   # Search for the pattern and store the result in 'currentGameCode'
   currentGameCode=$(tac "/home/steam/.config/unity3d/IronGate/Valheim/${worldname}/valheim_server.log" | \
   grep -m1 -E "Session ${worldname} registered with join code [0-9]{6}")
-
+  echo $currentGameCode
   # Check if 'currentGameCode' is not empty before extracting the join code
   if [ -n "$currentGameCode" ]; then
     # Extract the last six digits and store them in 'joinCode'
