@@ -381,6 +381,25 @@ function valheim_server_public_access_password() {
 		done
 }
 
+function valheim_server_set_crossplay() {
+	echo ""
+	tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+	tput setaf 2; echo "Set up Crossplay" ; tput setaf 9;
+	tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+	tput setaf 1; echo "Crossplay allows you to play with friends on other platforms" ; tput setaf 9;
+	tput setaf 2; echo "Crossplay 1 = Enabled" ; tput setaf 9;
+	tput setaf 2; echo "Crossplay 0 = Disabled" ; tput setaf 9;
+	tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    tput setaf 2; echo "Do you wish to enable Crossplay?" ; tput setaf 9;
+	tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+	echo ""
+	read -p "Enter 1 for Yes or 0 for No: " crossplay
+	tput setaf 2; echo "------------------------------------------------------------" ; tput setaf 9;
+	echo ""
+
+
+}
+
 function build_configuration_env_files_set_permissions(){		
 		#Populate Admin/config files
 		echo "$DRAW60" >> /home/steam/serverSetup.txt
@@ -390,7 +409,7 @@ function build_configuration_env_files_set_permissions(){
 		echo $CREDS_DISPLAY_CREDS_PRINT_OUT_PORT_USED $portnumber >> /home/steam/serverSetup.txt
 		echo $CREDS_DISPLAY_CREDS_PRINT_OUT_ACCESS_PASS $password >> /home/steam/serverSetup.txt
 		echo $CREDS_DISPLAY_CREDS_PRINT_OUT_SHOW_PUBLIC $publicList >> /home/steam/serverSetup.txt
-	    echo "CrossPlay Option 1 = Enabled - 0 = Disabled" $enableDisableCrossplay>> /home/steam/serverSetup.txt
+	    echo "CrossPlay Option 1 = Enabled - 0 = Disabled" $crossplay>> /home/steam/serverSetup.txt
 		echo "$DRAW60" >> /home/steam/serverSetup.txt
 		sleep 1
 		echo $worldname  >> /home/steam/worlds.txt
@@ -414,6 +433,7 @@ function valheim_server_install() {
 			portnumber=2456
 			valheim_server_public_listing
 			valheim_server_public_access_password
+			valheim_server_set_crossplay
 			build_configuration_env_files_set_permissions
 			Install_steamcmd_client
 		else 
@@ -423,6 +443,7 @@ function valheim_server_install() {
 			valheim_server_public_valheim_port
 			valheim_server_public_listing
 			valheim_server_public_access_password
+			valheim_server_set_crossplay
 			build_configuration_env_files_set_permissions
 		fi
 		nocheck_valheim_update_install
@@ -486,7 +507,7 @@ export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: Minimum password length is 5 characters & Password cant be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${displayname}" -port "${portnumber}" -nographics -batchmode -world "${worldname}" -password "${password}" -public "${publicList}" -savedir "${worldpath}/${worldname}" -logfile "${worldpath}/${worldname}/valheim_server.log"
+./valheim_server.x86_64 -name "${displayname}" -port "${portnumber}" -nographics -batchmode -world "${worldname}" -password "${password}" -public "${publicList}" -savedir "${worldpath}/${worldname}" -logfile "${worldpath}/${worldname}/valheim_server.log" -crossplay "${crossplay}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
 		tput setaf 2; echo "$ECHO_DONE" ; tput setaf 9;
@@ -1732,7 +1753,8 @@ function get_current_config() {
     currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
     currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"? \-savedir/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
 	currentSaveDir=$(perl -n -e '/\-savedir "?([^"]+)"? \-logfile/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
-    currentLogfileDir=$(perl -n -e '/\-logfile "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+    currentLogfileDir=$(perl -n -e '/\-logfile "?([^"]+)"? \-crossplay/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+	currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"? && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
 
 }
 
@@ -1757,6 +1779,7 @@ function set_config_defaults() {
     setCurrentPublicSet=$currentPublicSet
     setCurrentSaveDir=$currentSaveDir
 	setCurrentLogfileDir=$currentLogfileDir
+	setCurrentCrossplayStatus=$currentCrossplayStatus
 }
 function write_config_and_restart() {
     tput setaf 1; echo "$FUNCTION_WRITE_CONFIG_RESTART_INFO" ; tput setaf 9;
@@ -1767,11 +1790,13 @@ export templdpath=\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
+# NOTE: Minimum password length is 5 characters & Password cant be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port ${setCurrentPort} -nographics -batchmode -world "${currentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${setCurrentLogfileDir}" -logappend -logflush
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port "${setCurrentPort}" -nographics -batchmode -world "${currentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${setCurrentLogfileDir}" -crossplay "${setCrossplayStatus}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
+
+
    echo "$FUNCTION_WRITE_CONFIG_RESTART_SET_PERMS" ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
    chown steam:steam ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
    chmod +x ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
