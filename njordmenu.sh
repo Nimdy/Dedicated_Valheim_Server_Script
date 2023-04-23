@@ -2911,9 +2911,9 @@ function display_public_status_on_or_off() {
 function display_crossplay_status() {
 	currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
 	if [ "$currentCrossplayStatus" == "1" ]; then 
-	  echo  $(ColorRed ''"Enabled"'')
+	  echo  $(ColorGreen ''"Enabled"'')
 	else
-	  echo  $(ColorGreen ''"Disabled"'')
+	  echo  $(ColorRed ''"Disabled"'')
   fi
 }
 
