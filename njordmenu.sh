@@ -2883,12 +2883,37 @@ function display_public_status_on_or_off() {
   fi
 }
 
-function display_crossplay_status() {
-	currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
-	if [ "$currentCrossplayStatus" == "1" ]; then 
-	  echo  $(ColorRed ''"Disabled"'')
-	else
-	  echo  $(ColorGreen ''"Enabled"'')
+function display_last_join_code() {
+  # Use 'local' to declare the variable 'currentGameCode' as local to the function
+  local currentGameCode
+
+  # Use double quotes to allow variable expansion in the file path and the grep pattern
+  currentGameCode=$(tac "/home/steam/.config/unity3d/IronGate/Valheim/${worldname}/valheim_server.log" | \
+  grep -m1 -E "Session ${worldname} registered with join code [0-9]{6}")
+
+  # Check if 'currentGameCode' is not empty before displaying it
+  if [ -n "$currentGameCode" ]; then
+    echo "Last join code found:"
+    echo "$currentGameCode"
+  else
+    echo "No join code found."
+  fi
+}
+
+function display_last_join_code() {
+  # Use 'local' to declare the variable 'currentGameCode' as local to the function
+  local currentGameCode
+
+  # Remove the space around the '=' sign when assigning a value to the variable
+  currentGameCode=$(tac /home/steam/.config/unity3d/IronGate/Valheim/${worldname}/valheim_server.log | \
+  grep -m1 -E `Session ${worldname} registered with join code [0-9]{6}`)
+
+  # Check if 'currentGameCode' is not empty before displaying it
+  if [ -n "$currentGameCode" ]; then
+    echo "Last join code found:"
+    echo "$currentGameCode"
+  else
+    echo "No join code found."
   fi
 }
 
