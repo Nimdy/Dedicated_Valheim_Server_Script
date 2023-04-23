@@ -1765,7 +1765,7 @@ function print_current_config() {
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_LOCAL_WORLD_NAME_INFO"
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_ACCESS_PASSWORD $(tput setaf 2)${currentPassword} $(tput setaf 9) "
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_LISTING $(tput setaf 2)${currentPublicSet}  $(tput setaf 9) "
-	echo "Current Crossplay setting: 1 = Enable,  2 = Disabled $(tput setaf 2)${currentCrossplayStatus}  $(tput setaf 9) "
+	echo "Current Crossplay setting: 1 = Enable,  2 = Disabled $(tput setaf 2) ${currentCrossplayStatus}  $(tput setaf 9) "
     echo "This is the save path: $(tput setaf 2)${currentSaveDir}  $(tput setaf 9) "
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_LISTING_INFO"
 }
@@ -2805,7 +2805,7 @@ export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${currentDisplayName}" -port "${currentPort}" -nographics -batchmode -world "${currentWorldName}" -password "${currentPassword}" -public "${currentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${valheimInstallPath}/${worldname}/valheim_server.log" -logappend -logflush
+./valheim_server.x86_64 -name "${currentDisplayName}" -port "${currentPort}" -nographics -batchmode -world "${currentWorldName}" -password "${currentPassword}" -public "${currentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${valheimInstallPath}/${worldname}/valheim_server.log" -crossplay "${currentCrossplayStatus}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
 		echo "Rebuilding New Valheim startup script complete"
