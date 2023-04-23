@@ -2895,21 +2895,17 @@ function display_crossplay_status() {
 function display_last_join_code() {
   # Use 'local' to declare the variables 'currentGameCode' and 'joinCode' as local to the function
   local currentGameCode joinCode
-
   # Search for the pattern and store the result in 'currentGameCode'
   currentGameCode=$(tac "/home/steam/.config/unity3d/IronGate/Valheim/${worldname}/valheim_server.log" | \
-  grep -m1 -E "Session ${worldname} registered with join code [0-9]{6}")
-  echo $currentGameCode
+  grep -m1 -E " registered with join code [0-9]{6}")
+
   # Check if 'currentGameCode' is not empty before extracting the join code
   if [ -n "$currentGameCode" ]; then
     # Extract the last six digits and store them in 'joinCode'
     joinCode=$(echo "$currentGameCode" | grep -oP '(?<=join code )[0-9]{6}')
-
-    echo "Last join code found:"
     echo "$joinCode"
   else
     echo "No join code found."
-	echo "$joinCode"
   fi
 }
 
