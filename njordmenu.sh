@@ -3141,6 +3141,8 @@ $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_statu
 	echo -ne "
 $(ColorOrange '║') Crossplay status:" $(display_crossplay_status)	
 echo -ne " 
+$(ColorOrange '║') Crossplay Game Code:" $(display_last_join_code)	
+echo -ne " 
 $(ColorOrange '╠═══════════════════════════════════════════════════════════')"
 	echo -ne "
 $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_UFW" $(get_firewall_status)
