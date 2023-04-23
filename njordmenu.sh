@@ -1765,6 +1765,7 @@ function print_current_config() {
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_LOCAL_WORLD_NAME_INFO"
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_ACCESS_PASSWORD $(tput setaf 2)${currentPassword} $(tput setaf 9) "
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_LISTING $(tput setaf 2)${currentPublicSet}  $(tput setaf 9) "
+	echo "Current Crossplay setting: 1 = Enable,  2 = Disabled $(tput setaf 2)${currentCrossplayStatus}  $(tput setaf 9) "
     echo "This is the save path: $(tput setaf 2)${currentSaveDir}  $(tput setaf 9) "
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_LISTING_INFO"
 }
