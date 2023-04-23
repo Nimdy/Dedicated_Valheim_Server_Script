@@ -390,7 +390,7 @@ function build_configuration_env_files_set_permissions(){
 		echo $CREDS_DISPLAY_CREDS_PRINT_OUT_PORT_USED $portnumber >> /home/steam/serverSetup.txt
 		echo $CREDS_DISPLAY_CREDS_PRINT_OUT_ACCESS_PASS $password >> /home/steam/serverSetup.txt
 		echo $CREDS_DISPLAY_CREDS_PRINT_OUT_SHOW_PUBLIC $publicList >> /home/steam/serverSetup.txt
-		# echo "CrossPlay Option 1 = Enabled - 0 = Disabled" $enableDisableCrossplay>> /home/steam/serverSetup.txt
+	    echo "CrossPlay Option 1 = Enabled - 0 = Disabled" $enableDisableCrossplay>> /home/steam/serverSetup.txt
 		echo "$DRAW60" >> /home/steam/serverSetup.txt
 		sleep 1
 		echo $worldname  >> /home/steam/worlds.txt
@@ -1818,44 +1818,44 @@ function change_public_display_name() {
 }
 
 function change_crossplay_status() {
-#     get_current_config
-#     set_config_defaults
-# 	currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+    get_current_config
+    set_config_defaults
+	currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
 
-#     echo ""
-#     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-#     tput setaf 2; echo "You are about to change the crossplay options" ; tput setaf 9;
-#     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-# 		if [ "$currentCrossplayStatus" == "1" ]; then
-# 		tput setaf 1; echo "Crossplay is currently set to: $(tput setaf 2)${currentCrossplayStatus} Enabled  $(tput setaf 9) " ; tput setaf 9;
-# 	else
-# 		tput setaf 1; echo "Crossplay is currently set to: $(tput setaf 1)${currentCrossplayStatus} Disabled $(tput setaf 9) " ; tput setaf 9;
-# 	fi
-#     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-#     echo ""
-#     read -p "Please enter 1 to Enable Crossplay or 0 to Disable Crossplay: " setCurrentCrossplayStatus
-#     echo ""
-#     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-#     echo ""
-#     tput setaf 5; echo "Crossplay option old settings" ${currentCrossplayStatus} ; tput setaf 9;
-#     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-#     echo ""
-#     tput setaf 1; echo "Crossplay option new settings" ${setCurrentCrossplayStatus} ; tput setaf 9;
-#     echo ""
-# 	tput setaf 1; echo "WARNING:  Alot of people are having issues with Crossplay... this has nothing to do with the script." ; tput setaf 9;
-# 	tput setaf 1; echo "We will update configs if needed, when the community has it 100% figured out.  If it doesnt work for you congratz!" ; tput setaf 9;
-# 	echo ""
-#     tput setaf 2; echo "$DRAW60" ; tput setaf 9;
-#     echo ""
-#     read -p "$PLEASE_CONFIRM" confirmCrossplayStatusChange
-#     #if y, then continue, else cancel
-#     if [ "$confirmCrossplayStatusChange" == "y" ]; then
-#         write_config_and_restart
-#     else
-#         echo "Updating Crossplay option cancelled"
-#         sleep 3
-#         clear
-#     fi
+    echo ""
+    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    tput setaf 2; echo "You are about to change the crossplay options" ; tput setaf 9;
+    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+		if [ "$currentCrossplayStatus" == "1" ]; then
+		tput setaf 1; echo "Crossplay is currently set to: $(tput setaf 2)${currentCrossplayStatus} Enabled  $(tput setaf 9) " ; tput setaf 9;
+	else
+		tput setaf 1; echo "Crossplay is currently set to: $(tput setaf 1)${currentCrossplayStatus} Disabled $(tput setaf 9) " ; tput setaf 9;
+	fi
+    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    echo ""
+    read -p "Please enter 1 to Enable Crossplay or 0 to Disable Crossplay: " setCurrentCrossplayStatus
+    echo ""
+    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    echo ""
+    tput setaf 5; echo "Crossplay option old settings" ${currentCrossplayStatus} ; tput setaf 9;
+    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    echo ""
+    tput setaf 1; echo "Crossplay option new settings" ${setCurrentCrossplayStatus} ; tput setaf 9;
+    echo ""
+	tput setaf 1; echo "WARNING:  Alot of people are having issues with Crossplay... this has nothing to do with the script." ; tput setaf 9;
+	tput setaf 1; echo "We will update configs if needed, when the community has it 100% figured out.  If it doesnt work for you congratz!" ; tput setaf 9;
+	echo ""
+    tput setaf 2; echo "$DRAW60" ; tput setaf 9;
+    echo ""
+    read -p "$PLEASE_CONFIRM" confirmCrossplayStatusChange
+    #if y, then continue, else cancel
+    if [ "$confirmCrossplayStatusChange" == "y" ]; then
+        write_config_and_restart
+    else
+        echo "Updating Crossplay option cancelled"
+        sleep 3
+        clear
+    fi
 echo "Crossplay is disabled from auto configurations."
 echo "Please edit the start_valheim_${worldname}.sh file and change the -crossplay 1 to -crossplay 0"
 echo "Then restart the service with sudo systemctl restart valheimserver_${worldname}.service"
@@ -2883,14 +2883,14 @@ function display_public_status_on_or_off() {
   fi
 }
 
-# function display_crossplay_status() {
-# 	currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
-# 	if [ "$currentCrossplayStatus" == "1" ]; then 
-# 	  echo  $(ColorGreen ''"Enabled"'')
-# 	else
-# 	  echo  $(ColorRed ''"Disabled"'')
-#   fi
-# }
+function display_crossplay_status() {
+	currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+	if [ "$currentCrossplayStatus" == "1" ]; then 
+	  echo  $(ColorGreen ''"Enabled"'')
+	else
+	  echo  $(ColorRed ''"Disabled"'')
+  fi
+}
 
 function display_public_IP() {
 externalip=$(curl -s ipecho.net/plain;echo)
