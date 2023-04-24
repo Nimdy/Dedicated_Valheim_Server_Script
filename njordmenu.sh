@@ -1748,13 +1748,13 @@ function get_current_config() {
 	set_steamexe
 
     currentDisplayName=$(perl -n -e '/\-name "?([^"]+)"? \-port/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
-    currentWorldName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
     currentPort=$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+    currentWorldName=$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
     currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
     currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"? \-savedir/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
-	currentSaveDir=$(perl -n -e '/\-savedir "?([^"]+)"? \-logfile/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+    currentSaveDir=$(perl -n -e '/\-savedir "?([^"]+)"? \-logfile/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
     currentLogfileDir=$(perl -n -e '/\-logfile "?([^"]+)"? \-crossplay/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
-	currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
+    currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
 
 }
 
@@ -1770,18 +1770,19 @@ function print_current_config() {
     echo "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_LISTING_INFO"
 }
 function set_config_defaults() {
-    #assign current varibles to set variables
-    #if no are changes are made set variables will write to new config file anyways. No harm done
-    #if changes are made set variables are updated with new data and will be wrote to new config file
+    #assign current variables to set variables
+    #if no changes are made, set variables will write to new config file anyways. No harm done
+    #if changes are made, set variables are updated with new data and will be wrote to new config file
     setCurrentDisplayName=$currentDisplayName
     setCurrentPort=$currentPort
-    setcurrentWorldName=$currentWorldName
+    setCurrentWorldName=$currentWorldName
     setCurrentPassword=$currentPassword
     setCurrentPublicSet=$currentPublicSet
     setCurrentSaveDir=$currentSaveDir
-	setCurrentLogfileDir=$currentLogfileDir
-	setCurrentCrossplayStatus=$currentCrossplayStatus
+    setCurrentLogfileDir=$currentLogfileDir
+    setCurrentCrossplayStatus=$currentCrossplayStatus
 }
+
 function write_config_and_restart() {
     tput setaf 1; echo "$FUNCTION_WRITE_CONFIG_RESTART_INFO" ; tput setaf 9;
     sleep 1
@@ -1793,19 +1794,19 @@ export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: Minimum password length is 5 characters & Password cant be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port "${setCurrentPort}" -nographics -batchmode -world "${currentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${setCurrentLogfileDir}" -crossplay "${setCrossplayStatus}"
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port "${setCurrentPort}" -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${setCurrentLogfileDir}" -crossplay "${setCurrentCrossplayStatus}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
 
-
-   echo "$FUNCTION_WRITE_CONFIG_RESTART_SET_PERMS" ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
-   chown steam:steam ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
-   chmod +x ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
-   echo "$ECHO_DONE"
-   echo "$FUNCTION_WRITE_CONFIG_RESTART_SERVICE_INFO"
-   sudo systemctl restart valheimserver_${worldname}.service
-   echo ""
+    echo "$FUNCTION_WRITE_CONFIG_RESTART_SET_PERMS" ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
+    chown steam:steam ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
+    chmod +x ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
+    echo "$ECHO_DONE"
+    echo "$FUNCTION_WRITE_CONFIG_RESTART_SERVICE_INFO"
+    sudo systemctl restart valheimserver_${worldname}.service
+    echo ""
 }
+
 function change_public_display_name() {
     get_current_config
     print_current_config
@@ -2804,8 +2805,9 @@ export templdpath=\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
+# NOTE: Minimum password length is 5 characters & Password cant be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${currentDisplayName}" -port "${currentPort}" -nographics -batchmode -world "${currentWorldName}" -password "${currentPassword}" -public "${currentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${valheimInstallPath}/${worldname}/valheim_server.log" -crossplay "${currentCrossplayStatus}"
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port "${setCurrentPort}" -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${setCurrentLogfileDir}" -crossplay "${setCurrentCrossplayStatus}"
 export LD_LIBRARY_PATH=\$templdpath
 EOF
 		echo "Rebuilding New Valheim startup script complete"
