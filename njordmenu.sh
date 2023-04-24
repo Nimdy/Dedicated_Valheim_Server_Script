@@ -2941,10 +2941,10 @@ function current_player_count() {
   # Use 'local' to declare the variables 'worldname', 'connectedPeers' and 'playerCount' as local to the function
   local connectedPeers playerCount
   # Set the time limit to 30 minutes ago
-  local timeLimit=$(date -d "30 minutes ago" '+%Y-%m-%d %H:%M:%S')
+  local timeLimit=$(date -d "30 minutes ago" '+%m/%d/%Y %H:%M:%S')
 
   # Search for the pattern within the time limit and store the result in 'connectedPeers'
-  connectedPeers=$(awk -v timeLimit="$timeLimit" '$0 > timeLimit' "/home/steam/.config/unity3d/IronGate/Valheim/${worldname}/valheim_server.log" | \
+  connectedPeers=$(awk -v timeLimit="$timeLimit" -F'[][]' '$1 > timeLimit' "/home/steam/.config/unity3d/IronGate/Valheim/${worldname}/valheim_server.log" | \
   grep -E "Server: New peer connected,sending global keys")
 
   # Check if 'connectedPeers' is not empty before counting the occurrences
@@ -2956,10 +2956,6 @@ function current_player_count() {
     echo "No players connected in the last 30 minutes."
   fi
 }
-
-current_player_count
-
-
 
 function display_public_IP() {
 externalip=$(curl -s ipecho.net/plain;echo)
