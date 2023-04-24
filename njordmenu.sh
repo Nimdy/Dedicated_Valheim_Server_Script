@@ -2937,6 +2937,28 @@ function display_last_join_code() {
   fi
 }
 
+function current_player_count() {
+  # Use 'local' to declare the variables 'worldname', 'connectedPeers' and 'playerCount' as local to the function
+  local connectedPeers playerCount
+
+  worldname="ZerosTestingServer"
+
+  # Set the time limit to 30 minutes ago
+  local timeLimit=$(date -d "30 minutes ago" '+%Y-%m-%d %H:%M:%S')
+
+  # Search for the pattern within the time limit and store the result in 'connectedPeers'
+  connectedPeers=$(awk -v timeLimit="$timeLimit" '$0 > timeLimit' "/home/steam/.config/unity3d/IronGate/Valheim/${worldname}/valheim_server.log" | \
+  grep -E "Server: New peer connected")
+
+  # Check if 'connectedPeers' is not empty before counting the occurrences
+  if [ -n "$connectedPeers" ]; then
+    # Count the occurrences of "Server: New peer connected" in the last 30 minutes
+    playerCount=$(echo "$connectedPeers" | wc -l)
+    echo "Current player count (last 30 minutes): $playerCount"
+  else
+    echo "No players connected in the last 30 minutes."
+  fi
+}
 
 
 function display_public_IP() {
@@ -3171,6 +3193,10 @@ $(ColorOrange '║') $FUNCTION_HEADER_MENU_INFO_SERVER_AT_GLANCE" $(server_statu
 $(ColorOrange '║') Crossplay status:" $(display_crossplay_status)	
 echo -ne " 
 $(ColorOrange '║') Crossplay Game Code:" $(display_last_join_code)	
+echo -ne " 
+$(ColorOrange '╠═══════════════════════════════════════════════════════════')"
+echo -ne " 
+$(ColorOrange '║') Current Players Online:" $(current_player_count)	
 echo -ne " 
 $(ColorOrange '╠═══════════════════════════════════════════════════════════')"
 	echo -ne "
