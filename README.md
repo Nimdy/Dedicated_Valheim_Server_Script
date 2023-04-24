@@ -23,7 +23,7 @@
   
   Crossplay Options for Enable or Disable - Public Ready.
 
-![image](https://user-images.githubusercontent.com/16698453/233876043-efac8c93-6c05-4c60-8c13-e60a286ab147.png)
+![image](https://user-images.githubusercontent.com/16698453/233879349-b3423877-be32-45b4-9cfc-e2f76914967b.png)
 
 
   <p align="center">
