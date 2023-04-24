@@ -17,7 +17,7 @@
 <br />
 <p align="center">
     <img src="https://user-images.githubusercontent.com/16698453/121806056-7a853e00-cc4e-11eb-9a7c-0d97ac63bb02.png" />
-  <h3 align="center">Njord Menu 3.5 "Lofn's Mist" Last Validation -> 23-APR-2023</h3>
+  <h3 align="center">Njord Menu 3.5 "Loki's Dance" Last Validation -> 23-APR-2023</h3>
   
   ** UPDATED FOR Valheim Mistlands **
   
