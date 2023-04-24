@@ -2941,8 +2941,6 @@ function current_player_count() {
   # Use 'local' to declare the variables 'worldname', 'connectedPeers' and 'playerCount' as local to the function
   local connectedPeers playerCount
 
-  worldname="ZerosTestingServer"
-
   # Set the time limit to 30 minutes ago
   local timeLimit=$(date -d "30 minutes ago" '+%Y-%m-%d %H:%M:%S')
 
