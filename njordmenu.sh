@@ -2951,7 +2951,7 @@ function current_player_count() {
   if [ -n "$connectedPeers" ]; then
     # Count the occurrences of "Server: New peer connected,sending global keys" in the last 30 minutes
     playerCount=$(echo "$connectedPeers" | wc -l)
-    echo "Current player count (last 30 minutes): $playerCount"
+    echo "(last 30 minutes): $playerCount"
   else
     echo "No players connected in the last 30 minutes."
   fi
