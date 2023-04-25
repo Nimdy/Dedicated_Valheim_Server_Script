@@ -461,7 +461,7 @@ function valheim_server_install() {
 		if [ "${usefw}" == "y" ] ; then 
 			if [ "${fwbeingused}" == "ufw" ] ; then
 				if command -v ufw >/dev/null; then
-					sudo ufw allow ${portnumber}:${portnumber+2}/udp
+					sudo ufw allow ${portnumber}:${portnumber+2}/udp comment "added by njordmenu"
 					# The above command needs to be validated.
 					echo "Adding ports to the UFW system."
 				fi
