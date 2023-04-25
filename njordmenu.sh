@@ -453,7 +453,7 @@ function valheim_server_install() {
 		sleep 1
 	
   
-		#### Need to add code to veriy firewall system and if enabled.
+		#### Need to add code to verify firewall system and if enabled.
 		#### Below is the line needed for Valheim
 		#### These should also be added to as port forwards on your network router.
 		####
@@ -461,13 +461,13 @@ function valheim_server_install() {
 		if [ "${usefw}" == "y" ] ; then 
 			if [ "${fwbeingused}" == "ufw" ] ; then
 				if command -v ufw >/dev/null; then
-					sudo ufw allow ${portnumber}:${portnumber+2}/upd
+					sudo ufw allow ${portnumber}:${portnumber+2}/udp
 					# The above command needs to be validated.
 					echo "Adding ports to the UFW system."
 				fi
 			elif [ "${fwbeingused}" == "iptables" ] ; then
 				if command -v iptables >/dev/null; then
-					# sudo iptables –A INPUT –p upd ––dport ${portnumber},${portnumber}+1,${portnumber}+2) –j ACCEPT
+					# sudo iptables –A INPUT –p udp ––dport ${portnumber},${portnumber}+1,${portnumber}+2) –j ACCEPT
 					#if [ "$ID" == "fedora" ] || [ "$ID "= "centos" ] || [ "$ID" == "ol" ] || [ "$ID" = "rhel" ] )  ; then
 					#	sudo /sbin/service iptables save
 					#else
