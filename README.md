@@ -17,9 +17,9 @@
 <br />
 <p align="center">
     <img src="https://user-images.githubusercontent.com/16698453/121806056-7a853e00-cc4e-11eb-9a7c-0d97ac63bb02.png" />
-  <h3 align="center">Njord Menu 3.5 "Loki's Dance" Last Validation -> 23-APR-2023</h3>
+  <h3 align="center">Njord Menu 4.0 "Thor" Last Validation -> 26-May-2024</h3>
   
-  ** UPDATED FOR Valheim Mistlands **
+  ** UPDATED FOR Valheim Ashlands and Valheim+ **
   
   Crossplay Options for Enable or Disable - Public Ready.
 
