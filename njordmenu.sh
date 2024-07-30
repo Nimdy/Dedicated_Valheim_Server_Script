@@ -2593,8 +2593,8 @@ function install_valheim_bepinex() {
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CHECKING_OLD_INSTALL"; tput setaf 9;
 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_DOWNLOADING_BEPINEX_FROM_REPO"; tput setaf 9;
-    officialBepInEx=$(curl -sL https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2)
-    wget -O bepinex.zip "https://valheim.thunderstore.io/package/download/denikson/BepInExPack_Valheim/${officialBepInEx}/"
+    officialBepInEx=$(curl -sL https://thunderstore.io/package/download/denikson/BepInExPack_Valheim/5.4.2202/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2)
+    wget -O bepinex.zip "https://thunderstore.io/package/download/denikson/BepInExPack_Valheim/5.4.2202/"
 
     unzip -o bepinex.zip
     cp -a BepInExPack_Valheim/. "${valheimInstallPath}/${worldname}"
