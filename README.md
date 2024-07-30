@@ -90,7 +90,7 @@ How to video: https://www.youtube.com/watch?v=E1oGIP0w06Q
 * https://www.buymeacoffee.com/zerobandwidth
 
 
-## Discord for Tech Support [https://discord.gg/ejgQUfc](https://discord.gg/QX5pGRNxXS)
+## Discord for Tech Support [https://discord.gg/QX5pGRNxXS](https://discord.gg/QX5pGRNxXS)
 
 ### Built With
 
