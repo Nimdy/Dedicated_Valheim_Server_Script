@@ -17,11 +17,8 @@
 <br />
 <p align="center">
     <img src="https://user-images.githubusercontent.com/16698453/121806056-7a853e00-cc4e-11eb-9a7c-0d97ac63bb02.png" />
-  <h3 align="center">Njord Menu 4.0 "Thor" Last Validation -> 26-May-2024</h3>
-  
-  ** UPDATED FOR Valheim Ashlands and Valheim+ **
-  
-  Crossplay Options for Enable or Disable - Public Ready.
+  <h3 align="center">Njord Menu 4.0 "Thor" Last Validation -> 30-July-2024</h3>
+
 
 ![image](https://user-images.githubusercontent.com/16698453/233879349-b3423877-be32-45b4-9cfc-e2f76914967b.png)
 
