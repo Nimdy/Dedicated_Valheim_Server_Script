@@ -197,8 +197,7 @@ main() {
     if [[ $success_count -eq $total_worlds ]]; then
         log "All backups successful, initiating reboot"
         sync  # Final filesystem sync before reboot
-        echo "We're rebooting"
-        # reboot
+        reboot
     else
         log "WARNING: Some backups failed, manual intervention required"
         exit 1
@@ -211,5 +210,3 @@ main() {
 
 # Execute main program
 main
-
-# reboot
