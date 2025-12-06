@@ -178,12 +178,12 @@ function linux_server_update() {
     # Install additional packages
     tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES"; tput setaf 9;
     if command -v apt-get >/dev/null; then
-        sudo apt install -y lib32gcc1 libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl isof
+        sudo apt install -y lib32gcc-s1 libsdl2-2.0-0 libsdl2-2.0-0:i386 git plocate net-tools unzip curl lsof
     elif command -v yum >/dev/null; then
         if [[ "$ID" == "fedora" ]] || [[ "$ID" =~ ^(centos|ol|rhel)$ && "${VERSION:0:1}" == "8" ]]; then
-            sudo dnf install -y glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl isof
+            sudo dnf install -y glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl lsof
         elif [[ "$ID" =~ ^(centos|ol|rhel)$ && "${VERSION:0:1}" == "7" ]]; then
-            sudo yum install -y glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl isof
+            sudo yum install -y glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl lsof
         else
             echo "Unsupported version for yum/dnf."
         fi
