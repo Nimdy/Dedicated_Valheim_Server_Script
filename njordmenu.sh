@@ -754,7 +754,7 @@ function Install_steamcmd_client() {
     if command -v apt-get >/dev/null; then
         echo steam steam/license note '' | sudo debconf-set-selections
         echo steam steam/question select 'I AGREE' | sudo debconf-set-selections
-        sudo apt install -y steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386
+        sudo apt install -y steamcmd
         tput setaf 2; echo "$ECHO_DONE"; tput setaf 9;
     elif command -v yum >/dev/null; then
         if [[ "$ID" == "fedora" ]] || [[ "$ID" =~ ^(centos|ol|rhel)$ && "${VERSION:0:1}" == "8" ]]; then
