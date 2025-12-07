@@ -522,7 +522,7 @@ EOF
         echo "Downloading and installing Valheim from Steam"
         tput setaf 9
         sleep 1
-        /home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
+        /home/steam/steamcmd +force_install_dir ${valheimInstallPath} +login anonymous +app_update 896660 validate +exit
         tput setaf 2
         echo "Done"
         tput setaf 9
@@ -598,7 +598,7 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=/home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
+ExecStartPre=/home/steam/steamcmd +force_install_dir ${valheimInstallPath} +login anonymous +app_update 896660 validate +exit
 ExecStart=${valheimInstallPath}/start_valheim.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
@@ -861,7 +861,7 @@ $(ColorRed '------------------------------------------------------------')"
         tput setaf 2
         echo "Using Thor's Hammer to apply Official Updates!"
         tput setaf 9
-        /home/steam/steamcmd +login anonymous +force_install_dir ${valheimInstallPath} +app_update 896660 validate +exit
+        /home/steam/steamcmd +force_install_dir ${valheimInstallPath} +login anonymous +app_update 896660 validate +exit
         chown -R steam:steam ${valheimInstallPath}
         echo ""
     else
@@ -896,7 +896,7 @@ function check_apply_server_updates_beta() {
     echo ""
     echo "Downloading Official Valheim Repo Log Data for comparison only"
     [ ! -d /opt/valheimtemp ] && mkdir -p /opt/valheimtemp
-    /home/steam/steamcmd +login anonymous +force_install_dir /opt/valheimtemp +app_update 896660 validate +exit
+    /home/steam/steamcmd +force_install_dir /opt/valheimtemp +login anonymous +app_update 896660 validate +exit
     sed -e 's/[\t ]//g;/^$/d' /opt/valheimtemp/steamapps/appmanifest_896660.acf >appmanirepo.log
     repoValheim=$(sed -n '11p' appmanirepo.log)
     echo "Official Valheim-: $repoValheim"

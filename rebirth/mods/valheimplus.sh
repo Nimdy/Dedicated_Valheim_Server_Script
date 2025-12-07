@@ -215,7 +215,7 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath}/${worldname} +app_update 896660 validate +exit
+ExecStartPre=$steamexe +force_install_dir ${valheimInstallPath}/${worldname} +login anonymous +app_update 896660 validate +exit
 EOF
 
     if [ "$valheimVanilla" == "1" ]; then

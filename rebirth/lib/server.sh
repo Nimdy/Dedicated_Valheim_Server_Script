@@ -175,10 +175,10 @@ function linux_server_update() {
     tput setaf 2; echo "$ECHO_DONE"; tput setaf 9;
     sleep 1
 
-    # Install additional packages
+    # Install additional packages (non-i386 first)
     tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES"; tput setaf 9;
     if command -v apt-get >/dev/null; then
-        sudo apt install -y lib32gcc-s1 libsdl2-2.0-0 libsdl2-2.0-0:i386 git plocate net-tools unzip curl lsof
+        sudo apt install -y lib32gcc-s1 git plocate net-tools unzip curl lsof
     elif command -v yum >/dev/null; then
         if [[ "$ID" == "fedora" ]] || [[ "$ID" =~ ^(centos|ol|rhel)$ && "${VERSION:0:1}" == "8" ]]; then
             sudo dnf install -y glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl lsof
@@ -243,10 +243,10 @@ function linux_server_update() {
     tput setaf 2; echo "$ECHO_DONE"; tput setaf 9;
     sleep 1
 
-    # Update system again
+    # Update system and install i386 packages (after adding i386 architecture)
     tput setaf 1; echo "$CHECK_FOR_UPDATES_AGAIN"; tput setaf 9;
     if command -v apt-get >/dev/null; then
-        sudo apt update && sudo apt install -y libpulse-dev libatomic1 libc6
+        sudo apt update && sudo apt install -y libpulse-dev libatomic1 libc6 libsdl2-2.0-0 libsdl2-2.0-0:i386
     elif command -v yum >/dev/null; then
         if [[ "$ID" == "fedora" ]] || [[ "$ID" =~ ^(centos|ol|rhel)$ && "${VERSION:0:1}" == "8" ]]; then
             sudo dnf update -y
@@ -268,7 +268,7 @@ function nocheck_valheim_update_install() {
     sleep 1
 
     # Execute the steamcmd command to install/update Valheim
-    $steamexe +login anonymous +force_install_dir "${valheimInstallPath}/${worldname}" +app_update 896660 validate +exit
+    $steamexe +force_install_dir "${valheimInstallPath}/${worldname}" +login anonymous +app_update 896660 validate +exit
 
     tput setaf 2; echo "$ECHO_DONE"; tput setaf 9;
 }
@@ -568,7 +568,7 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath}/${worldname} +app_update 896660 validate +exit
+ExecStartPre=$steamexe +force_install_dir ${valheimInstallPath}/${worldname} +login anonymous +app_update 896660 validate +exit
 ExecStart=${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
@@ -1033,7 +1033,7 @@ $(ColorRed "$DRAW60")"
     # If 'y', then continue, else cancel
     if [ "$confirmOfficialUpdates" == "y" ]; then
         tput setaf 2; echo "$FUNCTION_INSTALL_VALHEIM_UPDATE_APPLY_INFO"; tput setaf 9;
-        $steamexe +login anonymous +force_install_dir "${valheimInstallPath}/${worldname}" +app_update 896660 validate +exit
+        $steamexe +force_install_dir "${valheimInstallPath}/${worldname}" +login anonymous +app_update 896660 validate +exit
         chown -R steam:steam "${valheimInstallPath}/${worldname}"
         echo ""
     else
@@ -1212,7 +1212,7 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath}/${worldname} +app_update 896660 validate +exit
+ExecStartPre=$steamexe +force_install_dir ${valheimInstallPath}/${worldname} +login anonymous +app_update 896660 validate +exit
 ExecStart=${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
