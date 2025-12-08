@@ -62,7 +62,7 @@ $(ColorRed "$DRAW60")"
     # If 'y', then continue, else cancel
     if [ "$confirmOfficialUpdates" == "y" ]; then
         tput setaf 2; echo "$FUNCTION_INSTALL_VALHEIM_UPDATE_APPLY_INFO"; tput setaf 9;
-        $steamexe +force_install_dir "${valheimInstallPath}/${worldname}" +login anonymous +app_update 896660 validate +exit
+        sudo -u steam $steamexe +force_install_dir "${valheimInstallPath}/${worldname}" +login anonymous +app_update 896660 validate +exit
         chown -R steam:steam "${valheimInstallPath}/${worldname}"
         echo ""
     else

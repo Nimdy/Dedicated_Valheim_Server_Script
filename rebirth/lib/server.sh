@@ -267,8 +267,8 @@ function nocheck_valheim_update_install() {
     tput setaf 1; echo "$INSTALL_BUILD_DOWNLOAD_INSTALL_STEAM_VALHEIM"; tput setaf 9;
     sleep 1
 
-    # Execute the steamcmd command to install/update Valheim
-    $steamexe +force_install_dir "${valheimInstallPath}/${worldname}" +login anonymous +app_update 896660 validate +exit
+    # Execute the steamcmd command to install/update Valheim (as steam user)
+    sudo -u steam $steamexe +force_install_dir "${valheimInstallPath}/${worldname}" +login anonymous +app_update 896660 validate +exit
 
     tput setaf 2; echo "$ECHO_DONE"; tput setaf 9;
 }
@@ -1033,7 +1033,7 @@ $(ColorRed "$DRAW60")"
     # If 'y', then continue, else cancel
     if [ "$confirmOfficialUpdates" == "y" ]; then
         tput setaf 2; echo "$FUNCTION_INSTALL_VALHEIM_UPDATE_APPLY_INFO"; tput setaf 9;
-        $steamexe +force_install_dir "${valheimInstallPath}/${worldname}" +login anonymous +app_update 896660 validate +exit
+        sudo -u steam $steamexe +force_install_dir "${valheimInstallPath}/${worldname}" +login anonymous +app_update 896660 validate +exit
         chown -R steam:steam "${valheimInstallPath}/${worldname}"
         echo ""
     else
