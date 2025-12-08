@@ -255,7 +255,7 @@ check_for_valheim_updates() {
 # Function to apply updates
 apply_valheim_updates() {
     echo "Applying updates to Valheim server..."
-    if /home/steam/steamcmd +login anonymous +force_install_dir "${valheimInstallPath}" +app_update 896660 validate +quit; then
+    if /home/steam/steamcmd +force_install_dir "${valheimInstallPath}" +login anonymous +app_update 896660 validate +quit; then
         echo "Valheim server updated successfully."
         log_action "Valheim server updated to latest version."
     else

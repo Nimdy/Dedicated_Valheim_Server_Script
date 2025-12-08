@@ -143,7 +143,7 @@ function display_system_info() {
 # Display network information
 function display_network_info() {
     echo ""
-    sudo netstat -atunp | grep valheim
+    ss -atunp | grep valheim
     echo ""
     echo "Returning to menu in 5 Seconds"
     sleep 5
@@ -254,7 +254,7 @@ function validateUsedValheimPorts() {
     local port_in_use
 
     for (( i=$starting_port; i<=$ending_port; i++ )); do
-        port_in_use=$(sudo netstat -plnt | grep ":$i")
+        port_in_use=$(ss -plnt | grep ":$i")
         if [[ -z "$port_in_use" ]]; then
             echo "$i not in use, Recommend choosing this one"
             return
