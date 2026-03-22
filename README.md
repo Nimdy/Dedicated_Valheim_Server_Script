@@ -116,6 +116,10 @@ To get a local copy up and running follow these simple example steps.
 * Ubuntu Install
   ```sh
   Ubuntu 20.04 LTS
+  Ubuntu 22.04 LTS
+  Ubuntu 24.04 LTS
+  Debian 11 (Bullseye)
+  Debian 12 (Bookworm)
   ```
 * Putty 64bit for Windows User
   ```sh

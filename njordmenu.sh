@@ -660,7 +660,21 @@ function linux_server_update() {
     # Install additional packages
     tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES"; tput setaf 9;
     if command -v apt-get >/dev/null; then
-        sudo apt install -y lib32gcc1 libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl isof
+        # lib32gcc1 was renamed to lib32gcc-s1 in Ubuntu 22.04+ and Debian 11+
+        if [[ "$ID" == "ubuntu" && "$(echo "$VERSION_ID" | cut -d'.' -f1)" -ge 22 ]] || \
+           [[ "$ID" == "debian" && "$VERSION_ID" -ge 11 ]]; then
+            lib32gcc_pkg="lib32gcc-s1"
+        else
+            lib32gcc_pkg="lib32gcc1"
+        fi
+        # mlocate was replaced by plocate in Ubuntu 22.04+ and Debian 12+
+        if [[ "$ID" == "ubuntu" && "$(echo "$VERSION_ID" | cut -d'.' -f1)" -ge 22 ]] || \
+           [[ "$ID" == "debian" && "$VERSION_ID" -ge 12 ]]; then
+            locate_pkg="plocate"
+        else
+            locate_pkg="mlocate"
+        fi
+        sudo apt install -y "$lib32gcc_pkg" libsdl2-2.0-0 libsdl2-2.0-0:i386 git "$locate_pkg" net-tools unzip curl isof
     elif command -v yum >/dev/null; then
         if [[ "$ID" == "fedora" ]] || [[ "$ID" =~ ^(centos|ol|rhel)$ && "${VERSION:0:1}" == "8" ]]; then
             sudo dnf install -y glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl isof
@@ -752,9 +766,31 @@ function Install_steamcmd_client() {
     tput setaf 1; echo "$INSTALL_STEAMCMD_LIBSD12"; tput setaf 9;
 
     if command -v apt-get >/dev/null; then
-        echo steam steam/license note '' | sudo debconf-set-selections
-        echo steam steam/question select 'I AGREE' | sudo debconf-set-selections
-        sudo apt install -y steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386
+        if [[ "$ID" == "ubuntu" && "$(echo "$VERSION_ID" | cut -d'.' -f1)" -ge 24 ]]; then
+            # Ubuntu 24.04+ removed steamcmd from apt repos; install manually
+            steamcmd_dir="/home/steam/steamcmd"
+            mkdir -p "$steamcmd_dir"
+            [ "$freshinstall" == "y" ] && rm -rfv "${steamcmd_dir:?}"/*
+            wget -O /tmp/steamcmd_linux.tar.gz https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
+            tar xf /tmp/steamcmd_linux.tar.gz -C "$steamcmd_dir"
+            rm -f /tmp/steamcmd_linux.tar.gz
+            sudo apt install -y libsdl2-2.0-0 libsdl2-2.0-0:i386
+        elif [[ "$ID" == "debian" && "$VERSION_ID" -ge 12 ]]; then
+            # Debian 12+ requires non-free/contrib repos for steamcmd
+            if ! grep -qE "non-free" /etc/apt/sources.list /etc/apt/sources.list.d/*.list 2>/dev/null; then
+                # Add a new sources entry using VERSION_CODENAME to avoid hardcoding release name
+                echo "deb http://deb.debian.org/debian ${VERSION_CODENAME:-bookworm} main contrib non-free non-free-firmware" \
+                    | sudo tee /etc/apt/sources.list.d/debian-non-free.list
+                sudo apt update
+            fi
+            echo steam steam/license note '' | sudo debconf-set-selections
+            echo steam steam/question select 'I AGREE' | sudo debconf-set-selections
+            sudo apt install -y steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386
+        else
+            echo steam steam/license note '' | sudo debconf-set-selections
+            echo steam steam/question select 'I AGREE' | sudo debconf-set-selections
+            sudo apt install -y steamcmd libsdl2-2.0-0 libsdl2-2.0-0:i386
+        fi
         tput setaf 2; echo "$ECHO_DONE"; tput setaf 9;
     elif command -v yum >/dev/null; then
         if [[ "$ID" == "fedora" ]] || [[ "$ID" =~ ^(centos|ol|rhel)$ && "${VERSION:0:1}" == "8" ]]; then
@@ -819,7 +855,10 @@ function Install_steamcmd_client() {
     tput setaf 1; echo "$INSTALL_BUILD_SYM_LINK_STEAMCMD"; tput setaf 9;
 
     if command -v apt-get >/dev/null; then
-        ln -s /usr/games/steamcmd /home/steam/steamcmd
+        # Ubuntu 24.04+ installs steamcmd manually (already in /home/steam/steamcmd/); no symlink needed
+        if ! [[ "$ID" == "ubuntu" && "$(echo "$VERSION_ID" | cut -d'.' -f1)" -ge 24 ]]; then
+            ln -s /usr/games/steamcmd /home/steam/steamcmd
+        fi
     elif command -v yum >/dev/null; then
         ln -s /usr/games/steamcmd /home/steam/steamcmd/linux32/steamcmd
     else
@@ -3097,7 +3136,12 @@ function set_steamexe() {
 		tput setaf 1; echo -ne "$FUNCTION_SET_STEAMEXE_INFO" ; tput setaf 9;
 	fi	
 	if command -v apt-get >/dev/null; then
-		steamexe=/home/steam/steamcmd
+		# Ubuntu 24.04+ installs steamcmd manually to /home/steam/steamcmd/steamcmd.sh
+		if [[ "$ID" == "ubuntu" && "$(echo "$VERSION_ID" | cut -d'.' -f1)" -ge 24 ]]; then
+			steamexe=/home/steam/steamcmd/steamcmd.sh
+		else
+			steamexe=/home/steam/steamcmd
+		fi
 	elif command -v yum >/dev/null; then
 	    steamexe=/home/steam/steamcmd/steamcmd.sh
 	else

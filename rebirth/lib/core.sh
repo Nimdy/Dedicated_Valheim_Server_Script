@@ -235,7 +235,12 @@ function set_steamexe() {
         tput setaf 1; echo -ne "$FUNCTION_SET_STEAMEXE_INFO"; tput setaf 9;
     fi    
     if command -v apt-get >/dev/null; then
-        steamexe=/home/steam/steamcmd
+        # Ubuntu 24.04+ installs steamcmd manually to /home/steam/steamcmd/steamcmd.sh
+        if [[ "$ID" == "ubuntu" && "$(echo "$VERSION_ID" | cut -d'.' -f1)" -ge 24 ]]; then
+            steamexe=/home/steam/steamcmd/steamcmd.sh
+        else
+            steamexe=/home/steam/steamcmd
+        fi
     elif command -v yum >/dev/null; then
         steamexe=/home/steam/steamcmd/steamcmd.sh
     else
