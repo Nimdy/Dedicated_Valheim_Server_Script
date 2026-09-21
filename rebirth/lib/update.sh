@@ -184,11 +184,14 @@ function valheim_plus_update() {
 function valheim_bepinex_update() {
     clear
     tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_INFO"; tput setaf 9;
-    officialBepInEx=$(curl -sL https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2) 
+    officialBepInEx=$(check_bepinex_repo)
     localBepInEx=$(cat ${valheimInstallPath}/${worldname}/localValheimBepinexVersion)    
     echo $officialBepInEx
     echo $localBepInEx
-    if [[ $officialBepInEx == $localBepInEx ]]; then
+    if [ -z "$officialBepInEx" ]; then
+        echo "Could not read the latest BepInEx version from Thunderstore. Please try again later."
+        sleep 2
+    elif [[ $officialBepInEx == $localBepInEx ]]; then
         tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_NO_UPDATE_FOUND"; tput setaf 9;
     else
         tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_UPDATE_FOUND"; tput setaf 9;

@@ -38,21 +38,29 @@ function install_valheim_bepinex() {
 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CHANGING_DIR"; tput setaf 9;
     cd /opt
+    # start from an empty folder so files from an older pack are not copied over the new one
+    rm -rf /opt/bepinexdl
     mkdir -p bepinexdl
     cd bepinexdl
 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CHECKING_OLD_INSTALL"; tput setaf 9;
 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_DOWNLOADING_BEPINEX_FROM_REPO"; tput setaf 9;
-    officialBepInEx=$(curl -sL https://thunderstore.io/package/download/denikson/BepInExPack_Valheim/5.4.2202/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2)
-    wget -O bepinex.zip "https://thunderstore.io/package/download/denikson/BepInExPack_Valheim/5.4.2202/"
+    officialBepInEx=$(check_bepinex_repo)
+    if [ -z "$officialBepInEx" ]; then
+        echo "Could not read the latest BepInEx version from Thunderstore. Please try again later."
+        return 1
+    fi
+    wget -O bepinex.zip "https://thunderstore.io/package/download/denikson/BepInExPack_Valheim/${officialBepInEx}/" || return 1
 
-    unzip -o bepinex.zip
+    unzip -o bepinex.zip || return 1
     cp -a BepInExPack_Valheim/. "${valheimInstallPath}/${worldname}"
 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CREATING_VER_STAMP"; tput setaf 9;
-    grep '"version"' manifest.json | cut -d'"' -f4 > "$bepinexVersionFile"
-    rm -rf bepinexdl
+    # the manifest key is version_number; the old key matched nothing and left this file empty
+    grep '"version_number"' manifest.json | cut -d'"' -f4 > "$bepinexVersionFile"
+    cd /opt
+    rm -rf /opt/bepinexdl
     echo ""
     sleep 1
 
@@ -111,11 +119,14 @@ function valheim_bepinex_disable() {
 function valheim_bepinex_update() {
     clear
     tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_INFO" ; tput setaf 9; 
-    officialBepInEx=$(curl -sL https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2) 
+    officialBepInEx=$(check_bepinex_repo)
     localBepInEx=$(cat "$bepinexVersionFile")    
     echo $officialBepInEx
     echo $localBepInEx
-    if [[ $officialBepInEx == $localBepInEx ]]; then
+    if [ -z "$officialBepInEx" ]; then
+        echo "Could not read the latest BepInEx version from Thunderstore. Please try again later."
+        sleep 2
+    elif [[ $officialBepInEx == $localBepInEx ]]; then
         tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_NO_UPDATE_FOUND" ; tput setaf 9; 
     else
         tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_UPDATE_FOUND" ; tput setaf 9; 
@@ -257,7 +268,12 @@ server_port="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' st
 server_world="$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' start_valheim_${worldname}.sh)"
 server_public="$(perl -n -e '/\-public "?([^"]+)"? \-savedir/  && print "$1\n"' start_valheim_${worldname}.sh)"
 server_savedir=$(perl -n -e '/\-savedir "?([^"]+)"? \-logfile/ && print "$1\n"' start_valheim_${worldname}.sh)
-server_logfiledir=$(perl -n -e '/\-logfile "?([^"]+)"?$/ && print "$1\n"' start_valheim_${worldname}.sh)
+server_logfiledir=$(perl -n -e '/\-logfile "?([^"]+)"?/ && print "$1\n"' start_valheim_${worldname}.sh)
+# -crossplay is an on/off flag that takes no value; an old -crossplay "0" means off
+server_crossplay=""
+if grep -- 'valheim_server.x86_64' start_valheim_${worldname}.sh | grep -q -- '-crossplay' && ! grep -- 'valheim_server.x86_64' start_valheim_${worldname}.sh | grep -qE -- '-crossplay "?0"?( |$)'; then
+    server_crossplay="-crossplay"
+fi
 
 # The rest is automatically handled by BepInEx
 
@@ -267,6 +283,10 @@ server_logfiledir=$(perl -n -e '/\-logfile "?([^"]+)"?$/ && print "$1\n"' start_
 # BepInEx-specific settings
 # NOTE: Do not edit unless you know what you are doing!
 ####
+# Doorstop 4 (BepInExPack 5.4.23xx and newer)
+export DOORSTOP_ENABLED=1
+export DOORSTOP_TARGET_ASSEMBLY=./BepInEx/core/BepInEx.Preloader.dll
+# Doorstop 3 (BepInExPack 5.4.2202 and older) - kept so existing installs keep loading mods
 export DOORSTOP_ENABLE=TRUE
 export DOORSTOP_INVOKE_DLL_PATH=./BepInEx/core/BepInEx.Preloader.dll
 export DOORSTOP_CORLIB_OVERRIDE_PATH=./unstripped_corlib
@@ -284,13 +304,14 @@ echo "Starting server PRESS CTRL-C to exit"
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: Minimum password length is 5 characters & Password cant be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-exec "${VALHEIM_BEP_PATH}/valheim_server.x86_64" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${server_savedir}" -logfile "${server_logfiledir}"
+exec "${VALHEIM_BEP_PATH}/valheim_server.x86_64" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${server_savedir}" -logfile "${server_logfiledir}" ${server_crossplay}
 EOF
 }
 
 # Check BepInEx Github Latest for menu display
 function check_bepinex_repo() {
-    latestBepinex=$(curl -s https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2)
+    # The Thunderstore package page no longer exposes the version, so ask the package API
+    latestBepinex=$(curl -sL --connect-timeout 10 --max-time 20 -H "accept: application/json" "https://thunderstore.io/api/experimental/package/denikson/BepInExPack_Valheim/" | grep -oE '"version_number"[[:space:]]*:[[:space:]]*"[^"]+"' | head -n 1 | cut -d'"' -f4)
     echo $latestBepinex
 }
 
