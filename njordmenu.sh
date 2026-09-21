@@ -14,6 +14,9 @@
 ####
 #### File name: ldadvmenu.sh
 ####
+#### Version: 5.0-Odin    Updated: 21-SEP-2026
+#### Validated against the Valheim 1.0 dedicated server (Steam build 25390671)
+####
 ###############################################################################################
 ####
 #### Modifier: Lord/Ranger(Dumoss)
@@ -96,7 +99,7 @@ debugmsg="n"
 # if [ "$debugmsg" == "y" ] ; then echo "something" ; fi
 ###############################################################
 # Set Menu Version for menu display
-mversion="4.0-Thor"
+mversion="5.0-Odin"
 ldversion="0.4.051120211500ET.dev"
 ###      -- Use are your own risk -- 
 ### dev   -- Still working on firewall code. 

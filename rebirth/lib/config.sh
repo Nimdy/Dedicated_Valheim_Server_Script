@@ -57,5 +57,5 @@ debugmsg="n"
 ###############################################################
 
 # Set Menu Version for menu display
-mversion="4.0-Thor"
+mversion="5.0-Odin"
 ldversion="0.4.051120211500ET.dev"
