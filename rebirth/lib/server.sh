@@ -49,11 +49,14 @@ function valheim_server_steam_account_creation() {
     sleep 1
 
     if command -v apt-get >/dev/null; then
-        useradd --create-home --shell /bin/bash --password "$userpassword" steam
+        # useradd --password expects an already-encrypted hash, so set the password with chpasswd
+        useradd --create-home --shell /bin/bash steam
+        echo "steam:$userpassword" | chpasswd
         cp /etc/skel/.bashrc /home/steam/.bashrc
         cp /etc/skel/.profile /home/steam/.profile
     elif command -v yum >/dev/null; then
-        useradd -mU -s /bin/bash -p "$userpassword" steam
+        useradd -mU -s /bin/bash steam
+        echo "steam:$userpassword" | chpasswd
         # All files from /etc/skel/ are auto copied on RH.
     else
         echo "Package manager not recognized."
@@ -146,6 +149,17 @@ function Install_steamcmd_client() {
     sleep 1
 }
 
+# Print the first package name that this apt release can actually install
+function apt_first_available() {
+    local aptPackage
+    for aptPackage in "$@"; do
+        if apt-cache policy "$aptPackage" 2>/dev/null | grep -q 'Candidate: [^(]'; then
+            echo "$aptPackage"
+            return 0
+        fi
+    done
+}
+
 # Update system packages and install required dependencies
 function linux_server_update() {
     # Check for updates and upgrade the system automatically
@@ -178,12 +192,15 @@ function linux_server_update() {
     # Install additional packages
     tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES"; tput setaf 9;
     if command -v apt-get >/dev/null; then
-        sudo apt install -y lib32gcc1 libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl isof
+        # apt aborts the whole install if any one package name is unknown, so only ask for names this release has.
+        # lib32gcc1 was renamed lib32gcc-s1 and mlocate was replaced by plocate on newer Debian/Ubuntu.
+        # libsdl2-2.0-0:i386 is installed with steamcmd, after the i386 architecture has been added below.
+        sudo apt install -y $(apt_first_available lib32gcc-s1 lib32gcc1) libsdl2-2.0-0 git $(apt_first_available mlocate plocate) net-tools unzip curl lsof
     elif command -v yum >/dev/null; then
         if [[ "$ID" == "fedora" ]] || [[ "$ID" =~ ^(centos|ol|rhel)$ && "${VERSION:0:1}" == "8" ]]; then
-            sudo dnf install -y glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl isof
+            sudo dnf install -y glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl lsof
         elif [[ "$ID" =~ ^(centos|ol|rhel)$ && "${VERSION:0:1}" == "7" ]]; then
-            sudo yum install -y glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl isof
+            sudo yum install -y glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl lsof
         else
             echo "Unsupported version for yum/dnf."
         fi
@@ -392,6 +409,31 @@ function valheim_server_public_access_password() {
     done
 }
 
+# Valheim's -crossplay is an on/off flag that takes NO value: present = Crossplay (PlayFab) backend, absent = Steam backend.
+# Older versions of this menu wrote -crossplay "1" / -crossplay "0". The game ignores the value, so "0" still turned crossplay on.
+# Print the launch argument for a 1/0 setting
+function crossplay_launch_arg() {
+    [ "$1" == "1" ] && echo " -crossplay"
+}
+
+# Print the intended 1/0 crossplay setting stored in a start script (an old -crossplay "0" means off)
+function read_crossplay_setting() {
+    local launchLine
+    launchLine=$(grep -- 'valheim_server.x86_64' "$1" 2>/dev/null)
+    if echo "$launchLine" | grep -qE -- '-crossplay "?0"?( |$)'; then
+        echo 0
+    elif echo "$launchLine" | grep -q -- '-crossplay'; then
+        echo 1
+    else
+        echo 0
+    fi
+}
+
+# True when a start script still carries the old -crossplay "0", which the game treats as crossplay ON
+function crossplay_has_old_off_value() {
+    grep -- 'valheim_server.x86_64' "$1" 2>/dev/null | grep -qE -- '-crossplay "?0"?( |$)'
+}
+
 function valheim_server_set_crossplay() {
     echo ""
 
@@ -527,7 +569,7 @@ function valheim_server_install() {
 export templdpath=\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
-./valheim_server.x86_64 -name "${displayname}" -port "${portnumber}" -nographics -batchmode -world "${worldname}" -password "${password}" -public "${publicList}" -savedir "${worldpath}/${worldname}" -logfile "${worldpath}/${worldname}/valheim_server.log" -crossplay "${crossplay}"
+./valheim_server.x86_64 -name "${displayname}" -port "${portnumber}" -nographics -batchmode -world "${worldname}" -password "${password}" -public "${publicList}" -savedir "${worldpath}/${worldname}" -logfile "${worldpath}/${worldname}/valheim_server.log"$(crossplay_launch_arg "${crossplay}")
 export LD_LIBRARY_PATH=\$templdpath
 EOF
 
@@ -748,8 +790,8 @@ function get_current_config() {
     currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' "$config_file")
     currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"? \-savedir/ && print "$1\n"' "$config_file")
     currentSaveDir=$(perl -n -e '/\-savedir "?([^"]+)"? \-logfile/ && print "$1\n"' "$config_file")
-    currentLogfileDir=$(perl -n -e '/\-logfile "?([^"]+)"? \-crossplay/ && print "$1\n"' "$config_file")
-    currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' "$config_file")
+    currentLogfileDir=$(perl -n -e '/\-logfile "?([^"]+)"?/ && print "$1\n"' "$config_file")
+    currentCrossplayStatus=$(read_crossplay_setting "$config_file")
 }
 
 # Print the current configuration
@@ -760,7 +802,7 @@ function print_current_config() {
     echo -e "$FUNCTION_PRINT_CURRENT_CONFIG_LOCAL_WORLD_NAME_INFO"
     echo -e "$FUNCTION_PRINT_CURRENT_CONFIG_ACCESS_PASSWORD $(tput setaf 2)${currentPassword}$(tput setaf 9)"
     echo -e "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_LISTING $(tput setaf 2)${currentPublicSet}$(tput setaf 9)"
-    echo -e "Current Crossplay setting: 1 = Enable, 2 = Disabled $(tput setaf 2)${currentCrossplayStatus}$(tput setaf 9)"
+    echo -e "Current Crossplay setting: 1 = Enabled, 0 = Disabled $(tput setaf 2)${currentCrossplayStatus}$(tput setaf 9)"
     echo -e "This is the save path: $(tput setaf 2)${currentSaveDir}$(tput setaf 9)"
     echo -e "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_LISTING_INFO"
 }
@@ -795,7 +837,7 @@ export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: Minimum password length is 5 characters & Password can't be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 are being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port "${setCurrentPort}" -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${setCurrentLogfileDir}" -crossplay "${setCurrentCrossplayStatus}"
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port "${setCurrentPort}" -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${setCurrentLogfileDir}"$(crossplay_launch_arg "${setCurrentCrossplayStatus}")
 export LD_LIBRARY_PATH=\$templdpath
 EOF
 
@@ -850,7 +892,7 @@ function change_public_display_name() {
 function change_crossplay_status() {
     get_current_config
     set_config_defaults
-    currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' "${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh")
+    currentCrossplayStatus=$(read_crossplay_setting "${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh")
 
     echo ""
     tput setaf 2; echo "$DRAW60"; tput setaf 9;
@@ -1187,7 +1229,7 @@ export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: Minimum password length is 5 characters & Password cant be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port "${setCurrentPort}" -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${setCurrentLogfileDir}" -crossplay "${setCurrentCrossplayStatus}"
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port "${setCurrentPort}" -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${setCurrentLogfileDir}"$(crossplay_launch_arg "${setCurrentCrossplayStatus}")
 export LD_LIBRARY_PATH=\$templdpath
 EOF
         echo "Rebuilding New Valheim startup script complete"
@@ -1241,11 +1283,15 @@ EOF
 
 # Function to check and display crossplay status
 function display_crossplay_status() {
-    currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
-    if [ "$currentCrossplayStatus" == "1" ]; then 
-        echo "$(ColorGreen 'Enabled')"
+    local startFile="${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh"
+    currentCrossplayStatus=$(read_crossplay_setting "$startFile")
+    if crossplay_has_old_off_value "$startFile"; then
+        # the game ignores the old "0" value, so crossplay is really on until the option is saved again
+        echo  $(ColorRed ''"Enabled (old setting - re-save option 13 to disable)"'')
+    elif [ "$currentCrossplayStatus" == "1" ]; then
+        echo  $(ColorGreen ''"Enabled"'')
     else
-        echo "$(ColorRed 'Disabled')"
+        echo  $(ColorRed ''"Disabled"'')
     fi
 }
 

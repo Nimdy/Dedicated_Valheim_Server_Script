@@ -498,7 +498,8 @@ function check_local_valheim_plus_build() {
 
 # Helper function to check BepInEx repository version
 function check_bepinex_repo() {
-    latestBepinex=$(curl -s https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2)
+    # The Thunderstore package page no longer exposes the version, so ask the package API
+    latestBepinex=$(curl -sL --connect-timeout 10 --max-time 20 -H "accept: application/json" "https://thunderstore.io/api/experimental/package/denikson/BepInExPack_Valheim/" | grep -oE '"version_number"[[:space:]]*:[[:space:]]*"[^"]+"' | head -n 1 | cut -d'"' -f4)
     echo $latestBepinex
 }
 

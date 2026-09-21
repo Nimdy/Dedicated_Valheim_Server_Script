@@ -248,11 +248,14 @@ function valheim_server_steam_account_creation() {
     sleep 1
 
     if command -v apt-get >/dev/null; then
-        useradd --create-home --shell /bin/bash --password "$userpassword" steam
+        # useradd --password expects an already-encrypted hash, so set the password with chpasswd
+        useradd --create-home --shell /bin/bash steam
+        echo "steam:$userpassword" | chpasswd
         cp /etc/skel/.bashrc /home/steam/.bashrc
         cp /etc/skel/.profile /home/steam/.profile
     elif command -v yum >/dev/null; then
-        useradd -mU -s /bin/bash -p "$userpassword" steam
+        useradd -mU -s /bin/bash steam
+        echo "steam:$userpassword" | chpasswd
         # All files from /etc/skel/ are auto copied on RH.
     else
         echo "Package manager not recognized."
@@ -396,6 +399,31 @@ function valheim_server_public_access_password() {
     done
 }
 
+# Valheim's -crossplay is an on/off flag that takes NO value: present = Crossplay (PlayFab) backend, absent = Steam backend.
+# Older versions of this menu wrote -crossplay "1" / -crossplay "0". The game ignores the value, so "0" still turned crossplay on.
+# Print the launch argument for a 1/0 setting
+function crossplay_launch_arg() {
+    [ "$1" == "1" ] && echo " -crossplay"
+}
+
+# Print the intended 1/0 crossplay setting stored in a start script (an old -crossplay "0" means off)
+function read_crossplay_setting() {
+    local launchLine
+    launchLine=$(grep -- 'valheim_server.x86_64' "$1" 2>/dev/null)
+    if echo "$launchLine" | grep -qE -- '-crossplay "?0"?( |$)'; then
+        echo 0
+    elif echo "$launchLine" | grep -q -- '-crossplay'; then
+        echo 1
+    else
+        echo 0
+    fi
+}
+
+# True when a start script still carries the old -crossplay "0", which the game treats as crossplay ON
+function crossplay_has_old_off_value() {
+    grep -- 'valheim_server.x86_64' "$1" 2>/dev/null | grep -qE -- '-crossplay "?0"?( |$)'
+}
+
 function valheim_server_set_crossplay() {
     echo ""
 
@@ -531,7 +559,7 @@ function valheim_server_install() {
 export templdpath=\$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=./linux64:\$LD_LIBRARY_PATH
 export SteamAppId=892970
-./valheim_server.x86_64 -name "${displayname}" -port "${portnumber}" -nographics -batchmode -world "${worldname}" -password "${password}" -public "${publicList}" -savedir "${worldpath}/${worldname}" -logfile "${worldpath}/${worldname}/valheim_server.log" -crossplay "${crossplay}"
+./valheim_server.x86_64 -name "${displayname}" -port "${portnumber}" -nographics -batchmode -world "${worldname}" -password "${password}" -public "${publicList}" -savedir "${worldpath}/${worldname}" -logfile "${worldpath}/${worldname}/valheim_server.log"$(crossplay_launch_arg "${crossplay}")
 export LD_LIBRARY_PATH=\$templdpath
 EOF
 
@@ -621,6 +649,17 @@ EOF
 #####################Install Valheim Server END#########################
 ########################################################################
 
+# Print the first package name that this apt release can actually install
+function apt_first_available() {
+    local aptPackage
+    for aptPackage in "$@"; do
+        if apt-cache policy "$aptPackage" 2>/dev/null | grep -q 'Candidate: [^(]'; then
+            echo "$aptPackage"
+            return 0
+        fi
+    done
+}
+
 ########################################################################
 ############     Linux server update - requirement         #############
 ########################################################################
@@ -660,12 +699,15 @@ function linux_server_update() {
     # Install additional packages
     tput setaf 1; echo "$INSTALL_ADDITIONAL_FILES"; tput setaf 9;
     if command -v apt-get >/dev/null; then
-        sudo apt install -y lib32gcc1 libsdl2-2.0-0 libsdl2-2.0-0:i386 git mlocate net-tools unzip curl isof
+        # apt aborts the whole install if any one package name is unknown, so only ask for names this release has.
+        # lib32gcc1 was renamed lib32gcc-s1 and mlocate was replaced by plocate on newer Debian/Ubuntu.
+        # libsdl2-2.0-0:i386 is installed with steamcmd, after the i386 architecture has been added below.
+        sudo apt install -y $(apt_first_available lib32gcc-s1 lib32gcc1) libsdl2-2.0-0 git $(apt_first_available mlocate plocate) net-tools unzip curl lsof
     elif command -v yum >/dev/null; then
         if [[ "$ID" == "fedora" ]] || [[ "$ID" =~ ^(centos|ol|rhel)$ && "${VERSION:0:1}" == "8" ]]; then
-            sudo dnf install -y glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl isof
+            sudo dnf install -y glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl lsof
         elif [[ "$ID" =~ ^(centos|ol|rhel)$ && "${VERSION:0:1}" == "7" ]]; then
-            sudo yum install -y glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl isof
+            sudo yum install -y glibc.i686 libstdc++.i686 git mlocate net-tools unzip curl lsof
         else
             echo "Unsupported version for yum/dnf."
         fi
@@ -1755,8 +1797,8 @@ function get_current_config() {
     currentPassword=$(perl -n -e '/\-password "?([^"]+)"? \-public/ && print "$1\n"' "$config_file")
     currentPublicSet=$(perl -n -e '/\-public "?([^"]+)"? \-savedir/ && print "$1\n"' "$config_file")
     currentSaveDir=$(perl -n -e '/\-savedir "?([^"]+)"? \-logfile/ && print "$1\n"' "$config_file")
-    currentLogfileDir=$(perl -n -e '/\-logfile "?([^"]+)"? \-crossplay/ && print "$1\n"' "$config_file")
-    currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' "$config_file")
+    currentLogfileDir=$(perl -n -e '/\-logfile "?([^"]+)"?/ && print "$1\n"' "$config_file")
+    currentCrossplayStatus=$(read_crossplay_setting "$config_file")
 }
 
 
@@ -1767,7 +1809,7 @@ function print_current_config() {
     echo -e "$FUNCTION_PRINT_CURRENT_CONFIG_LOCAL_WORLD_NAME_INFO"
     echo -e "$FUNCTION_PRINT_CURRENT_CONFIG_ACCESS_PASSWORD $(tput setaf 2)${currentPassword}$(tput setaf 9)"
     echo -e "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_LISTING $(tput setaf 2)${currentPublicSet}$(tput setaf 9)"
-    echo -e "Current Crossplay setting: 1 = Enable, 2 = Disabled $(tput setaf 2)${currentCrossplayStatus}$(tput setaf 9)"
+    echo -e "Current Crossplay setting: 1 = Enabled, 0 = Disabled $(tput setaf 2)${currentCrossplayStatus}$(tput setaf 9)"
     echo -e "This is the save path: $(tput setaf 2)${currentSaveDir}$(tput setaf 9)"
     echo -e "$FUNCTION_PRINT_CURRENT_CONFIG_PUBLIC_LISTING_INFO"
 }
@@ -1801,7 +1843,7 @@ export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: Minimum password length is 5 characters & Password can't be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 are being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port "${setCurrentPort}" -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${setCurrentLogfileDir}" -crossplay "${setCurrentCrossplayStatus}"
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port "${setCurrentPort}" -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${setCurrentLogfileDir}"$(crossplay_launch_arg "${setCurrentCrossplayStatus}")
 export LD_LIBRARY_PATH=\$templdpath
 EOF
 
@@ -1856,7 +1898,7 @@ function change_public_display_name() {
 function change_crossplay_status() {
     get_current_config
     set_config_defaults
-    currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' "${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh")
+    currentCrossplayStatus=$(read_crossplay_setting "${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh")
 
     echo ""
     tput setaf 2; echo "$DRAW60"; tput setaf 9;
@@ -1896,10 +1938,8 @@ function change_crossplay_status() {
         clear
     fi
 
-    echo "Crossplay is disabled from auto configurations."
-    echo "Please edit the start_valheim_${worldname}.sh file and change the -crossplay 1 to -crossplay 0"
-    echo "Then restart the service with sudo systemctl restart valheimserver_${worldname}.service"
-    echo "You will not be able to join the server with just IP:Port, if crossplay is enabled or disabled."
+    echo "Crossplay Enabled: players join with the Join Code (look in the server log), not with IP:Port."
+    echo "Crossplay Disabled: only Steam players can join, using IP:Port or the Steam server list."
     echo "You will need to use the Invite Code to join the server."
     echo "Look into the logs for Invite Code to join your server."
     echo "If you need help, please join the discord and ask for help."
@@ -2326,7 +2366,7 @@ server_port="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' st
 server_world="$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' start_valheim_${worldname}.sh)"
 server_public="$(perl -n -e '/\-public "?([^"]+)"? \-savedir/  && print "$1\n"' start_valheim_${worldname}.sh)"
 server_savedir=$(perl -n -e '/\-savedir "?([^"]+)"? \-logfile/ && print "$1\n"' start_valheim_${worldname}.sh)
-server_logfiledir=$(perl -n -e '/\-logfile "?([^"]+)"?$/ && print "$1\n"' start_valheim_${worldname}.sh)
+server_logfiledir=$(perl -n -e '/\-logfile "?([^"]+)"?/ && print "$1\n"' start_valheim_${worldname}.sh)
 
 
 # The rest is automatically handled by BepInEx for Valheim+
@@ -2587,21 +2627,29 @@ function install_valheim_bepinex() {
 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CHANGING_DIR"; tput setaf 9;
     cd /opt
+    # start from an empty folder so files from an older pack are not copied over the new one
+    rm -rf /opt/bepinexdl
     mkdir -p bepinexdl
     cd bepinexdl
 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CHECKING_OLD_INSTALL"; tput setaf 9;
 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_DOWNLOADING_BEPINEX_FROM_REPO"; tput setaf 9;
-    officialBepInEx=$(curl -sL https://thunderstore.io/package/download/denikson/BepInExPack_Valheim/5.4.2202/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2)
-    wget -O bepinex.zip "https://thunderstore.io/package/download/denikson/BepInExPack_Valheim/5.4.2202/"
+    officialBepInEx=$(check_bepinex_repo)
+    if [ -z "$officialBepInEx" ]; then
+        echo "Could not read the latest BepInEx version from Thunderstore. Please try again later."
+        return 1
+    fi
+    wget -O bepinex.zip "https://thunderstore.io/package/download/denikson/BepInExPack_Valheim/${officialBepInEx}/" || return 1
 
-    unzip -o bepinex.zip
+    unzip -o bepinex.zip || return 1
     cp -a BepInExPack_Valheim/. "${valheimInstallPath}/${worldname}"
 
     tput setaf 2; echo "$FUNCTION_BEPINEX_INSTALL_CREATING_VER_STAMP"; tput setaf 9;
-    grep '"version"' manifest.json | cut -d'"' -f4 > "${valheimInstallPath}/${worldname}/localValheimBepinexVersion"
-    rm -rf bepinexdl
+    # the manifest key is version_number; the old key matched nothing and left this file empty
+    grep '"version_number"' manifest.json | cut -d'"' -f4 > "${valheimInstallPath}/${worldname}/localValheimBepinexVersion"
+    cd /opt
+    rm -rf /opt/bepinexdl
     echo ""
     sleep 1
 
@@ -2657,11 +2705,14 @@ clear
 function valheim_bepinex_update() {
 clear
     tput setaf 2;  echo "$FUNCTION_BEPINEX_UPDATE_INFO" ; tput setaf 9; 
-    officialBepInEx=$(curl -sL https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2) 
+    officialBepInEx=$(check_bepinex_repo)
     localBepInEx=$(cat ${valheimInstallPath}/${worldname}/localValheimBepinexVersion)    
     echo $officialBepInEx
     echo $localBepInEx
-    if [[ $officialBepInEx == $localBepInEx ]]; then
+    if [ -z "$officialBepInEx" ]; then
+        echo "Could not read the latest BepInEx version from Thunderstore. Please try again later."
+        sleep 2
+    elif [[ $officialBepInEx == $localBepInEx ]]; then
     tput setaf 2; echo "$FUNCTION_BEPINEX_UPDATE_NO_UPDATE_FOUND" ; tput setaf 9; 
     else
     tput setaf 2;  echo "$FUNCTION_BEPINEX_UPDATE_UPDATE_FOUND" ; tput setaf 9; 
@@ -2736,7 +2787,12 @@ server_port="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' st
 server_world="$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' start_valheim_${worldname}.sh)"
 server_public="$(perl -n -e '/\-public "?([^"]+)"? \-savedir/  && print "$1\n"' start_valheim_${worldname}.sh)"
 server_savedir=$(perl -n -e '/\-savedir "?([^"]+)"? \-logfile/ && print "$1\n"' start_valheim_${worldname}.sh)
-server_logfiledir=$(perl -n -e '/\-logfile "?([^"]+)"?$/ && print "$1\n"' start_valheim_${worldname}.sh)
+server_logfiledir=$(perl -n -e '/\-logfile "?([^"]+)"?/ && print "$1\n"' start_valheim_${worldname}.sh)
+# -crossplay is an on/off flag that takes no value; an old -crossplay "0" means off
+server_crossplay=""
+if grep -- 'valheim_server.x86_64' start_valheim_${worldname}.sh | grep -q -- '-crossplay' && ! grep -- 'valheim_server.x86_64' start_valheim_${worldname}.sh | grep -qE -- '-crossplay "?0"?( |$)'; then
+    server_crossplay="-crossplay"
+fi
 
 # The rest is automatically handled by BepInEx
 
@@ -2746,6 +2802,10 @@ server_logfiledir=$(perl -n -e '/\-logfile "?([^"]+)"?$/ && print "$1\n"' start_
 # BepInEx-specific settings
 # NOTE: Do not edit unless you know what you are doing!
 ####
+# Doorstop 4 (BepInExPack 5.4.23xx and newer)
+export DOORSTOP_ENABLED=1
+export DOORSTOP_TARGET_ASSEMBLY=./BepInEx/core/BepInEx.Preloader.dll
+# Doorstop 3 (BepInExPack 5.4.2202 and older) - kept so existing installs keep loading mods
 export DOORSTOP_ENABLE=TRUE
 export DOORSTOP_INVOKE_DLL_PATH=./BepInEx/core/BepInEx.Preloader.dll
 export DOORSTOP_CORLIB_OVERRIDE_PATH=./unstripped_corlib
@@ -2763,14 +2823,15 @@ echo "Starting server PRESS CTRL-C to exit"
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: Minimum password length is 5 characters & Password cant be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-exec "${VALHEIM_BEP_PATH}/valheim_server.x86_64" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${server_savedir}" -logfile "${server_logfiledir}"
+exec "${VALHEIM_BEP_PATH}/valheim_server.x86_64" -name "${server_name}" -password "${server_password}" -port "${server_port}" -world "${server_world}" -public "${server_public}" -savedir "${server_savedir}" -logfile "${server_logfiledir}" ${server_crossplay}
 EOF
 }
 
 # Check bepinex Github Latest for menu display
 #curl -s https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2 > officialBepInEx
 function check_bepinex_repo() {
-latestBepinex=$(curl -s https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/ | grep og:title | cut -d'"' -f 4 | cut -d' ' -f 3 | cut -d'v' -f2)
+# The Thunderstore package page no longer exposes the version, so ask the package API
+latestBepinex=$(curl -sL --connect-timeout 10 --max-time 20 -H "accept: application/json" "https://thunderstore.io/api/experimental/package/denikson/BepInExPack_Valheim/" | grep -oE '"version_number"[[:space:]]*:[[:space:]]*"[^"]+"' | head -n 1 | cut -d'"' -f4)
 echo $latestBepinex
 }
 
@@ -2887,7 +2948,7 @@ export SteamAppId=892970
 # Tip: Make a local copy of this script to avoid it being overwritten by steam.
 # NOTE: Minimum password length is 5 characters & Password cant be in the server name.
 # NOTE: You need to make sure the ports 2456-2458 is being forwarded to your server through your local router & firewall.
-./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port "${setCurrentPort}" -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${setCurrentLogfileDir}" -crossplay "${setCurrentCrossplayStatus}"
+./valheim_server.x86_64 -name "${setCurrentDisplayName}" -port "${setCurrentPort}" -nographics -batchmode -world "${setCurrentWorldName}" -password "${setCurrentPassword}" -public "${setCurrentPublicSet}" -savedir "${worldpath}/${worldname}" -logfile "${setCurrentLogfileDir}"$(crossplay_launch_arg "${setCurrentCrossplayStatus}")
 export LD_LIBRARY_PATH=\$templdpath
 EOF
 		echo "Rebuilding New Valheim startup script complete"
@@ -2995,12 +3056,16 @@ function display_public_status_on_or_off() {
 }
 
 function display_crossplay_status() {
-	currentCrossplayStatus=$(perl -n -e '/\-crossplay "?([^"]+)"?$/ && print "$1\n"' ${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh)
-	if [ "$currentCrossplayStatus" == "1" ]; then 
-	  echo  $(ColorGreen ''"Enabled"'')
+	local startFile="${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh"
+	currentCrossplayStatus=$(read_crossplay_setting "$startFile")
+	if crossplay_has_old_off_value "$startFile"; then
+		# the game ignores the old "0" value, so crossplay is really on until the option is saved again
+		echo  $(ColorRed ''"Enabled (old setting - re-save option 13 to disable)"'')
+	elif [ "$currentCrossplayStatus" == "1" ]; then
+		echo  $(ColorGreen ''"Enabled"'')
 	else
-	  echo  $(ColorRed ''"Disabled"'')
-  fi
+		echo  $(ColorRed ''"Disabled"'')
+	fi
 }
 
 function display_last_join_code() {

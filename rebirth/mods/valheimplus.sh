@@ -281,7 +281,7 @@ server_port="$(perl -n -e '/\-port "?([^"]+)"? \-nographics/ && print "$1\n"' st
 server_world="$(perl -n -e '/\-world "?([^"]+)"? \-password/ && print "$1\n"' start_valheim_${worldname}.sh)"
 server_public="$(perl -n -e '/\-public "?([^"]+)"? \-savedir/  && print "$1\n"' start_valheim_${worldname}.sh)"
 server_savedir=$(perl -n -e '/\-savedir "?([^"]+)"? \-logfile/ && print "$1\n"' start_valheim_${worldname}.sh)
-server_logfiledir=$(perl -n -e '/\-logfile "?([^"]+)"?$/ && print "$1\n"' start_valheim_${worldname}.sh)
+server_logfiledir=$(perl -n -e '/\-logfile "?([^"]+)"?/ && print "$1\n"' start_valheim_${worldname}.sh)
 
 
 # The rest is automatically handled by BepInEx for Valheim+
