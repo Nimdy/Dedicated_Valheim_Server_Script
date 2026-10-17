@@ -603,7 +603,7 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath}/${worldname} +app_update 896660 validate +exit
+ExecStartPre=$steamexe +force_install_dir ${valheimInstallPath}/${worldname} +login anonymous +app_update 896660 validate +exit
 ExecStart=${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
@@ -1016,7 +1016,9 @@ function nocheck_valheim_update_install() {
     sleep 1
 
     # Execute the steamcmd command to install/update Valheim
-    $steamexe +login anonymous +force_install_dir "${valheimInstallPath}/${worldname}" +app_update 896660 validate +exit
+    # steamcmd requires +force_install_dir before +login, and must run as the steam
+    # user so the installed files are owned by the account the systemd service runs as.
+    sudo -u steam $steamexe +force_install_dir "${valheimInstallPath}/${worldname}" +login anonymous +app_update 896660 validate +exit
 
     tput setaf 2; echo "$ECHO_DONE"; tput setaf 9;
 }
@@ -1043,7 +1045,7 @@ $(ColorRed "$DRAW60")"
     # If 'y', then continue, else cancel
     if [ "$confirmOfficialUpdates" == "y" ]; then
         tput setaf 2; echo "$FUNCTION_INSTALL_VALHEIM_UPDATE_APPLY_INFO"; tput setaf 9;
-        $steamexe +login anonymous +force_install_dir "${valheimInstallPath}/${worldname}" +app_update 896660 validate +exit
+        sudo -u steam $steamexe +force_install_dir "${valheimInstallPath}/${worldname}" +login anonymous +app_update 896660 validate +exit
         chown -R steam:steam "${valheimInstallPath}/${worldname}"
         echo ""
     else
@@ -2138,7 +2140,7 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath}/${worldname} +app_update 896660 validate +exit
+ExecStartPre=$steamexe +force_install_dir ${valheimInstallPath}/${worldname} +login anonymous +app_update 896660 validate +exit
 EOF
 
     if [ "$valheimVanilla" == "1" ]; then
@@ -2576,7 +2578,7 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath}/${worldname} +app_update 896660 validate +exit
+ExecStartPre=$steamexe +force_install_dir ${valheimInstallPath}/${worldname} +login anonymous +app_update 896660 validate +exit
 EOF
 
     if [ "$valheimVanilla" == "1" ]; then
@@ -2976,7 +2978,7 @@ StartLimitInterval=60s
 StartLimitBurst=3
 User=steam
 Group=steam
-ExecStartPre=$steamexe +login anonymous +force_install_dir ${valheimInstallPath}/${worldname} +app_update 896660 validate +exit
+ExecStartPre=$steamexe +force_install_dir ${valheimInstallPath}/${worldname} +login anonymous +app_update 896660 validate +exit
 ExecStart=${valheimInstallPath}/${worldname}/start_valheim_${worldname}.sh
 ExecReload=/bin/kill -s HUP \$MAINPID
 KillSignal=SIGINT
